@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Tare LAB</title>
+<meta name="description" content="Get in touch with Tare LAB. Email, phone, or contact form. Responses within one business day.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">Tare <span>LAB</span></a>
+    <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <ul class="nav__links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="for-businesses.html">For Businesses</a></li>
+      <li><a href="for-individuals.html">For Individuals</a></li>
+      <li><a href="notary.html">Notary</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero__inner">
+    <span class="eyebrow">Get in Touch</span>
+    <h1 class="hero__headline">Let's <span class="accent">start the conversation.</span></h1>
+    <p class="hero__sub">Tell me what you're working on and what you need. I'll respond within one business day with next steps — whether that's a discovery call, a scoped proposal, or pointing you somewhere better.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div>
+        <span class="eyebrow">Quick Info</span>
+        <h2>Reach out any way that works.</h2>
+        <p class="mb-md">Prefer email? Phone? The form? All roads lead to the same place.</p>
+
+        <div class="info-card">
+          <div class="row"><span class="label">Email</span><p><a href="mailto:hello@tarelab.com">hello@tarelab.com</a></p></div>
+          <div class="row"><span class="label">Phone</span><p><a href="tel:+10000000000">(000) 000-0000</a></p></div>
+          <div class="row"><span class="label">Hours</span><p>Monday – Friday<br>9:00 AM – 6:00 PM EST</p></div>
+          <div class="row"><span class="label">Response Time</span><p>Within one business day — often much sooner.</p></div>
+        </div>
+      </div>
+
+      <div>
+        <span class="eyebrow">Send a Message</span>
+        <h2 class="mb-md">Tell me about your project.</h2>
+
+        <!-- IMPORTANT: Sign up at https://formspree.io, create a form, and replace YOUR_FORM_ID with your endpoint -->
+        <form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form__field">
+            <label class="form__label" for="name">Name</label>
+            <input class="form__input" type="text" id="name" name="name" required>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="email">Email</label>
+            <input class="form__input" type="email" id="email" name="email" required>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="topic">What can I help with?</label>
+            <select class="form__select" id="topic" name="topic">
+              <option>Small Business Services</option>
+              <option>Resume Writing</option>
+              <option>Business Incorporation</option>
+              <option>Marketing &amp; Branding</option>
+              <option>Website Development</option>
+              <option>Notary Services</option>
+              <option>Something Else</option>
+            </select>
+          </div>
+          <div class="form__field">
+            <label class="form__label" for="message">Tell me more</label>
+            <textarea class="form__textarea" id="message" name="message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary" style="width:100%;">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="notary-bar">
+  <p>Need a <strong>notary</strong> appointment specifically? Same-day and after-hours slots often available.</p>
+  <a href="notary.html" class="notary-badge">Notary Info</a>
+</div>
+
+<section class="section section--surface">
+  <div class="container">
+    <span class="eyebrow text-center">FAQ</span>
+    <h2 class="text-center mb-lg">Frequently asked.</h2>
+
+    <div class="grid grid-2">
+      <div class="card"><h3>How much does it cost?</h3><p>It depends on scope. Every project gets a fixed-fee proposal after the discovery call — no surprise invoices, no mystery hourly billing.</p></div>
+      <div class="card"><h3>How long does it take?</h3><p>Small projects (resume, single SOP) — one to two weeks. Larger engagements (full systems buildout, rebrand) — four to eight weeks. Timelines are locked in the proposal.</p></div>
+      <div class="card"><h3>Do you work remotely?</h3><p>Yes — most work is done remotely with regular video check-ins. In-person is available for local clients and notary services.</p></div>
+      <div class="card"><h3>What if it's not a fit?</h3><p>Then we don't move forward, and you get honest feedback on where to look next. The discovery call is free for a reason.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__col">
+      <div class="footer__brand">Tare <span>LAB</span></div>
+      <p class="footer__tagline">Professional-grade operations, strategy, and support — for small businesses and individuals.</p>
+    </div>
+    <div class="footer__col"><h4>Services</h4><ul><li><a href="for-businesses.html">For Businesses</a></li><li><a href="for-individuals.html">For Individuals</a></li><li><a href="notary.html">Notary</a></li></ul></div>
+    <div class="footer__col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer__col"><h4>Connect</h4><ul><li><a href="mailto:hello@tarelab.com">hello@tarelab.com</a></li><li><a href="tel:+10000000000">(000) 000-0000</a></li></ul></div>
+  </div>
+  <div class="footer__copy">© 2026 Tare LAB. All rights reserved.</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
