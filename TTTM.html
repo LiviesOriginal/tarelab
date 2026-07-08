@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============================================================
+     EDIT #1 — PAGE TITLE (shows in the browser tab)
+     ============================================================ -->
+<title>Casey Rivera — Links</title>
+<meta name="description" content="Music, apps, and everything I'm making.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* ==========================================================
+       EDIT #2 — COLORS. Change these 5 hex codes to recolor the
+       whole page. (Tip: paste a hex code into Google to preview it.)
+       ========================================================== */
+    --bg:      #17131F;   /* page background        */
+    --card:    #221D2E;   /* link boxes             */
+    --ink:     #F5F1EB;   /* main text              */
+    --muted:   #9A93A8;   /* faint text             */
+    --accent:  #E8B04B;   /* highlight / arrows     */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 12vh 24px 8vh;
+  }
+
+  .wrap { width: 100%; max-width: 540px; }
+
+  /* ---------- Header ---------- */
+  header { margin-bottom: 40px; }
+
+  .name {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(44px, 11vw, 68px);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+  }
+  .name em { color: var(--accent); font-style: italic; }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 17px;
+    margin-top: 14px;
+    max-width: 34ch;
+  }
+
+  /* ---------- Link cards ---------- */
+  .links { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 18px 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    background: #29233a;
+  }
+  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .card .label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .card .title { font-size: 17px; font-weight: 600; margin-top: 2px; }
+  .card .desc  { font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .card .body  { flex: 1; }
+
+  .arrow {
+    font-size: 20px;
+    color: var(--muted);
+    transition: transform .18s ease, color .18s ease;
+    flex-shrink: 0;
+  }
+  .card:hover .arrow { transform: translateX(4px); color: var(--accent); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 44px;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ---------- Gentle load-in (skipped if user prefers reduced motion) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    header, .card {
+      opacity: 0;
+      transform: translateY(12px);
+      animation: rise .5s ease forwards;
+    }
+    .card:nth-child(1) { animation-delay: .08s; }
+    .card:nth-child(2) { animation-delay: .14s; }
+    .card:nth-child(3) { animation-delay: .20s; }
+    .card:nth-child(4) { animation-delay: .26s; }
+    .card:nth-child(5) { animation-delay: .32s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- ============================================================
+         EDIT #3 — YOUR NAME + TAGLINE
+         ============================================================ -->
+    <header>
+      <h1 class="name">Casey <em>Rivera</em></h1>
+      <p class="tagline">Music, apps, and everything I'm building. All my current links live here.</p>
+    </header>
+
+    <div class="links">
+
+      <!-- ============================================================
+           EDIT #4 — YOUR LINKS.
+           To ADD a link: copy one whole <a class="card">...</a> block
+           below and paste it, then change the href, label, title, desc.
+           To UPDATE a destination later: just change the href="...".
+           To REMOVE one: delete its whole block.
+           ============================================================ -->
+
+      <a class="card" href="https://music.apple.com/your-playlist-link">
+        <div class="body">
+          <div class="label">Listen</div>
+          <div class="title">The Book Playlist</div>
+          <div class="desc">The soundtrack — updated as it grows.</div>
+        </div>
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="card" href="https://example.com/your-first-app">
+        <div class="body">
+          <div class="label">App</div>
+          <div class="title">Name of your app</div>
+          <div class="desc">One line about what it does.</div>
+        </div>
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+      <a class="card" href="https://example.com/your-second-thing">
+        <div class="body">
+          <div class="label">Project</div>
+          <div class="title">Something else you made</div>
+          <div class="desc">Swap this in or delete it.</div>
+        </div>
+        <span class="arrow" aria-hidden="true">&rarr;</span>
+      </a>
+
+    </div>
+
+    <footer>&copy; 2026 Casey Rivera</footer>
+
+  </div>
+
+  <!-- ============================================================
+       EDIT #5 — VISIT TRACKING (Cloudflare Web Analytics).
+       Paste the beacon <script> Cloudflare gives you right here,
+       just above </body>. See the instructions in chat.
+       ============================================================ -->
+
+</body>
+</html>
