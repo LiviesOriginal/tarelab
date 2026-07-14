@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>The Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --stock:#DCDDD3;
+    --stock-2:#E6E7DE;
+    --ink:#191A16;
+    --green:#1B7A43;
+    --orange:#F4671F;
+    --rule:rgba(25,26,22,.22);
+    --display:"Anton","Haettenschweiler","Impact",system-ui,sans-serif;
+    --body:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--stock);
+    background-image:
+      radial-gradient(rgba(25,26,22,.05) 1px, transparent 1px);
+    background-size:3px 3px;
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.45;
+    padding-bottom:96px;
+  }
+
+  /* ---------- top bar ---------- */
+  .bar{
+    position:sticky;top:0;z-index:40;
+    background:var(--stock);
+    border-bottom:2px solid var(--ink);
+    padding:12px 16px 0;
+  }
+  .bar-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .wordmark{
+    font-family:var(--display);
+    font-size:30px;line-height:.92;letter-spacing:.01em;
+    text-transform:uppercase;margin:0;
+  }
+  .wordmark em{font-style:normal;color:var(--orange);mix-blend-mode:multiply}
+  .whoami{
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    background:none;border:0;border-bottom:2px solid var(--green);
+    color:var(--green);font-family:var(--body);font-weight:700;
+    padding:2px 0;cursor:pointer;white-space:nowrap;
+  }
+
+  .tabs{display:flex;gap:0;margin-top:12px}
+  .tab{
+    flex:1;appearance:none;border:2px solid var(--ink);border-bottom:0;
+    background:transparent;color:var(--ink);
+    font-family:var(--display);text-transform:uppercase;
+    font-size:17px;letter-spacing:.04em;
+    padding:9px 6px 7px;cursor:pointer;
+    transform:translateY(2px);
+  }
+  .tab + .tab{border-left:0}
+  .tab[aria-selected="true"]{background:var(--ink);color:var(--stock)}
+  .tab .count{font-family:var(--body);font-size:11px;font-weight:700;opacity:.65;margin-left:5px}
+
+  /* ---------- composer ---------- */
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px}
+  .compose{
+    margin:18px 0 4px;border:2px solid var(--ink);background:var(--stock-2);
+    padding:12px;
+  }
+  .compose h2{
+    font-family:var(--display);text-transform:uppercase;font-size:13px;
+    letter-spacing:.12em;margin:0 0 10px;color:var(--green);
+  }
+  .field{display:block;width:100%;margin-bottom:8px}
+  input[type=text],input[type=url],input[type=date],input[type=time],textarea{
+    width:100%;font-family:var(--body);font-size:15px;color:var(--ink);
+    background:var(--stock);border:0;border-bottom:2px solid var(--rule);
+    padding:8px 2px;border-radius:0;
+  }
+  input:focus,textarea:focus{outline:0;border-bottom-color:var(--green);background:#fff}
+  input::placeholder,textarea::placeholder{color:rgba(25,26,22,.42)}
+  .duo{display:flex;gap:8px}
+  .duo > *{flex:1;min-width:0}
+  .post{
+    width:100%;margin-top:4px;border:2px solid var(--ink);background:var(--orange);
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;
+    font-size:16px;padding:11px;cursor:pointer;
+    box-shadow:4px 4px 0 var(--ink);
+    transition:transform .08s ease, box-shadow .08s ease;
+  }
+  .post:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+  .post[disabled]{opacity:.45;cursor:default;box-shadow:none}
+
+  /* ---------- cards ---------- */
+  .sect{
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;
+    font-size:12px;margin:26px 0 12px;display:flex;align-items:center;gap:10px;
+  }
+  .sect::after{content:"";flex:1;height:2px;background:var(--ink)}
+
+  .card{position:relative;margin-bottom:18px}
+  .card .plate{
+    position:absolute;inset:0;
+    background:var(--green);mix-blend-mode:multiply;
+    transform:translate(5px,5px);
+    transition:transform .18s cubic-bezier(.2,.8,.2,1);
+  }
+  .card.ev .plate{background:var(--orange)}
+  .card:hover .plate,.card:focus-within .plate{transform:translate(0,0)}
+  .card .face{
+    position:relative;background:var(--stock-2);
+    border:2px solid var(--ink);padding:13px 14px;
+  }
+  .card.past{opacity:.5}
+  .card.past .plate{background:var(--ink)}
+
+  .kicker{
+    font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--green);margin-bottom:5px;display:flex;gap:8px;align-items:center;
+  }
+  .card.ev .kicker{color:var(--orange)}
+  .card.past .kicker{color:var(--ink)}
+  .ttl{
+    font-family:var(--display);text-transform:uppercase;
+    font-size:22px;line-height:1.04;letter-spacing:.01em;
+    margin:0 0 6px;word-break:break-word;
+  }
+  .ttl a{color:var(--ink);text-decoration:none;border-bottom:3px solid var(--green)}
+  .ttl a:hover{background:var(--green);color:var(--stock-2);border-color:var(--ink)}
+  .host{font-size:13px;word-break:break-all;opacity:.6;margin:0 0 6px}
+  .note{font-size:14px;margin:0 0 8px;white-space:pre-wrap}
+  .meta{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    border-top:2px solid var(--rule);padding-top:8px;margin-top:8px;
+  }
+  .meta .by{font-weight:700}
+  .kill{
+    background:none;border:0;font:inherit;color:var(--ink);opacity:.45;
+    cursor:pointer;letter-spacing:.06em;padding:2px 0;
+  }
+  .kill:hover{opacity:1;color:var(--orange)}
+
+  /* ---------- rsvp ---------- */
+  .rsvp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .im-in{
+    border:2px solid var(--ink);background:var(--stock);
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;
+    font-size:14px;padding:7px 14px;cursor:pointer;
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .im-in:active{transform:translate(3px,3px);box-shadow:none}
+  .im-in.on{background:var(--orange)}
+  .going{display:flex;gap:5px;flex-wrap:wrap}
+  .chip{
+    font-size:11px;font-weight:700;letter-spacing:.04em;
+    border:2px solid var(--ink);padding:2px 7px;background:var(--stock);
+  }
+  .nobody{font-size:12px;opacity:.55}
+
+  /* ---------- calendar ---------- */
+  .views{display:flex;gap:0;margin:20px 0 0}
+  .view{
+    appearance:none;border:2px solid var(--ink);background:transparent;color:var(--ink);
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;
+    font-size:13px;padding:7px 16px;cursor:pointer;
+  }
+  .view + .view{border-left:0}
+  .view[aria-selected="true"]{background:var(--ink);color:var(--stock)}
+
+  .cal{border:2px solid var(--ink);background:var(--stock-2);margin-top:12px}
+  .cal-head{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:9px 10px;border-bottom:2px solid var(--ink);
+  }
+  .cal-mon{font-family:var(--display);text-transform:uppercase;font-size:18px;letter-spacing:.04em}
+  .cal-nav{display:flex;gap:6px}
+  .cal-nav button{
+    width:32px;height:32px;border:2px solid var(--ink);background:var(--stock);
+    font-family:var(--display);font-size:15px;line-height:1;cursor:pointer;color:var(--ink);
+  }
+  .cal-nav button:active{background:var(--orange)}
+  .dow{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:2px solid var(--rule)}
+  .dow span{
+    padding:6px 0;text-align:center;font-size:10px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;opacity:.55;
+  }
+  .grid{display:grid;grid-template-columns:repeat(7,1fr)}
+  .cell{
+    position:relative;min-height:112px;padding:6px 5px;text-align:left;
+    border:0;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+    background:transparent;font:inherit;color:var(--ink);cursor:pointer;
+    overflow:hidden;
+  }
+  .cell:hover{background:rgba(244,103,31,.14)}
+  .cell:nth-child(7n){border-right:0}
+  .cell.out{opacity:.28}
+  .cell .d{font-size:12px;font-weight:700;line-height:1.5}
+  .cell.today .d{
+    background:var(--orange);border:2px solid var(--ink);
+    padding:0 5px;display:inline-block;line-height:1.3;
+  }
+  .cell.has:hover{background:rgba(244,103,31,.18)}
+  .cell.sel{background:rgba(27,122,67,.2);box-shadow:inset 0 0 0 3px var(--ink)}
+  .dots{display:flex;flex-direction:column;gap:3px;margin-top:5px}
+  .dot{
+    display:block;font-size:9.5px;font-weight:700;line-height:1.3;
+    background:var(--orange);color:var(--ink);border:1px solid var(--ink);
+    padding:1px 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .dot.gone{background:transparent;border-color:var(--rule);opacity:.5}
+  .more{display:block;font-size:9px;font-weight:700;opacity:.6;margin-top:3px;letter-spacing:.04em}
+  .cal-foot{
+    padding:10px 12px;border-top:2px solid var(--ink);
+    font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.6;
+  }
+  .day-head{
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;
+    font-size:12px;margin:22px 0 12px;display:flex;align-items:center;gap:10px;
+  }
+  .day-head::after{content:"";flex:1;height:2px;background:var(--ink)}
+
+  /* ---------- states ---------- */
+  .empty{
+    border:2px dashed var(--ink);padding:26px 18px;text-align:center;
+    font-family:var(--display);text-transform:uppercase;letter-spacing:.06em;
+    font-size:15px;line-height:1.3;opacity:.7;
+  }
+  .status{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--ink);color:var(--stock);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    padding:9px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  }
+  .status button{
+    background:none;border:2px solid var(--stock);color:var(--stock);
+    font:inherit;letter-spacing:.08em;padding:4px 10px;cursor:pointer;
+  }
+  .warn{color:var(--orange)}
+  .hide{display:none !important}
+  @media (max-width:520px){
+    .cell{min-height:96px;padding:5px 3px}
+    .dot{font-size:0;line-height:0;height:8px;padding:0}
+    .more{font-size:8px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap" style="padding:0">
+    <div class="bar-row">
+      <h1 class="wordmark">The <em>Board</em></h1>
+      <button class="whoami" id="whoami">set your name</button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button class="tab" id="tab-links" role="tab" aria-selected="true">Links <span class="count" id="c-links"></span></button>
+      <button class="tab" id="tab-events" role="tab" aria-selected="false">Events <span class="count" id="c-events"></span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- LINKS -->
+  <section id="pane-links">
+    <div class="compose">
+      <h2>Pin a link</h2>
+      <input class="field" type="url" id="l-url" placeholder="https://…" inputmode="url" />
+      <input class="field" type="text" id="l-title" placeholder="What is it? (title)" />
+      <input class="field" type="text" id="l-note" placeholder="Note — optional" />
+      <button class="post" id="l-post">Pin it</button>
+    </div>
+    <div id="list-links"></div>
+  </section>
+
+  <!-- EVENTS -->
+  <section id="pane-events" class="hide">
+    <div class="views" role="tablist">
+      <button class="view" id="view-list" role="tab" aria-selected="true">List</button>
+      <button class="view" id="view-cal" role="tab" aria-selected="false">Month</button>
+    </div>
+
+    <div id="calendar" class="hide"></div>
+    <div id="list-events"></div>
+
+    <div class="compose">
+      <h2>Add an event</h2>
+      <input class="field" type="text" id="e-title" placeholder="What's happening?" />
+      <div class="duo">
+        <input type="date" id="e-date" />
+        <input type="time" id="e-time" />
+      </div>
+      <input class="field" type="text" id="e-place" placeholder="Where — optional" style="margin-top:8px" />
+      <input class="field" type="text" id="e-note" placeholder="Note or link — optional" />
+      <button class="post" id="e-post">Put it on the board</button>
+    </div>
+  </section>
+
+</main>
+
+<div class="status">
+  <span id="status-txt">Loading the board…</span>
+  <button id="refresh">Refresh</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var KEY = "board:v1";
+  var ME_KEY = "me:name";
+  var state = { links: [], events: [] };
+  var me = "";
+  var tab = "events";
+  var view = "cal";
+  var busy = false;
+  var cursor = new Date();          // month currently shown
+  cursor.setDate(1);
+  var picked = null;                // "YYYY-MM-DD" selected in month view
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ---------- helpers ---------- */
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  }
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+  function safeUrl(u){
+    u = String(u || "").trim();
+    if(!/^https?:\/\//i.test(u)) u = "https://" + u;
+    try { var p = new URL(u); return (p.protocol === "http:" || p.protocol === "https:") ? p.href : ""; }
+    catch(e){ return ""; }
+  }
+  function host(u){ try { return new URL(u).hostname.replace(/^www\./,""); } catch(e){ return ""; } }
+  function ago(ts){
+    var s = Math.floor((Date.now() - ts)/1000);
+    if(s < 60) return "just now";
+    if(s < 3600) return Math.floor(s/60) + "m ago";
+    if(s < 86400) return Math.floor(s/3600) + "h ago";
+    return Math.floor(s/86400) + "d ago";
+  }
+  function whenText(ev){
+    var d = new Date(ev.date + "T" + (ev.time || "12:00"));
+    if(isNaN(d)) return ev.date || "";
+    var day = d.toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+    return ev.time ? day + " · " + d.toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}) : day;
+  }
+  function isPast(ev){
+    var d = new Date(ev.date + "T" + (ev.time || "23:59"));
+    return !isNaN(d) && d.getTime() < Date.now();
+  }
+  function say(msg, warn){
+    var el = $("status-txt");
+    el.textContent = msg;
+    el.className = warn ? "warn" : "";
+  }
+
+  /* ---------- storage ---------- */
+  async function pull(quiet){
+    try{
+      var r = await window.storage.get(KEY, true);
+      var v = r && r.value ? (typeof r.value === "string" ? JSON.parse(r.value) : r.value) : null;
+      state = { links: (v && v.links) || [], events: (v && v.events) || [] };
+      if(!quiet) say("Board is live · everyone with this link sees it");
+      render();
+    }catch(e){
+      // No key yet on a fresh board — that's fine, not an error.
+      state = { links: [], events: [] };
+      if(!quiet) say("New board · nothing pinned yet");
+      render();
+    }
+  }
+
+  // Re-read before writing so two people posting at once don't wipe each other.
+  async function commit(mutate){
+    if(busy) return;
+    busy = true;
+    say("Saving…");
+    try{
+      var latest = { links: [], events: [] };
+      try{
+        var r = await window.storage.get(KEY, true);
+        var v = r && r.value ? (typeof r.value === "string" ? JSON.parse(r.value) : r.value) : null;
+        if(v) latest = { links: v.links || [], events: v.events || [] };
+      }catch(e){ /* first write */ }
+
+      mutate(latest);
+      var ok = await window.storage.set(KEY, JSON.stringify(latest), true);
+      if(!ok) throw new Error("write failed");
+      state = latest;
+      render();
+      say("Board is live · everyone with this link sees it");
+    }catch(e){
+      say("Couldn't save. Tap Refresh and try again.", true);
+    }
+    busy = false;
+  }
+
+  async function loadMe(){
+    try{
+      var r = await window.storage.get(ME_KEY, false);
+      me = (r && r.value) ? String(r.value) : "";
+    }catch(e){ me = ""; }
+    paintMe();
+  }
+  function paintMe(){
+    $("whoami").textContent = me ? me : "set your name";
+  }
+  async function askName(force){
+    var n = window.prompt("Your name — shown on what you post and on RSVPs.", me || "");
+    if(n == null) return me;
+    n = n.trim().slice(0,24);
+    if(!n) return me;
+    me = n;
+    paintMe();
+    try{ await window.storage.set(ME_KEY, me, false); }catch(e){}
+    return me;
+  }
+  async function needName(){
+    if(me) return me;
+    return await askName(true);
+  }
+
+  /* ---------- render ---------- */
+  function render(){
+    $("c-links").textContent = state.links.length ? "(" + state.links.length + ")" : "";
+    var up = state.events.filter(function(e){ return !isPast(e); }).length;
+    $("c-events").textContent = up ? "(" + up + ")" : "";
+    renderLinks();
+    if(view === "cal"){ renderCalendar(); renderPicked(); }
+    else { renderEvents(); }
+  }
+
+  function ymd(d){
+    return d.getFullYear() + "-" +
+      String(d.getMonth()+1).padStart(2,"0") + "-" +
+      String(d.getDate()).padStart(2,"0");
+  }
+
+  function renderCalendar(){
+    var box = $("calendar");
+    var y = cursor.getFullYear(), m = cursor.getMonth();
+    var first = new Date(y, m, 1);
+    var start = new Date(y, m, 1 - first.getDay());   // back up to Sunday
+    var today = ymd(new Date());
+
+    // bucket events by day
+    var byDay = {};
+    state.events.forEach(function(ev){
+      if(!ev.date) return;
+      (byDay[ev.date] = byDay[ev.date] || []).push(ev);
+    });
+
+    var cells = "";
+    for(var i = 0; i < 42; i++){
+      var d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      var key = ymd(d);
+      var evs = byDay[key] || [];
+      var cls = ["cell"];
+      if(d.getMonth() !== m) cls.push("out");
+      if(key === today) cls.push("today");
+      if(evs.length) cls.push("has");
+      if(key === picked) cls.push("sel");
+      var dots = evs.slice(0,3).map(function(ev){
+        return '<span class="dot' + (isPast(ev) ? " gone" : "") + '">' + esc(ev.title) + '</span>';
+      }).join("");
+      if(evs.length > 3) dots += '<span class="more">+' + (evs.length - 3) + ' more</span>';
+      cells += '<button class="' + cls.join(" ") + '" data-day="' + key + '"' +
+        ' aria-label="' + key + ', ' + evs.length + ' events">' +
+        '<span class="d">' + d.getDate() + '</span>' +
+        (dots ? '<span class="dots">' + dots + '</span>' : '') +
+        '</button>';
+    }
+
+    var upcoming = state.events.filter(function(e){ return !isPast(e); }).length;
+    box.innerHTML =
+      '<div class="cal">' +
+        '<div class="cal-head">' +
+          '<span class="cal-mon">' + first.toLocaleDateString(undefined,{month:"long",year:"numeric"}) + '</span>' +
+          '<span class="cal-nav">' +
+            '<button id="cal-prev" aria-label="Previous month">&#8592;</button>' +
+            '<button id="cal-today" aria-label="This month" style="width:auto;padding:0 10px;font-size:12px;letter-spacing:.06em">Today</button>' +
+            '<button id="cal-next" aria-label="Next month">&#8594;</button>' +
+          '</span>' +
+        '</div>' +
+        '<div class="dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>' +
+        '<div class="grid">' + cells + '</div>' +
+        '<div class="cal-foot">' + (upcoming ? "Tap a marked day to see what\u2019s on" : "Nothing coming up") + '</div>' +
+      '</div>';
+
+    $("cal-prev").addEventListener("click", function(){ cursor.setMonth(cursor.getMonth()-1); renderCalendar(); });
+    $("cal-next").addEventListener("click", function(){ cursor.setMonth(cursor.getMonth()+1); renderCalendar(); });
+    $("cal-today").addEventListener("click", function(){
+      cursor = new Date(); cursor.setDate(1);
+      picked = ymd(new Date());
+      renderCalendar(); renderPicked();
+    });
+  }
+
+  function renderPicked(){
+    var box = $("list-events");
+    if(!picked){ box.innerHTML = ""; return; }
+    var d = new Date(picked + "T12:00");
+    var isToday = picked === ymd(new Date());
+    var evs = state.events.filter(function(e){ return e.date === picked; })
+      .sort(function(a,b){ return (a.time||"").localeCompare(b.time||""); });
+
+    var head = '<div class="day-head">' +
+      (isToday ? "Today \u00B7 " : "") +
+      d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"}) +
+      '</div>';
+
+    box.innerHTML = head + (evs.length
+      ? evs.map(function(e){ return evCard(e, isPast(e)); }).join("")
+      : '<div class="empty">Nothing on this day.<br>Add something above.</div>');
+  }
+
+  function renderLinks(){
+    var box = $("list-links");
+    var items = state.links.slice().sort(function(a,b){ return b.ts - a.ts; });
+    if(!items.length){
+      box.innerHTML = '<div class="empty">Nothing pinned yet.<br>Paste the first link above.</div>';
+      return;
+    }
+    box.innerHTML = '<div class="sect">Pinned</div>' + items.map(function(it){
+      return '<article class="card">' +
+        '<div class="plate"></div>' +
+        '<div class="face">' +
+          '<div class="kicker"><span>Link</span><span>·</span><span>' + esc(ago(it.ts)) + '</span></div>' +
+          '<h3 class="ttl"><a href="' + esc(it.url) + '" target="_blank" rel="noopener noreferrer">' + esc(it.title || host(it.url) || it.url) + '</a></h3>' +
+          '<p class="host">' + esc(host(it.url)) + '</p>' +
+          (it.note ? '<p class="note">' + esc(it.note) + '</p>' : '') +
+          '<div class="meta"><span class="by">' + esc(it.by || "anon") + '</span>' +
+            '<button class="kill" data-kill-link="' + esc(it.id) + '">Remove</button></div>' +
+        '</div></article>';
+    }).join("");
+  }
+
+  function renderEvents(){
+    var box = $("list-events");
+    if(!state.events.length){
+      box.innerHTML = '<div class="empty">No events on the board.<br>Add the first one above.</div>';
+      return;
+    }
+    var upcoming = state.events.filter(function(e){ return !isPast(e); })
+      .sort(function(a,b){ return (a.date + (a.time||"")).localeCompare(b.date + (b.time||"")); });
+    var past = state.events.filter(isPast)
+      .sort(function(a,b){ return (b.date + (b.time||"")).localeCompare(a.date + (a.time||"")); });
+
+    var html = "";
+    if(upcoming.length) html += '<div class="sect">Coming up</div>' + upcoming.map(evCard).join("");
+    if(past.length) html += '<div class="sect">Been and gone</div>' + past.map(function(e){ return evCard(e, true); }).join("");
+    box.innerHTML = html;
+  }
+
+  function evCard(ev, gone){
+    var going = ev.going || [];
+    var iam = me && going.indexOf(me) !== -1;
+    var chips = going.length
+      ? '<div class="going">' + going.map(function(n){ return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>'
+      : '<span class="nobody">No one in yet</span>';
+    return '<article class="card ev' + (gone ? ' past' : '') + '">' +
+      '<div class="plate"></div>' +
+      '<div class="face">' +
+        '<div class="kicker"><span>' + esc(whenText(ev)) + '</span>' + (ev.place ? '<span>·</span><span>' + esc(ev.place) + '</span>' : '') + '</div>' +
+        '<h3 class="ttl">' + esc(ev.title) + '</h3>' +
+        (ev.note ? '<p class="note">' + esc(ev.note) + '</p>' : '') +
+        (gone ? '' :
+          '<div class="rsvp">' +
+            '<button class="im-in' + (iam ? ' on' : '') + '" data-rsvp="' + esc(ev.id) + '">' + (iam ? "You\u2019re in \u2713" : "I\u2019m in") + '</button>' +
+            chips +
+          '</div>') +
+        '<div class="meta"><span class="by">Added by ' + esc(ev.by || "anon") + '</span>' +
+          '<button class="kill" data-kill-event="' + esc(ev.id) + '">Remove</button></div>' +
+      '</div></article>';
+  }
+
+  /* ---------- actions ---------- */
+  $("l-post").addEventListener("click", async function(){
+    var url = safeUrl($("l-url").value);
+    if(!url){ $("l-url").focus(); say("That doesn't look like a link.", true); return; }
+    var name = await needName();
+    if(!name) return;
+    var item = {
+      id: uid(), url: url,
+      title: $("l-title").value.trim().slice(0,120),
+      note: $("l-note").value.trim().slice(0,400),
+      by: name, ts: Date.now()
+    };
+    await commit(function(s){ s.links.unshift(item); });
+    $("l-url").value = ""; $("l-title").value = ""; $("l-note").value = "";
+  });
+
+  $("e-post").addEventListener("click", async function(){
+    var title = $("e-title").value.trim().slice(0,120);
+    var date = $("e-date").value;
+    if(!title){ $("e-title").focus(); say("Give the event a name.", true); return; }
+    if(!date){ $("e-date").focus(); say("Pick a date.", true); return; }
+    var name = await needName();
+    if(!name) return;
+    var item = {
+      id: uid(), title: title, date: date,
+      time: $("e-time").value || "",
+      place: $("e-place").value.trim().slice(0,80),
+      note: $("e-note").value.trim().slice(0,400),
+      by: name, going: [name], ts: Date.now()
+    };
+    await commit(function(s){ s.events.push(item); });
+    $("e-title").value = ""; $("e-date").value = ""; $("e-time").value = "";
+    $("e-place").value = ""; $("e-note").value = "";
+  });
+
+  document.addEventListener("click", async function(e){
+    var day = e.target.closest("[data-day]");
+    if(day){
+      picked = day.getAttribute("data-day");
+      renderCalendar();
+      renderPicked();
+      return;
+    }
+
+    var t = e.target.closest("[data-rsvp],[data-kill-link],[data-kill-event]");
+    if(!t) return;
+
+    if(t.hasAttribute("data-rsvp")){
+      var name = await needName();
+      if(!name) return;
+      var id = t.getAttribute("data-rsvp");
+      await commit(function(s){
+        var ev = s.events.filter(function(x){ return x.id === id; })[0];
+        if(!ev) return;
+        ev.going = ev.going || [];
+        var i = ev.going.indexOf(name);
+        if(i === -1) ev.going.push(name); else ev.going.splice(i,1);
+      });
+      return;
+    }
+    if(t.hasAttribute("data-kill-link")){
+      if(!window.confirm("Remove this link for everyone?")) return;
+      var lid = t.getAttribute("data-kill-link");
+      await commit(function(s){ s.links = s.links.filter(function(x){ return x.id !== lid; }); });
+      return;
+    }
+    if(t.hasAttribute("data-kill-event")){
+      if(!window.confirm("Remove this event for everyone?")) return;
+      var eid = t.getAttribute("data-kill-event");
+      await commit(function(s){ s.events = s.events.filter(function(x){ return x.id !== eid; }); });
+    }
+  });
+
+  function setTab(which){
+    tab = which;
+    $("tab-links").setAttribute("aria-selected", String(which === "links"));
+    $("tab-events").setAttribute("aria-selected", String(which === "events"));
+    $("pane-links").classList.toggle("hide", which !== "links");
+    $("pane-events").classList.toggle("hide", which !== "events");
+  }
+  function setView(which){
+    view = which;
+    $("view-list").setAttribute("aria-selected", String(which === "list"));
+    $("view-cal").setAttribute("aria-selected", String(which === "cal"));
+    $("calendar").classList.toggle("hide", which !== "cal");
+    if(which === "list") picked = null;
+    else if(!picked) picked = ymd(new Date());
+    render();
+  }
+  $("view-list").addEventListener("click", function(){ setView("list"); });
+  $("view-cal").addEventListener("click", function(){ setView("cal"); });
+
+  $("tab-links").addEventListener("click", function(){ setTab("links"); });
+  $("tab-events").addEventListener("click", function(){ setTab("events"); });
+  $("whoami").addEventListener("click", function(){ askName(); });
+  $("refresh").addEventListener("click", function(){ pull(false); });
+
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden) pull(true);
+  });
+  setInterval(function(){ if(!document.hidden && !busy) pull(true); }, 30000);
+
+  (async function init(){
+    picked = ymd(new Date());
+    setTab("events");
+    $("view-list").setAttribute("aria-selected","false");
+    $("view-cal").setAttribute("aria-selected","true");
+    $("calendar").classList.remove("hide");
+    await loadMe();
+    await pull(false);
+  })();
+})();
+</script>
+</body>
+</html>
