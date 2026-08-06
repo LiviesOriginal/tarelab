@@ -113,8 +113,8 @@
 
   <div class="sheet"><div class="grid" id="grid" role="group" aria-label="Bubble wrap hiding a picture"></div></div>
 
-  <p class="msg" id="msg">pop the bubbles to uncover the surprise</p>
-  <p class="footer">tip: hit refill to hide a brand-new surprise</p>
+  <p class="msg" id="msg">tip: hit refill to hide a brand-new surprise</p>
+  <p class="footer">2026 Elle Bee</p>
 
 <script data-cfasync="false">
 (() => {
