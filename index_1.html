@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Pop! for Stress Relief</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* kisses (default) */
+    --bg-a:#3b0510; --bg-b:#7a0f1e; --bg-glow:#c21734;
+    --ink:#fff0f2; --count-ink:#ffd0d7;
+    --panel:rgba(255,255,255,.07); --panel-border:rgba(255,255,255,.16);
+    --sel:rgba(255,255,255,.18); --sel-border:#ffd0d7;
+    --accent-a:#ff6f89; --accent-b:#ff2d55;
+    --title-a:#ffe0e5; --title-b:#ff98ab; --title-c:#ff5c78; --title-sh:rgba(90,4,20,.4);
+  }
+  body.hugs{
+    --bg-a:#bfe6ff; --bg-b:#59a8ee; --bg-glow:#ffffff;
+    --ink:#123a5c; --count-ink:#0f3355;
+    --panel:rgba(255,255,255,.5); --panel-border:rgba(18,58,92,.2);
+    --sel:rgba(255,255,255,.85); --sel-border:#ff9f1c;
+    --accent-a:#ffb43d; --accent-b:#ff8a1c;
+    --title-a:#ffffff; --title-b:#ffd23f; --title-c:#ff9f1c; --title-sh:rgba(20,70,120,.28);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;height:100%;}
+  body{
+    min-height:100vh;font-family:"Nunito",system-ui,sans-serif;color:var(--ink);
+    background:
+      radial-gradient(120% 90% at 50% -10%, var(--bg-glow) 0%, transparent 55%),
+      radial-gradient(150% 120% at 50% 120%, var(--bg-glow) 0%, transparent 42%),
+      linear-gradient(160deg, var(--bg-a) 0%, var(--bg-b) 100%);
+    background-attachment:fixed;
+    display:flex;flex-direction:column;align-items:center;
+    padding:22px 14px 46px;overflow-x:hidden;text-align:center;
+    transition:background .4s ease, color .4s ease;
+  }
+  .modes{display:inline-flex;gap:6px;background:var(--panel);border:1.5px solid var(--panel-border);
+    padding:5px;border-radius:999px;backdrop-filter:blur(6px);margin-bottom:16px;}
+  .modebtn{font-family:"Fredoka",sans-serif;font-weight:600;font-size:15px;color:var(--ink);cursor:pointer;
+    border:0;background:transparent;padding:8px 18px;border-radius:999px;transition:background .2s, transform .12s;}
+  .modebtn.sel{background:var(--sel);box-shadow:0 2px 8px -3px rgba(0,0,0,.4);}
+  .modebtn:active{transform:scale(.95);}
+
+  h1{font-family:"Fredoka",sans-serif;font-weight:700;font-size:clamp(28px,6.6vw,48px);line-height:1;margin:0;letter-spacing:.5px;
+    background:linear-gradient(180deg,var(--title-a),var(--title-b) 55%,var(--title-c));
+    -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 var(--title-sh));}
+  .sub{margin:8px 0 0;font-weight:700;opacity:.72;font-size:clamp(13px,3.4vw,16px);}
+
+  .controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0 16px;}
+  .count{font-family:"Fredoka",sans-serif;font-weight:600;display:inline-flex;align-items:center;gap:7px;
+    background:var(--panel);border:1.5px solid var(--panel-border);padding:8px 15px;border-radius:999px;font-size:17px;backdrop-filter:blur(6px);}
+  .count b{color:var(--count-ink);font-size:19px;min-width:1.2em;text-align:left;transition:transform .12s;}
+  .count.bump b{transform:scale(1.35);}
+  button.act{font-family:"Fredoka",sans-serif;font-weight:600;font-size:14px;color:var(--ink);cursor:pointer;
+    border:1.5px solid var(--panel-border);background:var(--panel);padding:9px 14px;border-radius:999px;backdrop-filter:blur(6px);
+    transition:transform .12s, background .2s, border-color .2s;display:inline-flex;align-items:center;gap:6px;}
+  button.act:hover{border-color:var(--sel-border);}
+  button.act:active{transform:scale(.94);}
+  button.act.primary{color:#fff;background:linear-gradient(180deg,var(--accent-a),var(--accent-b));border-color:transparent;box-shadow:0 6px 18px -6px var(--accent-b);}
+  .icon{font-size:16px;line-height:1;}
+
+  .sheet{position:relative;width:min(500px,100%);padding:14px;border-radius:22px;
+    background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+    border:1.5px solid var(--panel-border);box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 24px 60px -30px #000;transition:border-color .4s;}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;}
+  .cell{position:relative;width:100%;aspect-ratio:1;border:0;background:transparent;padding:0;cursor:pointer;display:grid;place-items:center;border-radius:22%;}
+  .cell svg{width:88%;height:88%;display:block;overflow:visible;}
+  .bubble{transform-origin:center;line-height:0;}
+  .bubble svg{filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.5));}
+  .reveal{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity .2s;}
+  .reveal svg{width:74%;height:74%;}
+  .cell.popped .bubble{display:none;}
+  .cell.popped .reveal{opacity:1;}
+  .cell.popped{box-shadow:inset 0 1px 5px rgba(0,0,0,.5);background:rgba(0,0,0,.14);}
+  .cell.popping .bubble{animation:pop .17s ease-out forwards;}
+  .cell:focus-visible{outline:3px solid var(--sel-border);outline-offset:1px;}
+  @keyframes pop{0%{transform:scale(1);}45%{transform:scale(1.26);}100%{transform:scale(0);opacity:0;}}
+
+  .float{position:fixed;pointer-events:none;z-index:40;font-size:20px;will-change:transform,opacity;animation:rise 1s ease-out forwards;}
+  @keyframes rise{0%{transform:translate(-50%,-50%) scale(.6);opacity:0;}18%{opacity:1;transform:translate(-50%,-70%) scale(1.1);}100%{transform:translate(-50%,-185%) scale(1);opacity:0;}}
+
+  .msg{margin:16px 0 0;min-height:22px;font-weight:800;font-size:15px;color:var(--count-ink);opacity:.95;}
+  .footer{margin-top:8px;font-size:12px;opacity:.5;font-weight:700;}
+  @media (prefers-reduced-motion: reduce){ .float{animation-duration:.5s;} body{transition:none;} }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <radialGradient id="domeBlack" cx="34%" cy="26%" r="88%"><stop offset="0%" stop-color="#55555f"/><stop offset="45%" stop-color="#1b1b22"/><stop offset="100%" stop-color="#050507"/></radialGradient>
+    <radialGradient id="domeBlue" cx="34%" cy="26%" r="88%"><stop offset="0%" stop-color="#8dc0ff"/><stop offset="42%" stop-color="#1f5ce4"/><stop offset="100%" stop-color="#0a327f"/></radialGradient>
+    <radialGradient id="domeYellow" cx="34%" cy="26%" r="88%"><stop offset="0%" stop-color="#fff6b0"/><stop offset="45%" stop-color="#ffd23f"/><stop offset="100%" stop-color="#e09a00"/></radialGradient>
+    <radialGradient id="domeWhite" cx="34%" cy="26%" r="88%"><stop offset="0%" stop-color="#ffffff"/><stop offset="55%" stop-color="#f3f4f8"/><stop offset="100%" stop-color="#c7cdd8"/></radialGradient>
+  </defs></svg>
+
+  <div class="modes">
+    <button class="modebtn sel" data-mode="kisses">Kisses</button>
+    <button class="modebtn" data-mode="hugs">Hugs</button>
+  </div>
+
+  <h1 id="title">Pop! for Stress Relief</h1>
+  <p class="sub" id="sub">pop the hearts to uncover what's underneath</p>
+
+  <div class="controls">
+    <span class="count" id="count"><span class="icon" id="countIcon">💋</span> <span id="countLabel">kisses</span> <b id="num">0</b></span>
+    <button class="act" id="mute" aria-pressed="false"><span class="icon" id="muteIcon">🔊</span> sound</button>
+    <button class="act" id="refill"><span class="icon">🔄</span> refill</button>
+    <button class="act primary" id="popall"><span class="icon">💥</span> Reveal</button>
+  </div>
+
+  <div class="sheet"><div class="grid" id="grid" role="group" aria-label="Bubble wrap hiding a picture"></div></div>
+
+  <p class="msg" id="msg">pop the bubbles to uncover the surprise</p>
+  <p class="footer">tip: hit refill to hide a brand-new surprise</p>
+
+<script data-cfasync="false">
+(() => {
+  const HEART="M16 28.2C16 28.2 2.4 19 2.4 9.8C2.4 5.2 6 2.2 9.6 2.2C12.3 2.2 14.9 3.9 16 6.3C17.1 3.9 19.7 2.2 22.4 2.2C26 2.2 29.6 5.2 29.6 9.8C29.6 19 16 28.2 16 28.2Z";
+  const N=12;
+
+  const P = {
+    rose:{name:"rose",emoji:"🌹",legend:{r:"#c62a45",p:"#ff6f91",g:"#2f8f4e"},rows:[
+      "............","...rrrr.....","..rrrrrrrr..","..rrppprrrr.","..rrppprrrr.","...rrrrrr...","....rrrr....",".....gg.....","..ggggg.....",".....ggggg..",".....gg.....",".....gg....."]},
+    heart:{name:"heart",emoji:"❤️",legend:{r:"#e23b5a"},rows:[
+      "............","..rr....rr..",".rrrrrrrrrr.",".rrrrrrrrrr.",".rrrrrrrrrr.","..rrrrrrrr..","..rrrrrrrr..","...rrrrrr...","....rrrr....",".....rr.....","............","............"]},
+    tulip:{name:"tulip",emoji:"🌷",legend:{r:"#e23b6a",p:"#ff9ab3",g:"#2f8f4e"},rows:[
+      "............","..r..r..r...",".rrr.rr.rrr.",".rrrrrrrrrr.",".rrrppprrrr.","..rrrrrrrr..","...rrrrrr...",".....gg.....",".....gg.....",".ggg.gg.ggg.",".....gg.....",".....gg....."]},
+    kiss:{name:"kiss",emoji:"💋",legend:{r:"#d81b45",p:"#ff5c7a"},rows:[
+      "............","............","............","....r..r....","..rrr..rrr..",".rrrrrrrrrr.","..rrrrrrrr..","..rrpppprr..","...rrrrrr...","....rrrr....","............","............"]},
+    teddy:{name:"teddy bear",emoji:"🧸",legend:{b:"#a9713f",l:"#e6c39a",n:"#2a1a0e"},rows:[
+      "............","..bb....bb..","..bbbbbbbb..","..bbllllbb..","..bnllllnb..","..bblnnlbb..","...bbbbbb...","..bbbbbbbb..",".bbbllllbbb.",".bbbllllbbb.","..bbbbbbbb..","..bb....bb.."]},
+    icecream:{name:"ice cream",emoji:"🍦",legend:{p:"#ff9ec4",m:"#b6ead0",t:"#e0a86a"},rows:[
+      "............",".....pp.....","....pppp....","...pppppp...","...pppppp...","...mmmmmm...","...mmmmmm...","...tttttt...","....tttt....",".....tt.....","......t.....","............"]},
+    puppy:{name:"puppy",emoji:"🐶",legend:{b:"#b57a44",d:"#8a5a2e",l:"#e6cfa8",n:"#241812"},rows:[
+      "............","..dd....dd..","..ddbbbbdd..","..ddbbbbdd..","..dbllllbd..","..blnllnlb..","..bllllllb..","...llnnll...","...llllll...","....bbbb....","............","............"]},
+    happy:{name:"happy face",emoji:"😊",legend:{y:"#ffd23f",n:"#3a2a12"},rows:[
+      "............","...yyyyyy...","..yyyyyyyy..",".yyyyyyyyyy.",".yynyyyynyy.",".yyyyyyyyyy.",".yynyyyynyy.",".yyynnnnyyy.","..yyyyyyyy..","...yyyyyy...","............","............"]},
+  };
+
+  /* patterns rotate in this exact order per mode */
+  const POOL={ kisses:["heart","rose","tulip","kiss"], hugs:["puppy","icecream","teddy","happy"] };
+  const MODE={
+    kisses:{ pair:["Black","Blue"], sound:"kiss", title:"Pop! for Stress Relief",
+      sub:"pop the hearts — uncover what's hiding!", start:"pop a bubble to reveal the surprise!",
+      countLabel:"kisses", countIcon:"💋", popall:'<span class="icon">💥</span> Reveal',
+      floats:["💗","💕","💖","💓","💞"], rare:"💋" },
+    hugs:{ pair:["Yellow","White"], sound:"pop", title:"Pop! for Stress Relief",
+      sub:"pop the bubbles — uncover what's hiding!", start:"pop a bubble to reveal the surprise!",
+      countLabel:"pops", countIcon:"🫧", popall:'<span class="icon">💥</span> Reveal',
+      floats:["✨","⭐","🫧","💛","🎈"], rare:"🧸" }
+  };
+
+  const $=id=>document.getElementById(id);
+  const grid=$('grid'), numEl=$('num'), countPill=$('count'), msg=$('msg');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let mode="kisses", idx=0, current=null, cells=[], count=0, muted=false;
+  const status=t=>{ msg.textContent=t; };
+
+  // audio
+  let ac=null, master=null;
+  function initAudio(){ if(ac) return; try{ ac=new (window.AudioContext||window.webkitAudioContext)(); master=ac.createGain(); master.gain.value=0.6; master.connect(ac.destination); }catch(e){} }
+  function kissSound(rate=1){
+    if(!ac||muted) return;
+    const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine'; const base=(560+Math.random()*180)*rate;
+    o.frequency.setValueAtTime(base,t); o.frequency.exponentialRampToValueAtTime(base*0.34,t+0.09);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.5,t+0.008); g.gain.exponentialRampToValueAtTime(0.0001,t+0.14);
+    o.connect(g).connect(master); o.start(t); o.stop(t+0.16);
+    const len=(ac.sampleRate*0.045)|0,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3);
+    const ns=ac.createBufferSource(); ns.buffer=buf;
+    const bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1900; bp.Q.value=0.8;
+    const ng=ac.createGain(); ng.gain.value=0.14; ns.connect(bp).connect(ng).connect(master); ns.start(t);
+  }
+  function popSound(rate=1){
+    if(!ac||muted) return;
+    const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();
+    o.type='triangle'; const base=(440+Math.random()*150)*rate;
+    o.frequency.setValueAtTime(base*2.2,t); o.frequency.exponentialRampToValueAtTime(base,t+0.03);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.6,t+0.004); g.gain.exponentialRampToValueAtTime(0.0001,t+0.07);
+    o.connect(g).connect(master); o.start(t); o.stop(t+0.08);
+    const len=(ac.sampleRate*0.012)|0,buf=ac.createBuffer(1,len,ac.sampleRate),d=buf.getChannelData(0);
+    for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);
+    const ns=ac.createBufferSource(); ns.buffer=buf;
+    const hp=ac.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1200;
+    const ng=ac.createGain(); ng.gain.value=0.25; ns.connect(hp).connect(ng).connect(master); ns.start(t);
+  }
+  function sound(rate=1){ (MODE[mode].sound==="kiss"?kissSound:popSound)(rate); }
+
+  // svg
+  function shade(hex){const c=hex.replace('#','');const r=parseInt(c.slice(0,2),16),g=parseInt(c.slice(2,4),16),b=parseInt(c.slice(4,6),16);const f=0.6;return `rgb(${r*f|0},${g*f|0},${b*f|0})`;}
+  function dome(kind){
+    const hi={Black:.24,Blue:.4,Yellow:.5,White:.62}[kind];
+    return `<svg viewBox="0 0 32 30" aria-hidden="true"><path d="${HEART}" fill="url(#dome${kind})"/><ellipse cx="11" cy="8.5" rx="4.2" ry="2.7" fill="#fff" opacity="${hi}"/></svg>`;
+  }
+  function pixel(c){
+    if(!c) return `<svg viewBox="0 0 32 30" aria-hidden="true"><path d="${HEART}" fill="rgba(255,255,255,.05)"/></svg>`;
+    return `<svg viewBox="0 0 32 30" aria-hidden="true"><path d="${HEART}" fill="${c}" stroke="${shade(c)}" stroke-width="1.1"/><ellipse cx="12" cy="9" rx="2.6" ry="1.8" fill="#fff" opacity=".3"/></svg>`;
+  }
+  function colorAt(pat,x,y){ const row=(pat.rows[y]||'').padEnd(N,'.').slice(0,N); const ch=row[x]; return ch&&ch!=='.'?pat.legend[ch]:null; }
+
+  function build(pat){
+    current=pat; count=0; numEl.textContent=0; grid.innerHTML=''; cells=[];
+    const pair=MODE[mode].pair;
+    for(let i=0;i<N*N;i++){
+      const x=i%N,y=(i/N)|0, kind=pair[(x+y)%2];
+      const btn=document.createElement('button'); btn.type='button'; btn.className='cell'; btn.setAttribute('aria-label','bubble, tap to pop');
+      const rev=document.createElement('span'); rev.className='reveal'; rev.innerHTML=pixel(colorAt(pat,x,y));
+      const bub=document.createElement('span'); bub.className='bubble'; bub.innerHTML=dome(kind);
+      btn.appendChild(rev); btn.appendChild(bub);
+      btn.addEventListener('click',()=>pop(btn));
+      grid.appendChild(btn); cells.push(btn);
+    }
+    status(MODE[mode].start);
+  }
+  const patAt=()=>P[ POOL[mode][ idx % POOL[mode].length ] ];
+
+  function bump(){ numEl.textContent=count; countPill.classList.add('bump'); setTimeout(()=>countPill.classList.remove('bump'),130); }
+  function floater(x,y){
+    const cfg=MODE[mode]; const el=document.createElement('div'); el.className='float';
+    el.textContent=Math.random()<0.16?cfg.rare:cfg.floats[(Math.random()*cfg.floats.length)|0];
+    el.style.left=x+'px'; el.style.top=y+'px'; el.style.fontSize=(16+Math.random()*10)+'px';
+    document.body.appendChild(el); setTimeout(()=>el.remove(), reduced?520:1050);
+  }
+  function done(){
+    if(count>=N*N) status('there it is — a '+current.name+'! '+current.emoji);
+    else if(count===((N*N/2)|0)) status('halfway… it’s taking shape 👀');
+  }
+  function pop(btn){
+    if(btn.classList.contains('popped')||btn.classList.contains('popping')) return;
+    initAudio(); if(ac&&ac.state==='suspended') ac.resume();
+    btn.classList.add('popping');
+    const r=btn.getBoundingClientRect();
+    sound(); floater(r.left+r.width/2,r.top+r.height/2);
+    setTimeout(()=>{ btn.classList.remove('popping'); btn.classList.add('popped'); btn.setAttribute('aria-label','popped'); },120);
+    count++; bump(); done();
+  }
+
+  function applyMode(m){
+    mode=m; idx=0; const cfg=MODE[m];
+    document.body.classList.toggle('hugs', m==='hugs');
+    document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('sel', b.dataset.mode===m));
+    $('title').textContent=cfg.title; $('sub').textContent=cfg.sub;
+    $('countLabel').textContent=cfg.countLabel; $('countIcon').textContent=cfg.countIcon;
+    $('popall').innerHTML=cfg.popall;
+    build(patAt());
+  }
+
+  document.querySelectorAll('.modebtn').forEach(b=>b.addEventListener('click',()=>applyMode(b.dataset.mode)));
+  $('refill').addEventListener('click',()=>{ idx=(idx+1)%POOL[mode].length; build(patAt()); });
+  $('popall').addEventListener('click',()=>{
+    initAudio(); if(ac&&ac.state==='suspended') ac.resume();
+    const rem=cells.filter(c=>!c.classList.contains('popped'));
+    if(!rem.length){ status('all clear — hit refill to hide a new one'); return; }
+    status(mode==='kisses'?'muah muah muah 😘':'pop pop pop 💥');
+    rem.forEach((c,i)=>setTimeout(()=>{
+      const r=c.getBoundingClientRect(); sound(1+i*0.008); floater(r.left+r.width/2,r.top+r.height/2);
+      c.classList.add('popping'); setTimeout(()=>{ c.classList.remove('popping'); c.classList.add('popped'); },120);
+      count++; bump(); if(i===rem.length-1) done();
+    }, i*9));
+  });
+  const muteBtn=$('mute');
+  muteBtn.addEventListener('click',()=>{ muted=!muted; $('muteIcon').textContent=muted?'🔇':'🔊'; muteBtn.setAttribute('aria-pressed',String(muted)); if(!muted){ initAudio(); if(ac&&ac.state==='suspended') ac.resume(); } });
+  window.addEventListener('pointerdown',()=>{ initAudio(); if(ac&&ac.state==='suspended') ac.resume(); },{once:true});
+
+  applyMode('kisses');
+})();
+</script>
+</body>
+</html>
