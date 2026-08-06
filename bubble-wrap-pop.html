@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root{
-    /* romance (default) */
+    /* kisses (default) */
     --bg-a:#3b0510; --bg-b:#7a0f1e; --bg-glow:#c21734;
     --ink:#fff0f2; --count-ink:#ffd0d7;
     --panel:rgba(255,255,255,.07); --panel-border:rgba(255,255,255,.16);
@@ -17,7 +17,7 @@
     --accent-a:#ff6f89; --accent-b:#ff2d55;
     --title-a:#ffe0e5; --title-b:#ff98ab; --title-c:#ff5c78; --title-sh:rgba(90,4,20,.4);
   }
-  body.friendly{
+  body.hugs{
     --bg-a:#bfe6ff; --bg-b:#59a8ee; --bg-glow:#ffffff;
     --ink:#123a5c; --count-ink:#0f3355;
     --panel:rgba(255,255,255,.5); --panel-border:rgba(18,58,92,.2);
@@ -97,8 +97,8 @@
   </defs></svg>
 
   <div class="modes">
-    <button class="modebtn sel" data-mode="romance">💕 Romance</button>
-    <button class="modebtn" data-mode="friendly">🧸 Friendly</button>
+    <button class="modebtn sel" data-mode="kisses">Kisses</button>
+    <button class="modebtn" data-mode="hugs">Hugs</button>
   </div>
 
   <h1 id="title">Pop! for Stress Relief</h1>
@@ -108,7 +108,7 @@
     <span class="count" id="count"><span class="icon" id="countIcon">💋</span> <span id="countLabel">kisses</span> <b id="num">0</b></span>
     <button class="act" id="mute" aria-pressed="false"><span class="icon" id="muteIcon">🔊</span> sound</button>
     <button class="act" id="refill"><span class="icon">🔄</span> refill</button>
-    <button class="act primary" id="popall"><span class="icon">😘</span>Reveal</button>
+    <button class="act primary" id="popall"><span class="icon"></span>Reveal</button>
   </div>
 
   <div class="sheet"><div class="grid" id="grid" role="group" aria-label="Bubble wrap hiding a picture"></div></div>
@@ -128,26 +128,26 @@
       "............","..rr....rr..",".rrrrrrrrrr.",".rrrrrrrrrr.",".rrrrrrrrrr.","..rrrrrrrr..","..rrrrrrrr..","...rrrrrr...","....rrrr....",".....rr.....","............","............"]},
     tulip:{name:"tulip",emoji:"🌷",legend:{r:"#e23b6a",p:"#ff9ab3",g:"#2f8f4e"},rows:[
       "............","..r..r..r...",".rrr.rr.rrr.",".rrrrrrrrrr.",".rrrppprrrr.","..rrrrrrrr..","...rrrrrr...",".....gg.....",".....gg.....",".ggg.gg.ggg.",".....gg.....",".....gg....."]},
-    lips:{name:"lips",emoji:"💋",legend:{r:"#d81b45",p:"#ff5c7a"},rows:[
+    lips:{name:"kiss",emoji:"💋",legend:{r:"#d81b45",p:"#ff5c7a"},rows:[
       "............","............","............","....r..r....","..rrr..rrr..",".rrrrrrrrrr.","..rrrrrrrr..","..rrpppprr..","...rrrrrr...","....rrrr....","............","............"]},
     teddy:{name:"teddy bear",emoji:"🧸",legend:{b:"#a9713f",l:"#e6c39a",n:"#2a1a0e"},rows:[
       "............","..bb....bb..","..bbbbbbbb..","..bbllllbb..","..bnllllnb..","..bblnnlbb..","...bbbbbb...","..bbbbbbbb..",".bbbllllbbb.",".bbbllllbbb.","..bbbbbbbb..","..bb....bb.."]},
     balloon:{name:"balloon",emoji:"🎈",legend:{r:"#e34a4a",w:"#ffb3b3",s:"#d9d2c4"},rows:[
       "............","...rrrrr....","..rrrrrrr...","..rrwwrrrr..","..rrwrrrrr..","..rrrrrrrr..","...rrrrrr...","....rrrr....",".....rr.....","......s.....",".....s......","......s....."]},
-    icecream:{name:"ice cream cone",emoji:"🍦",legend:{p:"#ff9ec4",m:"#b6ead0",t:"#e0a86a"},rows:[
+    icecream:{name:"ice cream",emoji:"🍦",legend:{p:"#ff9ec4",m:"#b6ead0",t:"#e0a86a"},rows:[
       "............",".....pp.....","....pppp....","...pppppp...","...pppppp...","...mmmmmm...","...mmmmmm...","...tttttt...","....tttt....",".....tt.....","......t.....","............"]},
     puppy:{name:"puppy",emoji:"🐶",legend:{b:"#b57a44",d:"#8a5a2e",l:"#e6cfa8",n:"#241812"},rows:[
       "............","..dd....dd..","..ddbbbbdd..","..ddbbbbdd..","..dbllllbd..","..blnllnlb..","..bllllllb..","...llnnll...","...llllll...","....bbbb....","............","............"]},
   };
 
-  const POOL={ kisses:["rose","heart","tulip","lips"], hugs:["teddy","balloon","icecream","puppy"] };
+  const POOL={ kisses:["rose","heart","tulip","kiss"], hugs:["teddy","balloon","icecream","puppy"] };
   const MODE={
-    romance:{ pair:["Black","Blue"], sound:"kiss", title:"Pop! for Stress Relief",
-      sub:"pop the hearts — uncover what's hiding 💋", start:"pop a bubble to reveal the surprise!",
-      countLabel:"kisses", countIcon:"💋", popall:'<span class="icon">😘</span> Reveal',
+    kisses:{ pair:["Black","Blue"], sound:"kiss", title:"Pop! for Stress Relief",
+      sub:"pop the hearts — uncover what's hiding!", start:"pop a bubble to reveal the surprise!",
+      countLabel:"kisses", countIcon:"💋", popall:'<span class="icon">💥</span> Reveal',
       floats:["💗","💕","💖","💓","💞"], rare:"💋" },
     friendly:{ pair:["Yellow","White"], sound:"pop", title:"Pop! for Stress Relief",
-      sub:"pop the bubbles — peek at what's hiding! 🧸", start:"pop a bubble to reveal the surprise!",
+      sub:"pop the bubbles — uncover what's hiding!", start:"pop a bubble to reveal the surprise!",
       countLabel:"pops", countIcon:"🫧", popall:'<span class="icon">💥</span> Reveal',
       floats:["✨","⭐","🫧","💛","🎈"], rare:"🧸" }
   };
@@ -155,7 +155,7 @@
   const $=id=>document.getElementById(id);
   const grid=$('grid'), numEl=$('num'), countPill=$('count'), msg=$('msg');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let mode="romance", current=null, cells=[], count=0, muted=false;
+  let mode="kisses", current=null, cells=[], count=0, muted=false;
   const status=t=>{ msg.textContent=t; };
 
   // audio
@@ -240,7 +240,7 @@
 
   function applyMode(m){
     mode=m; const cfg=MODE[m];
-    document.body.classList.toggle('friendly', m==='friendly');
+    document.body.classList.toggle('hugs', m==='hugs');
     document.querySelectorAll('.modebtn').forEach(b=>b.classList.toggle('sel', b.dataset.mode===m));
     $('title').textContent=cfg.title; $('sub').textContent=cfg.sub;
     $('countLabel').textContent=cfg.countLabel; $('countIcon').textContent=cfg.countIcon;
@@ -254,7 +254,7 @@
     initAudio(); if(ac&&ac.state==='suspended') ac.resume();
     const rem=cells.filter(c=>!c.classList.contains('popped'));
     if(!rem.length){ status('all clear — hit refill to hide a new one'); return; }
-    status(mode==='romance'?'muah muah muah 😘':'pop pop pop 💥');
+    status(mode==='kisses'?'muah muah muah 😘':'pop pop pop 💥');
     rem.forEach((c,i)=>setTimeout(()=>{
       const r=c.getBoundingClientRect(); sound(1+i*0.008); floater(r.left+r.width/2,r.top+r.height/2);
       c.classList.add('popping'); setTimeout(()=>{ c.classList.remove('popping'); c.classList.add('popped'); },120);
@@ -265,7 +265,7 @@
   muteBtn.addEventListener('click',()=>{ muted=!muted; $('muteIcon').textContent=muted?'🔇':'🔊'; muteBtn.setAttribute('aria-pressed',String(muted)); if(!muted){ initAudio(); if(ac&&ac.state==='suspended') ac.resume(); } });
   window.addEventListener('pointerdown',()=>{ initAudio(); if(ac&&ac.state==='suspended') ac.resume(); },{once:true});
 
-  applyMode('romance');
+  applyMode('kisses');
 })();
 </script>
 </body>
