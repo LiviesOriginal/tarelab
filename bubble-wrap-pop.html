@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Pop the Bubble Wrap</title>
+<title>Pop! for Stress Relief</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -101,19 +101,19 @@
     <button class="modebtn" data-mode="friendly">🧸 Friendly</button>
   </div>
 
-  <h1 id="title">Kiss the Bubble Wrap</h1>
-  <p class="sub" id="sub">pop the hearts — uncover what's hiding 💋</p>
+  <h1 id="title">Pop! for Stress Relief</h1>
+  <p class="sub" id="sub">pop the hearts to uncover what's underneath</p>
 
   <div class="controls">
     <span class="count" id="count"><span class="icon" id="countIcon">💋</span> <span id="countLabel">kisses</span> <b id="num">0</b></span>
     <button class="act" id="mute" aria-pressed="false"><span class="icon" id="muteIcon">🔊</span> sound</button>
     <button class="act" id="refill"><span class="icon">🔄</span> refill</button>
-    <button class="act primary" id="popall"><span class="icon">😘</span> blow a kiss</button>
+    <button class="act primary" id="popall"><span class="icon">😘</span>Reveal</button>
   </div>
 
   <div class="sheet"><div class="grid" id="grid" role="group" aria-label="Bubble wrap hiding a picture"></div></div>
 
-  <p class="msg" id="msg">pop a bubble to start uncovering the surprise 💋</p>
+  <p class="msg" id="msg">pop the bubbles to uncover the surprise</p>
   <p class="footer">tip: hit refill to hide a brand-new surprise</p>
 
 <script>
@@ -140,15 +140,15 @@
       "............","..dd....dd..","..ddbbbbdd..","..ddbbbbdd..","..dbllllbd..","..blnllnlb..","..bllllllb..","...llnnll...","...llllll...","....bbbb....","............","............"]},
   };
 
-  const POOL={ romance:["rose","heart","tulip","lips"], friendly:["teddy","balloon","icecream","puppy"] };
+  const POOL={ kisses:["rose","heart","tulip","lips"], hugs:["teddy","balloon","icecream","puppy"] };
   const MODE={
-    romance:{ pair:["Black","Blue"], sound:"kiss", title:"Kiss the Bubble Wrap",
-      sub:"pop the hearts — uncover what's hiding 💋", start:"pop a bubble to start uncovering the surprise 💋",
-      countLabel:"kisses", countIcon:"💋", popall:'<span class="icon">😘</span> blow a kiss',
+    romance:{ pair:["Black","Blue"], sound:"kiss", title:"Pop! for Stress Relief",
+      sub:"pop the hearts — uncover what's hiding 💋", start:"pop a bubble to reveal the surprise!",
+      countLabel:"kisses", countIcon:"💋", popall:'<span class="icon">😘</span> Reveal',
       floats:["💗","💕","💖","💓","💞"], rare:"💋" },
-    friendly:{ pair:["Yellow","White"], sound:"pop", title:"Pop the Bubble Wrap",
-      sub:"pop the bubbles — peek at what's hiding! 🧸", start:"pop a bubble to reveal the surprise! 🧸",
-      countLabel:"pops", countIcon:"🫧", popall:'<span class="icon">💥</span> pop them all',
+    friendly:{ pair:["Yellow","White"], sound:"pop", title:"Pop! for Stress Relief",
+      sub:"pop the bubbles — peek at what's hiding! 🧸", start:"pop a bubble to reveal the surprise!",
+      countLabel:"pops", countIcon:"🫧", popall:'<span class="icon">💥</span> Reveal',
       floats:["✨","⭐","🫧","💛","🎈"], rare:"🧸" }
   };
 
