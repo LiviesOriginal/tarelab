@@ -114,7 +114,7 @@
   <div class="sheet"><div class="grid" id="grid" role="group" aria-label="Bubble wrap hiding a picture"></div></div>
 
   <p class="msg" id="msg">tip: hit refill to hide a brand-new surprise</p>
-  <p class="footer">2026 Elle Bee</p>
+  <p class="footer">© 2026 Elle Bee</p>
 
 <script data-cfasync="false">
 (() => {
@@ -122,21 +122,21 @@
   const N=12;
 
   const P = {
-    rose:{name:"rose",emoji:"🌹",legend:{r:"#c62a45",p:"#ff6f91",g:"#2f8f4e"},rows:[
+    rose:{name:"a rose",emoji:"🌹",legend:{r:"#c62a45",p:"#ff6f91",g:"#2f8f4e"},rows:[
       "............","...rrrr.....","..rrrrrrrr..","..rrppprrrr.","..rrppprrrr.","...rrrrrr...","....rrrr....",".....gg.....","..ggggg.....",".....ggggg..",".....gg.....",".....gg....."]},
-    heart:{name:"heart",emoji:"❤️",legend:{r:"#e23b5a"},rows:[
+    heart:{name:"a heart",emoji:"❤️",legend:{r:"#e23b5a"},rows:[
       "............","..rr....rr..",".rrrrrrrrrr.",".rrrrrrrrrr.",".rrrrrrrrrr.","..rrrrrrrr..","..rrrrrrrr..","...rrrrrr...","....rrrr....",".....rr.....","............","............"]},
-    tulip:{name:"tulip",emoji:"🌷",legend:{r:"#e23b6a",p:"#ff9ab3",g:"#2f8f4e"},rows:[
+    tulip:{name:"a tulip",emoji:"🌷",legend:{r:"#e23b6a",p:"#ff9ab3",g:"#2f8f4e"},rows:[
       "............","..r..r..r...",".rrr.rr.rrr.",".rrrrrrrrrr.",".rrrppprrrr.","..rrrrrrrr..","...rrrrrr...",".....gg.....",".....gg.....",".ggg.gg.ggg.",".....gg.....",".....gg....."]},
-    kiss:{name:"kiss",emoji:"💋",legend:{r:"#d81b45",p:"#ff5c7a"},rows:[
+    kiss:{name:"a kiss",emoji:"💋",legend:{r:"#d81b45",p:"#ff5c7a"},rows:[
       "............","............","............","....r..r....","..rrr..rrr..",".rrrrrrrrrr.","..rrrrrrrr..","..rrpppprr..","...rrrrrr...","....rrrr....","............","............"]},
-    teddy:{name:"teddy bear",emoji:"🧸",legend:{b:"#a9713f",l:"#e6c39a",n:"#2a1a0e"},rows:[
+    teddy:{name:"a teddy bear",emoji:"🧸",legend:{b:"#a9713f",l:"#e6c39a",n:"#2a1a0e"},rows:[
       "............","..bb....bb..","..bbbbbbbb..","..bbllllbb..","..bnllllnb..","..bblnnlbb..","...bbbbbb...","..bbbbbbbb..",".bbbllllbbb.",".bbbllllbbb.","..bbbbbbbb..","..bb....bb.."]},
-    icecream:{name:"ice cream",emoji:"🍦",legend:{p:"#ff9ec4",m:"#b6ead0",t:"#e0a86a"},rows:[
+    icecream:{name:"an ice cream",emoji:"🍦",legend:{p:"#ff9ec4",m:"#b6ead0",t:"#e0a86a"},rows:[
       "............",".....pp.....","....pppp....","...pppppp...","...pppppp...","...mmmmmm...","...mmmmmm...","...tttttt...","....tttt....",".....tt.....","......t.....","............"]},
-    puppy:{name:"puppy",emoji:"🐶",legend:{b:"#b57a44",d:"#8a5a2e",l:"#e6cfa8",n:"#241812"},rows:[
+    puppy:{name:"a puppy",emoji:"🐶",legend:{b:"#b57a44",d:"#8a5a2e",l:"#e6cfa8",n:"#241812"},rows:[
       "............","..dd....dd..","..ddbbbbdd..","..ddbbbbdd..","..dbllllbd..","..blnllnlb..","..bllllllb..","...llnnll...","...llllll...","....bbbb....","............","............"]},
-    happy:{name:"happy face",emoji:"😊",legend:{y:"#ffd23f",n:"#3a2a12"},rows:[
+    happy:{name:"a smile",emoji:"😊",legend:{y:"#ffd23f",n:"#3a2a12"},rows:[
       "............","...yyyyyy...","..yyyyyyyy..",".yyyyyyyyyy.",".yynyyyynyy.",".yyyyyyyyyy.",".yynyyyynyy.",".yyynnnnyyy.","..yyyyyyyy..","...yyyyyy...","............","............"]},
   };
 
@@ -226,7 +226,7 @@
     document.body.appendChild(el); setTimeout(()=>el.remove(), reduced?520:1050);
   }
   function done(){
-    if(count>=N*N) status('there it is — a '+current.name+'! '+current.emoji);
+    if(count>=N*N) status('there it is — '+current.name+'! '+current.emoji);
     else if(count===((N*N/2)|0)) status('halfway… it’s taking shape 👀');
   }
   function pop(btn){
