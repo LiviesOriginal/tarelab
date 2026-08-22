@@ -175,5 +175,3 @@ In your voice, I found comfort.
 In your words, I found reflection. 
 
 I sought answers, and instead found direction.
-
----
