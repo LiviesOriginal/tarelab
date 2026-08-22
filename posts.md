@@ -1,9 +1,9 @@
-# April 28, 2026
+# Alphabet Parade
 
-<b>Alphabet Parade</b>
+April 28, 2026
 
-A is for arms pulling me in for a hug.
-B is for biting me unexpectedly.
+A is for arms pulling me in for a hug.</p>
+B is for biting me unexpectedly.</p>
 C is for caresses making my hair stand on end.
 D is for dreaming of you in my arms.
 E is for your eyes speaking to me.
