@@ -1,3 +1,72 @@
+# Dream for Two
+
+July 6, 2026
+
+As your quick breaths slowed and lengthened,
+the sudden expected subversion of time & space
+demanding slower and farther,
+I felt you melt to sleep peacefully.
+
+I matched your silhouette with mine
+and dreamt with eyes wide open,
+willing you to find me 
+and lead me to a dream made for two.
+
+
+Night after night, I dream with eyes wide open
+as we rise and break and rise in waves.
+The moon and I bear witness,
+keeping watch with borrowed light.
+
+
+Tomorrow the moon will look for me,
+not mentioning the space between us,
+politely ignoring the many miles
+you and I have run and run.
+
+Tonight I am dreaming with eyes wide open,
+Still hoping you will find me,
+lead me, and keep me
+in a dream made for two.
+
+---
+
+# I Can
+
+June - July 2026
+
+I can stare at the sun unblinking, 
+turn my back on the past unflinching,
+watch light and time unraveling, reweaving, 
+creating what neither could do alone.
+
+I can dive in, swim, thrive in the deep end, 
+reveling in the unknown. I can flail 
+and fail, lose count and try again, 
+discovering, returning, becoming.
+
+I can reach out to her outstretched hand:
+an olive branch, a test, a tool, or an anchor,
+with curiosity, intention, and gratitude,
+uncertain and sure.
+
+I can race towards the finish line,
+yet watch the horizon recede for miles, 
+stride after stride an affirmation:
+my elegy, your promise, our distance, incarnate.
+
+I can drown on dry land,
+trip over my own tongue,
+cry a river of tears in a desert 
+lacking water, hope, and her.
+
+I can negotiate with the cold,
+agreeing to the inevitable sunset 
+as the price of admission 
+to just one more sunrise.
+
+---
+
 # Alphabet Parade
 
 April 28, 2026
