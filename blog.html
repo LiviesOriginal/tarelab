@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
+    --link:#3b3f8f; --code-bg:#f1efe9;
+    --measure:680px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Newsreader",Georgia,serif; font-size:19px; line-height:1.75;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    padding:0 20px;
+  }
+  .wrap{max-width:var(--measure); margin:0 auto; padding:64px 0 96px;}
+
+  /* masthead — edit this text in the HTML */
+  .masthead{margin-bottom:52px;}
+  .masthead h1{
+    font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,6vw,44px);
+    letter-spacing:-0.02em; line-height:1.05; margin:0;
+  }
+  .masthead p{margin:10px 0 0; color:var(--muted); font-style:italic; font-size:1.05rem;}
+  .masthead .rule{height:1px; background:var(--rule); border:0; margin:32px 0 0;}
+
+  .post{padding:8px 0 40px;}
+  .post + .post{border-top:1px solid var(--rule); padding-top:40px;}
+  .post-title{
+    font-family:"Fraunces",serif; font-weight:500; font-size:clamp(23px,4vw,31px);
+    letter-spacing:-0.01em; line-height:1.15; margin:0 0 6px;
+  }
+  .post-date{margin:0 0 20px; color:var(--muted); font-style:italic; font-size:.92rem;}
+
+  .post-body>*:first-child{margin-top:0;}
+  .post-body p{margin:0 0 1.15em;}
+  .post-body h2,.post-body h3,.post-body h4{font-family:"Fraunces",serif; font-weight:600; line-height:1.25; margin:1.6em 0 .5em; letter-spacing:-0.01em;}
+  .post-body h2{font-size:1.35rem;} .post-body h3{font-size:1.15rem;} .post-body h4{font-size:1rem;}
+  .post-body a{color:var(--link); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px;}
+  .post-body a:hover{text-decoration-thickness:2px;}
+  .post-body strong{font-weight:600;}
+  .post-body em{font-style:italic;}
+  .post-body ul,.post-body ol{margin:0 0 1.15em; padding-left:1.4em;}
+  .post-body li{margin:.25em 0;}
+  .post-body blockquote{
+    margin:1.3em 0; padding:2px 0 2px 20px; border-left:3px solid var(--rule);
+    color:var(--muted); font-style:italic;
+  }
+  .post-body code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.12em .38em; border-radius:4px;}
+  .post-body pre{background:var(--code-bg); padding:16px 18px; border-radius:8px; overflow:auto; margin:0 0 1.15em;}
+  .post-body pre code{background:none; padding:0; font-size:.85em; line-height:1.6;}
+
+  .state{color:var(--muted); font-style:italic;}
+  .foot{margin-top:72px; padding-top:24px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
+
+  @media (max-width:520px){ body{font-size:18px;} .wrap{padding:44px 0 72px;} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- ▼ Edit your blog name + tagline here. Everything below is automatic. -->
+    <header class="masthead">
+      <h1>Notes</h1>
+      <p>Occasional writing.</p>
+      <hr class="rule" />
+    </header>
+
+    <main id="feed"><p class="state">Loading posts…</p></main>
+
+    <footer class="foot">Written in plain text. Updated by editing <code>posts.md</code>.</footer>
+  </div>
+
+<script>
+(() => {
+  const feed = document.getElementById('feed');
+
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  function mdToHtml(md){
+    const lines = md.replace(/\r\n/g,'\n').split('\n');
+    let out='', i=0;
+    const isBreak = l => /^\s*$/.test(l)||/^```/.test(l)||/^#{1,4}\s/.test(l)||/^>\s?/.test(l)||/^\s*[-*]\s+/.test(l)||/^\s*\d+\.\s+/.test(l);
+    while(i<lines.length){
+      const line = lines[i];
+      if(/^```/.test(line)){ const code=[]; i++; while(i<lines.length && !/^```/.test(lines[i])){ code.push(lines[i]); i++; } i++; out+='<pre><code>'+esc(code.join('\n'))+'</code></pre>'; continue; }
+      if(/^\s*$/.test(line)){ i++; continue; }
+      const h = line.match(/^(#{1,4})\s+(.*)$/);
+      if(h){ const lv=Math.min(h[1].length+1,4); out+='<h'+lv+'>'+inline(h[2])+'</h'+lv+'>'; i++; continue; }
+      if(/^>\s?/.test(line)){ const q=[]; while(i<lines.length && /^>\s?/.test(lines[i])){ q.push(lines[i].replace(/^>\s?/,'')); i++; } out+='<blockquote>'+inline(q.join(' '))+'</blockquote>'; continue; }
+      if(/^\s*[-*]\s+/.test(line)){ const it=[]; while(i<lines.length && /^\s*[-*]\s+/.test(lines[i])){ it.push(lines[i].replace(/^\s*[-*]\s+/,'')); i++; } out+='<ul>'+it.map(t=>'<li>'+inline(t)+'</li>').join('')+'</ul>'; continue; }
+      if(/^\s*\d+\.\s+/.test(line)){ const it=[]; while(i<lines.length && /^\s*\d+\.\s+/.test(lines[i])){ it.push(lines[i].replace(/^\s*\d+\.\s+/,'')); i++; } out+='<ol>'+it.map(t=>'<li>'+inline(t)+'</li>').join('')+'</ol>'; continue; }
+      const p=[]; while(i<lines.length && !isBreak(lines[i])){ p.push(lines[i]); i++; } out+='<p>'+inline(p.join(' '))+'</p>';
+    }
+    return out;
+  }
+
+  function parsePost(chunk){
+    const lines = chunk.replace(/\r\n/g,'\n').replace(/^\n+|\n+$/g,'').split('\n');
+    let title='', date='', idx=0;
+    if(lines[0] && /^#\s+/.test(lines[0])){
+      title = lines[0].replace(/^#\s+/,'').trim(); idx=1;
+      while(idx<lines.length && /^\s*$/.test(lines[idx])) idx++;
+      if(idx<lines.length && lines[idx].trim() && !/^#{1,4}\s/.test(lines[idx])){ date=lines[idx].trim(); idx++; }
+    }
+    return { title, date, body: lines.slice(idx).join('\n').trim() };
+  }
+
+  fetch('posts.md?t=' + Date.now(), { cache:'no-store' })
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(text => {
+      const posts = text.trim().split(/\n-{3,}\n/).map(parsePost).filter(p => p.title || p.body);
+      if(!posts.length){ feed.innerHTML = '<p class="state">No posts yet. Add one in posts.md.</p>'; return; }
+      feed.innerHTML = posts.map(p =>
+        '<article class="post">' +
+        (p.title ? '<h2 class="post-title">'+esc(p.title)+'</h2>' : '') +
+        (p.date  ? '<p class="post-date">'+esc(p.date)+'</p>' : '') +
+        '<div class="post-body">'+mdToHtml(p.body)+'</div>' +
+        '</article>'
+      ).join('');
+    })
+    .catch(err => {
+      feed.innerHTML = '<p class="state">Couldn’t load <b>posts.md</b> (' + esc(err.message) + ').<br>' +
+        'If you opened this file straight from your computer, browsers block that — view it on your live site, ' +
+        'or run a local server. Make sure posts.md sits in the same folder as this page.</p>';
+    });
+})();
+</script>
+</body>
+</html>
