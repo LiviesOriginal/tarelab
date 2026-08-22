@@ -108,34 +108,47 @@ Slowly waking, blinking, in and out of sleep.
 Between reality and dreaming, I realize
 this is where time travel exists, and I am here
 telling the sun about you.
+
 She is Sunshine, I say, describing your light
 as if the sun could comprehend.
+
 She is the center, she radiates, I continue,
 but the sun can't possibly understand.
+
 She is lyrical, I say, willing recognition
 from a songbird resting in a tree.
+
 She is rhapsodic, I begin to say,
 but the songbird flies away.
+
 She is sweetness, I say, seeking appreciation
 from a honey bee buzzing near a flower.
+
 Her lips are nectar, her words a salve,
 but the honeybee knows nothing of these riches.
+
 I tell the butterfly about your beauty,
 the water about your strength.
+
 I tell the Earth you are multitudes
 while always remaining singularly you.
+
 I tell the sea about your depth,
 the waves about your rhythm.
+
 I tell the fire you burn deeply
 when you must keep others warm.
+
 All that's left is to do is to tell the moon about you,
 the artist who turns my sky into her canvas,
 the explorer who inspires me to time travel,
 the alchemist who transforms what is possible.
+
 She is the tide, I say, finding acknowledgment
 all at once, at last, from the moon.
 She is the push and pull, she flows, I add,
 and on and on and on, I tell the moon about you.
+
 Slowly waking, blinking, time traveling.
 Between reality and dreaming, I realize
 the moon knows exactly who you are
