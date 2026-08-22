@@ -102,7 +102,7 @@
       if(/^>\s?/.test(line)){ const q=[]; while(i<lines.length && /^>\s?/.test(lines[i])){ q.push(lines[i].replace(/^>\s?/,'')); i++; } out+='<blockquote>'+inline(q.join(' '))+'</blockquote>'; continue; }
       if(/^\s*[-*]\s+/.test(line)){ const it=[]; while(i<lines.length && /^\s*[-*]\s+/.test(lines[i])){ it.push(lines[i].replace(/^\s*[-*]\s+/,'')); i++; } out+='<ul>'+it.map(t=>'<li>'+inline(t)+'</li>').join('')+'</ul>'; continue; }
       if(/^\s*\d+\.\s+/.test(line)){ const it=[]; while(i<lines.length && /^\s*\d+\.\s+/.test(lines[i])){ it.push(lines[i].replace(/^\s*\d+\.\s+/,'')); i++; } out+='<ol>'+it.map(t=>'<li>'+inline(t)+'</li>').join('')+'</ol>'; continue; }
-      const p=[]; while(i<lines.length && !isBreak(lines[i])){ p.push(lines[i]); i++; } out+='<p>'+inline(p.join(' '))+'</p>';
+            const p=[]; while(i<lines.length && !isBreak(lines[i])){ p.push(lines[i]); i++; } out+='<p>'+inline(p.join('\n')).replace(/\n/g,'<br>')+'</p>';
     }
     return out;
   }
