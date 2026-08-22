@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
+    --link:#3b3f8f; --code-bg:#f1efe9; --star:#c9a227; --grid:#d7d0c4;
+    --measure:760px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Newsreader",Georgia,serif; font-size:19px; line-height:1.7;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding:0 20px;
+  }
+  .wrap{max-width:var(--measure); margin:0 auto; padding:64px 0 96px;}
+
+  .masthead{margin-bottom:44px;}
+  .masthead h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,6vw,44px); letter-spacing:-0.02em; line-height:1.05; margin:0;}
+  .masthead p{margin:10px 0 0; color:var(--muted); font-style:italic; font-size:1.05rem;}
+  .masthead .rule{height:1px; background:var(--rule); border:0; margin:32px 0 0;}
+
+  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; letter-spacing:-0.01em; margin:44px 0 14px;}
+  h2.section:first-of-type{margin-top:8px;}
+
+  table{width:100%; border-collapse:collapse; margin:0; border:1px solid var(--grid);}
+  thead th{text-align:left; font-family:"Fraunces",serif; font-weight:600; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:#f3efe8; padding:9px 12px; border:1px solid var(--grid);}
+  .read thead th:nth-child(3), .read thead th:nth-child(4){text-align:right;}
+
+  /* Read */
+  .read .book-row td{padding:14px 12px 6px; vertical-align:baseline; border:1px solid var(--grid); border-bottom:0;}
+  .read .book-row .t{font-family:"Fraunces",serif; font-weight:500; font-size:1.12rem; line-height:1.2;}
+  .read .book-row .a{color:var(--muted);}
+  .read .book-row .s{text-align:right; white-space:nowrap;}
+  .read .detail-row td{padding:6px 12px 16px; border:1px solid var(--grid); border-top:0;}
+  .review{margin:.15em 0 .55em;}
+  .lines{list-style:none; margin:0; padding:0;}
+  .lines li{border-left:3px solid var(--rule); padding:1px 0 1px 14px; color:var(--muted); font-style:italic; margin:.35em 0;}
+  .stars .on{color:var(--star);} .stars .off{color:var(--rule);}
+
+  /* To read */
+  .toread td{padding:12px; border:1px solid var(--grid);}
+  .toread .t{font-family:"Fraunces",serif; font-weight:500;}
+  .toread .a{color:var(--muted);}
+
+  .review a{color:var(--link); text-decoration:underline; text-underline-offset:2px;}
+  .review code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.1em .35em; border-radius:4px;}
+  .state{color:var(--muted); font-style:italic;}
+  .foot{margin-top:64px; padding-top:24px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
+  @media (max-width:520px){ body{font-size:18px;} .wrap{padding:44px 0 72px;} thead th{font-size:.66rem;} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- ▼ Edit your club name + tagline here. Everything below comes from books.md. -->
+    <header class="masthead">
+      <h1>Book Club</h1>
+      <p>What we've read, and what's next.</p>
+      <hr class="rule" />
+    </header>
+
+    <main id="shelf"><p class="state">Loading the shelf…</p></main>
+
+    <footer class="foot">The two of us keep this updated by editing <code>books.md</code>.</footer>
+  </div>
+
+<script>
+(() => {
+  const shelf = document.getElementById('shelf');
+
+  // ▼ The two of you — these become the two rating column headers.
+  const READERS = ['Reader 1', 'Reader 2'];
+
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  function stars(v){
+    if(v===undefined || v===null || String(v).trim()===''){ return '<span class="stars off" aria-label="not yet rated">—</span>'; }
+    let n = parseInt(v,10); if(isNaN(n)) n=0; n=Math.max(0,Math.min(5,n));
+    let out=''; for(let i=1;i<=5;i++) out+='<span class="'+(i<=n?'on':'off')+'">★</span>';
+    return '<span class="stars" aria-label="'+n+' out of 5 stars">'+out+'</span>';
+  }
+
+  function parse(text){
+    const lines = text.replace(/\r\n/g,'\n').split('\n');
+    const read=[], toread=[]; let section=null, cur=null;
+    const flush=()=>{ if(cur){ cur.review=cur.reviewLines.join(' ').trim(); read.push(cur); cur=null; } };
+    for(const raw of lines){
+      const line = raw.replace(/\s+$/,'');
+      const sec = line.match(/^#\s+(.*)/);
+      if(sec){ flush(); section = sec[1].trim().toLowerCase().startsWith('to') ? 'toread' : 'read'; continue; }
+      if(section==='read'){
+        const bk = line.match(/^##\s+(.*)/);
+        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); cur={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], reviewLines:[], lines:[]}; continue; }
+        if(!cur) continue;
+        const fav = line.match(/^\s*-\s+(.*)/);
+        if(fav){ cur.lines.push(fav[1].trim()); continue; }
+        if(line.trim()==='') continue;
+        cur.reviewLines.push(line.trim());
+      } else if(section==='toread'){
+        if(line.trim()==='') continue;
+        const p = line.split('|').map(s=>s.trim());
+        toread.push({title:p[0]||'', author:p[1]||''});
+      }
+    }
+    flush();
+    return {read, toread};
+  }
+
+  function render({read, toread}){
+    if(!read.length && !toread.length){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
+    let h='';
+    if(read.length){
+      h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
+      read.forEach(b=>{
+        h+='<tr class="book-row"><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
+        if(b.review || b.lines.length){
+          h+='<tr class="detail-row"><td colspan="4">';
+          if(b.review) h+='<p class="review">'+inline(b.review)+'</p>';
+          if(b.lines.length) h+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
+          h+='</td></tr>';
+        }
+      });
+      h+='</tbody></table>';
+    }
+    if(toread.length){
+      h+='<h2 class="section">To read</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
+      toread.forEach(b=>{ h+='<tr><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td></tr>'; });
+      h+='</tbody></table>';
+    }
+    shelf.innerHTML=h;
+  }
+
+  fetch('books.md?t=' + Date.now(), { cache:'no-store' })
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t => render(parse(t)))
+    .catch(err => {
+      shelf.innerHTML = '<p class="state">Couldn’t load <b>books.md</b> (' + esc(err.message) + ').<br>' +
+        'If you opened this file straight from your computer, browsers block that — view it on your live site. ' +
+        'Make sure books.md sits in the same folder as this page.</p>';
+    });
+})();
+</script>
+</body>
+</html>
