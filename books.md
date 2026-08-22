@@ -1,17 +1,63 @@
 # Read
 
-## The Hobbit | J.R.R. Tolkien | 5 | 4
-A cozy adventure with real heart — we both tore through it. The kind of book that makes a rainy weekend better.
-- In a hole in the ground there lived a hobbit.
-- Not all those who wander are lost.
+## Daisy Jones & The Six | Taylor Jenkins Reid | 4 | 4
+Review
+- You have to have faith in people before they earn it. Otherwise it’s not faith.
 
-## Project Hail Mary | Andy Weir | 4 | 5
-Clever and genuinely funny, and the friendship at its center sneaks up on you. The science never gets in the way of the story.
-- I penny-whistled my way through the rest of the equations.
+## Yesteryear | Caro Claire Burke | 4 | 5
+Review
+- TBA
 
+## Delilah Green Doesn’t Care | Ashley Herring Blake | 3 | 3
+Review
+- TBA
 
-# To read
+## Never Lie | Freida McFadden | 3 | 4
+Review
+- TBA
 
+## Atmosphere | Taylor Jenkins Reid | 5 | 4
+Review
+- Who can care about the stars when there is here to look at?
+
+## The Seven Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5
+Review
+- …there is nothing an extraordinary person likes more than someone else extraordinary.
+- Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it.
+
+# To read - General
+
+A Thousand Splendid Suns | Khaled Hosseini
+The Correspondent | Virginia Evans 
+Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin 
+The Bright Years | Sarah Damoff
+The Great Alone | Kristen Hannah
+The Women | Kristen Hannah 
+FantasticLand (Saving for Spooky Season) | Mike Bockoven  
+The Teacher ** | Freida McFadden 
 Circe | Madeline Miller
-Klara and the Sun | Kazuo Ishiguro
-Dune | Frank Herbert
+We Were Liars | E. Lockhart 
+A Little Life (for when I want to cry) | Hanya Yanagihara 
+My Husband’s Wife | Alice Feeney 
+On Earth We’re Briefly Gorgeous | Ocean Vuong 
+The Last Thing He Told Me | Laura Dave 
+Before the Coffee gets cold | Toshikazu Kawaguchi
+The Midnight Library | Matt Haig 
+
+# To read - Sapphic
+
+Last Night at the Telegraph Club | Malinda Lo
+Sweetbitter Song | Rosie Hewlett
+Almost Life | Kiran Millwood Hargrave
+Meet Me in the Garden | Nina LaCour
+Here We Go Again | Allison Cochran
+Next Time Will Be Our Turn | Jesse Q. Sutanto 
+Big Swiss | Jen Beagin 
+The Safekeep | Yael van der Wouden 
+Bloom Town | Aly North 
+Don’t Let Me Go ** | Rachel Sommers 
+Our Wives Under The Sea | Julia Armfield 
+Hearing Red | Nicole Maser 
+Those Who Wait * | Haley Cass
+Forever and a Day * | Haley Cass 
+Midnight Rain | Haley Cass
