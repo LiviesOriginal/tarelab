@@ -55,17 +55,6 @@
   .state{color:var(--muted); font-style:italic;}
   .foot{margin-top:64px; padding-top:24px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
   @media (max-width:520px){ body{font-size:18px;} .wrap{padding:44px 0 72px;} thead th{font-size:.66rem;} }
-
-  /* To read - sapphic*/
-  .toread td{padding:12px; border:1px solid var(--grid);}
-  .toread .t{font-family:"Fraunces",serif; font-weight:500;}
-  .toread .a{color:var(--muted);}
-
-  .review a{color:var(--link); text-decoration:underline; text-underline-offset:2px;}
-  .review code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.1em .35em; border-radius:4px;}
-  .state{color:var(--muted); font-style:italic;}
-  .foot{margin-top:64px; padding-top:24px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
-  @media (max-width:520px){ body{font-size:18px;} .wrap{padding:44px 0 72px;} thead th{font-size:.66rem;} }
 </style>
 </head>
 <body>
@@ -87,7 +76,7 @@
   const shelf = document.getElementById('shelf');
 
   // ▼ The two of you — these become the two rating column headers.
-  const READERS = ['RGF', 'LAB'];
+  const READERS = ['Reader 1', 'Reader 2'];
 
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const inline = s => esc(s)
@@ -103,30 +92,6 @@
     return '<span class="stars" aria-label="'+n+' out of 5 stars">'+out+'</span>';
   }
 
-  function parse(text){
-    const lines = text.replace(/\r\n/g,'\n').split('\n');
-    const read=[], toread=[]; let section=null, cur=null;
-    const flush=()=>{ if(cur){ cur.review=cur.reviewLines.join(' ').trim(); read.push(cur); cur=null; } };
-    for(const raw of lines){
-      const line = raw.replace(/\s+$/,'');
-      const sec = line.match(/^#\s+(.*)/);
-      if(sec){ flush(); section = sec[1].trim().toLowerCase().startsWith('to') ? 'toread' : 'read'; continue; }
-      if(section==='read'){
-        const bk = line.match(/^##\s+(.*)/);
-        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); cur={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], reviewLines:[], lines:[]}; continue; }
-        if(!cur) continue;
-        const fav = line.match(/^\s*-\s+(.*)/);
-        if(fav){ cur.lines.push(fav[1].trim()); continue; }
-        if(line.trim()==='') continue;
-        cur.reviewLines.push(line.trim());
-      } else if(section==='toread'){
-        if(line.trim()==='') continue;
-        const p = line.split('|').map(s=>s.trim());
-        toread.push({title:p[0]||'', author:p[1]||''});
-      }
-    }
-    flush();
-    return {read, toread};
   function parse(text){
     const lines = text.replace(/\r\n/g,'\n').split('\n');
     const read=[], toreadLists=[];
