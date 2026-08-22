@@ -75,7 +75,7 @@
 
     <main id="feed"><p class="state">Loading posts…</p></main>
 
-    <footer class="foot">Written in plain text. Updated by editing <code>books.md</code>.</footer>
+    <footer class="foot">All rights reserved.</footer>
   </div>
 
 <script>
@@ -118,11 +118,11 @@
     return { title, date, body: lines.slice(idx).join('\n').trim() };
   }
 
-  fetch('posts.md?t=' + Date.now(), { cache:'no-store' })
+  fetch('books.md?t=' + Date.now(), { cache:'no-store' })
     .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
     .then(text => {
       const posts = text.trim().split(/\n-{3,}\n/).map(parsePost).filter(p => p.title || p.body);
-      if(!posts.length){ feed.innerHTML = '<p class="state">No posts yet. Add one in posts.md.</p>'; return; }
+      if(!posts.length){ feed.innerHTML = '<p class="state">No posts yet. Add one in books.md.</p>'; return; }
       feed.innerHTML = posts.map(p =>
         '<article class="post">' +
         (p.title ? '<h2 class="post-title">'+esc(p.title)+'</h2>' : '') +
@@ -132,9 +132,9 @@
       ).join('');
     })
     .catch(err => {
-      feed.innerHTML = '<p class="state">Couldn’t load <b>posts.md</b> (' + esc(err.message) + ').<br>' +
+      feed.innerHTML = '<p class="state">Couldn’t load <b>books.md</b> (' + esc(err.message) + ').<br>' +
         'If you opened this file straight from your computer, browsers block that — view it on your live site, ' +
-        'or run a local server. Make sure posts.md sits in the same folder as this page.</p>';
+        'or run a local server. Make sure books.md sits in the same folder as this page.</p>';
     });
 })();
 </script>
