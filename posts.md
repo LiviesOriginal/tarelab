@@ -2,8 +2,8 @@
 
 April 28, 2026
 
-A is for arms pulling me in for a hug.<br>
-B is for biting me unexpectedly.<br>
+A is for arms pulling me in for a hug.
+B is for biting me unexpectedly.
 C is for caresses making my hair stand on end.
 D is for dreaming of you in my arms.
 E is for your eyes speaking to me.
@@ -31,9 +31,9 @@ Zzzzs are for falling asleep next to you.
 
 ---
 
-# March 28, 2026
+# Talking to the Moon
 
-<b>Talking to the Moon</b>
+March 28, 2026
 
 Slowly waking, blinking, in and out of sleep.
 Between reality and dreaming, I realize
@@ -74,9 +74,9 @@ because you told the moon about me too.
 
 ---
 
-# March 9, 2026
+# 🌙
 
->&#127769;<
+March 9, 2026
 
 You hang the moon in my sky
 Flooding my world with light;
@@ -90,9 +90,9 @@ hiding in the absence of light.
 
 ---
 
-# March 1, 2026
+# Serendipity
 
-<b>Serendipity</b>
+March 1, 2026
 
 I sought clarity, and instead I found you.
 
