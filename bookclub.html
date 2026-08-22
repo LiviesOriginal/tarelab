@@ -127,10 +127,42 @@
     }
     flush();
     return {read, toread};
+  function parse(text){
+    const lines = text.replace(/\r\n/g,'\n').split('\n');
+    const read=[], toreadLists=[];
+    let mode=null, curBook=null, curList=null;
+    const flush=()=>{ if(curBook){ curBook.review=curBook.reviewLines.join(' ').trim(); read.push(curBook); curBook=null; } };
+    for(const raw of lines){
+      const line = raw.replace(/\s+$/,'');
+      const sec = line.match(/^#\s+(.*)/);
+      if(sec){
+        flush();
+        const heading = sec[1].trim();
+        if(heading.toLowerCase()==='read'){ mode='read'; curList=null; }
+        else { mode='toread'; curList={ title:heading, items:[] }; toreadLists.push(curList); }
+        continue;
+      }
+      if(mode==='read'){
+        const bk = line.match(/^##\s+(.*)/);
+        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], reviewLines:[], lines:[]}; continue; }
+        if(!curBook) continue;
+        const fav = line.match(/^\s*-\s+(.*)/);
+        if(fav){ curBook.lines.push(fav[1].trim()); continue; }
+        if(line.trim()==='') continue;
+        curBook.reviewLines.push(line.trim());
+      } else if(mode==='toread'){
+        if(line.trim()==='' || !curList) continue;
+        const p = line.split('|').map(s=>s.trim());
+        curList.items.push({title:p[0]||'', author:p[1]||''});
+      }
+    }
+    flush();
+    return {read, toreadLists};
   }
 
-  function render({read, toread}){
-    if(!read.length && !toread.length){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
+  function render({read, toreadLists}){
+    const anyToread = toreadLists.some(l => l.items.length);
+    if(!read.length && !anyToread){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
     let h='';
     if(read.length){
       h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
@@ -145,11 +177,12 @@
       });
       h+='</tbody></table>';
     }
-    if(toread.length){
-      h+='<h2 class="section">To read</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
-      toread.forEach(b=>{ h+='<tr><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td></tr>'; });
+    toreadLists.forEach(list=>{
+      if(!list.items.length) return;
+      h+='<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
+      list.items.forEach(b=>{ h+='<tr><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td></tr>'; });
       h+='</tbody></table>';
-    }
+    });
     shelf.innerHTML=h;
   }
 
