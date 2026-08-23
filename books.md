@@ -10,7 +10,7 @@ Review
 
 ## Delilah Green Doesn’t Care | Ashley Herring Blake | 3 | 3
 Review
-- TBA
+- My whole life, this is what I’ve wanted. A best friend. Someone who gets me, who accepts me. Someone who fights like hell to get me to see that they love me. Someone who lets me love them back. Someone who’s so goddamn beautiful, she makes my toes curl. Someone who calls me on my bullshit. Someone who makes me laugh. Someone who makes me look at her like this and looks at me the same way. Someone who . . . who’s my home.
 
 ## Never Lie | Freida McFadden | 3 | 4
 Review
