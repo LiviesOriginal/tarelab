@@ -55,6 +55,8 @@
   .state{color:var(--muted); font-style:italic;}
   .foot{margin-top:64px; padding-top:24px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
   @media (max-width:520px){ body{font-size:18px;} .wrap{padding:44px 0 72px;} thead th{font-size:.66rem;} }
+  .cover-wrap{display:flex; align-items:center; gap:11px;}
+  .cover{width:34px; height:51px; object-fit:cover; border-radius:3px; box-shadow:0 1px 3px rgba(0,0,0,.28); background:var(--code-bg); flex:0 0 auto;}
 </style>
 </head>
 <body>
@@ -75,8 +77,8 @@
 (() => {
   const shelf = document.getElementById('shelf');
 
-  // ▼ The two of you — these become the two rating column headers.
-  const READERS = ['RGF', 'LAB'];
+  // ▼ The two of you — put your names back here.
+  const READERS = ['Reader 1', 'Reader 2'];
 
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const inline = s => esc(s)
@@ -84,6 +86,12 @@
     .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
     .replace(/\*([^*]+)\*/g,'<em>$1</em>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  function coverImg(isbn){
+    if(!isbn) return '';
+    const url = 'https://covers.openlibrary.org/b/isbn/' + encodeURIComponent(isbn.replace(/[^0-9Xx]/g,'')) + '-M.jpg?default=false';
+    return '<img class="cover" src="'+url+'" alt="" loading="lazy" onerror="this.remove()">';
+  }
 
   function stars(v){
     if(v===undefined || v===null || String(v).trim()===''){ return '<span class="stars off" aria-label="not yet rated">—</span>'; }
@@ -109,7 +117,7 @@
       }
       if(mode==='read'){
         const bk = line.match(/^##\s+(.*)/);
-        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], reviewLines:[], lines:[]}; continue; }
+        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], isbn:p[4]||'', reviewLines:[], lines:[]}; continue; }
         if(!curBook) continue;
         const fav = line.match(/^\s*-\s+(.*)/);
         if(fav){ curBook.lines.push(fav[1].trim()); continue; }
@@ -118,7 +126,7 @@
       } else if(mode==='toread'){
         if(line.trim()==='' || !curList) continue;
         const p = line.split('|').map(s=>s.trim());
-        curList.items.push({title:p[0]||'', author:p[1]||''});
+        curList.items.push({title:p[0]||'', author:p[1]||'', isbn:p[2]||''});
       }
     }
     flush();
@@ -132,7 +140,7 @@
     if(read.length){
       h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
       read.forEach(b=>{
-        h+='<tr class="book-row"><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
+        h+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
         if(b.review || b.lines.length){
           h+='<tr class="detail-row"><td colspan="4">';
           if(b.review) h+='<p class="review">'+inline(b.review)+'</p>';
@@ -145,7 +153,7 @@
     toreadLists.forEach(list=>{
       if(!list.items.length) return;
       h+='<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
-      list.items.forEach(b=>{ h+='<tr><td class="t">'+esc(b.title)+'</td><td class="a">'+esc(b.author)+'</td></tr>'; });
+      list.items.forEach(b=>{ h+='<tr><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td></tr>'; });
       h+='</tbody></table>';
     });
     shelf.innerHTML=h;
