@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Cocoa Toss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --p1:#FF8FA3;      /* warm coral-pink */
+    --p2:#6FD3C4;      /* mint teal */
+    --cream:#F3E9D8;
+    --cocoa:#4A2C2A;
+    --mug:#EADBC4;
+    --ink:#2B1D2E;
+    --steam:rgba(255,247,238,.55);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:'Nunito',system-ui,sans-serif;
+    color:var(--cream);
+    background:
+      radial-gradient(120% 90% at 78% 18%, #4c2f4a 0%, transparent 55%),
+      radial-gradient(120% 100% at 20% 90%, #3a2436 0%, transparent 60%),
+      linear-gradient(160deg,#33223a 0%,#2b1d2e 55%,#241826 100%);
+    min-height:100dvh;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+    padding:14px;
+  }
+  .wrap{
+    width:min(560px,100%);
+    position:relative;
+  }
+  h1{
+    font-family:'Fredoka',sans-serif;
+    font-weight:700;
+    letter-spacing:.5px;
+    line-height:.95;
+  }
+  /* ---- stage / canvas ---- */
+  .stage{
+    position:relative;
+    border-radius:26px;
+    overflow:hidden;
+    box-shadow:0 22px 60px -18px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.06);
+    background:linear-gradient(180deg,#2f2138,#241826);
+    aspect-ratio:1000/620;
+    touch-action:none;
+  }
+  canvas{display:block;width:100%;height:100%}
+
+  /* ---- scoreboard ---- */
+  .board{
+    display:flex;gap:10px;margin-bottom:12px;
+  }
+  .pcard{
+    flex:1;
+    background:rgba(255,255,255,.05);
+    border:2px solid transparent;
+    border-radius:18px;
+    padding:10px 14px;
+    display:flex;align-items:center;gap:12px;
+    transition:border-color .25s, background .25s, transform .2s;
+  }
+  .pcard.active{background:rgba(255,255,255,.09);transform:translateY(-2px)}
+  .pcard.p1.active{border-color:var(--p1)}
+  .pcard.p2.active{border-color:var(--p2)}
+  .dot{width:16px;height:16px;border-radius:50%;flex:none;box-shadow:0 0 0 4px rgba(255,255,255,.06)}
+  .p1 .dot{background:var(--p1)}
+  .p2 .dot{background:var(--p2)}
+  .pname{font-weight:800;font-size:15px;line-height:1;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pscore{margin-left:auto;font-family:'Fredoka',sans-serif;font-weight:700;font-size:26px;line-height:1}
+  .turnpill{
+    text-align:center;font-size:13px;font-weight:700;
+    color:#e9d6c4;opacity:.85;margin-bottom:10px;min-height:18px;
+  }
+
+  /* ---- overlays ---- */
+  .overlay{
+    position:fixed;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+    text-align:center;padding:24px;
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    background:linear-gradient(180deg,rgba(38,26,42,.94),rgba(28,18,32,.97));
+    backdrop-filter:blur(3px);
+    z-index:50;
+  }
+  .overlay .panel{
+    margin:auto;width:100%;max-width:360px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .overlay.hidden{display:none}
+  .hidden{display:none!important}
+  .timerchip{
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    background:rgba(255,255,255,.05);border-radius:18px;padding:10px 14px;
+    min-width:104px;
+  }
+  .timerchip .tlabel{font-size:11px;font-weight:700;opacity:.6;text-transform:uppercase;letter-spacing:.5px}
+  .timerchip .tval{font-family:'Fredoka',sans-serif;font-weight:700;font-size:26px;line-height:1}
+  .timerchip.low .tval{color:#ff8f8f}
+  .overlay h1{font-size:44px;color:var(--cream);margin-bottom:6px}
+  .overlay .sub{color:#e5d3c6;opacity:.85;font-size:15px;max-width:340px;margin-bottom:22px;line-height:1.4}
+  .marsh-title{font-size:40px}
+  .accent{color:var(--p1)}
+  .accent2{color:var(--p2)}
+
+  .row{display:flex;gap:10px;width:100%;max-width:330px;margin-bottom:12px}
+  .field{flex:1;display:flex;flex-direction:column;gap:6px;text-align:left}
+  .field label{font-size:12px;font-weight:700;opacity:.75;padding-left:4px}
+  .field input{
+    font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;
+    color:var(--ink);background:var(--cream);border:none;border-radius:12px;
+    padding:11px 12px;width:100%;
+  }
+  .field input:focus{outline:3px solid rgba(255,255,255,.35)}
+
+  .segwrap{margin-bottom:20px}
+  .seglabel{font-size:12px;font-weight:700;opacity:.75;margin-bottom:8px}
+  .seg{display:inline-flex;background:rgba(255,255,255,.08);border-radius:14px;padding:4px;gap:4px}
+  .seg button{
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;
+    color:var(--cream);background:transparent;border:none;cursor:pointer;
+    padding:8px 18px;border-radius:10px;transition:background .2s,color .2s;
+  }
+  .seg button.on{background:var(--cream);color:var(--ink)}
+
+  .btn{
+    font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px;
+    color:var(--ink);
+    background:linear-gradient(180deg,#ffd9a8,#f7b977);
+    border:none;border-radius:16px;padding:14px 34px;cursor:pointer;
+    box-shadow:0 10px 22px -8px rgba(247,185,119,.7);
+    transition:transform .12s, box-shadow .2s;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(1px)}
+  .btn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+
+  .hint{margin-top:8px;font-size:12.5px;opacity:.7;max-width:280px}
+
+  .footnote{text-align:center;font-size:12px;opacity:.5;margin-top:12px;font-weight:600}
+
+  @media (max-width:420px){
+    .overlay h1,.overlay .marsh-title{font-size:34px}
+    .pscore{font-size:22px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .pcard,.btn{transition:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="board" id="board">
+    <div class="pcard p1" id="card1">
+      <span class="dot"></span>
+      <span class="pname" id="name1">You</span>
+      <span class="pscore" id="score1">0</span>
+    </div>
+    <div class="pcard p2" id="card2">
+      <span class="dot"></span>
+      <span class="pname" id="name2">Her</span>
+      <span class="pscore" id="score2">0</span>
+    </div>
+    <div class="timerchip hidden" id="timerChip">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <span class="tlabel">Time</span>
+        <span class="tval" id="timerVal">45</span>
+      </div>
+    </div>
+  </div>
+  <div class="turnpill" id="turnpill"></div>
+
+  <div class="stage">
+    <canvas id="game"></canvas>
+
+    <!-- START -->
+    <div class="overlay" id="startScreen">
+      <div class="panel">
+      <h1 class="marsh-title">Cocoa&nbsp;Toss <span aria-hidden="true">☕</span></h1>
+      <p class="sub" id="startSub">Take turns flicking marshmallows into the mug. Drag back, aim your arc, and let go. First to the target score wins the cocoa.</p>
+
+      <div class="segwrap">
+        <div class="seglabel">Players</div>
+        <div class="seg" id="modeSeg">
+          <button data-m="1">1 player</button>
+          <button data-m="2" class="on">2 players</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="in1" id="lab1">Player 1</label>
+          <input id="in1" maxlength="10" value="You" />
+        </div>
+        <div class="field" id="field2">
+          <label for="in2">Player 2</label>
+          <input id="in2" maxlength="10" value="Her" />
+        </div>
+      </div>
+
+      <div class="segwrap">
+        <div class="seglabel" id="targetLabel">Play to</div>
+        <div class="seg" id="targetSeg">
+          <button data-t="3">3</button>
+          <button data-t="5" class="on">5</button>
+          <button data-t="7">7</button>
+        </div>
+      </div>
+
+      <div class="segwrap hidden" id="timeWrap">
+        <div class="seglabel">Time limit</div>
+        <div class="seg" id="timeSeg">
+          <button data-s="30">30s</button>
+          <button data-s="45" class="on">45s</button>
+          <button data-s="60">60s</button>
+        </div>
+      </div>
+
+      <button class="btn" id="startBtn">Start tossing</button>
+      <p class="hint">Tip: pull back like a slingshot — the farther you drag, the harder the throw.</p>
+      </div>
+    </div>
+
+    <!-- WIN -->
+    <div class="overlay hidden" id="winScreen">
+      <div class="panel">
+      <h1 id="winTitle">Nice toss!</h1>
+      <p class="sub" id="winSub"></p>
+      <button class="btn" id="rematchBtn">Rematch</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footnote">drag &amp; release · pass the screen each turn</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const cv = document.getElementById('game');
+  const ctx = cv.getContext('2d');
+
+  // logical coordinate space
+  const LW = 1000, LH = 620;
+  let scale = 1, dpr = Math.min(window.devicePixelRatio||1, 2);
+
+  function resize(){
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    cv.width = Math.round(r.width*dpr);
+    cv.height = Math.round(r.height*dpr);
+    scale = cv.width / LW; // uniform (aspect locked by CSS)
+  }
+  window.addEventListener('resize', resize);
+
+  // ---- game state ----
+  const S = { START:0, AIM:1, FLY:2, RESOLVE:3, OVER:4 };
+  const game = {
+    state: S.START,
+    names: ['You','Her'],
+    colors: ['#FF8FA3','#6FD3C4'],
+    scores: [0,0],
+    target: 5,
+    turn: 0,          // 0 or 1
+    throwsThisRound: 0,
+    mode: 2,          // 1 or 2 players
+    timeLimit: 45,    // seconds (solo)
+    timeLeft: 45,
+    timerRunning: false
+  };
+
+  // launch anchor + mug geometry (logical units)
+  const anchor = {x:180, y:452};
+  const mug = { x:748, rimY:300, rimRx:78, rimRy:24, bodyW:150, bodyH:150 };
+
+  const GRAV = 1500;
+  const MAXDRAG = 250;
+  const MAXPOWER = 1500;
+
+  // active marshmallow
+  let ball = null;   // {x,y,vx,vy,owner,r,rot,spin}
+  let aiming = false;
+  let dragCur = {x:0,y:0};
+  let particles = [];
+  let splashes = [];
+  let steam = [];
+  let bgpuffs = [];
+  let resolveTimer = 0;
+  let lastMakeText = null;
+
+  // seed ambient background puffs
+  for(let i=0;i<7;i++){
+    bgpuffs.push({x:Math.random()*LW, y:Math.random()*LH, r:14+Math.random()*26, sp:6+Math.random()*10, o:.03+Math.random()*.04});
+  }
+  // seed steam
+  for(let i=0;i<10;i++) steam.push(newSteam(true));
+  function newSteam(spread){
+    return {
+      x: mug.x + (Math.random()*40-20),
+      y: mug.rimY - (spread?Math.random()*80:0),
+      vy: -14 - Math.random()*10,
+      drift: Math.random()*10-5,
+      r: 6+Math.random()*8,
+      life: 0, max: 2.2+Math.random()*1.6, o:0
+    };
+  }
+
+  // ---- DOM refs ----
+  const el = {
+    start: document.getElementById('startScreen'),
+    win: document.getElementById('winScreen'),
+    startBtn: document.getElementById('startBtn'),
+    rematchBtn: document.getElementById('rematchBtn'),
+    in1: document.getElementById('in1'),
+    in2: document.getElementById('in2'),
+    targetSeg: document.getElementById('targetSeg'),
+    winTitle: document.getElementById('winTitle'),
+    winSub: document.getElementById('winSub'),
+    name1: document.getElementById('name1'),
+    name2: document.getElementById('name2'),
+    score1: document.getElementById('score1'),
+    score2: document.getElementById('score2'),
+    card1: document.getElementById('card1'),
+    card2: document.getElementById('card2'),
+    turnpill: document.getElementById('turnpill'),
+    modeSeg: document.getElementById('modeSeg'),
+    timeSeg: document.getElementById('timeSeg'),
+    timeWrap: document.getElementById('timeWrap'),
+    targetLabel: document.getElementById('targetLabel'),
+    field2: document.getElementById('field2'),
+    lab1: document.getElementById('lab1'),
+    startSub: document.getElementById('startSub'),
+    timerChip: document.getElementById('timerChip'),
+    timerVal: document.getElementById('timerVal')
+  };
+
+  el.targetSeg.addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    [...el.targetSeg.children].forEach(c=>c.classList.remove('on'));
+    b.classList.add('on');
+    game.target = +b.dataset.t;
+  });
+
+  el.timeSeg.addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    [...el.timeSeg.children].forEach(c=>c.classList.remove('on'));
+    b.classList.add('on');
+    game.timeLimit = +b.dataset.s;
+  });
+
+  el.modeSeg.addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    [...el.modeSeg.children].forEach(c=>c.classList.remove('on'));
+    b.classList.add('on');
+    game.mode = +b.dataset.m;
+    applyModeUI();
+  });
+
+  function applyModeUI(){
+    const solo = game.mode===1;
+    el.field2.classList.toggle('hidden', solo);
+    el.timeWrap.classList.toggle('hidden', !solo);
+    el.lab1.textContent = solo ? 'Your name' : 'Player 1';
+    el.targetLabel.textContent = solo ? 'Dunk this many' : 'Play to';
+    el.startSub.textContent = solo
+      ? 'Solo challenge: dunk as many marshmallows as you can before the clock runs out. Hit the target in time to win.'
+      : 'Take turns flicking marshmallows into the mug. Drag back, aim your arc, and let go. First to the target score wins the cocoa.';
+    // solo-friendly target options
+    const opts = solo ? [5,8,12] : [3,5,7];
+    [...el.targetSeg.children].forEach((btn,i)=>{
+      btn.dataset.t = opts[i]; btn.textContent = opts[i];
+    });
+    const onBtn = [...el.targetSeg.children].find(b=>b.classList.contains('on')) || el.targetSeg.children[1];
+    [...el.targetSeg.children].forEach(b=>b.classList.remove('on'));
+    onBtn.classList.add('on');
+    game.target = +onBtn.dataset.t;
+  }
+
+  el.startBtn.addEventListener('click', startGame);
+  el.rematchBtn.addEventListener('click', ()=>{ el.win.classList.add('hidden'); startGame(); });
+
+  function startGame(){
+    game.names[0] = (el.in1.value.trim()||'Player 1').slice(0,10);
+    game.names[1] = (el.in2.value.trim()||'Player 2').slice(0,10);
+    game.scores = [0,0];
+    game.turn = 0;
+    game.throwsThisRound = 0;
+    game.state = S.AIM;
+    ball = null; particles=[]; splashes=[];
+    // solo timer setup
+    game.timeLeft = game.timeLimit;
+    game.timerRunning = false; // starts on first toss
+    const solo = game.mode===1;
+    el.card2.classList.toggle('hidden', solo);
+    el.timerChip.classList.toggle('hidden', !solo);
+    el.start.classList.add('hidden');
+    el.win.classList.add('hidden');
+    el.name1.textContent = game.names[0];
+    el.name2.textContent = game.names[1];
+    updateHUD();
+  }
+
+  function updateHUD(){
+    el.score1.textContent = game.scores[0];
+    el.score2.textContent = game.scores[1];
+    if(game.mode===1){
+      el.card1.classList.toggle('active', game.state!==S.START && game.state!==S.OVER);
+      el.card2.classList.remove('active');
+      el.timerVal.textContent = Math.ceil(game.timeLeft);
+      el.timerChip.classList.toggle('low', game.timeLeft<=10);
+      if(game.state===S.AIM){
+        el.turnpill.textContent = game.timerRunning
+          ? (game.target - game.scores[0]) + " to go!"
+          : "Toss to start the clock ⏱";
+      } else if(game.state===S.RESOLVE){
+        el.turnpill.textContent = lastMakeText || "";
+      } else {
+        el.turnpill.textContent = "…";
+      }
+      return;
+    }
+    el.card1.classList.toggle('active', game.turn===0 && game.state!==S.START && game.state!==S.OVER);
+    el.card2.classList.toggle('active', game.turn===1 && game.state!==S.START && game.state!==S.OVER);
+    if(game.state===S.AIM){
+      el.turnpill.textContent = game.names[game.turn] + " — your toss!";
+    } else if(game.state===S.FLY){
+      el.turnpill.textContent = "…";
+    } else if(game.state===S.RESOLVE){
+      el.turnpill.textContent = lastMakeText || "";
+    } else {
+      el.turnpill.textContent = "";
+    }
+  }
+
+  // ---- input ----
+  function pointerLogical(e){
+    const r = cv.getBoundingClientRect();
+    const cx = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
+    const cy = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
+    return { x: cx / r.width * LW, y: cy / r.height * LH };
+  }
+
+  function down(e){
+    if(game.state!==S.AIM) return;
+    aiming = true;
+    dragCur = pointerLogical(e);
+    e.preventDefault();
+  }
+  function move(e){
+    if(!aiming) return;
+    dragCur = pointerLogical(e);
+    e.preventDefault();
+  }
+  function up(e){
+    if(!aiming) return;
+    aiming = false;
+    const pull = { x: anchor.x - dragCur.x, y: anchor.y - dragCur.y };
+    let len = Math.hypot(pull.x, pull.y);
+    if(len < 18){ return; } // too small, ignore (stay in AIM)
+    const clamped = Math.min(len, MAXDRAG);
+    const nx = pull.x/len, ny = pull.y/len;
+    const power = clamped/MAXDRAG * MAXPOWER;
+    ball = {
+      x: anchor.x, y: anchor.y,
+      vx: nx*power, vy: ny*power,
+      owner: game.turn, r: 26,
+      rot: 0, spin: (nx>0? -1:1)*(3+Math.random()*3)
+    };
+    if(game.mode===1) game.timerRunning = true; // clock starts on first toss
+    game.state = S.FLY;
+    updateHUD();
+    e.preventDefault();
+  }
+  cv.addEventListener('mousedown', down);
+  window.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', up);
+  cv.addEventListener('touchstart', down, {passive:false});
+  cv.addEventListener('touchmove', move, {passive:false});
+  cv.addEventListener('touchend', up, {passive:false});
+
+  // ---- physics / update ----
+  let last = performance.now();
+  function frame(now){
+    let dt = (now-last)/1000; last = now;
+    if(dt>0.05) dt = 0.05;
+    update(dt);
+    render();
+    requestAnimationFrame(frame);
+  }
+
+  function update(dt){
+    // solo countdown
+    if(game.mode===1 && game.timerRunning && game.state!==S.OVER){
+      game.timeLeft -= dt;
+      if(game.timeLeft <= 0){
+        game.timeLeft = 0;
+        game.timerRunning = false;
+        el.timerVal.textContent = 0;
+        game.state = S.OVER;
+        setTimeout(endGame, 400);
+      } else if(game.state!==S.RESOLVE){
+        el.timerVal.textContent = Math.ceil(game.timeLeft);
+        el.timerChip.classList.toggle('low', game.timeLeft<=10);
+      }
+    }
+    // ambient
+    for(const p of bgpuffs){ p.x += p.sp*dt; if(p.x - p.r > LW) p.x = -p.r; }
+    // steam
+    for(const s of steam){
+      s.life += dt; s.y += s.vy*dt; s.x += s.drift*dt;
+      const t = s.life/s.max;
+      s.o = Math.sin(Math.min(t,1)*Math.PI)*0.5;
+      if(s.life>=s.max) Object.assign(s, newSteam(false));
+    }
+
+    if(game.state===S.FLY && ball){
+      ball.vy += GRAV*dt;
+      const px = ball.x, py = ball.y;
+      ball.x += ball.vx*dt;
+      ball.y += ball.vy*dt;
+      ball.rot += ball.spin*dt;
+
+      // trail
+      if(Math.random()<0.5) particles.push({x:ball.x,y:ball.y,r:ball.r*0.5,life:0,max:0.4,kind:'trail',owner:ball.owner});
+
+      // make detection: crossing rim plane while descending, within mouth
+      const descending = ball.vy>0;
+      if(descending && py < mug.rimY && ball.y >= mug.rimY){
+        const dx = ball.x - mug.x;
+        if(Math.abs(dx) < mug.rimRx*0.82){
+          scoreMake();
+          return;
+        }
+      }
+      // rim clank: hit the near/far top edge -> bounce a bit, still a miss
+      if(descending && ball.y >= mug.rimY-4 && ball.y <= mug.rimY+18){
+        const dx = ball.x - mug.x;
+        const a = Math.abs(dx);
+        if(a >= mug.rimRx*0.82 && a < mug.rimRx*1.15){
+          ball.vy *= -0.42; ball.vx *= 0.5;
+          ball.x += (dx>0?1:-1)*6;
+          for(let i=0;i<6;i++) particles.push({x:ball.x,y:mug.rimY,r:5,life:0,max:.4,vx:(Math.random()*2-1)*120,vy:-60-Math.random()*80,kind:'chip'});
+          lastMakeText = "clank! so close";
+        }
+      }
+      // miss: off screen or hit ground
+      const ground = LH-40;
+      if(ball.y > ground){
+        ball.y = ground;
+        endTurn(false);
+        return;
+      }
+      if(ball.x < -60 || ball.x > LW+60 || ball.y < -400){
+        endTurn(false);
+        return;
+      }
+    }
+
+    // particles
+    for(const p of particles){
+      p.life += dt;
+      if(p.vx!==undefined){ p.x+=p.vx*dt; p.vy+=GRAV*0.6*dt; p.y+=p.vy*dt; }
+    }
+    particles = particles.filter(p=>p.life<p.max);
+
+    // splashes
+    for(const s of splashes){ s.life+=dt; }
+    splashes = splashes.filter(s=>s.life<s.max);
+
+    if(game.state===S.RESOLVE){
+      resolveTimer -= dt;
+      if(resolveTimer<=0) nextTurn();
+    }
+  }
+
+  function scoreMake(){
+    const owner = ball.owner;
+    game.scores[owner]++;
+    // splash burst
+    splashes.push({x:mug.x, y:mug.rimY, life:0, max:.6});
+    for(let i=0;i<16;i++){
+      const a = -Math.PI/2 + (Math.random()-0.5)*1.7;
+      const sp = 120+Math.random()*160;
+      particles.push({x:mug.x, y:mug.rimY, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, r:5+Math.random()*5, life:0, max:.6, kind:'splash', owner:owner});
+    }
+    ball = null;
+
+    if(game.mode===1){
+      const left = game.target - game.scores[0];
+      lastMakeText = left>0 ? ("swish! " + left + " to go") : "swish!";
+      if(game.scores[0] >= game.target){
+        game.timerRunning = false;
+        game.state = S.OVER;
+        updateHUD();
+        setTimeout(endGame, 700);
+        return;
+      }
+      game.state = S.RESOLVE;
+      resolveTimer = 0.55;
+      updateHUD();
+      return;
+    }
+
+    lastMakeText = "swish! +1 for " + game.names[owner];
+    updateHUD();
+    if(game.scores[owner] >= game.target){
+      game.state = S.OVER;
+      setTimeout(endGame, 700);
+      return;
+    }
+    game.state = S.RESOLVE;
+    resolveTimer = 0.9;
+  }
+
+  function endTurn(made){
+    if(game.mode===1){
+      lastMakeText = made ? lastMakeText : "missed! keep tossing";
+      ball = null;
+      game.state = S.RESOLVE;
+      resolveTimer = 0.35;
+      updateHUD();
+      return;
+    }
+    lastMakeText = made ? lastMakeText : "missed — " + game.names[game.turn] + " is out";
+    ball = null;
+    game.state = S.RESOLVE;
+    resolveTimer = 0.75;
+    updateHUD();
+  }
+
+  function nextTurn(){
+    if(game.state===S.OVER) return;      // timer ended mid-resolve
+    if(game.mode===1){
+      game.state = S.AIM;
+      lastMakeText = null;
+      updateHUD();
+      return;
+    }
+    game.turn = 1 - game.turn;
+    game.state = S.AIM;
+    lastMakeText = null;
+    updateHUD();
+  }
+
+  function endGame(){
+    game.state = S.OVER;
+    if(game.mode===1){
+      const won = game.scores[0] >= game.target;
+      el.winTitle.innerHTML = won ? "You did it! ☕" : "Time's up!";
+      el.winSub.innerHTML = won
+        ? "Dunked " + game.scores[0] + " with " + Math.ceil(game.timeLeft) + "s to spare. Nicely done, " + game.names[0] + "!"
+        : game.names[0] + " dunked <b>" + game.scores[0] + "</b> of " + game.target + ". So close — go again?";
+      el.win.classList.remove('hidden');
+      updateHUD();
+      return;
+    }
+    const winner = game.scores[0]>=game.target?0:1;
+    el.winTitle.innerHTML = game.names[winner] + " wins the cocoa! ☕";
+    el.winSub.innerHTML = "Final score — " +
+      "<b style='color:"+game.colors[0]+"'>"+game.names[0]+" "+game.scores[0]+"</b> · " +
+      "<b style='color:"+game.colors[1]+"'>"+game.names[1]+" "+game.scores[1]+"</b>";
+    el.win.classList.remove('hidden');
+    updateHUD();
+  }
+
+  // ---- render ----
+  function render(){
+    ctx.setTransform(scale,0,0,scale,0,0);
+    ctx.clearRect(0,0,LW,LH);
+
+    // background gradient
+    const bg = ctx.createLinearGradient(0,0,0,LH);
+    bg.addColorStop(0,'#3a2742'); bg.addColorStop(1,'#241826');
+    ctx.fillStyle=bg; ctx.fillRect(0,0,LW,LH);
+
+    // ambient puffs
+    for(const p of bgpuffs){
+      ctx.globalAlpha=p.o; ctx.fillStyle='#fff';
+      puff(p.x,p.y,p.r); ctx.globalAlpha=1;
+    }
+
+    // ground shelf
+    ctx.fillStyle='rgba(0,0,0,.18)';
+    roundRect(0, LH-46, LW, 60, 0); ctx.fill();
+
+    drawMug();
+
+    // steam over mug
+    for(const s of steam){
+      ctx.globalAlpha = s.o;
+      ctx.fillStyle = 'rgba(255,247,238,1)';
+      puff(s.x, s.y, s.r);
+    }
+    ctx.globalAlpha=1;
+
+    // splashes (cocoa ring)
+    for(const s of splashes){
+      const t=s.life/s.max;
+      ctx.globalAlpha=(1-t)*0.6;
+      ctx.strokeStyle='#6b3f2f'; ctx.lineWidth=6;
+      ctx.beginPath();
+      ctx.ellipse(s.x, s.y, mug.rimRx*0.5+t*mug.rimRx*0.7, mug.rimRy*0.5+t*mug.rimRy*0.7, 0,0,Math.PI*2);
+      ctx.stroke();
+    }
+    ctx.globalAlpha=1;
+
+    drawSlingAndAim();
+
+    // particles
+    for(const p of particles){
+      const t=p.life/p.max;
+      ctx.globalAlpha=1-t;
+      if(p.kind==='splash'){ ctx.fillStyle='#efe3d0'; }
+      else if(p.kind==='chip'){ ctx.fillStyle='#efe3d0'; }
+      else { ctx.fillStyle= game.colors[p.owner!==undefined?p.owner:0]; ctx.globalAlpha=(1-t)*0.4; }
+      circle(p.x,p.y,p.r*(1-t*0.5));
+    }
+    ctx.globalAlpha=1;
+
+    // flying ball
+    if(ball) drawMarsh(ball.x, ball.y, ball.r, ball.owner, ball.rot);
+
+    // ready ball on sling (during AIM)
+    if(game.state===S.AIM){
+      const bx = aiming? dragCur.x: anchor.x;
+      const by = aiming? dragCur.y: anchor.y;
+      drawMarsh(bx, by, 26, game.turn, 0);
+    }
+  }
+
+  function drawMug(){
+    const {x,rimY,rimRx,rimRy,bodyH} = mug;
+    ctx.save();
+    // cocoa surface
+    ctx.fillStyle='#3d2420';
+    ctx.beginPath(); ctx.ellipse(x,rimY,rimRx-8,rimRy-4,0,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle='#4a2c26';
+    ctx.beginPath(); ctx.ellipse(x,rimY-2,rimRx-16,rimRy-8,0,0,Math.PI*2); ctx.fill();
+
+    // body
+    const topL=x-rimRx, topR=x+rimRx, botY=rimY+bodyH;
+    ctx.fillStyle='#EADBC4';
+    ctx.beginPath();
+    ctx.moveTo(topL,rimY);
+    ctx.lineTo(topL+10,botY-6);
+    ctx.quadraticCurveTo(x, botY+14, topR-10, botY-6);
+    ctx.lineTo(topR,rimY);
+    ctx.closePath(); ctx.fill();
+
+    // body shading
+    ctx.fillStyle='rgba(0,0,0,.10)';
+    ctx.beginPath();
+    ctx.moveTo(topR,rimY); ctx.lineTo(topR-10,botY-6);
+    ctx.quadraticCurveTo(x, botY+14, x, botY+14);
+    ctx.lineTo(x, rimY); ctx.closePath(); ctx.fill();
+
+    // handle
+    ctx.strokeStyle='#EADBC4'; ctx.lineWidth=20; ctx.lineCap='round';
+    ctx.beginPath(); ctx.arc(topR+18, rimY+58, 42, -Math.PI*0.55, Math.PI*0.5); ctx.stroke();
+
+    // rim highlight
+    ctx.strokeStyle='#fff6ea'; ctx.globalAlpha=.5; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.ellipse(x,rimY,rimRx,rimRy,0,Math.PI,Math.PI*2); ctx.stroke();
+    ctx.globalAlpha=1;
+    // rim back edge
+    ctx.strokeStyle='rgba(0,0,0,.15)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.ellipse(x,rimY,rimRx,rimRy,0,0,Math.PI); ctx.stroke();
+
+    // little heart on the mug
+    ctx.fillStyle='rgba(255,143,163,.75)';
+    heart(x, rimY+82, 15);
+    ctx.restore();
+  }
+
+  function drawSlingAndAim(){
+    // sling posts
+    ctx.strokeStyle='#7a5b47'; ctx.lineWidth=10; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(anchor.x, LH-40); ctx.lineTo(anchor.x, anchor.y+6); ctx.stroke();
+
+    if(game.state===S.AIM && aiming){
+      const pull={x:anchor.x-dragCur.x, y:anchor.y-dragCur.y};
+      let len=Math.hypot(pull.x,pull.y);
+      if(len>4){
+        const clamped=Math.min(len,MAXDRAG);
+        const nx=pull.x/len, ny=pull.y/len;
+        const power=clamped/MAXDRAG*MAXPOWER;
+        // band
+        ctx.strokeStyle=game.colors[game.turn]; ctx.lineWidth=6; ctx.globalAlpha=.9;
+        ctx.beginPath(); ctx.moveTo(anchor.x, anchor.y); ctx.lineTo(dragCur.x, dragCur.y); ctx.stroke();
+        ctx.globalAlpha=1;
+        // predicted arc
+        let sx=anchor.x, sy=anchor.y, vx=nx*power, vy=ny*power;
+        const step=0.026;
+        ctx.fillStyle='rgba(255,255,255,.6)';
+        for(let i=0;i<42;i++){
+          vy+=GRAV*step; sx+=vx*step; sy+=vy*step;
+          if(sy>LH-40||sx>LW||sx<0) break;
+          if(i%2===0){ ctx.globalAlpha=Math.max(0,.7-i*0.016); circle(sx,sy,4.2); }
+        }
+        ctx.globalAlpha=1;
+        // power meter
+        const pct=clamped/MAXDRAG;
+        ctx.fillStyle='rgba(255,255,255,.15)'; roundRect(40,40,180,14,7); ctx.fill();
+        ctx.fillStyle=game.colors[game.turn]; roundRect(40,40,180*pct,14,7); ctx.fill();
+      }
+    }
+  }
+
+  function drawMarsh(x,y,r,owner,rot){
+    ctx.save();
+    ctx.translate(x,y); ctx.rotate(rot||0);
+    // soft shadow
+    ctx.fillStyle='rgba(0,0,0,.18)';
+    ctx.beginPath(); ctx.ellipse(0,r*0.75,r*0.9,r*0.4,0,0,Math.PI*2); ctx.fill();
+    // marshmallow: rounded squishy pill
+    const w=r*1.7, h=r*1.55;
+    ctx.fillStyle='#FBF6EF';
+    roundRect(-w/2,-h/2,w,h, r*0.7); ctx.fill();
+    // subtle top light
+    ctx.fillStyle='rgba(255,255,255,.7)';
+    roundRect(-w/2+3,-h/2+3,w-6,h*0.42, r*0.6); ctx.fill();
+    // owner ribbon
+    ctx.fillStyle=game.colors[owner];
+    roundRect(-w/2, -3, w, 7, 3); ctx.fill();
+    // faint cocoa dusting
+    ctx.fillStyle='rgba(120,80,50,.18)';
+    circle(-r*0.3, r*0.2, 2); circle(r*0.25, -r*0.1, 1.6); circle(r*0.05, r*0.35, 1.4);
+    ctx.restore();
+  }
+
+  // ---- draw helpers ----
+  function circle(x,y,r){ ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); }
+  function puff(x,y,r){
+    ctx.beginPath();
+    ctx.arc(x-r*0.5,y,r*0.7,0,Math.PI*2);
+    ctx.arc(x+r*0.5,y,r*0.7,0,Math.PI*2);
+    ctx.arc(x,y-r*0.4,r*0.8,0,Math.PI*2);
+    ctx.arc(x,y+r*0.2,r*0.9,0,Math.PI*2);
+    ctx.fill();
+  }
+  function roundRect(x,y,w,h,r){
+    r=Math.min(r,w/2,h/2);
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+  function heart(cx,cy,s){
+    ctx.beginPath();
+    ctx.moveTo(cx,cy+s*0.5);
+    ctx.bezierCurveTo(cx+s,cy-s*0.4, cx+s*0.6,cy-s*1.1, cx,cy-s*0.4);
+    ctx.bezierCurveTo(cx-s*0.6,cy-s*1.1, cx-s,cy-s*0.4, cx,cy+s*0.5);
+    ctx.closePath(); ctx.fill();
+  }
+
+  // ---- boot ----
+  function init(){ applyModeUI(); resize(); requestAnimationFrame((t)=>{ last=t; frame(t); }); updateHUD(); }
+  // wait a tick for layout
+  requestAnimationFrame(()=>{ resize(); init(); });
+})();
+</script>
+</body>
+</html>
