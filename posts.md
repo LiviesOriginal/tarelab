@@ -32,6 +32,8 @@ and I will burn brighter than the sun
 your doubts surrendering with the shadows
 as certainty illuminates the horizon.
 
+---
+
 # Dream for Two
 
 July 6, 2026
