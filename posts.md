@@ -1,3 +1,37 @@
+# Elementary
+
+August 28, 2026
+
+Tell me about your pain,
+the way you hold it behind your eyes
+rivers threatening to overflow
+the banks built high to hold the stream.
+
+Tell me about your pain,
+the way you turn it over and inward
+a stone in need of polish
+rough edges cutting deep.
+
+Tell me about your pain,
+the way the questions never cease
+a volcano erupting uncertainty
+leaving nowhere to stand.
+
+Tell me about your pain,
+and I will step into the current
+find you where the water runs deepest
+and return with you to shore.
+
+Tell me about your pain,
+and I will wait out the cold
+until the thaw softens the earth
+and life begins to breathe again. 
+
+Tell me about your pain
+and I will burn brighter than the sun
+your doubts surrendering with the shadows
+as certainty illuminates the horizon.
+
 # Dream for Two
 
 July 6, 2026
