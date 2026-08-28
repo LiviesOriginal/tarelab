@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Oracle</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Lora', serif;
+      background: #0a0a0a;
+      color: #e8e8e0;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px 0;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 560px;
+      width: 90%;
+      position: relative;
+      z-index: 10;
+      margin: 40px auto;
+    }
+
+    .machine {
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+      border: 2px solid #1a6b6b;
+      border-radius: 6px;
+      padding: 48px;
+      box-shadow: 
+        0 0 60px rgba(26, 107, 107, 0.3),
+        inset 0 0 30px rgba(26, 107, 107, 0.1),
+        0 20px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .machine::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(26, 107, 107, 0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .header {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .title {
+      font-family: 'Lora', serif;
+      font-size: 56px;
+      font-weight: 700;
+      color: #e8e8e0;
+      text-shadow: 0 0 20px rgba(26, 107, 107, 0.4);
+      margin-bottom: 8px;
+      letter-spacing: 3px;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #20b2aa;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #1a6b6b, transparent);
+      margin: 28px 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .question-box {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 28px;
+    }
+
+    .question-label {
+      display: block;
+      font-size: 11px;
+      color: #20b2aa;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .question-input {
+      width: 100%;
+      padding: 16px;
+      background: rgba(26, 107, 107, 0.05);
+      border: 1px solid #1a6b6b;
+      color: #e8e8e0;
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      border-radius: 4px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .question-input:focus {
+      background: rgba(26, 107, 107, 0.1);
+      border-color: #20b2aa;
+      box-shadow: 0 0 20px rgba(32, 178, 170, 0.2);
+    }
+
+    .question-input::placeholder {
+      color: #1a6b6b;
+      opacity: 0.7;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+      margin-bottom: 32px;
+    }
+
+    .consult-btn {
+      flex: 1;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #1a6b6b 0%, #20b2aa 100%);
+      border: 1px solid #20b2aa;
+      color: #0a0a0a;
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(32, 178, 170, 0.2);
+    }
+
+    .consult-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #20b2aa 0%, #2dd4d4 100%);
+      border-color: #2dd4d4;
+      box-shadow: 0 6px 25px rgba(32, 178, 170, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .consult-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .consult-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .clear-btn {
+      padding: 14px 18px;
+      background: transparent;
+      border: 1px solid #1a6b6b;
+      color: #20b2aa;
+      font-family: 'Lora', serif;
+      font-size: 11px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .clear-btn:hover {
+      background: rgba(26, 107, 107, 0.2);
+      border-color: #20b2aa;
+      color: #2dd4d4;
+    }
+
+    .fortune-card {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(135deg, rgba(26, 107, 107, 0.08) 0%, rgba(26, 107, 107, 0.02) 100%);
+      border: 1px solid #1a6b6b;
+      border-radius: 4px;
+      padding: 40px;
+      text-align: center;
+      min-height: 180px;
+      max-height: 70vh;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 
+        0 0 30px rgba(26, 107, 107, 0.2),
+        inset 0 0 20px rgba(26, 107, 107, 0.05);
+      opacity: 0;
+      animation: reveal 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    }
+
+    @keyframes reveal {
+      0% {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fortune-text {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: #e8e8e0;
+      line-height: 1.8;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .machine {
+        padding: 32px;
+      }
+
+      .title {
+        font-size: 44px;
+      }
+
+      .fortune-text {
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="machine">
+      <div class="header">
+        <div class="title">The Oracle</div>
+        <div class="subtitle">Ask and be answered</div>
+        <div class="divider"></div>
+      </div>
+
+      <div class="question-box">
+        <label class="question-label">Your question</label>
+        <input 
+          type="text" 
+          id="question" 
+          class="question-input" 
+          placeholder="What's on your mind?"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="button-group">
+        <button class="consult-btn" id="consultBtn" onclick="getFortune()">Consult</button>
+        <button class="clear-btn" onclick="clearFortune()">Clear</button>
+      </div>
+
+      <div id="fortuneBox" class="fortune-card hidden">
+        <div class="fortune-text" id="fortuneText"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ─────────────────────────────────────────────────────────────────
+       FORTUNE TELLER ENGINE
+       ───────────────────────────────────────────────────────────────── */
+
+    const RELATIONSHIP_KEYWORDS = /\b(love|heart|crush|date|marry|marriage|partner|girlfriend|wife|romance|kiss|soulmate|relationship|single|romantic|connection|feeling)\b/i;
+    const TIMING_KEYWORDS = /\b(when|how long|soon|wait|timing|year|month|week|timeline|someday|eventually|later|until)\b/i;
+    const AFFIRMATION_KEYWORDS = /\b(okay|alright|work out|resolve|handle|manage|survive|get through|be okay|everything)\b/i;
+
+    const WRONG_PERSON_KEYWORDS = /\b(she|they|them|he|him|her|person|someone|guy|girl|woman|man|this person|this guy|this girl|my|coworker|friend|crush)\b/i;
+    const WRONG_PERSON_REDIRECT = "That's not the question you actually want to ask. The oracle only sees one person worth thinking about.";
+
+    // Energy-based generic responses
+    const GENERIC_RESPONSES = [
+      "Your energy is shifting. I sense movement, change. Something you've been hoping for isn't far. The universe is aligning things for you, but you have to stay open to it.",
+      "Your energy is shifting. The connection you're carrying is alive, real, already changing things. The universe is moving around what's already present. Stay open to it.",
+      "I sense movement. Something real is already in motion—you both feel it. The universe is aligning what's already there. Trust the current you're in.",
+      "There's energy here that's already alive. What you're wondering about is already happening beneath the surface. The universe doesn't move slowly on this. Everything you need is already present.",
+    ];
+
+    // Relationship responses
+    const RELATIONSHIP_RESPONSES = [
+      "There's a connection forming or already present. The cards show someone who sees you. But timing matters here. Don't rush what's meant to unfold slowly.",
+      "The cards show someone who already sees you. What you have is real and present. Timing matters, but the connection—that's certain. Don't rush what's already unfolding.",
+      "I see the connection clearly. It's not forming—it's alive, active, already shaping both of you. The universe confirms: she's already yours in the way that matters.",
+      "There's someone in your energy who's already woven in. The cards are certain about this. What's already real between you is deeper than you're letting yourself believe.",
+    ];
+
+    // Timing responses
+    const TIMING_RESPONSES = [
+      "Sooner than your doubt suggests. The delay you're feeling is internal, not external. The universe has already moved things into place.",
+      "Sooner than your doubt suggests. The delay you're feeling is internal—the universe has already positioned everything. She's already there. Now is the real answer.",
+      "The timing isn't something you're waiting for—it's already begun. The cards show: what you're questioning is already in motion. Trust what's unfolding now.",
+      "I see acceleration. The universe doesn't delay what's already real. What you've been waiting for is already here—you're just recognizing it now.",
+    ];
+
+    // General affirmation responses
+    const AFFIRMATION_RESPONSES = [
+      "I see resolution. Not painless, not immediate, but resolution. The universe doesn't give you more than you can carry.",
+      "I see resolution unfolding. Not painless, not immediate, but it's already in motion. The universe doesn't give you obstacles without giving you what's needed to move through them.",
+      "Yes. Everything resolves because it's already resolving. What feels uncertain now is just the space between here and clarity. You're stronger than the doubt. The universe knows.",
+      "The cards confirm: what you're carrying finds its way. You're not alone in this—not now, not ever. The universe doesn't bring people into your life by accident.",
+    ];
+
+    // Closing lines
+    const CLOSING_LINES = [
+      "Everything unfolds as it should. And she's walking beside you through all of it. That much is certain.",
+      "The universe provides what you need. And she'll be there—that's written in the cards. Trust it.",
+      "Everything works out because she's in it with you. You don't face this alone. The cards are clear.",
+      "The universe takes care of its own. And you're not alone—she's part of your story already. Trust that.",
+      "Everything settles into place. She's already part of that place. You can rest in knowing that.",
+      "Every question has the same answer: she's there. The universe doesn't make mistakes about these things.",
+    ];
+
+    function hashString(s) {
+      let h = 2166136261;
+      for (let i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function mulberry32(seed) {
+      return function next() {
+        let t = (seed += 0x6d2b79f5);
+        t = Math.imul(t ^ (t >>> 15), t | 1);
+        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function pick(rng, arr) {
+      return arr[Math.floor(rng() * arr.length)];
+    }
+
+    function isAboutWrongPerson(wish) {
+      return WRONG_PERSON_KEYWORDS.test(wish);
+    }
+
+    function getQuestionType(wish) {
+      if (RELATIONSHIP_KEYWORDS.test(wish)) return 'relationship';
+      if (TIMING_KEYWORDS.test(wish)) return 'timing';
+      if (AFFIRMATION_KEYWORDS.test(wish)) return 'affirmation';
+      return 'generic';
+    }
+
+    function grantWish(wishText) {
+      const wish = wishText.trim();
+
+      // Check if asking about someone else
+      if (isAboutWrongPerson(wish)) {
+        return WRONG_PERSON_REDIRECT;
+      }
+
+      const seed = hashString(wish.toLowerCase());
+      const rng = mulberry32(seed);
+      const questionType = getQuestionType(wish);
+
+      let response;
+      switch (questionType) {
+        case 'relationship':
+          response = pick(rng, RELATIONSHIP_RESPONSES);
+          break;
+        case 'timing':
+          response = pick(rng, TIMING_RESPONSES);
+          break;
+        case 'affirmation':
+          response = pick(rng, AFFIRMATION_RESPONSES);
+          break;
+        default:
+          response = pick(rng, GENERIC_RESPONSES);
+      }
+
+      const closingLine = pick(rng, CLOSING_LINES);
+      return response + "\n\n" + closingLine;
+    }
+
+    // UI Functions
+    function getFortune() {
+      const question = document.getElementById('question').value.trim();
+      if (!question) {
+        alert('Ask the oracle a question...');
+        return;
+      }
+
+      const fortuneBox = document.getElementById('fortuneBox');
+      const fortuneText = document.getElementById('fortuneText');
+
+      fortuneBox.classList.remove('hidden');
+      void fortuneBox.offsetWidth;
+      fortuneBox.style.animation = 'none';
+      setTimeout(() => {
+        fortuneBox.style.animation = 'reveal 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards';
+      }, 10);
+
+      const fortune = grantWish(question);
+      fortuneText.textContent = fortune;
+    }
+
+    function clearFortune() {
+      document.getElementById('question').value = '';
+      document.getElementById('fortuneBox').classList.add('hidden');
+      document.getElementById('question').focus();
+    }
+
+    document.getElementById('question').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        getFortune();
+      }
+    });
+  </script>
+</body>
+</html>
