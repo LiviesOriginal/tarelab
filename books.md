@@ -59,9 +59,8 @@ Bloom Town: Genesis | Aly North | 9798217374861
 Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 Our Wives Under The Sea | Julia Armfield | 9781250229892
 Hearing Red | Nicole Maser | 9798988226031
-Those Who Wait * | Haley Cass | 9798631156395
-Forever and a Day * | Haley Cass | 9798590259663
 Midnight Rain | Haley Cass | 9798988492993
+The Snowball Effect ** | Haley Cass | 9798988492986
 
 # To read - Classic
 Madame Bovary | Gustave Flaubert | 9781908533814
