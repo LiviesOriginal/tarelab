@@ -49,18 +49,18 @@ The Midnight Library | Matt Haig | 9780525559481
 
 Last Night at the Telegraph Club | Malinda Lo | 9780525555278
 Sweetbitter Song | Rosie Hewlett | 9781728299044
-Almost Life | Kiran Millwood Hargrave | 9781035007509
-Meet Me in the Garden | Nina LaCour | 9781250810472
 Here We Go Again | Allison Cochran | 9781668021194
 Next Time Will Be Our Turn | Jesse Q. Sutanto | 9780593816875
 Big Swiss | Jen Beagin | 9780571378586
 The Safekeep | Yael van der Wouden | 9781668034347
+Our Wives Under The Sea | Julia Armfield | 9781250229892
 Bloom Town: Genesis | Aly North | 9798217374861
 Don’t Let Me Go ** | Rachel Sommers | 9783690060127
-Our Wives Under The Sea | Julia Armfield | 9781250229892
 Hearing Red | Nicole Maser | 9798988226031
 Midnight Rain | Haley Cass | 9798988492993
 The Snowball Effect ** | Haley Cass | 9798988492986
+Almost Life | Kiran Millwood Hargrave | 9781035007509
+Meet Me in the Garden | Nina LaCour | 9781250810472
 
 # To read - Classic
 Madame Bovary | Gustave Flaubert | 9781908533814
