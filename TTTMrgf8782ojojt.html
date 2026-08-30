@@ -1,211 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ============================================================
-     EDIT #1 — PAGE TITLE (shows in the browser tab)
-     ============================================================ -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Talking to the Moon</title>
-<meta name="description" content="noindex.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    /* ==========================================================
-       EDIT #2 — COLORS. Change these 5 hex codes to recolor the
-       whole page. (Tip: paste a hex code into Google to preview it.)
-       ========================================================== */
-    --bg:      #17131F;   /* page background        */
-    --card:    #221D2E;   /* link boxes             */
-    --ink:     #F5F1EB;   /* main text              */
-    --muted:   #9A93A8;   /* faint text             */
-    --accent:  #E8B04B;   /* highlight / arrows     */
+  :root{
+    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
+    --link:#3b3f8f; --code-bg:#f1efe9; --measure:620px;
   }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 12vh 24px 8vh;
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Newsreader",Georgia,serif; font-size:17px; line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding:0 18px;
   }
+  .wrap{max-width:var(--measure); margin:0 auto; padding:34px 0 52px;}
 
-  .wrap { width: 100%; max-width: 540px; }
+  .masthead{margin-bottom:20px;}
+  .masthead h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,5vw,34px); letter-spacing:-0.02em; line-height:1.05; margin:0;}
+  .masthead p{margin:6px 0 0; color:var(--muted); font-style:italic; font-size:.98rem;}
+  .masthead .rule{height:1px; background:var(--rule); border:0; margin:16px 0 0;}
 
-  /* ---------- Header ---------- */
-  header { margin-bottom: 40px; }
+  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.14rem; letter-spacing:-0.01em; margin:24px 0 9px;}
+  h2.section:first-of-type{margin-top:4px;}
 
-  .name {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: clamp(44px, 11vw, 68px);
-    font-weight: 400;
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-  }
-  .name em { color: var(--accent); font-style: italic; }
+  .item{margin:0 0 11px;}
+  .it-title{font-family:"Fraunces",serif; font-weight:500; font-size:1.02rem; color:var(--link); text-decoration:none;}
+  .it-title:hover{text-decoration:underline; text-underline-offset:2px;}
+  .it-desc{margin:1px 0 0; color:var(--muted); font-size:.94rem; line-height:1.45;}
+  .it-desc code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.08em .32em; border-radius:4px;}
 
-  .tagline {
-    color: var(--muted);
-    font-size: 17px;
-    margin-top: 14px;
-    max-width: 34ch;
-  }
-
-  /* ---------- Link cards ---------- */
-  .links { display: flex; flex-direction: column; gap: 12px; }
-
-  .card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--card);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 18px 20px;
-    text-decoration: none;
-    color: inherit;
-    transition: transform .18s ease, border-color .18s ease, background .18s ease;
-  }
-  .card:hover {
-    transform: translateY(-2px);
-    border-color: var(--accent);
-    background: #29233a;
-  }
-  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-
-  .card .label {
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .card .title { font-size: 17px; font-weight: 600; margin-top: 2px; }
-  .card .desc  { font-size: 14px; color: var(--muted); margin-top: 2px; }
-  .card .body  { flex: 1; }
-
-  .arrow {
-    font-size: 20px;
-    color: var(--muted);
-    transition: transform .18s ease, color .18s ease;
-    flex-shrink: 0;
-  }
-  .card:hover .arrow { transform: translateX(4px); color: var(--accent); }
-
-  /* ---------- Footer ---------- */
-  footer {
-    margin-top: 44px;
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
-  }
-
-  /* ---------- Gentle load-in (skipped if user prefers reduced motion) ---------- */
-  @media (prefers-reduced-motion: no-preference) {
-    header, .card {
-      opacity: 0;
-      transform: translateY(12px);
-      animation: rise .5s ease forwards;
-    }
-    .card:nth-child(1) { animation-delay: .08s; }
-    .card:nth-child(2) { animation-delay: .14s; }
-    .card:nth-child(3) { animation-delay: .20s; }
-    .card:nth-child(4) { animation-delay: .26s; }
-    .card:nth-child(5) { animation-delay: .32s; }
-    @keyframes rise { to { opacity: 1; transform: none; } }
-  }
+  .state{color:var(--muted); font-style:italic;}
+  .foot{margin-top:30px; padding-top:14px; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem;}
+  @media (max-width:520px){ body{font-size:16px;} .wrap{padding:24px 0 40px;} }
 </style>
 </head>
 <body>
   <div class="wrap">
-
-    <!-- ============================================================
-         EDIT #3 — YOUR NAME + TAGLINE
-         ============================================================ -->
-    <header>
-      <h1 class="name">Talking to the Moon</em></h1>
-      <p class="tagline">more than words on a page</p>
+    <!-- ▼ Edit your page name + tagline here. Everything below comes from lists.md. -->
+    <header class="masthead">
+      <h1>Talking to the Moon</h1>
+      <p>Things worth keeping.</p>
+      <hr class="rule" />
     </header>
 
-    <div class="links">
+    <main id="lists"><p class="state">Loading…</p></main>
 
-      <!-- ============================================================
-           EDIT #4 — YOUR LINKS.
-           To ADD a link: copy one whole <a class="card">...</a> block
-           below and paste it, then change the href, label, title, desc.
-           To UPDATE a destination later: just change the href="...".
-           To REMOVE one: delete its whole block.
-           ============================================================ -->
-<a class="card" href="https://tarelab.com/oracle.html">
-        <div class="body">
-          <div class="label">Explore</div>
-          <div class="title">Consult the Oracle</div>
-          <div class="desc">When things feel uncertain, consult the oracle.</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-         
-         <a class="card" href="https://tarelab.com/marshmallow-toss.html">
-        <div class="body">
-          <div class="label">Play</div>
-          <div class="title">Marshmallow Toss</div>
-          <div class="desc">Satisfy your marshmallow cravings.</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-         
- <a class="card" href="https://tarelab.com/bookclub">
-        <div class="body">
-          <div class="label">Read</div>
-          <div class="title">Book Club</div>
-          <div class="desc">Better than good reads.</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-         
-      <a class="card" href="https://tarelab.com/bubblepop">
-        <div class="body">
-          <div class="label">Play</div>
-          <div class="title">Bubble Pop</div>
-          <div class="desc">Hugs and Kisses for when you're feeling stressed.</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-         
-         <a class="card" href="https://music.apple.com/us/playlist/tttm/pl.u-kv9lbyVFJ6G09kN">
-        <div class="body">
-          <div class="label">Listen</div>
-          <div class="title">Mixtape</div>
-          <div class="desc">Apple Playlist</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-
-          <a class="card" href="https://open.spotify.com/playlist/54gK3IZoFziuiCNqYgIkP4?si=EYqdy4NxR5Gf9JOv7T6MTw">
-        <div class="body">
-          <div class="label">Listen</div>
-          <div class="title">Power Love Hour</div>
-          <div class="desc">When you need a little R & B.</div>
-        </div>
-        <span class="arrow" aria-hidden="true">&rarr;</span>
-      </a>
-
-    </div>
-
-    <footer>&copy; 2026 Elle Bee</footer>
-
+    <footer class="foot"></footer>
   </div>
 
+<script>
+(() => {
+  const root = document.getElementById('lists');
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>');
+
+  function parse(text){
+    const lines = text.replace(/\r\n/g,'\n').split('\n');
+    const sections=[]; let cur=null;
+    const linkRe = /^\[([^\]]+)\]\(([^)\s]+)\)\s*(.*)$/;
+    for(const raw of lines){
+      const line = raw.trim();
+      const sec = line.match(/^#\s+(.*)/);
+      if(sec){ cur={ title:sec[1].trim(), items:[] }; sections.push(cur); continue; }
+      if(!cur || !line) continue;
+      const m = line.match(linkRe);
+      if(m){
+        const desc = m[3].trim().replace(/^[—–\-:]\s*/,'');
+        cur.items.push({ title:m[1].trim(), url:m[2].trim(), desc });
+      }
+    }
+    return sections.filter(s => s.items.length);
+  }
+
+  function render(sections){
+    if(!sections.length){ root.innerHTML='<p class="state">No lists yet — add some in lists.md.</p>'; return; }
+    let h='';
+    sections.forEach(s=>{
+      h+='<h2 class="section">'+esc(s.title)+'</h2>';
+      s.items.forEach(it=>{
+        h+='<article class="item"><a class="it-title" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>';
+        if(it.desc) h+='<p class="it-desc">'+inline(it.desc)+'</p>';
+        h+='</article>';
+      });
+    });
+    root.innerHTML=h;
+  }
+
+  fetch('lists.md?t=' + Date.now(), { cache:'no-store' })
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t => render(parse(t)))
+    .catch(err => {
+      root.innerHTML = '<p class="state">Couldn’t load <b>lists.md</b> (' + esc(err.message) + ').<br>' +
+        'View this on your live site (browsers block reading the file off your local disk), ' +
+        'and keep lists.md in the same folder as this page.</p>';
+    });
+})();
+</script>
 </body>
 </html>
