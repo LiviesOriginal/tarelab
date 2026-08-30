@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lists</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
+    --link:#3b3f8f; --code-bg:#f1efe9; --measure:620px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Newsreader",Georgia,serif; font-size:17px; line-height:1.5;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding:0 18px;
+  }
+  .wrap{max-width:var(--measure); margin:0 auto; padding:34px 0 52px;}
+
+  .masthead{margin-bottom:20px;}
+  .masthead h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(24px,5vw,34px); letter-spacing:-0.02em; line-height:1.05; margin:0;}
+  .masthead p{margin:6px 0 0; color:var(--muted); font-style:italic; font-size:.98rem;}
+  .masthead .rule{height:1px; background:var(--rule); border:0; margin:16px 0 0;}
+
+  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.14rem; letter-spacing:-0.01em; margin:24px 0 9px;}
+  h2.section:first-of-type{margin-top:4px;}
+
+  .item{margin:0 0 11px;}
+  .it-title{font-family:"Fraunces",serif; font-weight:500; font-size:1.02rem; color:var(--link); text-decoration:none;}
+  .it-title:hover{text-decoration:underline; text-underline-offset:2px;}
+  .it-desc{margin:1px 0 0; color:var(--muted); font-size:.94rem; line-height:1.45;}
+  .it-desc code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.08em .32em; border-radius:4px;}
+
+  .state{color:var(--muted); font-style:italic;}
+  .foot{margin-top:30px; padding-top:14px; border-top:1px solid var(--rule); color:var(--muted); font-size:.8rem;}
+  @media (max-width:520px){ body{font-size:16px;} .wrap{padding:24px 0 40px;} }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- ▼ Edit your page name + tagline here. Everything below comes from lists.md. -->
+    <header class="masthead">
+      <h1>Lists</h1>
+      <p>Things worth keeping.</p>
+      <hr class="rule" />
+    </header>
+
+    <main id="lists"><p class="state">Loading…</p></main>
+
+    <footer class="foot">Updated by editing <code>lists.md</code>.</footer>
+  </div>
+
+<script>
+(() => {
+  const root = document.getElementById('lists');
+  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>');
+
+  function parse(text){
+    const lines = text.replace(/\r\n/g,'\n').split('\n');
+    const sections=[]; let cur=null;
+    const linkRe = /^\[([^\]]+)\]\(([^)\s]+)\)\s*(.*)$/;
+    for(const raw of lines){
+      const line = raw.trim();
+      const sec = line.match(/^#\s+(.*)/);
+      if(sec){ cur={ title:sec[1].trim(), items:[] }; sections.push(cur); continue; }
+      if(!cur || !line) continue;
+      const m = line.match(linkRe);
+      if(m){
+        const desc = m[3].trim().replace(/^[—–\-:]\s*/,'');
+        cur.items.push({ title:m[1].trim(), url:m[2].trim(), desc });
+      }
+    }
+    return sections.filter(s => s.items.length);
+  }
+
+  function render(sections){
+    if(!sections.length){ root.innerHTML='<p class="state">No lists yet — add some in lists.md.</p>'; return; }
+    let h='';
+    sections.forEach(s=>{
+      h+='<h2 class="section">'+esc(s.title)+'</h2>';
+      s.items.forEach(it=>{
+        h+='<article class="item"><a class="it-title" href="'+esc(it.url)+'" target="_blank" rel="noopener">'+esc(it.title)+'</a>';
+        if(it.desc) h+='<p class="it-desc">'+inline(it.desc)+'</p>';
+        h+='</article>';
+      });
+    });
+    root.innerHTML=h;
+  }
+
+  fetch('lists.md?t=' + Date.now(), { cache:'no-store' })
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
+    .then(t => render(parse(t)))
+    .catch(err => {
+      root.innerHTML = '<p class="state">Couldn’t load <b>lists.md</b> (' + esc(err.message) + ').<br>' +
+        'View this on your live site (browsers block reading the file off your local disk), ' +
+        'and keep lists.md in the same folder as this page.</p>';
+    });
+})();
+</script>
+</body>
+</html>
