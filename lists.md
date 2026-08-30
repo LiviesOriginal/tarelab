@@ -18,5 +18,6 @@
 
 [Hugs and Kisses for when you're feeling stressed.](https://tarelab.com/bubblepop) 
 
-#Book Playlist
+# Playlist
+
 [Original playlist from the back of the book.](https://music.apple.com/us/playlist/tttm/pl.u-kv9lbyVFJ6G09kN) 
