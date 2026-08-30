@@ -1,13 +1,22 @@
-# Reading
+# Book Club
 
-[Anthropic News](https://www.anthropic.com/news) — announcements and research from the team behind Claude.
-[Stratechery](https://stratechery.com) — sharp daily analysis of tech strategy and business.
+[Better than good reads.](https://tarelab.com/bookclub) 
 
-# Tools
+# The Poems
 
-[Excalidraw](https://excalidraw.com) — quick hand-drawn-style diagrams, right in the browser.
-[Squoosh](https://squoosh.app) — compress and convert images without uploading anything.
+[](https://tarelab.com/TTTMrgf8782ojojt002260822.html) 
 
-# Someday
+# The Oracle
 
-[The Long Now](https://longnow.org) — a foundation making the case for long-term thinking.
+[When things feel uncertain, consult the oracle.](https://tarelab.com/oracle.html) 
+
+# Marshmallow Toss
+
+[Satisfy your marshmallow cravings.](https://tarelab.com/marshmallow-toss.html) 
+
+# Bubble Pop
+
+[Hugs and Kisses for when you're feeling stressed.](https://tarelab.com/bubblepop) 
+
+#Book Playlist
+[Original playlist from the back of the book.](https://music.apple.com/us/playlist/tttm/pl.u-kv9lbyVFJ6G09kN) 
