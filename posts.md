@@ -192,6 +192,67 @@ because you told the moon about me too.
 
 ---
 
+# Did I Ever Tell You?
+
+March 13, 2026
+
+If I ever tell you
+I like the sound of your laugh,
+
+you should know the truth is
+
+Your laughter eases the weight
+of the day on my shoulders.
+
+If I ever tell you
+I like looking at you,
+
+you should know the truth is
+
+Your eyes seek - and find - 
+the deepest parts of me.
+
+If I ever tell you
+I like holding your hand,
+
+you should know the truth is
+
+Your touch melts the fear I've
+never been able to let go.
+
+If I ever tell you
+I like the smell of your skin,
+
+you should know the truth is
+
+Your lingering scent brings 
+your memory rushing back to me.
+
+If I ever tell you
+I feel something when we kiss,
+
+I could never describe
+the way it feels
+when your lips touch mine,
+as I find the back of your neck,
+when your fingertips graze my cheek,
+as I rest my forehead on yours,
+when you pause,
+as I hold my breath,
+when you pull me closer,
+as I move towards you,
+lips meeting again,
+and again
+and again...
+
+You should know the truth is
+
+Your kisses awaken my senses,
+and I feel so much more
+than I could ever tell you.
+
+---
+
 # 🌙
 
 March 9, 2026
