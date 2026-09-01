@@ -118,7 +118,7 @@
       }
       if(mode==='read'){
         const bk = line.match(/^##\s+(.*)/);
-        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], isbn:p[4]||'', reviewLines:[], lines:[]}; continue; }
+        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:p[2]||'', isbn:p[3]||''||'', reviewLines:[], lines:[]}; continue; }
         if(!curBook) continue;
         const fav = line.match(/^\s*-\s+(.*)/);
         if(fav){ curBook.lines.push(fav[1].trim()); continue; }
@@ -139,11 +139,11 @@
     if(!read.length && !anyToread){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
     let h='';
     if(read.length){
-      h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
+      h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+<th>Rating</th>+'</th></tr></thead><tbody>';
       read.forEach(b=>{
-        h+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
+        h+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars)+'</td></tr>';
         if(b.review || b.lines.length){
-          h+='<tr class="detail-row"><td colspan="4">';
+          h+='<tr class="detail-row"><td colspan="3">';
           if(b.review) h+='<p class="review">'+inline(b.review)+'</p>';
           if(b.lines.length) h+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
           h+='</td></tr>';
