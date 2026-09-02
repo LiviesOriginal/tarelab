@@ -144,7 +144,22 @@
   function render({read, toreadLists}){
     const anyToread = toreadLists.some(l => l.items.length);
     if(!read.length && !anyToread){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
+
+    // Build a simple (cover + title + author) table for a named list section.
+    const listTable = list => {
+      if(!list.items.length) return '';
+      let s = '<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
+      list.items.forEach(b=>{ s+='<tr><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td></tr>'; });
+      return s + '</tbody></table>';
+    };
+
+    // "Currently reading" section(s) go ABOVE the Read table; all other lists below it.
+    const top = toreadLists.filter(l => l.title.toLowerCase().startsWith('currently'));
+    const bottom = toreadLists.filter(l => !l.title.toLowerCase().startsWith('currently'));
+
     let h='';
+    top.forEach(l => h += listTable(l));
+
     if(read.length){
       h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
       read.forEach(b=>{
@@ -158,12 +173,9 @@
       });
       h+='</tbody></table>';
     }
-    toreadLists.forEach(list=>{
-      if(!list.items.length) return;
-      h+='<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
-      list.items.forEach(b=>{ h+='<tr><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td></tr>'; });
-      h+='</tbody></table>';
-    });
+
+    bottom.forEach(l => h += listTable(l));
+
     shelf.innerHTML=h;
   }
 
