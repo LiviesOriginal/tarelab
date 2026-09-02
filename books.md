@@ -1,6 +1,6 @@
-# &
+# Currently
 
-## Wrong Place Wrong Time | Gillian McAllister | ? | ? | 9780063252349
+## Wrong Place Wrong Time | Gillian McAllister | 9780063252349
 
 # Read
 
