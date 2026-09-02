@@ -48,13 +48,14 @@ On Earth We’re Briefly Gorgeous | Ocean Vuong | 9780525562047
 The Last Thing He Told Me | Laura Dave | 9781501171369
 Before the Coffee Gets Cold | Toshikazu Kawaguchi | 9781335430991
 The Midnight Library | Matt Haig | 9780525559481
+The Calamity Club | Kathrynn Stockett | 9781954118812
 
 # To read - Sapphic
 
 Last Night at the Telegraph Club | Malinda Lo | 9780525555278
 Sweetbitter Song | Rosie Hewlett | 9781728299044
 Here We Go Again | Allison Cochran | 9781668021194
-Next Time Will Be Our Turn | Jesse Q. Sutanto | 9780593816875
+Next Time Will Be Our Turn ** Don’t do it. Save yourself the trauma. | Jesse Q. Sutanto | 9780593816875
 Big Swiss | Jen Beagin | 9780571378586
 The Safekeep | Yael van der Wouden | 9781668034347
 Our Wives Under The Sea | Julia Armfield | 9781250229892
