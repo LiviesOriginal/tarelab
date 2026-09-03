@@ -59,8 +59,8 @@ Here We Go Again | Allison Cochran | 9781668021194
 Big Swiss | Jen Beagin | 9780571378586
 The Safekeep | Yael van der Wouden | 9781668034347
 Our Wives Under The Sea | Julia Armfield | 9781250229892
-Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 Late Bloomer ** | Mazey Eddings | 9781035404018
+Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 Bloom Town: Genesis | Aly North | 9798217374861
 Hearing Red | Nicole Maser | 9798988226031
 Midnight Rain | Haley Cass | 9798988492993
