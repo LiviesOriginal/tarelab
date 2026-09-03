@@ -6,7 +6,7 @@ Wrong Place Wrong Time | Gillian McAllister | 9780063252349
 
 ## Daisy Jones & The Six | Taylor Jenkins Reid | 4 | 4 | 9781804945957
 Review
-- You have to have faith in people before they earn it. Otherwise it’s not faith.
+- "You have to have faith in people before they earn it. Otherwise it’s not faith."
 
 ## Yesteryear | Caro Claire Burke | 4 | 5 | 9780593804216
 Review
@@ -14,7 +14,7 @@ Review
 
 ## Delilah Green Doesn’t Care | Ashley Herring Blake | 3 | 3 | 9780593336403
 Review
-- My whole life, this is what I’ve wanted. A best friend. Someone who gets me, who accepts me. Someone who fights like hell to get me to see that they love me. Someone who lets me love them back. Someone who’s so goddamn beautiful, she makes my toes curl. Someone who calls me on my bullshit. Someone who makes me laugh. Someone who makes me look at her like this and looks at me the same way. Someone who . . . who’s my home.
+- "My whole life, this is what I’ve wanted. A best friend. Someone who gets me, who accepts me. Someone who fights like hell to get me to see that they love me. Someone who lets me love them back. Someone who’s so goddamn beautiful, she makes my toes curl. Someone who calls me on my bullshit. Someone who makes me laugh. Someone who makes me look at her like this and looks at me the same way. Someone who . . . who’s my home."
 
 ## Never Lie | Freida McFadden | 3 | 4 | 9781464221361
 Review
@@ -22,13 +22,13 @@ Review
 
 ## Atmosphere | Taylor Jenkins Reid | 5 | 4 | 9780385695824
 Review
-- I feel like I could know you forever and still be curious about what you’re going to say next.
-- Who can care about the stars when there is her to look at?
+- "I feel like I could know you forever and still be curious about what you’re going to say next."
+-  “I was circling two hundred miles above the Earth, and all I wanted was to get home and see you. Do you understand that? Do you understand that I don’t care how big or small this world is, that you are the center of mine? Do you understand that, to someone, you are everything that matters on this entire planet?”
 
 ## The Seven Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
 Review
 - …there is nothing an extraordinary person likes more than someone else extraordinary.
-- Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it.
+- "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
 
 # To read - General
 
