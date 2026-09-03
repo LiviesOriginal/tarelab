@@ -32,14 +32,14 @@ Review
 
 # To read - General
 
+The Women ** | Kristen Hannah | 9781250178633
+The Teacher ** | Freida McFadden | 9781728296210
+Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
 A Thousand Splendid Suns | Khaled Hosseini | 9781594483851
 The Correspondent | Virginia Evans | 9780241721254
-Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
 The Bright Years | Sarah Damoff | 9781668061442
 The Great Alone | Kristen Hannah | 9781250229533
-The Women | Kristen Hannah | 9781250178633
 FantasticLand (Saving for Spooky Season) | Mike Bockoven | 9781510737884
-The Teacher ** | Freida McFadden | 9781728296210
 Circe | Madeline Miller | 9780316556323
 We Were Liars | E. Lockhart | 9780385741279
 A Little Life (for when I want to cry) | Hanya Yanagihara | 9780804172707
@@ -61,12 +61,13 @@ The Safekeep | Yael van der Wouden | 9781668034347
 Our Wives Under The Sea | Julia Armfield | 9781250229892
 Late Bloomer ** | Mazey Eddings | 9781035404018
 Don’t Let Me Go ** | Rachel Sommers | 9783690060127
+The Snowball Effect ** | Haley Cass | 9798988492986
+Midnight Rain | Haley Cass | 9798988492993
 Bloom Town: Genesis | Aly North | 9798217374861
 Hearing Red | Nicole Maser | 9798988226031
-Midnight Rain | Haley Cass | 9798988492993
-The Snowball Effect ** | Haley Cass | 9798988492986
 Almost Life | Kiran Millwood Hargrave | 9781035007509
 Meet Me in the Garden | Nina LaCour | 9781250810472
 
-# To read - Classic
+# To read - Classic 
 Madame Bovary | Gustave Flaubert | 9781908533814
+
