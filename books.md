@@ -23,7 +23,7 @@ Review
 ## Atmosphere | Taylor Jenkins Reid | 5 | 4 | 9780385695824
 Review
 - I feel like I could know you forever and still be curious about what you’re going to say next.
-- Who can care about the stars when there is here to look at?
+- Who can care about the stars when there is her to look at?
 
 ## The Seven Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
 Review
