@@ -52,7 +52,7 @@ The Calamity Club | Kathrynn Stockett | 9781954118812
 
 # To read - Sapphic
 
-! - Next Time Will Be Our Turn ** Don’t do it. Save yourself the trauma. | Jesse Q. Sutanto | 9780593816875
+Next Time Will Be Our Turn ** (Don’t do it. Save yourself the trauma.) | Jesse Q. Sutanto | 9780593816875
 Late Bloomer ** | Mazey Eddings | 9781035404018
 Last Night at the Telegraph Club | Malinda Lo | 9780525555278
 Sweetbitter Song | Rosie Hewlett | 9781728299044
