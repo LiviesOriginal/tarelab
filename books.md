@@ -53,13 +53,13 @@ The Calamity Club | Kathrynn Stockett | 9781954118812
 # To read - Sapphic
 
 ! - Next Time Will Be Our Turn ** Don’t do it. Save yourself the trauma. | Jesse Q. Sutanto | 9780593816875
+Late Bloomer ** | Mazey Eddings | 9781035404018
 Last Night at the Telegraph Club | Malinda Lo | 9780525555278
 Sweetbitter Song | Rosie Hewlett | 9781728299044
 Here We Go Again | Allison Cochran | 9781668021194
 Big Swiss | Jen Beagin | 9780571378586
 The Safekeep | Yael van der Wouden | 9781668034347
 Our Wives Under The Sea | Julia Armfield | 9781250229892
-Late Bloomer ** | Mazey Eddings | 9781035404018
 Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 The Snowball Effect ** | Haley Cass | 9798988492986
 Midnight Rain | Haley Cass | 9798988492993
