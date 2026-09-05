@@ -1,10 +1,10 @@
 # Read
 ## The Orange and Other Poems | Wendy Cope | 5 | 9780571389513
 Too short to not give it a 5. Almost every poem was good, likely because they’re short and to the point. Would keep a copy on my bookshelf.
-- A Vow
-I cannot promise never to be angry. I cannot promise always to be kind. You know what you are taking on my darling; it’s only at the start that love is blind. And yet, I’m still the one you want to be with, and you’re the one for me, of that I’m sure. You are my closest friend, my favorite person, the lover and the home I’ve waited for. I cannot promise that I will deserve you from this day on, I hope to pass that test. I love you, and I want to make you happy. I promise I will do my very best.
-- Valentine
-My heart has made its mind up, and I’m afraid it’s you. Whatever you’ve got lined up, my heart has made its mind up. And if you can’t be signed up this year, next year will do. My heart has made its mind up, and I’m afraid it’s you.
+- A Vow:
+- I cannot promise never to be angry. I cannot promise always to be kind. You know what you are taking on my darling; it’s only at the start that love is blind. And yet, I’m still the one you want to be with, and you’re the one for me, of that I’m sure. You are my closest friend, my favorite person, the lover and the home I’ve waited for. I cannot promise that I will deserve you from this day on, I hope to pass that test. I love you, and I want to make you happy. I promise I will do my very best.
+- Valentine:
+- My heart has made its mind up, and I’m afraid it’s you. Whatever you’ve got lined up, my heart has made its mind up. And if you can’t be signed up this year, next year will do. My heart has made its mind up, and I’m afraid it’s you.
 
 ## The Women | Emily Henry | 4 | 9798891640467
 Honestly could have been a 5 but I’ve been giving too many of those away lately. Follows nurses in Vietnam and what happens when they return to the states. Very specific circumstances, yet the grief is universal. 5/5 tissues
