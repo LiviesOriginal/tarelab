@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Days Since the Last Incident</title>
+<title>Safety First</title>
 <meta name="description" content="A workplace-style safety scoreboard for tracking days since they last started a fight for no reason." />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23141414'/%3E%3Cpath%20d='M32%2010%20L58%2054%20L6%2054%20Z'%20fill='%23f4c400'%20stroke='%23141414'%20stroke-width='3'/%3E%3Crect%20x='29'%20y='26'%20width='6'%20height='16'%20rx='2'%20fill='%23141414'/%3E%3Ccircle%20cx='32'%20cy='48'%20r='3.4'%20fill='%23141414'/%3E%3C/svg%3E" />
 <meta property="og:type" content="website" />
@@ -140,7 +140,7 @@
           Safety First
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#f4c400" stroke="#141414" stroke-width="1.5"/><rect x="10.7" y="8" width="2.6" height="7" rx="1" fill="#141414"/><circle cx="12" cy="18" r="1.4" fill="#141414"/></svg>
         </div>
-        <div class="preamble">This household has operated</div>
+        <div class="preamble">Incident Free</div>
         <div class="counter">
           <div class="clock" id="clock">
             <div class="grp"><div class="cells" id="cD"></div><span class="lab">Days</span></div>
@@ -159,7 +159,6 @@
         </div>
         <button class="report" id="report">&#9650; Report an Incident &#9650;</button>
         <div class="finelinks">
-          <button id="edit">Edit sign</button> &middot;
           <button id="share">Share</button> &middot;
           <button id="sound">Sound: off</button>
         </div>
@@ -381,15 +380,13 @@
     x.fillStyle="#f2f2f2";x.font="700 40px Impact,'Arial Narrow',sans-serif";wrapText(x,"SINCE "+(nm||"THEY")+" LAST "+off,W/2,600,W-160,48);
     x.fillStyle="#cfd3d8";x.font="700 30px Arial,sans-serif";x.fillText("RECORD: "+Math.floor((state.record||0)/DAY)+" DAYS      INCIDENTS: "+((state.log||[]).length),W/2,H-150);
     return c;
-  }
   $("share").addEventListener("click", function(){
-    try{ var c=drawCard(); c.toBlob(function(blob){
-      var url=URL.createObjectURL(blob); var file=null; try{ file=new File([blob],"incident-report.png",{type:"image/png"}); }catch(e){}
-      var text="Days since they last started a fight for no reason: "+Math.floor((Date.now()-state.startTime)/DAY)+". \u26A0";
-      if(file&&navigator.canShare&&navigator.canShare({files:[file]})){ navigator.share({files:[file],text:text}).catch(function(){}); URL.revokeObjectURL(url); return; }
-      shareImg.src=url; shareDl.href=url; shareModal.classList.add("on");
-    },"image/png"); }catch(e){ toast("Couldn't build the card on this device."); }
-  });
+  try{
+    var url = drawCard().toDataURL("image/png");
+    shareImg.src = url; shareDl.href = url;
+    shareModal.classList.add("on");
+  }catch(e){ toast("Couldn't build the card on this device."); }
+});
   $("shareClose").addEventListener("click", function(){ shareModal.classList.remove("on"); });
   shareModal.addEventListener("click", function(e){ if(e.target===shareModal) shareModal.classList.remove("on"); });
 
