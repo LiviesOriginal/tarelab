@@ -348,8 +348,7 @@
     '<div class="row"><button class="btn-y" id="saveEdit">Save</button><button class="btn-ghost" id="cancelEdit">Cancel</button></div></div>';
   document.body.appendChild(editWrap);
   var nameInput=editWrap.querySelector("#nameInput"), offenseInput=editWrap.querySelector("#offenseInput");
-  $("edit").addEventListener("click", function(){ nameInput.value=state.name||""; offenseInput.value=state.offense||""; editWrap.classList.add("on"); nameInput.focus(); });
-  editWrap.querySelector("#cancelEdit").addEventListener("click", function(){ editWrap.classList.remove("on"); });
+  var editBtn=$("edit"); if(editBtn) editBtn.addEventListener("click", function(){ nameInput.value=state.name||""; offenseInput.value=state.offense||""; editWrap.classList.add("on"); nameInput.focus(); });  editWrap.querySelector("#cancelEdit").addEventListener("click", function(){ editWrap.classList.remove("on"); });
   editWrap.addEventListener("click", function(e){ if(e.target===editWrap) editWrap.classList.remove("on"); });
   editWrap.querySelector("#saveEdit").addEventListener("click", function(){
     state.name=(nameInput.value||"").trim();
@@ -380,7 +379,8 @@
     x.fillStyle="#f2f2f2";x.font="700 40px Impact,'Arial Narrow',sans-serif";wrapText(x,"SINCE "+(nm||"THEY")+" LAST "+off,W/2,600,W-160,48);
     x.fillStyle="#cfd3d8";x.font="700 30px Arial,sans-serif";x.fillText("RECORD: "+Math.floor((state.record||0)/DAY)+" DAYS      INCIDENTS: "+((state.log||[]).length),W/2,H-150);
     return c;
-  $("share").addEventListener("click", function(){
+{
+    $("share").addEventListener("click", function(){
   try{
     var url = drawCard().toDataURL("image/png");
     shareImg.src = url; shareDl.href = url;
