@@ -1,398 +1,2373 @@
+```html
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Safety First</title>
-<meta name="description" content="A workplace-style safety scoreboard for tracking days since they last started a fight for no reason." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23141414'/%3E%3Cpath%20d='M32%2010%20L58%2054%20L6%2054%20Z'%20fill='%23f4c400'%20stroke='%23141414'%20stroke-width='3'/%3E%3Crect%20x='29'%20y='26'%20width='6'%20height='16'%20rx='2'%20fill='%23141414'/%3E%3Ccircle%20cx='32'%20cy='48'%20r='3.4'%20fill='%23141414'/%3E%3C/svg%3E" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="Days Since the Last Incident" />
-<meta property="og:description" content="A workplace-style safety scoreboard for the chronically dramatic." />
-<meta property="og:image" content="og.png" />
-<meta name="twitter:card" content="summary_large_image" />
-<style>
-  :root{
-    --tape-y:#f4c400; --ink:#141414; --steel1:#41454b; --steel2:#282b30;
-    --led:#ffb200; --red:#d0021b; --red-hi:#ff5347;
-    --sans:"Arial Narrow","Helvetica Neue",Arial,sans-serif;
-    --slab:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Black",sans-serif;
-    --mono:ui-monospace,"SFMono-Regular",Menlo,"Courier New",monospace;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;min-height:100%;}
-  body{font-family:var(--sans);color:#e9e9e9;display:flex;flex-direction:column;align-items:center;
-    background:radial-gradient(120% 80% at 50% -10%, #2c2f34 0%, #1a1c20 55%, #121316 100%);
-    padding:26px 14px 40px;-webkit-text-size-adjust:100%;overflow-x:hidden;}
-  .wrap{width:100%;max-width:540px;}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Safety First</title>
+  <meta name="description" content="A workplace-style safety scoreboard for tracking days since they last started a fight for no reason." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='12'%20fill='%23141414'/%3E%3Cpath%20d='M32%2010%20L58%2054%20L6%2054%20Z'%20fill='%23f4c400'%20stroke='%23141414'%20stroke-width='3'/%3E%3Crect%20x='29'%20y='26'%20width='6'%20height='16'%20rx='2'%20fill='%23141414'/%3E%3Ccircle%20cx='32'%20cy='48'%20r='3.4'%20fill='%23141414'/%3E%3C/svg%3E" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Days Since the Last Incident" />
+  <meta property="og:description" content="A workplace-style safety scoreboard for the chronically dramatic." />
+  <meta property="og:image" content="og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  .sign{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 22px 50px rgba(0,0,0,.55),0 2px 0 rgba(255,255,255,.05) inset;}
-  .tape{height:30px;background:repeating-linear-gradient(45deg,var(--tape-y) 0 24px,var(--ink) 24px 48px);
-    box-shadow:0 1px 0 rgba(0,0,0,.4) inset,0 -1px 0 rgba(0,0,0,.4) inset;}
-  .plate{position:relative;padding:22px 18px 24px;background:linear-gradient(180deg,var(--steel1),var(--steel2));
-    border-left:3px solid #1c1e22;border-right:3px solid #1c1e22;}
-  .plate::before,.plate::after{content:"";position:absolute;width:13px;height:13px;border-radius:50%;top:12px;
-    background:radial-gradient(circle at 35% 30%,#c3c8ce,#3a3d42 70%,#202225);box-shadow:0 1px 2px rgba(0,0,0,.6);}
-  .plate::before{left:12px;} .plate::after{right:12px;}
-  .rivet{position:absolute;width:13px;height:13px;border-radius:50%;bottom:12px;
-    background:radial-gradient(circle at 35% 30%,#c3c8ce,#3a3d42 70%,#202225);box-shadow:0 1px 2px rgba(0,0,0,.6);}
-  .rivet.l{left:12px;} .rivet.r{right:12px;}
+  <style>
+    :root{
+      --tape-y:#f4c400;
+      --ink:#141414;
+      --steel1:#41454b;
+      --steel2:#282b30;
+      --led:#ffb200;
+      --red:#d0021b;
+      --red-hi:#ff5347;
+      --sans:"Arial Narrow","Helvetica Neue",Arial,sans-serif;
+      --slab:Impact,Haettenschweiler,"Arial Narrow Bold","Arial Black",sans-serif;
+      --mono:ui-monospace,"SFMono-Regular",Menlo,"Courier New",monospace;
+    }
 
-  .safety-first{display:flex;align-items:center;justify-content:center;gap:12px;font-family:var(--slab);
-    letter-spacing:2px;font-size:30px;color:var(--tape-y);text-shadow:0 2px 0 rgba(0,0,0,.5);text-transform:uppercase;}
-  .safety-first svg{width:30px;height:30px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5));}
-  .preamble{text-align:center;text-transform:uppercase;letter-spacing:3px;font-weight:700;font-size:12px;color:#c4c8cd;margin:10px 0 12px;}
+    *{
+      box-sizing:border-box;
+    }
 
-  .counter{background:#0c0d0e;border:2px solid #000;border-radius:8px;padding:14px 8px 10px;
-    box-shadow:0 3px 8px rgba(0,0,0,.5) inset;}
-  .clock{display:flex;align-items:flex-start;justify-content:center;gap:4px;}
-  .grp{display:flex;flex-direction:column;align-items:center;}
-  .cells{display:flex;gap:4px;}
-  .cell{font-family:var(--mono);font-weight:700;font-size:44px;line-height:1;color:var(--led);
-    background:linear-gradient(180deg,#171717,#0a0a0a);border:1px solid #000;border-radius:5px;width:34px;
-    text-align:center;padding:8px 0 6px;text-shadow:0 0 10px rgba(255,178,0,.65);box-shadow:0 0 0 1px rgba(255,178,0,.08) inset;}
-  .lab{font-family:var(--slab);letter-spacing:2px;color:var(--led);opacity:.85;font-size:12px;margin-top:6px;text-transform:uppercase;text-shadow:0 0 6px rgba(255,178,0,.4);}
-  .sep{font-family:var(--mono);font-weight:700;font-size:40px;color:var(--led);opacity:.7;padding-top:8px;}
-  .rolling .cell{color:var(--red-hi);text-shadow:0 0 12px rgba(255,83,71,.7);}
+    html,
+    body{
+      margin:0;
+      min-height:100%;
+    }
 
-  .headline{text-align:center;text-transform:uppercase;font-family:var(--slab);letter-spacing:1px;font-size:22px;
-    line-height:1.15;color:#f2f2f2;margin:16px 8px 14px;text-shadow:0 1px 0 rgba(0,0,0,.5);}
+    body{
+      font-family:var(--sans);
+      color:#e9e9e9;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      background:
+        radial-gradient(
+          120% 80% at 50% -10%,
+          #2c2f34 0%,
+          #1a1c20 55%,
+          #121316 100%
+        );
+      padding:26px 14px 40px;
+      -webkit-text-size-adjust:100%;
+      overflow-x:hidden;
+    }
 
-  .placards{display:flex;gap:10px;justify-content:center;margin:6px 0 16px;}
-  .placard{flex:1;max-width:180px;text-align:center;text-transform:uppercase;letter-spacing:1px;font-size:11px;font-weight:700;
-    color:#cfd3d8;background:linear-gradient(180deg,#2f3237,#212327);border:1px solid #14161a;border-radius:6px;padding:8px 6px;}
-  .placard b{display:block;font-family:var(--mono);font-size:26px;color:#fff;margin-top:2px;}
+    .wrap{
+      width:100%;
+      max-width:540px;
+    }
 
-  .report{display:block;width:100%;max-width:380px;margin:0 auto;cursor:pointer;font-family:var(--slab);letter-spacing:2px;
-    font-size:22px;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,#e5342b,#b00016);
-    border:2px solid #6f000c;border-radius:10px;padding:15px 12px;box-shadow:0 5px 0 #6f000c,0 8px 14px rgba(0,0,0,.4);
-    text-shadow:0 1px 2px rgba(0,0,0,.5);transition:transform .05s,box-shadow .05s;}
-  .report:active{transform:translateY(4px);box-shadow:0 1px 0 #6f000c,0 3px 8px rgba(0,0,0,.4);}
+    .sign{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:
+        0 22px 50px rgba(0,0,0,.55),
+        0 2px 0 rgba(255,255,255,.05) inset;
+    }
 
-  .finelinks{text-align:center;margin-top:14px;font-size:12px;color:#aeb3b8;}
-  .finelinks button{background:none;border:0;color:#c9a227;font-weight:700;cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.5px;padding:2px 4px;}
-  .finelinks button:hover{color:var(--tape-y);}
+    .tape{
+      height:30px;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          var(--tape-y) 0 24px,
+          var(--ink) 24px 48px
+        );
+      box-shadow:
+        0 1px 0 rgba(0,0,0,.4) inset,
+        0 -1px 0 rgba(0,0,0,.4) inset;
+    }
 
-  /* INCIDENT LOGGED stamp */
-  .stamp{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-12deg) scale(2.4);
-    display:none;font-family:var(--slab);letter-spacing:3px;text-transform:uppercase;font-size:44px;line-height:.95;
-    text-align:center;color:#e5342b;border:5px double #e5342b;border-radius:8px;padding:10px 20px;opacity:0;
-    background:rgba(20,10,10,.12);text-shadow:0 1px 0 rgba(0,0,0,.3);pointer-events:none;z-index:5;box-shadow:0 0 0 2px rgba(229,52,43,.25);}
-  @keyframes stampin{0%{opacity:0;transform:translate(-50%,-50%) rotate(-12deg) scale(2.4);}
-    55%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(.9);}
-    72%{transform:translate(-50%,-50%) rotate(-12deg) scale(1.06);}
-    100%{opacity:1;transform:translate(-50%,-50%) rotate(-12deg) scale(1);}}
-  .stamp.go{display:block;animation:stampin .34s forwards;}
-  .stamp.fade{opacity:0;transition:opacity .6s;}
-  @keyframes shk{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(3px,-1px)}30%,50%,70%{transform:translate(-5px,2px)}40%,60%{transform:translate(5px,-2px)}}
-  @keyframes shkH{10%,90%{transform:translate(-4px,2px)}30%,50%,70%{transform:translate(-9px,3px)}40%,60%{transform:translate(9px,-3px)}}
-  .sign.shk{animation:shk .4s;} .sign.shkH{animation:shkH .5s;}
+    .plate{
+      position:relative;
+      padding:22px 18px 24px;
+      background:linear-gradient(180deg,var(--steel1),var(--steel2));
+      border-left:3px solid #1c1e22;
+      border-right:3px solid #1c1e22;
+    }
 
-  /* incident log */
-  .log{margin-top:18px;background:linear-gradient(180deg,#2a2c31,#212327);border:1px solid #14161a;border-radius:10px;overflow:hidden;}
-  .log-head{background:#1a1c20;color:var(--tape-y);font-family:var(--slab);letter-spacing:2px;text-transform:uppercase;
-    font-size:16px;padding:10px 14px;border-bottom:1px solid #14161a;}
-  .log-list{padding:6px 10px 12px;}
-  .log-empty{color:#8a8f95;font-size:13px;padding:12px 4px;text-align:center;}
-  .entry{display:flex;gap:10px;align-items:flex-start;padding:11px 6px;border-bottom:1px dashed #33363c;}
-  .entry:last-child{border-bottom:0;}
-  .tag{flex-shrink:0;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:3px 7px;border-radius:4px;margin-top:2px;color:#141414;}
-  .tag.verbal{background:#9fd0ff;} .tag.dramatic{background:var(--tape-y);} .tag.nuclear{background:#ff6a3d;color:#fff;}
-  .entry .body{flex:1;min-width:0;}
-  .entry .txt{font-size:14px;color:#e9e9e9;line-height:1.35;word-wrap:break-word;white-space:pre-wrap;}
-  .entry .when{font-size:11px;color:#8a8f95;margin-top:3px;text-transform:uppercase;letter-spacing:.5px;}
-  .entry .del{background:none;border:0;color:#6f7378;cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;flex-shrink:0;}
-  .entry .del:hover{color:#e5342b;}
+    .plate::before,
+    .plate::after{
+      content:"";
+      position:absolute;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      top:12px;
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #c3c8ce,
+          #3a3d42 70%,
+          #202225
+        );
+      box-shadow:0 1px 2px rgba(0,0,0,.6);
+    }
 
-  .fineprint{text-align:center;max-width:460px;margin:16px auto 0;color:#7b7f85;font-size:11.5px;text-transform:uppercase;letter-spacing:1px;line-height:1.5;}
+    .plate::before{
+      left:12px;
+    }
 
-  .modal{position:fixed;inset:0;background:rgba(10,8,14,.74);display:none;align-items:center;justify-content:center;padding:20px;z-index:50;}
-  .modal.on{display:flex;}
-  .card{width:100%;max-width:430px;background:linear-gradient(180deg,#33363c,#24262b);border:2px solid #14161a;border-radius:12px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.6);}
-  .card h3{font-family:var(--slab);letter-spacing:2px;text-transform:uppercase;color:var(--tape-y);margin:0 0 4px;font-size:24px;display:flex;align-items:center;gap:10px;}
-  .card h3 svg{width:26px;height:26px;}
-  .card p{margin:0 0 14px;font-size:13px;color:#c4c8cd;line-height:1.45;}
-  .card label{display:block;text-transform:uppercase;letter-spacing:1px;font-size:11px;font-weight:700;color:#aeb3b8;margin:12px 0 6px;}
-  .card input,.card textarea{width:100%;padding:11px 12px;border-radius:8px;border:1px solid #14161a;background:#15171b;color:#fff;font-size:15px;font-family:var(--sans);}
-  .card textarea{min-height:96px;resize:vertical;line-height:1.4;}
-  .sevpick{display:flex;border:2px solid #14161a;border-radius:8px;overflow:hidden;}
-  .sevpick button{flex:1;appearance:none;border:0;cursor:pointer;padding:10px 6px;font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:12px;color:#c9cdd2;background:#22252a;border-right:1px solid #14161a;}
-  .sevpick button:last-child{border-right:0;} .sevpick button.on{background:var(--tape-y);color:#141414;}
-  .card .row{display:flex;gap:10px;margin-top:18px;}
-  .card .row button{flex:1;padding:12px;border-radius:8px;border:0;cursor:pointer;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
-  .btn-y{background:var(--tape-y);color:#141414;} .btn-ghost{background:#2b2e33;color:#c9cdd2;}
-  .card img{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
+    .plate::after{
+      right:12px;
+    }
 
-  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:#141414;color:#fff;border:1px solid #333;
-    padding:11px 18px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:60;max-width:88vw;text-align:center;}
-  .toast.on{opacity:1;}
-  @media (max-width:430px){ .cell{font-size:32px;width:25px;} .sep{font-size:30px;} .safety-first{font-size:24px;} .headline{font-size:19px;} .report{font-size:19px;} .stamp{font-size:34px;} }
-</style>
+    .rivet{
+      position:absolute;
+      width:13px;
+      height:13px;
+      border-radius:50%;
+      bottom:12px;
+      background:
+        radial-gradient(
+          circle at 35% 30%,
+          #c3c8ce,
+          #3a3d42 70%,
+          #202225
+        );
+      box-shadow:0 1px 2px rgba(0,0,0,.6);
+    }
+
+    .rivet.l{
+      left:12px;
+    }
+
+    .rivet.r{
+      right:12px;
+    }
+
+    .safety-first{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      font-family:var(--slab);
+      letter-spacing:2px;
+      font-size:30px;
+      color:var(--tape-y);
+      text-shadow:0 2px 0 rgba(0,0,0,.5);
+      text-transform:uppercase;
+    }
+
+    .safety-first svg{
+      width:30px;
+      height:30px;
+      flex-shrink:0;
+      filter:drop-shadow(0 1px 1px rgba(0,0,0,.5));
+    }
+
+    .preamble{
+      text-align:center;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      font-weight:700;
+      font-size:12px;
+      color:#c4c8cd;
+      margin:10px 0 12px;
+    }
+
+    .counter{
+      background:#0c0d0e;
+      border:2px solid #000;
+      border-radius:8px;
+      padding:14px 8px 10px;
+      box-shadow:0 3px 8px rgba(0,0,0,.5) inset;
+      overflow:hidden;
+    }
+
+    .clock{
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      gap:4px;
+      width:100%;
+    }
+
+    .grp{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      min-width:0;
+    }
+
+    .cells{
+      display:flex;
+      gap:4px;
+    }
+
+    .cell{
+      font-family:var(--mono);
+      font-weight:700;
+      font-size:44px;
+      line-height:1;
+      color:var(--led);
+      background:linear-gradient(180deg,#171717,#0a0a0a);
+      border:1px solid #000;
+      border-radius:5px;
+      width:38px;
+      min-width:38px;
+      text-align:center;
+      padding:8px 0 6px;
+      text-shadow:0 0 10px rgba(255,178,0,.65);
+      box-shadow:
+        0 0 0 1px rgba(255,178,0,.08) inset;
+    }
+
+    .lab{
+      font-family:var(--slab);
+      letter-spacing:2px;
+      color:var(--led);
+      opacity:.85;
+      font-size:12px;
+      margin-top:6px;
+      text-transform:uppercase;
+      text-shadow:0 0 6px rgba(255,178,0,.4);
+    }
+
+    .sep{
+      font-family:var(--mono);
+      font-weight:700;
+      font-size:40px;
+      color:var(--led);
+      opacity:.7;
+      padding-top:8px;
+      flex-shrink:0;
+    }
+
+    .rolling .cell{
+      color:var(--red-hi);
+      text-shadow:0 0 12px rgba(255,83,71,.7);
+    }
+
+    .headline{
+      text-align:center;
+      text-transform:uppercase;
+      font-family:var(--slab);
+      letter-spacing:1px;
+      font-size:22px;
+      line-height:1.15;
+      color:#f2f2f2;
+      margin:16px 8px 14px;
+      text-shadow:0 1px 0 rgba(0,0,0,.5);
+    }
+
+    .placards{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      margin:6px 0 16px;
+    }
+
+    .placard{
+      flex:1;
+      max-width:180px;
+      text-align:center;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:11px;
+      font-weight:700;
+      color:#cfd3d8;
+      background:linear-gradient(180deg,#2f3237,#212327);
+      border:1px solid #14161a;
+      border-radius:6px;
+      padding:8px 6px;
+    }
+
+    .placard b{
+      display:block;
+      font-family:var(--mono);
+      font-size:26px;
+      color:#fff;
+      margin-top:2px;
+    }
+
+    .report{
+      display:block;
+      width:100%;
+      max-width:380px;
+      margin:0 auto;
+      cursor:pointer;
+      font-family:var(--slab);
+      letter-spacing:2px;
+      font-size:22px;
+      text-transform:uppercase;
+      color:#fff;
+      background:linear-gradient(180deg,#e5342b,#b00016);
+      border:2px solid #6f000c;
+      border-radius:10px;
+      padding:15px 12px;
+      box-shadow:
+        0 5px 0 #6f000c,
+        0 8px 14px rgba(0,0,0,.4);
+      text-shadow:0 1px 2px rgba(0,0,0,.5);
+      transition:transform .05s,box-shadow .05s;
+    }
+
+    .report:active{
+      transform:translateY(4px);
+      box-shadow:
+        0 1px 0 #6f000c,
+        0 3px 8px rgba(0,0,0,.4);
+    }
+
+    .finelinks{
+      text-align:center;
+      margin-top:14px;
+      font-size:12px;
+      color:#aeb3b8;
+    }
+
+    .finelinks button{
+      background:none;
+      border:0;
+      color:#c9a227;
+      font-weight:700;
+      cursor:pointer;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      padding:2px 4px;
+    }
+
+    .finelinks button:hover{
+      color:var(--tape-y);
+    }
+
+    .stamp{
+      position:absolute;
+      left:50%;
+      top:46%;
+      transform:
+        translate(-50%,-50%)
+        rotate(-12deg)
+        scale(2.4);
+      display:none;
+      font-family:var(--slab);
+      letter-spacing:3px;
+      text-transform:uppercase;
+      font-size:44px;
+      line-height:.95;
+      text-align:center;
+      color:#e5342b;
+      border:5px double #e5342b;
+      border-radius:8px;
+      padding:10px 20px;
+      opacity:0;
+      background:rgba(20,10,10,.12);
+      text-shadow:0 1px 0 rgba(0,0,0,.3);
+      pointer-events:none;
+      z-index:5;
+      box-shadow:0 0 0 2px rgba(229,52,43,.25);
+    }
+
+    @keyframes stampin{
+      0%{
+        opacity:0;
+        transform:
+          translate(-50%,-50%)
+          rotate(-12deg)
+          scale(2.4);
+      }
+
+      55%{
+        opacity:1;
+        transform:
+          translate(-50%,-50%)
+          rotate(-12deg)
+          scale(.9);
+      }
+
+      72%{
+        transform:
+          translate(-50%,-50%)
+          rotate(-12deg)
+          scale(1.06);
+      }
+
+      100%{
+        opacity:1;
+        transform:
+          translate(-50%,-50%)
+          rotate(-12deg)
+          scale(1);
+      }
+    }
+
+    .stamp.go{
+      display:block;
+      animation:stampin .34s forwards;
+    }
+
+    .stamp.fade{
+      opacity:0;
+      transition:opacity .6s;
+    }
+
+    @keyframes shk{
+      10%,90%{transform:translate(-2px,1px)}
+      20%,80%{transform:translate(3px,-1px)}
+      30%,50%,70%{transform:translate(-5px,2px)}
+      40%,60%{transform:translate(5px,-2px)}
+    }
+
+    @keyframes shkH{
+      10%,90%{transform:translate(-4px,2px)}
+      30%,50%,70%{transform:translate(-9px,3px)}
+      40%,60%{transform:translate(9px,-3px)}
+    }
+
+    .sign.shk{
+      animation:shk .4s;
+    }
+
+    .sign.shkH{
+      animation:shkH .5s;
+    }
+
+    .log{
+      margin-top:18px;
+      background:linear-gradient(180deg,#2a2c31,#212327);
+      border:1px solid #14161a;
+      border-radius:10px;
+      overflow:hidden;
+    }
+
+    .log-head{
+      background:#1a1c20;
+      color:var(--tape-y);
+      font-family:var(--slab);
+      letter-spacing:2px;
+      text-transform:uppercase;
+      font-size:16px;
+      padding:10px 14px;
+      border-bottom:1px solid #14161a;
+    }
+
+    .log-list{
+      padding:6px 10px 12px;
+    }
+
+    .log-empty{
+      color:#8a8f95;
+      font-size:13px;
+      padding:12px 4px;
+      text-align:center;
+    }
+
+    .entry{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:11px 6px;
+      border-bottom:1px dashed #33363c;
+    }
+
+    .entry:last-child{
+      border-bottom:0;
+    }
+
+    .tag{
+      flex-shrink:0;
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+      padding:3px 7px;
+      border-radius:4px;
+      margin-top:2px;
+      color:#141414;
+    }
+
+    .tag.verbal{
+      background:#9fd0ff;
+    }
+
+    .tag.dramatic{
+      background:var(--tape-y);
+    }
+
+    .tag.nuclear{
+      background:#ff6a3d;
+      color:#fff;
+    }
+
+    .entry .body{
+      flex:1;
+      min-width:0;
+    }
+
+    .entry .txt{
+      font-size:14px;
+      color:#e9e9e9;
+      line-height:1.35;
+      word-wrap:break-word;
+      white-space:pre-wrap;
+    }
+
+    .entry .when{
+      font-size:11px;
+      color:#8a8f95;
+      margin-top:3px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+
+    .entry .del{
+      background:none;
+      border:0;
+      color:#6f7378;
+      cursor:pointer;
+      font-size:16px;
+      line-height:1;
+      padding:2px 4px;
+      flex-shrink:0;
+    }
+
+    .entry .del:hover{
+      color:#e5342b;
+    }
+
+    .fineprint{
+      text-align:center;
+      max-width:460px;
+      margin:16px auto 0;
+      color:#7b7f85;
+      font-size:11.5px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      line-height:1.5;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(10,8,14,.74);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:50;
+    }
+
+    .modal.on{
+      display:flex;
+    }
+
+    .card{
+      width:100%;
+      max-width:430px;
+      background:linear-gradient(180deg,#33363c,#24262b);
+      border:2px solid #14161a;
+      border-radius:12px;
+      padding:20px;
+      box-shadow:0 20px 50px rgba(0,0,0,.6);
+    }
+
+    .card h3{
+      font-family:var(--slab);
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:var(--tape-y);
+      margin:0 0 4px;
+      font-size:24px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .card h3 svg{
+      width:26px;
+      height:26px;
+      flex-shrink:0;
+    }
+
+    .card p{
+      margin:0 0 14px;
+      font-size:13px;
+      color:#c4c8cd;
+      line-height:1.45;
+    }
+
+    .card label{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:11px;
+      font-weight:700;
+      color:#aeb3b8;
+      margin:12px 0 6px;
+    }
+
+    .card input,
+    .card textarea{
+      width:100%;
+      padding:11px 12px;
+      border-radius:8px;
+      border:1px solid #14161a;
+      background:#15171b;
+      color:#fff;
+      font-size:15px;
+      font-family:var(--sans);
+    }
+
+    .card textarea{
+      min-height:96px;
+      resize:vertical;
+      line-height:1.4;
+    }
+
+    .sevpick{
+      display:flex;
+      border:2px solid #14161a;
+      border-radius:8px;
+      overflow:hidden;
+    }
+
+    .sevpick button{
+      flex:1;
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      padding:10px 6px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:12px;
+      color:#c9cdd2;
+      background:#22252a;
+      border-right:1px solid #14161a;
+    }
+
+    .sevpick button:last-child{
+      border-right:0;
+    }
+
+    .sevpick button.on{
+      background:var(--tape-y);
+      color:#141414;
+    }
+
+    .card .row{
+      display:flex;
+      gap:10px;
+      margin-top:18px;
+    }
+
+    .card .row button,
+    .card .row a{
+      flex:1;
+      padding:12px;
+      border-radius:8px;
+      border:0;
+      cursor:pointer;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-family:var(--sans);
+      font-size:14px;
+    }
+
+    .btn-y{
+      background:var(--tape-y);
+      color:#141414;
+    }
+
+    .btn-ghost{
+      background:#2b2e33;
+      color:#c9cdd2;
+    }
+
+    .card img{
+      width:100%;
+      border-radius:8px;
+      margin-bottom:14px;
+      display:block;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:26px;
+      transform:translateX(-50%);
+      background:#141414;
+      color:#fff;
+      border:1px solid #333;
+      padding:11px 18px;
+      border-radius:999px;
+      font-size:13px;
+      opacity:0;
+      transition:opacity .2s;
+      pointer-events:none;
+      z-index:60;
+      max-width:88vw;
+      text-align:center;
+    }
+
+    .toast.on{
+      opacity:1;
+    }
+
+    @media (max-width:430px){
+      body{
+        padding-left:10px;
+        padding-right:10px;
+      }
+
+      .plate{
+        padding-left:12px;
+        padding-right:12px;
+      }
+
+      .counter{
+        padding-left:4px;
+        padding-right:4px;
+      }
+
+      .clock{
+        gap:2px;
+      }
+
+      .cells{
+        gap:2px;
+      }
+
+      .cell{
+        font-size:32px;
+        width:28px;
+        min-width:28px;
+        padding-top:7px;
+        padding-bottom:5px;
+      }
+
+      .sep{
+        font-size:30px;
+        padding-top:7px;
+      }
+
+      .safety-first{
+        font-size:24px;
+        gap:8px;
+      }
+
+      .safety-first svg{
+        width:24px;
+        height:24px;
+      }
+
+      .headline{
+        font-size:19px;
+      }
+
+      .report{
+        font-size:19px;
+      }
+
+      .stamp{
+        font-size:34px;
+      }
+
+      .lab{
+        font-size:10px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="wrap">
+
     <div class="sign" id="sign">
+
       <div class="tape"></div>
+
       <div class="plate">
-        <span class="rivet l"></span><span class="rivet r"></span>
+
+        <span class="rivet l"></span>
+        <span class="rivet r"></span>
+
         <div class="safety-first">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#f4c400" stroke="#141414" stroke-width="1.5"/><rect x="10.7" y="8" width="2.6" height="7" rx="1" fill="#141414"/><circle cx="12" cy="18" r="1.4" fill="#141414"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2 L23 21 L1 21 Z"
+              fill="#f4c400"
+              stroke="#141414"
+              stroke-width="1.5"
+            />
+            <rect
+              x="10.7"
+              y="8"
+              width="2.6"
+              height="7"
+              rx="1"
+              fill="#141414"
+            />
+            <circle
+              cx="12"
+              cy="18"
+              r="1.4"
+              fill="#141414"
+            />
+          </svg>
+
           Safety First
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#f4c400" stroke="#141414" stroke-width="1.5"/><rect x="10.7" y="8" width="2.6" height="7" rx="1" fill="#141414"/><circle cx="12" cy="18" r="1.4" fill="#141414"/></svg>
+
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M12 2 L23 21 L1 21 Z"
+              fill="#f4c400"
+              stroke="#141414"
+              stroke-width="1.5"
+            />
+            <rect
+              x="10.7"
+              y="8"
+              width="2.6"
+              height="7"
+              rx="1"
+              fill="#141414"
+            />
+            <circle
+              cx="12"
+              cy="18"
+              r="1.4"
+              fill="#141414"
+            />
+          </svg>
         </div>
-        <div class="preamble">Incident Free</div>
+
+        <div class="preamble">
+          Incident Free
+        </div>
+
         <div class="counter">
           <div class="clock" id="clock">
-            <div class="grp"><div class="cells" id="cD"></div><span class="lab">Days</span></div>
+
+            <div class="grp">
+              <div class="cells" id="cD"></div>
+              <span class="lab">Days</span>
+            </div>
+
             <span class="sep">:</span>
-            <div class="grp"><div class="cells" id="cH"></div><span class="lab">Hrs</span></div>
+
+            <div class="grp">
+              <div class="cells" id="cH"></div>
+              <span class="lab">Hrs</span>
+            </div>
+
             <span class="sep">:</span>
-            <div class="grp"><div class="cells" id="cM"></div><span class="lab">Min</span></div>
+
+            <div class="grp">
+              <div class="cells" id="cM"></div>
+              <span class="lab">Min</span>
+            </div>
+
             <span class="sep">:</span>
-            <div class="grp"><div class="cells" id="cS"></div><span class="lab">Sec</span></div>
+
+            <div class="grp">
+              <div class="cells" id="cS"></div>
+              <span class="lab">Sec</span>
+            </div>
+
           </div>
         </div>
+
         <div class="headline" id="headline"></div>
+
         <div class="placards">
-          <div class="placard">Record<b id="record">0</b>Days</div>
-          <div class="placard">Incidents<b id="incidents">0</b>Logged</div>
+
+          <div class="placard">
+            Record
+            <b id="record">0</b>
+            Days
+          </div>
+
+          <div class="placard">
+            Incidents
+            <b id="incidents">0</b>
+            Logged
+          </div>
+
         </div>
-        <button class="report" id="report">&#9650; Report an Incident &#9650;</button>
+
+        <button class="report" id="report">
+          &#9650; Report an Incident &#9650;
+        </button>
+
         <div class="finelinks">
-          <button id="share">Share</button> &middot;
+          <button id="edit">Edit</button>
+          &middot;
+          <button id="share">Share</button>
+          &middot;
           <button id="sound">Sound: off</button>
         </div>
+
       </div>
+
       <div class="tape"></div>
-      <div class="stamp" id="stamp">Incident<br>Logged</div>
+
+      <div class="stamp" id="stamp">
+        Incident<br />
+        Logged
+      </div>
+
     </div>
 
     <div class="log">
-      <div class="log-head">Incident Log</div>
+
+      <div class="log-head">
+        Incident Log
+      </div>
+
       <div class="log-list" id="logList"></div>
+
     </div>
 
-    <div class="fineprint">Report all incidents to management. Management is also them. This log is stored only on this device.</div>
+    <div class="fineprint">
+      Report all incidents to management.
+      Management is also them.
+      This log is stored only on this device.
+    </div>
+
   </div>
 
   <div class="modal" id="reportModal">
+
     <div class="card">
-      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L23 21 L1 21 Z" fill="#f4c400" stroke="#141414" stroke-width="1.5"/><rect x="10.7" y="8" width="2.6" height="7" rx="1" fill="#141414"/><circle cx="12" cy="18" r="1.4" fill="#141414"/></svg> Incident report</h3>
-      <p>What happened? Put it on the record — the thing they said, the fight that came from nowhere, whatever you'd have fired back. Filing this resets the counter.</p>
-      <label>What happened</label>
-      <textarea id="whatInput" maxlength="600" placeholder="At 11:47pm, for reasons unknown to science, they…"></textarea>
-      <label>Severity</label>
+
+      <h3>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M12 2 L23 21 L1 21 Z"
+            fill="#f4c400"
+            stroke="#141414"
+            stroke-width="1.5"
+          />
+          <rect
+            x="10.7"
+            y="8"
+            width="2.6"
+            height="7"
+            rx="1"
+            fill="#141414"
+          />
+          <circle
+            cx="12"
+            cy="18"
+            r="1.4"
+            fill="#141414"
+          />
+        </svg>
+
+        Incident report
+      </h3>
+
+      <p>
+        What happened? Put it on the record — the thing they said,
+        the fight that came from nowhere, whatever you'd have fired back.
+        Filing this resets the counter.
+      </p>
+
+      <label>
+        What happened
+      </label>
+
+      <textarea
+        id="whatInput"
+        maxlength="600"
+        placeholder="At 11:47pm, for reasons unknown to science, they…"
+      ></textarea>
+
+      <label>
+        Severity
+      </label>
+
       <div class="sevpick" id="sevpick">
-        <button data-sev="verbal">Verbal</button>
-        <button data-sev="dramatic" class="on">Dramatic</button>
-        <button data-sev="nuclear">Nuclear</button>
+
+        <button data-sev="verbal">
+          Verbal
+        </button>
+
+        <button data-sev="dramatic" class="on">
+          Dramatic
+        </button>
+
+        <button data-sev="nuclear">
+          Nuclear
+        </button>
+
       </div>
+
       <div class="row">
-        <button class="btn-y" id="logIt">File &amp; reset</button>
-        <button class="btn-ghost" id="cancelReport">Cancel</button>
+
+        <button class="btn-y" id="logIt">
+          File &amp; reset
+        </button>
+
+        <button class="btn-ghost" id="cancelReport">
+          Cancel
+        </button>
+
       </div>
+
     </div>
+
   </div>
 
   <div class="modal" id="shareModal">
+
     <div class="card">
-      <h3>Share the record</h3>
-      <img id="shareImg" alt="Your safety scoreboard" />
+
+      <h3>
+        Share the record
+      </h3>
+
+      <img
+        id="shareImg"
+        alt="Your safety scoreboard"
+      />
+
       <div class="row">
-        <a class="btn-y" id="shareDl" download="incident-report.png" style="text-decoration:none;text-align:center;line-height:1.6;">Download</a>
-        <button class="btn-ghost" id="shareClose">Close</button>
+
+        <a
+          class="btn-y"
+          id="shareDl"
+          download="incident-report.png"
+          style="text-decoration:none;text-align:center;line-height:1.6;"
+        >
+          Download
+        </a>
+
+        <button class="btn-ghost" id="shareClose">
+          Close
+        </button>
+
       </div>
+
     </div>
+
   </div>
 
   <div class="toast" id="toast"></div>
 
-<script>
-(function(){
-  "use strict";
-  var KEY="fightometer_v2", DAY=86400000;
+  <script>
+    (function(){
+      "use strict";
 
-  function load(){
-    var s=null; try{ var raw=localStorage.getItem(KEY); if(raw) s=JSON.parse(raw); }catch(e){}
-    var base={startTime:Date.now(),record:0,name:"",offense:"started a fight for no reason",sound:false,log:[]};
-    if(s&&typeof s==="object"){ for(var k in base) if(s[k]!==undefined) base[k]=s[k]; }
-    if(!Array.isArray(base.log)) base.log=[];
-    return base;
-  }
-  var state=load();
-  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(state)); }catch(e){} }
-  save();
+      var KEY = "fightometer_v2";
+      var DAY = 86400000;
 
-  var $=function(id){return document.getElementById(id);};
-  var cD=$("cD"),cH=$("cH"),cM=$("cM"),cS=$("cS"),clockEl=$("clock"),
-      headlineEl=$("headline"),recordEl=$("record"),incidentsEl=$("incidents"),
-      soundBtn=$("sound"),signEl=$("sign"),stampEl=$("stamp"),toastEl=$("toast"),logListEl=$("logList");
-  var currentSeverity="dramatic", rolling=false, stampT1=null, stampT2=null, toastT=null;
+      /*
+       * ------------------------------------------------------------
+       * STATE
+       * ------------------------------------------------------------
+       */
 
-  function p2(n){return (n<10?"0":"")+n;}
-  function pad(str,len){ str=String(str); while(str.length<len) str="0"+str; return str; }
-  function cells(el,str){ var h=""; for(var i=0;i<str.length;i++) h+='<span class="cell">'+str.charAt(i)+'</span>'; el.innerHTML=h; }
+      function load(){
+        var saved = null;
 
-  function renderClock(ms){
-    ms=Math.max(0,ms);
-    var d=Math.floor(ms/DAY); ms-=d*DAY;
-    var h=Math.floor(ms/3600000); ms-=h*3600000;
-    var m=Math.floor(ms/60000); var s=Math.floor((ms%60000)/1000);
-    cells(cD,pad(d,3)); cells(cH,p2(h)); cells(cM,p2(m)); cells(cS,p2(s));
-  }
-  function timeAgo(ts){
-    var s=Math.floor((Date.now()-ts)/1000);
-    if(s<60) return "just now";
-    var m=Math.floor(s/60); if(m<60) return m+" min ago";
-    var h=Math.floor(m/60); if(h<24) return h+" hr ago";
-    var d=Math.floor(h/24); return d+" day"+(d>1?"s":"")+" ago";
-  }
-  function esc(t){ return String(t).replace(/[&<>]/g,function(c){return c==="&"?"&amp;":c==="<"?"&lt;":"&gt;";}); }
+        try{
+          var raw = localStorage.getItem(KEY);
 
-  function renderLog(){
-    var log=state.log||[];
-    if(!log.length){ logListEl.innerHTML='<div class="log-empty">No incidents on record. Suspicious, but we\u2019ll allow it.</div>'; return; }
-    var h="";
-    for(var i=0;i<log.length;i++){
-      var e=log[i], sev=(e.severity||"dramatic");
-      h+='<div class="entry" data-i="'+i+'">'+
-           '<span class="tag '+sev+'">'+sev+'</span>'+
-           '<div class="body"><div class="txt">'+(e.text?esc(e.text):"<em style=\'color:#8a8f95\'>(no details filed)</em>")+'</div>'+
-           '<div class="when">'+timeAgo(e.ts)+'</div></div>'+
-           '<button class="del" data-i="'+i+'" title="Strike from the record">&times;</button>'+
-         '</div>';
-    }
-    logListEl.innerHTML=h;
-  }
-  function renderMeta(){
-    recordEl.textContent=Math.floor((state.record||0)/DAY);
-    incidentsEl.textContent=(state.log||[]).length;
-    var nm=(state.name||"").trim().toUpperCase();
-    var off=(state.offense||"started a fight for no reason").trim().toUpperCase();
-    headlineEl.textContent="Since "+(nm||"THEY")+" last "+off;
-    soundBtn.textContent="Sound: "+(state.sound?"on":"off");
-    renderLog();
-  }
-  function tick(){ if(rolling) return; renderClock(Date.now()-state.startTime); }
+          if(raw){
+            saved = JSON.parse(raw);
+          }
+        }catch(e){
+          saved = null;
+        }
 
-  // sound (synthesized, no file/host) + haptics
-  var ac=null;
-  function buzzer(){ if(!state.sound) return; try{
-    ac=ac||new (window.AudioContext||window.webkitAudioContext)(); var t=ac.currentTime;
-    var o=ac.createOscillator(),g=ac.createGain();
-    o.type="sawtooth"; o.frequency.setValueAtTime(190,t); o.frequency.setValueAtTime(150,t+0.14);
-    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.22,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+0.42);
-    o.connect(g).connect(ac.destination); o.start(t); o.stop(t+0.45);
-  }catch(e){} }
-  function haptic(p){ try{ if(navigator.vibrate) navigator.vibrate(p); }catch(e){} }
+        var base = {
+          startTime: Date.now(),
+          record: 0,
+          name: "",
+          offense: "started a fight for no reason",
+          sound: false,
+          log: []
+        };
 
-  function stampSlam(){
-    stampEl.classList.remove("go","fade"); stampEl.style.display="block"; void stampEl.offsetWidth;
-    stampEl.classList.add("go");
-    clearTimeout(stampT1); clearTimeout(stampT2);
-    stampT1=setTimeout(function(){ stampEl.classList.add("fade"); },1400);
-    stampT2=setTimeout(function(){ stampEl.classList.remove("go","fade"); stampEl.style.display="none"; },2100);
-  }
-  function shake(sev){ var cls=sev==="nuclear"?"shkH":"shk"; signEl.classList.remove("shk","shkH"); void signEl.offsetWidth;
-    signEl.classList.add(cls); setTimeout(function(){ signEl.classList.remove(cls); },600); }
+        if(saved && typeof saved === "object"){
+          for(var k in base){
+            if(saved[k] !== undefined){
+              base[k] = saved[k];
+            }
+          }
+        }
 
-  function doReset(sev){
-    var held=Date.now()-state.startTime;
-    if(held>(state.record||0)) state.record=held;
-    state.startTime=Date.now(); save(); renderMeta();
-    // odometer roll-back (visual)
-    rolling=true; clockEl.classList.add("rolling");
-    var start=performance.now(), dur=1200;
-    (function step(t){ var k=Math.min(1,(t-start)/dur); var e=1-Math.pow(1-k,3);
-      renderClock(held*(1-e));
-      if(k<1) requestAnimationFrame(step); else { rolling=false; clockEl.classList.remove("rolling"); renderClock(Date.now()-state.startTime); }
-    })(performance.now());
-    stampSlam(); shake(sev); buzzer();
-    haptic(sev==="nuclear"?[50,50,90]:sev==="verbal"?20:[30,40]);
-  }
+        /*
+         * Protect the countdown from invalid stored data.
+         */
+        if(
+          typeof base.startTime !== "number" ||
+          !isFinite(base.startTime) ||
+          base.startTime > Date.now()
+        ){
+          base.startTime = Date.now();
+        }
 
-  // ---- report modal ----
-  var reportModal=$("reportModal"), whatInput=$("whatInput"), sevpick=$("sevpick");
-  function openReport(){ whatInput.value=""; currentSeverity="dramatic"; setSev("dramatic"); reportModal.classList.add("on"); setTimeout(function(){whatInput.focus();},50); }
-  function closeReport(){ reportModal.classList.remove("on"); }
-  function setSev(sev){ currentSeverity=sev; var bs=sevpick.getElementsByTagName("button"); for(var i=0;i<bs.length;i++) bs[i].classList.toggle("on", bs[i].getAttribute("data-sev")===sev); }
-  function logIncident(){
-    var text=(whatInput.value||"").trim();
-    (state.log=state.log||[]).unshift({text:text,severity:currentSeverity,ts:Date.now()});
-    if(state.log.length>200) state.log.length=200;
-    doReset(currentSeverity); save(); renderMeta(); closeReport();
-    toast("Incident filed. Back to zero.");
-  }
+        if(
+          typeof base.record !== "number" ||
+          !isFinite(base.record) ||
+          base.record < 0
+        ){
+          base.record = 0;
+        }
 
-  $("report").addEventListener("click", openReport);
-  $("logIt").addEventListener("click", logIncident);
-  $("cancelReport").addEventListener("click", closeReport);
-  reportModal.addEventListener("click", function(e){ if(e.target===reportModal) closeReport(); });
-  sevpick.addEventListener("click", function(e){ var b=e.target.closest?e.target.closest("button"):null; if(b) setSev(b.getAttribute("data-sev")); });
+        if(!Array.isArray(base.log)){
+          base.log = [];
+        }
 
-  // delete log entries
-  logListEl.addEventListener("click", function(e){
-    var b=e.target.closest?e.target.closest(".del"):null; if(!b) return;
-    var i=parseInt(b.getAttribute("data-i"),10);
-    if(!isNaN(i)){ state.log.splice(i,1); save(); renderMeta(); toast("Struck from the record."); }
-  });
+        return base;
+      }
 
-  soundBtn.addEventListener("click", function(){ state.sound=!state.sound; save(); renderMeta(); if(state.sound) buzzer(); });
+      var state = load();
 
-  // ---- edit ----
-  // (reuse report modal styling via a lightweight prompt-style modal built inline)
-  var editWrap=document.createElement("div"); editWrap.className="modal"; editWrap.innerHTML=
-    '<div class="card"><h3>Edit the sign</h3><p>Name the offender and describe the offense. Blank name gives a tasteful, anonymous \u201cthey.\u201d</p>'+
-    '<label>Their name</label><input id="nameInput" maxlength="24" placeholder="e.g. Jordan" />'+
-    '<label>The offense</label><input id="offenseInput" maxlength="60" placeholder="started a fight for no reason" />'+
-    '<div class="row"><button class="btn-y" id="saveEdit">Save</button><button class="btn-ghost" id="cancelEdit">Cancel</button></div></div>';
-  document.body.appendChild(editWrap);
-  var nameInput=editWrap.querySelector("#nameInput"), offenseInput=editWrap.querySelector("#offenseInput");
-  var editBtn=$("edit"); if(editBtn) editBtn.addEventListener("click", function(){ nameInput.value=state.name||""; offenseInput.value=state.offense||""; editWrap.classList.add("on"); nameInput.focus(); });  editWrap.querySelector("#cancelEdit").addEventListener("click", function(){ editWrap.classList.remove("on"); });
-  editWrap.addEventListener("click", function(e){ if(e.target===editWrap) editWrap.classList.remove("on"); });
-  editWrap.querySelector("#saveEdit").addEventListener("click", function(){
-    state.name=(nameInput.value||"").trim();
-    state.offense=(offenseInput.value||"").trim()||"started a fight for no reason";
-    save(); renderMeta(); editWrap.classList.remove("on"); toast("Sign updated.");
-  });
+      function save(){
+        try{
+          localStorage.setItem(KEY,JSON.stringify(state));
+        }catch(e){
+          /*
+           * Storage can fail in private browsing or restricted
+           * environments. The app can still operate in memory.
+           */
+        }
+      }
 
-  // ---- toast ----
-  function toast(m){ toastEl.textContent=m; toastEl.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(function(){ toastEl.classList.remove("on"); },2600); }
+      save();
 
-  // ---- share ----
-  var shareModal=$("shareModal"), shareImg=$("shareImg"), shareDl=$("shareDl");
-  function wrapText(x,text,cx,y,maxw,lh){ var w=text.split(" "),line="",lines=[]; for(var i=0;i<w.length;i++){ var t=line?line+" "+w[i]:w[i]; if(x.measureText(t).width>maxw&&line){lines.push(line);line=w[i];}else line=t;} if(line)lines.push(line); var sy=y-(lines.length-1)*lh/2; for(var j=0;j<lines.length;j++)x.fillText(lines[j],cx,sy+j*lh); }
-  function drawCard(){
-    var days=Math.floor((Date.now()-state.startTime)/DAY);
-    var W=1080,H=1080,c=document.createElement("canvas");c.width=W;c.height=H;var x=c.getContext("2d");
-    var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,"#41454b");g.addColorStop(1,"#24262b");x.fillStyle=g;x.fillRect(0,0,W,H);
-    function tape(y,hgt){ x.fillStyle="#f4c400";x.fillRect(0,y,W,hgt);x.fillStyle="#141414";
-      for(var i=-1;i<W/140+2;i++){var sx=i*140;x.beginPath();x.moveTo(sx,y);x.lineTo(sx+70,y);x.lineTo(sx+70-hgt,y+hgt);x.lineTo(sx-hgt,y+hgt);x.closePath();x.fill();}}
-    tape(0,64);tape(H-64,64);
-    x.textAlign="center";
-    x.fillStyle="#f4c400";x.font="700 58px Impact,'Arial Black',sans-serif";x.fillText("\u26A0  SAFETY FIRST  \u26A0",W/2,150);
-    x.fillStyle="#c4c8cd";x.font="700 26px Arial,sans-serif";x.fillText("THIS HOUSEHOLD HAS OPERATED",W/2,210);
-    x.fillStyle="#0c0d0e";x.strokeStyle="#000";x.lineWidth=4;var bw=560,bh=240,bx=(W-bw)/2,by=250;x.fillRect(bx,by,bw,bh);x.strokeRect(bx,by,bw,bh);
-    x.fillStyle="#ffb200";x.font="700 172px ui-monospace,'Courier New',monospace";x.shadowColor="rgba(255,178,0,.6)";x.shadowBlur=24;x.fillText(String(days),W/2,by+160);
-    x.shadowBlur=0;x.font="700 40px Impact,sans-serif";x.fillText("D A Y S",W/2,by+bh-14);
-    var nm=(state.name||"").trim().toUpperCase(),off=(state.offense||"started a fight for no reason").trim().toUpperCase();
-    x.fillStyle="#f2f2f2";x.font="700 40px Impact,'Arial Narrow',sans-serif";wrapText(x,"SINCE "+(nm||"THEY")+" LAST "+off,W/2,600,W-160,48);
-    x.fillStyle="#cfd3d8";x.font="700 30px Arial,sans-serif";x.fillText("RECORD: "+Math.floor((state.record||0)/DAY)+" DAYS      INCIDENTS: "+((state.log||[]).length),W/2,H-150);
-    return c;
-{
-    $("share").addEventListener("click", function(){
-  try{
-    var url = drawCard().toDataURL("image/png");
-    shareImg.src = url; shareDl.href = url;
-    shareModal.classList.add("on");
-  }catch(e){ toast("Couldn't build the card on this device."); }
-});
-  $("shareClose").addEventListener("click", function(){ shareModal.classList.remove("on"); });
-  shareModal.addEventListener("click", function(e){ if(e.target===shareModal) shareModal.classList.remove("on"); });
+      /*
+       * ------------------------------------------------------------
+       * DOM REFERENCES
+       * ------------------------------------------------------------
+       */
 
-  renderClock(Date.now()-state.startTime); renderMeta();
-  setInterval(tick,1000);
-})();
-</script>
+      var $ = function(id){
+        return document.getElementById(id);
+      };
+
+      var cD = $("cD");
+      var cH = $("cH");
+      var cM = $("cM");
+      var cS = $("cS");
+      var clockEl = $("clock");
+      var headlineEl = $("headline");
+      var recordEl = $("record");
+      var incidentsEl = $("incidents");
+      var soundBtn = $("sound");
+      var signEl = $("sign");
+      var stampEl = $("stamp");
+      var toastEl = $("toast");
+      var logListEl = $("logList");
+
+      var currentSeverity = "dramatic";
+      var rolling = false;
+
+      var stampT1 = null;
+      var stampT2 = null;
+      var toastT = null;
+
+      /*
+       * ------------------------------------------------------------
+       * COUNTDOWN / CLOCK
+       * ------------------------------------------------------------
+       */
+
+      function p2(n){
+        return (n < 10 ? "0" : "") + n;
+      }
+
+      function pad(str,len){
+        str = String(str);
+
+        while(str.length < len){
+          str = "0" + str;
+        }
+
+        return str;
+      }
+
+      function cells(el,str){
+        if(!el){
+          return;
+        }
+
+        var h = "";
+
+        for(var i=0;i<str.length;i++){
+          h += '<span class="cell">' +
+               str.charAt(i) +
+               '</span>';
+        }
+
+        el.innerHTML = h;
+      }
+
+      function renderClock(ms){
+        /*
+         * Never allow the displayed timer to become negative.
+         */
+        ms = Number(ms);
+
+        if(!isFinite(ms)){
+          ms = 0;
+        }
+
+        ms = Math.max(0,ms);
+
+        var d = Math.floor(ms / DAY);
+        ms -= d * DAY;
+
+        var h = Math.floor(ms / 3600000);
+        ms -= h * 3600000;
+
+        var m = Math.floor(ms / 60000);
+
+        var s = Math.floor(
+          (ms % 60000) / 1000
+        );
+
+        /*
+         * Days are displayed as three digits:
+         * 000, 001, 042, 365, etc.
+         */
+        cells(cD,pad(d,3));
+        cells(cH,p2(h));
+        cells(cM,p2(m));
+        cells(cS,p2(s));
+      }
+
+      function tick(){
+        if(rolling){
+          return;
+        }
+
+        renderClock(
+          Date.now() - state.startTime
+        );
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * LOG
+       * ------------------------------------------------------------
+       */
+
+      function timeAgo(ts){
+        var elapsed = Math.floor(
+          (Date.now() - ts) / 1000
+        );
+
+        if(elapsed < 0){
+          elapsed = 0;
+        }
+
+        if(elapsed < 60){
+          return "just now";
+        }
+
+        var m = Math.floor(elapsed / 60);
+
+        if(m < 60){
+          return m + " min ago";
+        }
+
+        var h = Math.floor(m / 60);
+
+        if(h < 24){
+          return h + " hr ago";
+        }
+
+        var d = Math.floor(h / 24);
+
+        return d +
+          " day" +
+          (d > 1 ? "s" : "") +
+          " ago";
+      }
+
+      function esc(t){
+        return String(t).replace(
+          /[&<>]/g,
+          function(c){
+            return c === "&"
+              ? "&amp;"
+              : c === "<"
+                ? "&lt;"
+                : "&gt;";
+          }
+        );
+      }
+
+      function renderLog(){
+        var log = state.log || [];
+
+        if(!log.length){
+          logListEl.innerHTML =
+            '<div class="log-empty">' +
+            'No incidents on record. Suspicious, but we&rsquo;ll allow it.' +
+            '</div>';
+
+          return;
+        }
+
+        var h = "";
+
+        for(var i=0;i<log.length;i++){
+
+          var e = log[i];
+
+          var sev =
+            e.severity || "dramatic";
+
+          h +=
+            '<div class="entry" data-i="' + i + '">' +
+
+              '<span class="tag ' + esc(sev) + '">' +
+                esc(sev) +
+              '</span>' +
+
+              '<div class="body">' +
+
+                '<div class="txt">' +
+                  (
+                    e.text
+                      ? esc(e.text)
+                      : "<em style=\"color:#8a8f95\">" +
+                        "(no details filed)" +
+                        "</em>"
+                  ) +
+                '</div>' +
+
+                '<div class="when">' +
+                  timeAgo(e.ts) +
+                '</div>' +
+
+              '</div>' +
+
+              '<button class="del" ' +
+                'data-i="' + i + '" ' +
+                'title="Strike from the record">' +
+                '&times;' +
+              '</button>' +
+
+            '</div>';
+        }
+
+        logListEl.innerHTML = h;
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * META
+       * ------------------------------------------------------------
+       */
+
+      function renderMeta(){
+
+        recordEl.textContent =
+          Math.floor(
+            (state.record || 0) / DAY
+          );
+
+        incidentsEl.textContent =
+          (state.log || []).length;
+
+        var nm =
+          (state.name || "")
+            .trim()
+            .toUpperCase();
+
+        var off =
+          (state.offense ||
+            "started a fight for no reason")
+            .trim()
+            .toUpperCase();
+
+        headlineEl.textContent =
+          "Since " +
+          (nm || "THEY") +
+          " last " +
+          off;
+
+        soundBtn.textContent =
+          "Sound: " +
+          (state.sound ? "on" : "off");
+
+        renderLog();
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * SOUND / HAPTICS
+       * ------------------------------------------------------------
+       */
+
+      var ac = null;
+
+      function buzzer(){
+
+        if(!state.sound){
+          return;
+        }
+
+        try{
+
+          ac =
+            ac ||
+            new (
+              window.AudioContext ||
+              window.webkitAudioContext
+            )();
+
+          var t = ac.currentTime;
+
+          var o = ac.createOscillator();
+          var g = ac.createGain();
+
+          o.type = "sawtooth";
+
+          o.frequency.setValueAtTime(
+            190,
+            t
+          );
+
+          o.frequency.setValueAtTime(
+            150,
+            t + 0.14
+          );
+
+          g.gain.setValueAtTime(
+            0.0001,
+            t
+          );
+
+          g.gain.exponentialRampToValueAtTime(
+            0.22,
+            t + 0.02
+          );
+
+          g.gain.exponentialRampToValueAtTime(
+            0.0001,
+            t + 0.42
+          );
+
+          o.connect(g).connect(ac.destination);
+
+          o.start(t);
+          o.stop(t + 0.45);
+
+        }catch(e){}
+      }
+
+      function haptic(pattern){
+        try{
+          if(
+            navigator.vibrate &&
+            typeof navigator.vibrate === "function"
+          ){
+            navigator.vibrate(pattern);
+          }
+        }catch(e){}
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * INCIDENT ANIMATION
+       * ------------------------------------------------------------
+       */
+
+      function stampSlam(){
+
+        stampEl.classList.remove(
+          "go",
+          "fade"
+        );
+
+        stampEl.style.display = "block";
+
+        /*
+         * Force browser reflow so the animation restarts
+         * reliably when multiple incidents are filed.
+         */
+        void stampEl.offsetWidth;
+
+        stampEl.classList.add("go");
+
+        clearTimeout(stampT1);
+        clearTimeout(stampT2);
+
+        stampT1 = setTimeout(
+          function(){
+            stampEl.classList.add("fade");
+          },
+          1400
+        );
+
+        stampT2 = setTimeout(
+          function(){
+            stampEl.classList.remove(
+              "go",
+              "fade"
+            );
+
+            stampEl.style.display = "none";
+          },
+          2100
+        );
+      }
+
+      function shake(sev){
+
+        var cls =
+          sev === "nuclear"
+            ? "shkH"
+            : "shk";
+
+        signEl.classList.remove(
+          "shk",
+          "shkH"
+        );
+
+        void signEl.offsetWidth;
+
+        signEl.classList.add(cls);
+
+        setTimeout(
+          function(){
+            signEl.classList.remove(cls);
+          },
+          600
+        );
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * RESET / INCIDENT
+       * ------------------------------------------------------------
+       */
+
+      function doReset(sev){
+
+        var held =
+          Date.now() - state.startTime;
+
+        held = Math.max(0,held);
+
+        if(
+          held > (state.record || 0)
+        ){
+          state.record = held;
+        }
+
+        state.startTime = Date.now();
+
+        save();
+
+        renderMeta();
+
+        /*
+         * Odometer roll-back animation.
+         */
+        rolling = true;
+
+        clockEl.classList.add("rolling");
+
+        var start = performance.now();
+        var dur = 1200;
+
+        (function step(t){
+
+          var k =
+            Math.min(
+              1,
+              (t - start) / dur
+            );
+
+          var e =
+            1 - Math.pow(1 - k,3);
+
+          renderClock(
+            held * (1 - e)
+          );
+
+          if(k < 1){
+
+            requestAnimationFrame(step);
+
+          }else{
+
+            rolling = false;
+
+            clockEl.classList.remove(
+              "rolling"
+            );
+
+            renderClock(
+              Date.now() -
+              state.startTime
+            );
+          }
+
+        })(performance.now());
+
+        stampSlam();
+        shake(sev);
+        buzzer();
+
+        haptic(
+          sev === "nuclear"
+            ? [50,50,90]
+            : sev === "verbal"
+              ? 20
+              : [30,40]
+        );
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * REPORT MODAL
+       * ------------------------------------------------------------
+       */
+
+      var reportModal = $("reportModal");
+      var whatInput = $("whatInput");
+      var sevpick = $("sevpick");
+
+      function openReport(){
+
+        whatInput.value = "";
+
+        currentSeverity = "dramatic";
+
+        setSev("dramatic");
+
+        reportModal.classList.add("on");
+
+        setTimeout(
+          function(){
+            whatInput.focus();
+          },
+          50
+        );
+      }
+
+      function closeReport(){
+        reportModal.classList.remove("on");
+      }
+
+      function setSev(sev){
+
+        currentSeverity = sev;
+
+        var bs =
+          sevpick.getElementsByTagName(
+            "button"
+          );
+
+        for(var i=0;i<bs.length;i++){
+
+          bs[i].classList.toggle(
+            "on",
+            bs[i].getAttribute("data-sev") === sev
+          );
+        }
+      }
+
+      function logIncident(){
+
+        var text =
+          (whatInput.value || "")
+            .trim();
+
+        if(!Array.isArray(state.log)){
+          state.log = [];
+        }
+
+        state.log.unshift({
+          text:text,
+          severity:currentSeverity,
+          ts:Date.now()
+        });
+
+        if(state.log.length > 200){
+          state.log.length = 200;
+        }
+
+        doReset(currentSeverity);
+
+        save();
+
+        renderMeta();
+
+        closeReport();
+
+        toast(
+          "Incident filed. Back to zero."
+        );
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * EVENT HANDLERS
+       * ------------------------------------------------------------
+       */
+
+      $("report").addEventListener(
+        "click",
+        openReport
+      );
+
+      $("logIt").addEventListener(
+        "click",
+        logIncident
+      );
+
+      $("cancelReport").addEventListener(
+        "click",
+        closeReport
+      );
+
+      reportModal.addEventListener(
+        "click",
+        function(e){
+          if(e.target === reportModal){
+            closeReport();
+          }
+        }
+      );
+
+      sevpick.addEventListener(
+        "click",
+        function(e){
+
+          var b =
+            e.target.closest
+              ? e.target.closest("button")
+              : null;
+
+          if(b){
+            setSev(
+              b.getAttribute("data-sev")
+            );
+          }
+        }
+      );
+
+      /*
+       * ------------------------------------------------------------
+       * DELETE LOG ENTRIES
+       * ------------------------------------------------------------
+       */
+
+      logListEl.addEventListener(
+        "click",
+        function(e){
+
+          var b =
+            e.target.closest
+              ? e.target.closest(".del")
+              : null;
+
+          if(!b){
+            return;
+          }
+
+          var i =
+            parseInt(
+              b.getAttribute("data-i"),
+              10
+            );
+
+          if(!isNaN(i)){
+
+            state.log.splice(i,1);
+
+            save();
+
+            renderMeta();
+
+            toast(
+              "Struck from the record."
+            );
+          }
+        }
+      );
+
+      /*
+       * ------------------------------------------------------------
+       * SOUND TOGGLE
+       * ------------------------------------------------------------
+       */
+
+      soundBtn.addEventListener(
+        "click",
+        function(){
+
+          state.sound = !state.sound;
+
+          save();
+
+          renderMeta();
+
+          if(state.sound){
+            buzzer();
+          }
+        }
+      );
+
+      /*
+       * ------------------------------------------------------------
+       * EDIT MODAL
+       * ------------------------------------------------------------
+       */
+
+      var editWrap =
+        document.createElement("div");
+
+      editWrap.className = "modal";
+
+      editWrap.innerHTML =
+        '<div class="card">' +
+
+          '<h3>Edit the sign</h3>' +
+
+          '<p>' +
+            'Name the offender and describe the offense. ' +
+            'Blank name gives a tasteful, anonymous “they.”' +
+          '</p>' +
+
+          '<label>Their name</label>' +
+
+          '<input ' +
+            'id="nameInput" ' +
+            'maxlength="24" ' +
+            'placeholder="e.g. Jordan" ' +
+          '/>' +
+
+          '<label>The offense</label>' +
+
+          '<input ' +
+            'id="offenseInput" ' +
+            'maxlength="60" ' +
+            'placeholder="started a fight for no reason" ' +
+          '/>' +
+
+          '<div class="row">' +
+
+            '<button ' +
+              'class="btn-y" ' +
+              'id="saveEdit">' +
+              'Save' +
+            '</button>' +
+
+            '<button ' +
+              'class="btn-ghost" ' +
+              'id="cancelEdit">' +
+              'Cancel' +
+            '</button>' +
+
+          '</div>' +
+
+        '</div>';
+
+      document.body.appendChild(editWrap);
+
+      var nameInput =
+        editWrap.querySelector(
+          "#nameInput"
+        );
+
+      var offenseInput =
+        editWrap.querySelector(
+          "#offenseInput"
+        );
+
+      var editBtn = $("edit");
+
+      if(editBtn){
+
+        editBtn.addEventListener(
+          "click",
+          function(){
+
+            nameInput.value =
+              state.name || "";
+
+            offenseInput.value =
+              state.offense || "";
+
+            editWrap.classList.add("on");
+
+            nameInput.focus();
+          }
+        );
+      }
+
+      editWrap
+        .querySelector("#cancelEdit")
+        .addEventListener(
+          "click",
+          function(){
+            editWrap.classList.remove("on");
+          }
+        );
+
+      editWrap.addEventListener(
+        "click",
+        function(e){
+
+          if(e.target === editWrap){
+            editWrap.classList.remove("on");
+          }
+        }
+      );
+
+      editWrap
+        .querySelector("#saveEdit")
+        .addEventListener(
+          "click",
+          function(){
+
+            state.name =
+              (nameInput.value || "")
+                .trim();
+
+            state.offense =
+              (offenseInput.value || "")
+                .trim() ||
+              "started a fight for no reason";
+
+            save();
+
+            renderMeta();
+
+            editWrap.classList.remove("on");
+
+            toast(
+              "Sign updated."
+            );
+          }
+        );
+
+      /*
+       * ------------------------------------------------------------
+       * TOAST
+       * ------------------------------------------------------------
+       */
+
+      function toast(m){
+
+        toastEl.textContent = m;
+
+        toastEl.classList.add("on");
+
+        clearTimeout(toastT);
+
+        toastT = setTimeout(
+          function(){
+            toastEl.classList.remove("on");
+          },
+          2600
+        );
+      }
+
+      /*
+       * ------------------------------------------------------------
+       * SHARE CARD
+       * ------------------------------------------------------------
+       */
+
+      var shareModal = $("shareModal");
+      var shareImg = $("shareImg");
+      var shareDl = $("shareDl");
+
+      function wrapText(
+        x,
+        text,
+        cx,
+        y,
+        maxw,
+        lh
+      ){
+
+        var words =
+          text.split(" ");
+
+        var line = "";
+        var lines = [];
+
+        for(
+          var i=0;
+          i<words.length;
+          i++
+        ){
+
+          var t =
+            line
+              ? line + " " + words[i]
+              : words[i];
+
+          if(
+            x.measureText(t).width > maxw &&
+            line
+          ){
+
+            lines.push(line);
+
+            line = words[i];
+
+          }else{
+
+            line = t;
+          }
+        }
+
+        if(line){
+          lines.push(line);
+        }
+
+        var sy =
+          y -
+          (lines.length - 1) *
+          lh /
+          2;
+
+        for(
+          var j=0;
+          j<lines.length;
+          j++
+        ){
+
+          x.fillText(
+            lines[j],
+            cx,
+            sy + j * lh
+          );
+        }
+      }
+
+      function drawCard(){
+
+        var elapsed =
+          Math.max(
+            0,
+            Date.now() -
+            state.startTime
+          );
+
+        var days =
+          Math.floor(
+            elapsed / DAY
+          );
+
+        var W = 1080;
+        var H = 1080;
+
+        var c =
+          document.createElement(
+            "canvas"
+          );
+
+        c.width = W;
+        c.height = H;
+
+        var x = c.getContext("2d");
+
+        var g =
+          x.createLinearGradient(
+            0,
+            0,
+            0,
+            H
+          );
+
+        g.addColorStop(
+          0,
+          "#41454b"
+        );
+
+        g.addColorStop(
+          1,
+          "#24262b"
+        );
+
+        x.fillStyle = g;
+
+        x.fillRect(
+          0,
+          0,
+          W,
+          H
+        );
+
+        function tape(y,hgt){
+
+          x.fillStyle =
+            "#f4c400";
+
+          x.fillRect(
+            0,
+            y,
+            W,
+            hgt
+          );
+
+          x.fillStyle =
+            "#141414";
+
+          for(
+            var i=-1;
+            i<W/140+2;
+            i++
+          ){
+
+            var sx =
+              i * 140;
+
+            x.beginPath();
+
+            x.moveTo(
+              sx,
+              y
+            );
+
+            x.lineTo(
+              sx + 70,
+              y
+            );
+
+            x.lineTo(
+              sx + 70 - hgt,
+              y + hgt
+            );
+
+            x.lineTo(
+              sx - hgt,
+              y + hgt
+            );
+
+            x.closePath();
+
+            x.fill();
+          }
+        }
+
+        tape(0,64);
+
+        tape(
+          H - 64,
+          64
+        );
+
+        x.textAlign = "center";
+
+        x.fillStyle =
+          "#f4c400";
+
+        x.font =
+          "700 58px Impact,'Arial Black',sans-serif";
+
+        x.fillText(
+          "\u26A0  SAFETY FIRST  \u26A0",
+          W / 2,
+          150
+        );
+
+        x.fillStyle =
+          "#c4c8cd";
+
+        x.font =
+          "700 26px Arial,sans-serif";
+
+        x.fillText(
+          "THIS HOUSEHOLD HAS OPERATED",
+          W / 2,
+          210
+        );
+
+        x.fillStyle =
+          "#0c0d0e";
+
+        x.strokeStyle =
+          "#000";
+
+        x.lineWidth = 4;
+
+        var bw = 560;
+        var bh = 240;
+        var bx = (W - bw) / 2;
+        var by = 250;
+
+        x.fillRect(
+          bx,
+          by,
+          bw,
+          bh
+        );
+
+        x.strokeRect(
+          bx,
+          by,
+          bw,
+          bh
+        );
+
+        x.fillStyle =
+          "#ffb200";
+
+        x.font =
+          "700 172px ui-monospace,'Courier New',monospace";
+
+        x.shadowColor =
+          "rgba(255,178,0,.6)";
+
+        x.shadowBlur = 24;
+
+        x.fillText(
+          String(days),
+          W / 2,
+          by + 160
+        );
+
+        x.shadowBlur = 0;
+
+        x.font =
+          "700 40px Impact,sans-serif";
+
+        x.fillText(
+          "D A Y S",
+          W / 2,
+          by + bh - 14
+        );
+
+        var nm =
+          (state.name || "")
+            .trim()
+            .toUpperCase();
+
+        var off =
+          (state.offense ||
+            "started a fight for no reason")
+            .trim()
+            .toUpperCase();
+
+        x.fillStyle =
+          "#f2f2f2";
+
+        x.font =
+          "700 40px Impact,'Arial Narrow',sans-serif";
+
+        wrapText(
+          x,
+          "SINCE " +
+          (nm || "THEY") +
+          " LAST " +
+          off,
+          W / 2,
+          600,
+          W - 160,
+          48
+        );
+
+        x.fillStyle =
+          "#cfd3d8";
+
+        x.font =
+          "700 30px Arial,sans-serif";
+
+        x.fillText(
+          "RECORD: " +
+          Math.floor(
+            (state.record || 0) / DAY
+          ) +
+          " DAYS      INCIDENTS: " +
+          ((state.log || []).length),
+          W / 2,
+          H - 150
+        );
+
+        return c;
+      }
+
+      $("share").addEventListener(
+        "click",
+        function(){
+
+          try{
+
+            var url =
+              drawCard()
+                .toDataURL(
+                  "image/png"
+                );
+
+            shareImg.src = url;
+
+            shareDl.href = url;
+
+            shareModal.classList.add(
+              "on"
+            );
+
+          }catch(e){
+
+            toast(
+              "Couldn't build the card on this device."
+            );
+          }
+        }
+      );
+
+      $("shareClose").addEventListener(
+        "click",
+        function(){
+          shareModal.classList.remove(
+            "on"
+          );
+        }
+      );
+
+      shareModal.addEventListener(
+        "click",
+        function(e){
+
+          if(e.target === shareModal){
+
+            shareModal.classList.remove(
+              "on"
+            );
+          }
+        }
+      );
+
+      /*
+       * ------------------------------------------------------------
+       * INITIAL RENDER
+       *
+       * Render immediately instead of waiting for the first
+       * one-second interval.
+       * ------------------------------------------------------------
+       */
+
+      renderClock(
+        Date.now() -
+        state.startTime
+      );
+
+      renderMeta();
+
+      /*
+       * Keep the counter running.
+       */
+      setInterval(
+        tick,
+        1000
+      );
+
+    })();
+  </script>
 </body>
 </html>
+```
