@@ -1,12 +1,16 @@
-# Currently Unfinished
-
-
+# Roxy's list (9/9/2026)
+Next Time Will Be Our Turn | Jesse Q. Sutanto | 9780593816875
+The Women | Kristen Hannah | 9781250178633
+Midnight Rain | Haley Cass | 9798988492993
+The Invisible Life of Addie Larue | V.E. Schwab | 9780765387578
+This Book Made Me Think of You | Libby Page | 9780241729717
+Beach Read | Emily Henry | 9788383210711
 
 # Read
 
-## Wrong Place Wrong Time | Gillian McAllister |  | 3 | 9780063252349 
-Review
-- "Yo
+## Wrong Place Wrong Time | Gillian McAllister | 0 | 3 | 9780063252349 
+Kind of weird it can happen twice. The twist wasn't obvious. 
+- "Life's too long for this worry." - Kelly/Ryan
 
 ## Daisy Jones & The Six | Taylor Jenkins Reid | 4 | 4 | 9781804945957
 Review
