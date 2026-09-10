@@ -69,7 +69,7 @@
 <script>
 (() => {
   // ▼ Paste your free TMDB API key (v3 auth) here — themoviedb.org → Settings → API. Posters won't load until you do.
-  const TMDB_KEY = 'YOUR_TMDB_KEY';
+  const TMDB_KEY = '06cf868a53dce6149194addbd212d29d';
 
   const shelf = document.getElementById('shelf');
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -88,7 +88,7 @@
   }
 
   async function loadPosters(){
-    if(!TMDB_KEY || TMDB_KEY === 'YOUR_TMDB_KEY') return;   // key not set yet
+    if(!TMDB_KEY || TMDB_KEY === '06cf868a53dce6149194addbd212d29d') return;   // key not set yet
     const imgs = [...document.querySelectorAll('img.cover[data-imdb]')];
     const cache = {};
     for(const img of imgs){
