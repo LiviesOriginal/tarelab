@@ -102,30 +102,32 @@
   }
 
   function stars(v){
-    if(v===undefined || v===null || String(v).trim()===''){ return '<span class="stars off" aria-label="not yet rated">—</span>'; }
-    let n = parseInt(v,10); if(isNaN(n)) n=0; n=Math.max(0,Math.min(5,n));
+    const t = (v===undefined || v===null) ? '' : String(v).trim();
+    if(t==='' || t==='0'){ return '<span class="stars off" aria-label="not yet rated">—</span>'; }
+    let n = parseInt(t,10); if(isNaN(n)) n=0; n=Math.max(0,Math.min(5,n));
     let out=''; for(let i=1;i<=5;i++) out+='<span class="'+(i<=n?'on':'off')+'">★</span>';
     return '<span class="stars" aria-label="'+n+' out of 5 stars">'+out+'</span>';
   }
 
+  // Parse into an ORDERED list of blocks, so the page follows books.md order exactly.
   function parse(text){
     const lines = text.replace(/\r\n/g,'\n').split('\n');
-    const read=[], toreadLists=[];
-    let mode=null, curBook=null, curList=null;
-    const flush=()=>{ if(curBook){ curBook.review=curBook.reviewLines.join(' ').trim(); read.push(curBook); curBook=null; } };
+    const blocks = [];
+    let mode=null, curBook=null, curRead=null, curList=null;
+    const flushBook=()=>{ if(curBook && curRead){ curBook.review=curBook.reviewLines.join(' ').trim(); curRead.books.push(curBook); curBook=null; } };
     for(const raw of lines){
       const line = raw.replace(/\s+$/,'');
       const sec = line.match(/^#\s+(.*)/);
       if(sec){
-        flush();
+        flushBook();
         const heading = sec[1].trim();
-        if(heading.toLowerCase()==='read'){ mode='read'; curList=null; }
-        else { mode='toread'; curList={ title:heading, items:[] }; toreadLists.push(curList); }
+        if(heading.toLowerCase()==='read'){ curRead={ type:'read', books:[] }; blocks.push(curRead); mode='read'; curList=null; }
+        else { curList={ type:'list', title:heading, items:[] }; blocks.push(curList); mode='toread'; curRead=null; }
         continue;
       }
       if(mode==='read'){
         const bk = line.match(/^##\s+(.*)/);
-        if(bk){ flush(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], isbn:p[4]||'', reviewLines:[], lines:[]}; continue; }
+        if(bk){ flushBook(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], isbn:p[4]||'', reviewLines:[], lines:[]}; continue; }
         if(!curBook) continue;
         const fav = line.match(/^\s*-\s+(.*)/);
         if(fav){ curBook.lines.push(fav[1].trim()); continue; }
@@ -137,15 +139,14 @@
         curList.items.push({title:p[0]||'', author:p[1]||'', isbn:p[2]||''});
       }
     }
-    flush();
-    return {read, toreadLists};
+    flushBook();
+    return blocks;
   }
 
-  function render({read, toreadLists}){
-    const anyToread = toreadLists.some(l => l.items.length);
-    if(!read.length && !anyToread){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
+  function render(blocks){
+    const hasContent = blocks.some(b => (b.type==='read' && b.books.length) || (b.type==='list' && b.items.length));
+    if(!hasContent){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
 
-    // Build a simple (cover + title + author) table for a named list section.
     const listTable = list => {
       if(!list.items.length) return '';
       let s = '<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
@@ -153,29 +154,23 @@
       return s + '</tbody></table>';
     };
 
-    // "Currently reading" section(s) go ABOVE the Read table; all other lists below it.
-    const top = toreadLists.filter(l => l.title.toLowerCase().startsWith('currently'));
-    const bottom = toreadLists.filter(l => !l.title.toLowerCase().startsWith('currently'));
-
-    let h='';
-    top.forEach(l => h += listTable(l));
-
-    if(read.length){
-      h+='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
-      read.forEach(b=>{
-        h+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
+    const readTable = books => {
+      if(!books.length) return '';
+      let s = '<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
+      books.forEach(b=>{
+        s+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
         if(b.review || b.lines.length){
-          h+='<tr class="detail-row"><td colspan="4">';
-          if(b.review) h+='<p class="review">'+inline(b.review)+'</p>';
-          if(b.lines.length) h+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
-          h+='</td></tr>';
+          s+='<tr class="detail-row"><td colspan="4">';
+          if(b.review) s+='<p class="review">'+inline(b.review)+'</p>';
+          if(b.lines.length) s+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
+          s+='</td></tr>';
         }
       });
-      h+='</tbody></table>';
-    }
+      return s + '</tbody></table>';
+    };
 
-    bottom.forEach(l => h += listTable(l));
-
+    let h='';
+    blocks.forEach(b=>{ h += (b.type==='read') ? readTable(b.books) : listTable(b); });
     shelf.innerHTML=h;
   }
 
