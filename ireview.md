@@ -34,12 +34,16 @@ Honestly could have been a 5 but I’ve been giving too many of those away latel
 ## Beach Read | Emily Henry | 5 | 9788383210711
 Redeemed itself towards the end and eeked out a 5. (Alfie’s pick) They write their books together on a bet. 4/5 tissues
 - “It's going to be okay. We will always be okay. And that was the moment I realized, when the world felt dark and scary, love could whisk you off to go dancing. Laughter could take some of the pain away. Beauty could punch holes in your fear. I decided then that my life would be full of all three. Not just for my own benefit, but for moms, and for everyone else around me. There would be purpose. There would be beauty, there would be candlelight, and Fleetwood Mac playing softly in the background."
+- "Falling's the part that takes your breath away. It's the part when you can't believe the person standing in front of you both exists and happened to wander into your path. It's supposed to make you feel lucky to be alive, exactly when and where you are."
+- "When I watch you sleep, I feel overwhelmed that you exist." - Gus
+- "Sometimes we lose the ability to create, simply because we're tired. We need to rest and recover. But other times, we can't move forward because there are hard questions we have to ask first, hurdles in our path we first have to jump, or walls that need breaking down, interrogations demanding to be made. And when we're brave enough to do so, we can make something beautiful, something we didn't know we were capable of before we began. So, yes, sometimes making art is a horror story. But other times, you fall head over heels in love." - author
 
 ## The Invisible Life of Addie Larue | V.E. Schwab | 5 | 9780765387578
 Outstanding. Love love love. Can read it again and again. 5/5 tissues
 - "Not all sins are boulders. Most, in fact, are more like pebbles." 
 - "Life is a bitch with a crooked sense of humor."
 - This is the problem with a life like Addie's. She has gone so long without roots, she doesn't know how to grow them anymore. So used to losing things, she isn't sure how to hold them, how to make space in a world the size of herself.
+- There are a hundred kinds of silence. There's the thick silence of places long sealed shut, and the muffled silence of ears stopped up, the empty silence of the dead, and the heavy silence of the dying. There is the hollow silence of a man who has stopped praying and the airy silence of an empty synagogue, and the held breath silence of someone hiding from themselves. There is the awkward silence that fills the space between two people who don't know what to say and the taut silence that falls over those who do, but don't know where or how to start." - Adddie
 
 ## The Snowball Effect | Haley Cass | 3 | 
 Not my favorite of the series. Another enemies to lovers and endless misunderstandings sapphic read. 2/5 tissues
