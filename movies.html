@@ -88,7 +88,7 @@
   }
 
   async function loadPosters(){
-    if(!TMDB_KEY || TMDB_KEY === '06cf868a53dce6149194addbd212d29d') return;   // key not set yet
+    if(!TMDB_KEY || TMDB_KEY === 'YOUR_TMDB_KEY') return;   // key not set yet06cf868a53dce6149194addbd212d29d') return;   // key not set yet
     const imgs = [...document.querySelectorAll('img.cover[data-imdb]')];
     const cache = {};
     for(const img of imgs){
