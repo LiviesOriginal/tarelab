@@ -16,7 +16,10 @@ Twisty and rewatchable — we argued about the ending for a full hour afterward.
 Quiet and devastating. The structure is the whole point, so go in cold.
 
 # To Watch - Series
-## Crunk on Life | 2024 | tt34874258
+## Cunk on Earth | 2022 | tt16867040
+Follows Philomena Cunk as she comically tells the story of our greatest inventions and asks experts hard-hitting questions about humanity's progress.
+
+## Cunk on Life | 2024 | tt34874258
 Philomena Cunk delves into life's profound questions, examining subjects from the big bang to A.I., meeting academics and artists, all with her trademark misguided observations.
 
 ## Buffy the Vampire Slayer | 1997 | tt0118276
