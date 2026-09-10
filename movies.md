@@ -33,7 +33,7 @@ Two thumbs up.
 wtf
 
 ## Girls Like Girls | 2026 | tt32432654
-Olive J=juice.
+Olive juice.
 
 ## Scary Movie | 2026 | tt32093575
 Not bad.
