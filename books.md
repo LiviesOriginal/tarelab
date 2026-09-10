@@ -4,7 +4,6 @@ The Women | Kristen Hannah | 9781250178633
 Midnight Rain | Haley Cass | 9798988492993
 The Invisible Life of Addie Larue | V.E. Schwab | 9780765387578
 This Book Made Me Think of You | Libby Page | 9780241729717
-Beach Read | Emily Henry | 9788383210711
 
 # Read
 
@@ -43,6 +42,7 @@ Review
 The Women ** | Kristen Hannah | 9781250178633
 The Teacher ** | Freida McFadden | 9781728296210
 Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
+Beach Read ** | Emily Henry | 9788383210711
 A Thousand Splendid Suns | Khaled Hosseini | 9781594483851
 The Correspondent | Virginia Evans | 9780241721254
 The Bright Years | Sarah Damoff | 9781668061442
@@ -51,7 +51,6 @@ FantasticLand (Saving for Spooky Season) | Mike Bockoven | 9781510737884
 Circe | Madeline Miller | 9780316556323
 We Were Liars | E. Lockhart | 9780385741279
 A Little Life (for when I want to cry) | Hanya Yanagihara | 9780804172707
-My Husband’s Wife | Alice Feeney | 9781250337818
 On Earth We’re Briefly Gorgeous | Ocean Vuong | 9780525562047
 The Last Thing He Told Me | Laura Dave | 9781501171369
 Before the Coffee Gets Cold | Toshikazu Kawaguchi | 9781335430991
