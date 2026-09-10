@@ -28,9 +28,9 @@ It's a Freida.
 - TBA
 
 ## Atmosphere | Taylor Jenkins Reid | 5 | 4 | 9780385695824
-Review
+Fitting follow-up to Evelyn Hugo, this is a sapphic office romance / ultimate long distance relationship story about finding your true family. Readers who like outer space are in for a treat.
 - "I feel like I could know you forever and still be curious about what you’re going to say next."
--  “I was circling two hundred miles above the Earth, and all I wanted was to get home and see you. Do you understand that? Do you understand that I don’t care how big or small this world is, that you are the center of mine? Do you understand that, to someone, you are everything that matters on this entire planet?”
+- “I was circling two hundred miles above the Earth, and all I wanted was to get home and see you. Do you understand that? Do you understand that I don’t care how big or small this world is, that you are the center of mine? Do you understand that, to someone, you are everything that matters on this entire planet?”
 
 ## The Seven Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
 Official first selection of the Book Club. Lovable characters that make you root for them despite of their flaws.
