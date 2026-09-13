@@ -1,6 +1,6 @@
 # Screens Big & Small
 
-[Better than good reads.](https://tarelab.com/flix) 
+[What to Watch.](https://tarelab.com/flix) 
 
 # Book Club
 
