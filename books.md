@@ -71,6 +71,7 @@ Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 The Snowball Effect ** | Haley Cass | 9798988492986
 Midnight Rain | Haley Cass | 9798988492993
 Bloom Town: Genesis | Aly North | 9798217374861
+Bloom Town: Exodus | Aly North | 9798332716966
 Hearing Red | Nicole Maser | 9798988226031
 Almost Life | Kiran Millwood Hargrave | 9781035007509
 Meet Me in the Garden | Nina LaCour | 9781250810472
