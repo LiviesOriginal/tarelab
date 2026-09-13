@@ -28,6 +28,9 @@ A young woman, destined to slay vampires, demons and other infernal creatures, d
 ## Lessons in Chemistry | 2023 | tt13911628
 Worth it for the lasagna. 
 
+## The Affair | 2023 | tt13911628
+Worth it for the lasagna. 
+
 # Watched
 ## The Odyssey | 2026 | tt33764258
 Two thumbs up.
