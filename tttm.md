@@ -1,6 +1,6 @@
 # Screens Big & Small
 
-[What to Watch.](https://tarelab.com/flix) 
+[What to watch.](https://tarelab.com/flix) 
 
 # Book Club
 
