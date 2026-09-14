@@ -1,9 +1,12 @@
 # Read
-## The Nightingale | Kristin Hannah | 4 | 9781250131768
-Historical fiction about the horrors of war and how love helps us survive.
+## Local Woman Missing | Mary Kubica | 4 | 9780008916459
+Twisty thriller about a child missing for 11 years after her mother kills herself under suspicious circumstances.
 
 ## The River is Waiting | Wally Lamb | 4 | 9781668006399
 Can't really fault it, though Jeremey Sisto is not my favorite narrator. It's a tragedy from beginning to end about the life of a man who goes to prison after a tragic accident alters the lives of everyone around him. Not worth a reread, and the 4 is just barely hanging on because I was ready for it to finish way before it did.
+
+## The Nightingale | Kristin Hannah | 4 | 9781250131768
+Historical fiction about the horrors of war and how love helps us survive.
 
 ## His & Hers | Alice Feeney | 4 | 9781250266088
 Straight up disturbing. Someone is killing a group of women who used to be high school classmates, each of them having a secret only they and the killer know about. Very rough, not something you breeze through just to learn who did it.
@@ -51,7 +54,7 @@ Outstanding. Love love love. Can read it again and again. 5/5 tissues
 - This is the problem with a life like Addie's. She has gone so long without roots, she doesn't know how to grow them anymore. So used to losing things, she isn't sure how to hold them, how to make space in a world the size of herself.
 - There are a hundred kinds of silence. There's the thick silence of places long sealed shut, and the muffled silence of ears stopped up, the empty silence of the dead, and the heavy silence of the dying. There is the hollow silence of a man who has stopped praying and the airy silence of an empty synagogue, and the held breath silence of someone hiding from themselves. There is the awkward silence that fills the space between two people who don't know what to say and the taut silence that falls over those who do, but don't know where or how to start." - Adddie
 
-## The Snowball Effect | Haley Cass | 3 | 
+## The Snowball Effect | Haley Cass | 3 | 9798988492986
 Not my favorite of the series. Another enemies to lovers and endless misunderstandings sapphic read. 2/5 tissues
 - “Judgments made in ignorance are better left ignored.” - Charlotte
 
