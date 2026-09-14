@@ -1,4 +1,7 @@
 # Read
+## The River is Waiting | Wally Lamb | 4 | 9781668006399
+Can't really fault it, though Jeremey Sisto is not my favorite narrator. It's a tragedy from beginning to end about the life of a man who goes to prison after a tragic accident alters the lives of everyone around him. Not worth a reread, and the 4 is just barely hanging on because I was ready for it to finish way before it did.
+
 ## His & Hers | Alice Feeney | 4 | 9781250266088
 Straight up disturbing. Someone is killing a group of women who used to be high school classmates, each of them having a secret only they and the killer know about. Very rough, not something you breeze through just to learn who did it.
 - “Sometimes I find the only way to ease the worst forms of pain is to damage myself in a different way. Distract my attention from the things that can and will break me. A little hurt to help me heal.” - Andrews
