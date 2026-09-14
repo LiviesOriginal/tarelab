@@ -10,7 +10,7 @@ The story of Magnolia, her family, and the love of her life.
 - "How does one cheat without cheating? One does it by loving every second spent together, consuming every moment with her greedily, memorizing every facet of her, down to the way she blinks her eyes. One does it by making up more and more excuses to spend time with her, running all sorts of mundane errands with her, like changing the oil in your car, which you know very well how to do, but you pretend not to so she'd have to come with you. One does it by thinking of her nonstop when she's not around. Wondering how she would react to every little thing that happens in your life. Whenever something funny or interesting or sad happens, you don't think, what would my husband say? You think, what would she say? How hard would she laugh at this? And this, and this?” - Magnolia
 -  "I love you, I love you. Still, the words weren't enough. I should have said, You are my world, Ellery. You are my home. I should have said, I was lost until you. I can only rest here, in your arms.” - Magnolia
 
-## Wrong Place Wrong Time | Gillian McAllister | 0 | 3 | 9780063252349 
+## Wrong Place Wrong Time | Gillian McAllister | 3 | 3 | 9780063252349 
 Kind of weird it can happen twice. The twist wasn't obvious. 
 - "Life's too long for this worry." - Kelly/Ryan
 
