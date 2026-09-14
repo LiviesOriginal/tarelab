@@ -1,4 +1,7 @@
 # Read
+## The Nightingale | Kristin Hannah | 4 | 9781250131768
+Historical fiction about the horrors of war and how love helps us survive.
+
 ## The River is Waiting | Wally Lamb | 4 | 9781668006399
 Can't really fault it, though Jeremey Sisto is not my favorite narrator. It's a tragedy from beginning to end about the life of a man who goes to prison after a tragic accident alters the lives of everyone around him. Not worth a reread, and the 4 is just barely hanging on because I was ready for it to finish way before it did.
 
