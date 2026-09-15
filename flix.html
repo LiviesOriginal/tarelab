@@ -86,8 +86,13 @@
   function poster(imdb){
   const id = (imdb||'').trim();
     if(!/^tt\d+$/i.test(id)) return '';
-    return '<a href="https://www.imdb.com/title/'+id+'/" target="_blank" rel="noopener">' +
-           '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy"></a>';
+    return '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy">';
+  }
+
+  function titleLink(title,imdb){
+    const id = (imdb||'').trim();
+    if(!/^tt\d+$/i.test(id)) return '<span class="ttl">'+esc(title)+'</span>';
+    return '<a class="ttl" href="https://www.imdb.com/title/'+id+'/" target="_blank" rel="noopener">'+esc(title)+'</a>';
   }
 
   async function loadPosters(){
@@ -140,7 +145,7 @@
     sections.forEach(sec=>{
       h+='<h2 class="section">'+esc(sec.title)+'</h2><table class="films"><thead><tr><th>Film</th><th>Released</th></tr></thead><tbody>';
       sec.films.forEach(m=>{
-        h+='<tr class="film-row"><td class="t"><span class="cover-wrap">'+poster(m.imdb)+'<span class="ttl">'+esc(m.title)+'</span></span></td><td class="a">'+esc(m.released)+'</td></tr>';
+        h+='<tr class="film-row"><td class="t"><span class="cover-wrap">'+poster(m.imdb)+titleLink(m.title,m.imdb)+'</span></td><td class="a">'+esc(m.released)+'</td></tr>';
         if(m.notes || m.lines.length){
           h+='<tr class="detail-row"><td colspan="2">';
           if(m.notes) h+='<p class="review">'+inline(m.notes)+'</p>';
