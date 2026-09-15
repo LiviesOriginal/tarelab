@@ -64,6 +64,16 @@
   @media (max-width:520px){ body{font-size:18px;} .wrap{padding:24px 0 36px;} thead th{font-size:.66rem;} }
   .cover-wrap{display:flex; align-items:center; gap:11px;}
   .cover{width:34px; height:51px; object-fit:cover; border-radius:3px; box-shadow:0 1px 3px rgba(0,0,0,.28); background:var(--code-bg); flex:0 0 auto;}
+  @media (max-width:600px){
+    body{background:#2f7fc4; padding:20px 0; min-height:100vh;}
+    .wrap{width:calc(100% - 32px); max-width:none; margin:0 auto; padding:28px 20px 36px; background:#fff; border-radius:28px; box-shadow:0 6px 24px rgba(0,0,0,.18);}
+    .masthead{margin-bottom:22px;}
+    .masthead .rule{margin-top:16px;}
+    table{font-size:.94em;}
+    .read .book-row td,.toread td{padding-left:7px;padding-right:7px;}
+    .read .book-row .t{font-size:1rem;}
+    .cover-wrap{gap:8px;}
+  }
 </style>
 </head>
 <body>
