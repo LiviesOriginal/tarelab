@@ -21,7 +21,7 @@
 </main>
 <script>
 const READERS=['RGF','LAB'];
-const DATA_URL=new URL('books.md',window.location.href).href;
+const DATA_URL='https://raw.githubusercontent.com/LiviesOriginal/tarelab/main/books.md';
 const GOODREADS='https://www.goodreads.com/search?q=';
 
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -39,33 +39,31 @@ function bookPlaceholder(img){
   const d=document.createElement('div');
   d.className='cover-ph';
   d.textContent=img.dataset.isbn||'No cover';
-  img.replaceWith(d);
+  const parent=img.closest('a');
+  if(parent){parent.replaceWith(d);}else{img.replaceWith(d);}
 }
 function parse(text){
   const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/);
-  const blocks=[];let current=null,book=null;
+  const blocks=[];let current=null;
   for(const raw of lines){
     const line=raw.trim();
     if(!line)continue;
     if(/^#\s+/.test(line)){
       current={type:/^#\s+Read\s*$/i.test(line)?'read':'list',title:line.replace(/^#\s+/,'').trim(),items:[]};
-      blocks.push(current);book=null;continue;
+      blocks.push(current);continue;
     }
     if(current?.type==='read'){
       if(/^##\s+/.test(line)){
         const parts=line.replace(/^##\s+/,'').split('|').map(x=>x.trim());
-        // Read format: title | author | RGF rating | LAB rating | ISBN
         current.items.push({title:parts[0]||'Untitled',author:parts[1]||'',rgf:parts[2]||'',lab:parts[3]||'',isbn:parts[4]||''});
       }
       continue;
     }
     if(current?.type==='list'){
-      // To-read entries are plain pipe-delimited lines, not necessarily Markdown bullets.
       const parts=line.replace(/^[-*]\s+/,'').split('|').map(x=>x.trim());
       if(parts.length>=2){
-        current.items.push({title:parts[0].replace(/\s+\*\*$/,'').trim(),author:parts[1]||'',isbn:parts[2]||'',priority:/\*\*$/.test(parts[0])});
-      }else if(/^[-*]\s+/.test(line)){
-        current.items.push({title:line.replace(/^[-*]\s+/,''),author:'',isbn:''});
+        const rawTitle=parts[0];
+        current.items.push({title:rawTitle.replace(/\s+\*\*$/,'').trim(),author:parts[1]||'',isbn:parts[2]||'',priority:/\*\*$/.test(rawTitle)});
       }
     }
   }
@@ -89,10 +87,11 @@ async function loadBooks(){
     const r=await fetch(DATA_URL+'?t='+Date.now(),{cache:'no-store'});
     if(!r.ok)throw new Error('HTTP '+r.status);
     const text=await r.text();
+    if(!text.includes('# Read') && !text.includes('# To read'))throw new Error('books.md did not return the expected Markdown content');
     render(parse(text));
   }catch(err){
     console.error('Book Club load failed:',err,DATA_URL);
-    shelf.innerHTML='<div class="error"><strong>Couldn’t load books.md.</strong><br>'+esc(err.message)+'<br><small>Expected file: '+esc(DATA_URL)+'</small></div>';
+    shelf.innerHTML='<div class="error"><strong>Couldn’t load books.md.</strong><br>'+esc(err.message)+'</div>';
   }
 }
 loadBooks();
