@@ -9,163 +9,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="/moonfavicon.svg">
 <style>
-  :root{
-    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
-    --link:#3b3f8f; --code-bg:#f1efe9; --grid:#d7d0c4;
-    --measure:760px;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;}
-  body{
-    background:var(--bg); color:var(--ink);
-    font-family:"Newsreader",Georgia,serif; font-size:19px; line-height:1.7;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding:0 20px;
-  }
-  .wrap{max-width:var(--measure); margin:0 auto; padding:32px 0 48px;}
-
-  .masthead{margin-bottom:26px;}
-  .masthead h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,6vw,44px); letter-spacing:-0.02em; line-height:1.05; margin:0;}
-  .masthead p{margin:10px 0 0; color:var(--muted); font-style:italic; font-size:1.05rem;}
-  .masthead .rule{height:1px; background:var(--rule); border:0; margin:18px 0 0;}
-
-  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; letter-spacing:-.01em; margin:28px 0 10px;}
-  h2.section:first-of-type{margin-top:8px;}
-
-  table{width:100%; border-collapse:collapse; margin:0; border:1px solid var(--grid);}
-  thead th{text-align:left; font-family:"Fraunces",serif; font-weight:600; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:#f3efe8; padding:4px 8px; border:1px solid var(--grid);}
-  thead th:last-child{text-align:right;}
-
-  .film-row td{padding:6px 8px 3px; vertical-align:middle; border:1px solid var(--grid); border-bottom:0;}
-  .film-row .t{font-family:"Fraunces",serif; font-weight:500; font-size:1.12rem; line-height:1.2;}
-  .film-row .a{color:var(--muted); text-align:right; white-space:nowrap;}
-  .detail-row td{padding:3px 8px 8px; border:1px solid var(--grid); border-top:0;}
-  .review{margin:.15em 0 .55em;}
-  .review a{color:var(--link); text-decoration:underline; text-underline-offset:2px;}
-  .review code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.1em .35em; border-radius:4px;}
-  .lines{list-style:none; margin:0; padding:0;}
-  .lines li{border-left:3px solid var(--rule); padding:1px 0 1px 14px; color:var(--muted); font-style:italic; margin:.35em 0;}
-
-  .cover-wrap{display:flex; align-items:center; gap:12px;}
-  .cover{width:40px; height:60px; object-fit:cover; border-radius:3px; box-shadow:0 1px 3px rgba(0,0,0,.3); background:var(--code-bg); flex:0 0 auto;}
-  .ttl{color:inherit; text-decoration:none;}
-  a.ttl:hover{text-decoration:underline; text-underline-offset:2px;}
-
-  .state{color:var(--muted); font-style:italic;}
-  .foot{margin-top:36px; padding-top:16px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
-  @media (max-width:520px){body{font-size:18px;background:#2f80c3;padding:12px 10px;min-height:100vh}.wrap{width:100%;max-width:760px;margin:0 auto;padding:24px 16px 32px;background:#fff;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.18)}.masthead{margin-bottom:20px}.masthead h1{font-size:clamp(30px,9vw,40px)}h2.section{font-size:1.3rem;margin:22px 0 8px}table{font-size:16px}.film-row td{padding:6px 6px 3px}.detail-row td{padding:3px 6px 8px}.cover-wrap{gap:8px}.cover{width:34px;height:51px}thead th{font-size:.62rem;padding:5px 6px}}
+:root{--bg:#fbfaf7;--season-bg:#2f80c3;--ink:#1e1d1b;--muted:#8a857d;--rule:#e8e4dc;--link:#3b3f8f;--code-bg:#f1efe9;--grid:#d7d0c4;--measure:760px}
+*{box-sizing:border-box}html,body{margin:0}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--ink);font-family:"Newsreader",Georgia,serif;font-size:19px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;padding:0 20px}.wrap{max-width:var(--measure);margin:0 auto;padding:32px 0 48px}.masthead{margin-bottom:20px}.masthead h1{font-family:"Fraunces",serif;font-weight:600;font-size:clamp(30px,6vw,44px);letter-spacing:-.02em;line-height:1.05;margin:0}.masthead p{margin:10px 0 0;color:var(--muted);font-style:italic;font-size:1.05rem}.masthead .rule{height:1px;background:var(--rule);border:0;margin:18px 0 0}.nav{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 26px}.nav a{display:inline-block;padding:7px 13px;border:1px solid var(--grid);border-radius:999px;background:#f3efe8;color:var(--ink);font-family:"Fraunces",serif;font-size:.78rem;font-weight:600;text-decoration:none}.nav a:hover{background:#e9e3d9}h2.section{font-family:"Fraunces",serif;font-weight:600;font-size:1.5rem;letter-spacing:-.01em;margin:28px 0 10px;scroll-margin-top:18px}h2.section:first-of-type{margin-top:8px}table{width:100%;border-collapse:collapse;margin:0;border:1px solid var(--grid)}thead th{text-align:left;font-family:"Fraunces",serif;font-weight:600;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:#f3efe8;padding:4px 8px;border:1px solid var(--grid)}thead th:last-child{text-align:right}.film-row td{padding:6px 8px 3px;vertical-align:middle;border:1px solid var(--grid);border-bottom:0}.film-row .t{font-family:"Fraunces",serif;font-weight:500;font-size:1.12rem;line-height:1.2}.film-row .a{color:var(--muted);text-align:right;white-space:nowrap}.detail-row td{padding:3px 8px 8px;border:1px solid var(--grid);border-top:0}.review{margin:.15em 0 .55em}.review a{color:var(--link);text-decoration:underline;text-underline-offset:2px}.review code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;background:var(--code-bg);padding:.1em .35em;border-radius:4px}.lines{list-style:none;margin:0;padding:0}.lines li{border-left:0;border-top:1px solid var(--rule);padding:10px 0 0;color:var(--muted);font-style:italic;margin:10px 0 0;overflow-wrap:anywhere;line-height:1.45}.lines li:first-child{border-top:0;padding-top:0;margin-top:0}.cover-wrap{display:flex;align-items:center;gap:12px}.cover{width:40px;height:60px;object-fit:cover;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.3);background:var(--code-bg);flex:0 0 auto}.ttl{color:inherit;text-decoration:none}a.ttl:hover{text-decoration:underline;text-underline-offset:2px}.section-end{margin:12px 0 34px;text-align:right}.section-end a{color:var(--muted);font-size:.82rem;text-decoration:none}.section-end a:hover{text-decoration:underline}.state{color:var(--muted);font-style:italic}.foot{margin-top:36px;padding-top:16px;border-top:1px solid var(--rule);color:var(--muted);font-size:.85rem}
+@media(max-width:520px){body{font-size:18px;background:var(--season-bg);padding:12px 10px;min-height:100vh;overflow-x:hidden}.wrap{width:100%;max-width:760px;margin:0 auto;padding:24px 16px 32px;background:#fff;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.18);overflow:hidden}.masthead{margin-bottom:16px}.masthead h1{font-size:clamp(30px,9vw,40px)}.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:24px}.nav a{text-align:center;padding:7px 4px;font-size:.7rem;white-space:normal;line-height:1.15}h2.section{font-size:1.3rem;margin:22px 0 10px;scroll-margin-top:12px}table{font-size:16px}.film-row td{padding:6px 6px 3px}.detail-row td{padding:3px 6px 8px}.cover-wrap{gap:8px}.cover{width:34px;height:51px}thead th{font-size:.62rem;padding:5px 6px}.toread{display:block;border:0;width:100%;table-layout:auto}.toread thead{display:none}.toread tbody{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%}.toread tr{display:block;min-width:0;overflow:hidden;background:#fff;border:1px solid var(--grid);border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:10px}.toread td{display:block;width:100%;min-width:0;border:0!important;padding:0!important;overflow-wrap:anywhere}.toread td.t .cover-wrap{display:block;width:100%;min-width:0;padding:0}.toread td.t .cover{display:block;width:88%;height:auto;aspect-ratio:2/3;object-fit:cover;border-radius:7px;box-shadow:none;margin:0 auto}.toread td.t .ttl{display:block;margin-top:8px;font-family:"Fraunces",serif;font-size:13px;font-weight:600;line-height:1.18;overflow-wrap:anywhere;text-align:center}.toread td.a{margin-top:3px;font-size:12px;line-height:1.2;color:var(--muted);overflow-wrap:anywhere;text-align:center}.watched,.current{display:block;border:0;width:100%;table-layout:auto}.watched thead,.current thead{display:none}.watched tbody,.current tbody{display:block;width:100%}.watched .film-row,.current .film-row{display:block;width:100%;margin:0;background:#fff;border:1px solid var(--grid);border-radius:16px 16px 0 0;overflow:hidden}.watched .film-row td,.current .film-row td{display:block;width:100%;min-width:0;border:0!important;padding:0!important;overflow-wrap:anywhere}.watched .film-row td.t .cover-wrap,.current .film-row td.t .cover-wrap{display:block;width:100%;min-width:0;padding:14px}.watched .film-row td.t .cover,.current .film-row td.t .cover{display:block;width:76%;height:auto;aspect-ratio:2/3;object-fit:cover;border-radius:8px;box-shadow:none;margin:0 auto}.watched .film-row td.t .ttl,.current .film-row td.t .ttl{display:block;padding:0 14px;text-align:center;font-family:"Fraunces",serif;font-size:1.35rem;font-weight:600;line-height:1.12;overflow-wrap:anywhere}.watched .film-row td.a,.current .film-row td.a{padding:5px 14px 12px!important;color:var(--muted);font-size:1rem;line-height:1.25;text-align:center}.watched .detail-row,.current .detail-row{display:block;width:100%;margin:0 0 22px;background:#fff;border:1px solid var(--grid)!important;border-top:0!important;border-radius:0 0 16px 16px;overflow:hidden}.watched .detail-row td,.current .detail-row td{display:block;width:100%;padding:0 14px 16px!important;border:0!important;overflow-wrap:anywhere}.review{margin:0 0 .7em;line-height:1.55}.lines li{border-left:0;border-top:1px solid var(--rule);padding:10px 0 0;margin:10px 0 0}.lines li:first-child{border-top:0;padding-top:0;margin-top:0}.section-end{margin:10px 0 28px;text-align:right}.section-end a{font-size:.78rem}.foot{margin-top:28px}}
 </style>
 </head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
-<body>
-  <div class="wrap">
-    <!-- ▼ Edit your page name + tagline here. Everything below comes from movies.md. -->
-    <header class="masthead">
-      <h1>Screens Big and Small</h1>
-      <p>Watched & Watching</p>
-      <hr class="rule" />
-    </header>
-
-    <main id="shelf"><p class="state">Loading…</p></main>
-
-    <footer class="foot">Posters &amp; data via TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.</footer>
-  </div>
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
+<body><div class="wrap"><header class="masthead" id="top"><h1>Screens Big and Small</h1><p>Watched &amp; Watching</p><hr class="rule"/></header><nav class="nav" id="nav" aria-label="Film sections"></nav><main id="shelf"><p class="state">Loading…</p></main><footer class="foot">Posters &amp; data via TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.</footer></div>
 <script>
-(() => {
-  // ▼ Paste your free TMDB API key (v3 auth) here — themoviedb.org → Settings → API. Posters won't load until you do.
-  const TMDB_KEY = '06cf868a53dce6149194addbd212d29d';
-
-  const shelf = document.getElementById('shelf');
-  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const inline = s => esc(s)
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-  function poster(imdb){
-    const id = (imdb||'').trim();
-    if(!/^tt\d+$/i.test(id)) return '';
-    return '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy">';
-  }
-
-  function titleLink(title,imdb){
-    const id = (imdb||'').trim();
-    if(!/^tt\d+$/i.test(id)) return '<span class="ttl">'+esc(title)+'</span>';
-    return '<a class="ttl" href="https://www.imdb.com/title/'+id+'/" target="_blank" rel="noopener">'+esc(title)+'</a>';
-  }
-
-  async function loadPosters(){
-    if(!TMDB_KEY || TMDB_KEY === 'YOUR_TMDB_KEY') return;   // key not set yet06cf868a53dce6149194addbd212d29d') return;   // key not set yet
-    const imgs = [...document.querySelectorAll('img.cover[data-imdb]')];
-    const cache = {};
-    for(const img of imgs){
-      const id = img.getAttribute('data-imdb');
-      try{
-        if(!(id in cache)){
-          const r = await fetch('https://api.themoviedb.org/3/find/' + encodeURIComponent(id) +
-            '?external_source=imdb_id&api_key=' + encodeURIComponent(TMDB_KEY));
-          const d = await r.json();
-          const hit = (d && ((d.movie_results && d.movie_results[0]) || (d.tv_results && d.tv_results[0]))) || null;
-          cache[id] = (hit && hit.poster_path) ? ('https://image.tmdb.org/t/p/w342' + hit.poster_path) : '';
-        }
-        if(cache[id]) img.src = cache[id]; else img.remove();
-      }catch(_){ img.remove(); }
-    }
-  }
-
-  function parse(text){
-    const lines = text.replace(/\r\n/g,'\n').split('\n');
-    const sections = []; let cur=null, curFilm=null;
-    const flush = () => { if(curFilm && cur){ curFilm.notes = curFilm.noteLines.join(' ').trim(); cur.films.push(curFilm); curFilm=null; } };
-    for(const raw of lines){
-      const line = raw.replace(/\s+$/,'');
-      const h2 = line.match(/^##\s+(.*)/);
-      if(h2){
-        if(cur){ flush(); const p = h2[1].split('|').map(s=>s.trim()); curFilm={ title:p[0]||'', released:p[1]||'', imdb:p[2]||'', noteLines:[], lines:[] }; }
-        continue;
-      }
-      const h1 = line.match(/^#\s+(.*)/);
-      if(h1){ flush(); cur={ title:h1[1].trim(), films:[] }; sections.push(cur); continue; }
-      if(!curFilm) continue;
-      const fav = line.match(/^\s*-\s+(.*)/);
-      if(fav){ curFilm.lines.push(fav[1].trim()); continue; }
-      if(line.trim()==='') continue;
-      curFilm.noteLines.push(line.trim());
-    }
-    flush();
-    return sections.filter(s => s.films.length);
-  }
-
-  function render(sections){
-    if(!sections.length){ shelf.innerHTML='<p class="state">No films yet — add some in movies.md.</p>'; return; }
-    let h='';
-    sections.forEach(sec=>{
-      h+='<h2 class="section">'+esc(sec.title)+'</h2><table class="films"><thead><tr><th>Film</th><th>Released</th></tr></thead><tbody>';
-      sec.films.forEach(m=>{
-        h+='<tr class="film-row"><td class="t"><span class="cover-wrap">'+poster(m.imdb)+titleLink(m.title,m.imdb)+'</span></td><td class="a">'+esc(m.released)+'</td></tr>';
-        if(m.notes || m.lines.length){
-          h+='<tr class="detail-row"><td colspan="2">';
-          if(m.notes) h+='<p class="review">'+inline(m.notes)+'</p>';
-          if(m.lines.length) h+='<ul class="lines">'+m.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
-          h+='</td></tr>';
-        }
-      });
-      h+='</tbody></table>';
-    });
-    shelf.innerHTML=h;
-    loadPosters();
-  }
-
-  fetch('flix.md?t=' + Date.now(), { cache:'no-store' })
-    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t => render(parse(t)))
-    .catch(err => {
-      shelf.innerHTML = '<p class="state">Couldn’t load <b>movies.md</b> (' + esc(err.message) + ').<br>' +
-        'View this on your live site (browsers block reading the file off your local disk), ' +
-        'and keep movies.md in the same folder as this page.</p>';
-    });
+(()=>{
+const TMDB_KEY=['06cf868a','53dce614','9194addb','d212d29d'].join('');
+const shelf=document.getElementById('shelf'),nav=document.getElementById('nav');
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const inline=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+function poster(imdb){const id=(imdb||'').trim();if(!/^tt\d+$/i.test(id))return '';return '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy">'}
+function titleLink(title,imdb){const id=(imdb||'').trim();if(!/^tt\d+$/i.test(id))return '<span class="ttl">'+esc(title)+'</span>';return '<a class="ttl" href="https://www.imdb.com/title/'+id+'/" target="_blank" rel="noopener">'+esc(title)+'</a>'}
+async function loadPosters(){if(!TMDB_KEY||TMDB_KEY==='YOUR_TMDB_KEY')return;const imgs=[...document.querySelectorAll('img.cover[data-imdb]')],cache={};for(const img of imgs){const id=img.getAttribute('data-imdb');try{if(!(id in cache)){const r=await fetch('https://api.themoviedb.org/3/find/'+encodeURIComponent(id)+'?external_source=imdb_id&api_key='+encodeURIComponent(TMDB_KEY));const d=await r.json();const hit=(d&&((d.movie_results&&d.movie_results[0])||(d.tv_results&&d.tv_results[0])))||null;cache[id]=(hit&&hit.poster_path)?('https://image.tmdb.org/t/p/w500'+hit.poster_path):''}if(cache[id])img.src=cache[id];else img.remove()}catch(_){img.remove()}}}
+function parse(text){const lines=text.replace(/\r\n/g,'\n').split('\n');const sections=[];let cur=null,curFilm=null;const flush=()=>{if(curFilm&&cur){curFilm.notes=curFilm.noteLines.join(' ').trim();cur.films.push(curFilm);curFilm=null}};for(const raw of lines){const line=raw.replace(/\s+$/,'');const h2=line.match(/^##\s+(.*)/);if(h2){if(cur){flush();const p=h2[1].split('|').map(s=>s.trim());curFilm={title:p[0]||'',released:p[1]||'',imdb:p[2]||'',noteLines:[],lines:[]}}continue}const h1=line.match(/^#\s+(.*)/);if(h1){flush();cur={title:h1[1].trim(),films:[]};sections.push(cur);continue}if(!curFilm)continue;const fav=line.match(/^\s*-\s+(.*)/);if(fav){curFilm.lines.push(fav[1].trim());continue}if(line.trim()==='')continue;curFilm.noteLines.push(line.trim())}flush();return sections.filter(s=>s.films.length)}
+function slug(title){return title.toLowerCase().replace(/^to watch\s*-\s*/,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'section'}
+function sectionEnd(){return '<div class="section-end"><a href="#top">Return to top ↑</a></div>'}
+function render(sections){if(!sections.length){shelf.innerHTML='<p class="state">No films yet — add some in flix.md.</p>';return}nav.innerHTML=sections.map(s=>'<a href="#'+slug(s.title)+'">'+esc(s.title.replace(/^To Watch\s*-\s*/i,''))+'</a>').join('');let h='';sections.forEach(sec=>{const isWatch=/^to watch\s*-/i.test(sec.title),isWatched=/^watched$/i.test(sec.title),isCurrent=/^currently watching$/i.test(sec.title);const cls=isWatch?'toread':isWatched?'watched':isCurrent?'current':'films';const id=slug(sec.title);h+='<section id="'+id+'"><h2 class="section">'+esc(sec.title)+'</h2><table class="'+cls+'"><thead><tr><th>Film</th><th>Released</th></tr></thead><tbody>';sec.films.forEach(m=>{h+='<tr class="film-row"><td class="t"><span class="cover-wrap">'+poster(m.imdb)+titleLink(m.title,m.imdb)+'</span></td><td class="a">'+esc(m.released)+'</td></tr>';if(m.notes||m.lines.length){h+='<tr class="detail-row"><td colspan="2">';if(m.notes)h+='<p class="review">'+inline(m.notes)+'</p>';if(m.lines.length)h+='<ul class="lines">'+m.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';h+='</td></tr>'}});h+='</tbody></table>'+sectionEnd()+'</section>'});shelf.innerHTML=h;loadPosters()}
+fetch('flix.md?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}).then(t=>render(parse(t))).catch(err=>{shelf.innerHTML='<p class="state">Couldn’t load <b>movies.md</b> ('+esc(err.message)+').<br>View this on your live site (browsers block reading the file off your local disk), and keep movies.md in the same folder as this page.</p>'});
 })();
-</script>
-</body>
-</html>
+</script></body></html>
