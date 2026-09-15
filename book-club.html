@@ -1,231 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Book Club</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
-<link rel="icon" type="image/svg+xml" href="/moonfavicon.svg">
-  <style>
-  :root{
-    --bg:#fbfaf7; --ink:#1e1d1b; --muted:#8a857d; --rule:#e8e4dc;
-    --link:#3b3f8f; --code-bg:#f1efe9; --star:#c9a227; --grid:#d7d0c4;
-    --measure:760px;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;}
-  body{
-    background:var(--bg); color:var(--ink);
-    font-family:"Newsreader",Georgia,serif; font-size:19px; line-height:1.7;
-    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; padding:0 20px;
-  }
-  .wrap{max-width:var(--measure); margin:0 auto; padding:32px 0 48px;}
-
-  .masthead{margin-bottom:26px;}
-  .masthead h1{font-family:"Fraunces",serif; font-weight:600; font-size:clamp(30px,6vw,44px); letter-spacing:-0.02em; line-height:1.05; margin:0;}
-  .masthead p{margin:10px 0 0; color:var(--muted); font-style:italic; font-size:1.05rem;}
-  .masthead .rule{height:1px; background:var(--rule); border:0; margin:18px 0 0;}
-
-  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; letter-spacing:-0.01em; margin:28px 0 10px;}
-  h2.section:first-of-type{margin-top:8px;}
-
-  table{width:100%; border-collapse:collapse; margin:0; border:1px solid var(--grid);}
-  thead th{text-align:left; font-family:"Fraunces",serif; font-weight:600; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:#f3efe8; padding:6px 10px; border:1px solid var(--grid);}
-  .read thead th:nth-child(3), .read thead th:nth-child(4){text-align:right;}
-
-  /* Read */
-  .read .book-row td{padding:9px 10px 4px; vertical-align:baseline; border:1px solid var(--grid); border-bottom:0;}
-  .read .book-row .t{font-family:"Fraunces",serif; font-weight:500; font-size:1.12rem; line-height:1.2;}
-  .read .book-row .a{color:var(--muted);}
-  .read .book-row .s{text-align:right; white-space:nowrap;}
-  .read .detail-row td{padding:4px 10px 12px; border:1px solid var(--grid); border-top:0;}
-  .review{margin:.15em 0 .55em;}
-  .lines{list-style:none; margin:0; padding:0;}
-  .lines li{border-left:3px solid var(--rule); padding:1px 0 1px 14px; color:var(--muted); font-style:italic; margin:.35em 0;}
-  .stars .on{color:var(--star);} .stars .off{color:var(--rule);}
-
-  /* To read */
-  .toread td{padding:12px; border:1px solid var(--grid);}
-  .toread .t{font-family:"Fraunces",serif; font-weight:500;}
-  .toread .a{color:var(--muted);}
-
-  .review a{color:var(--link); text-decoration:underline; text-underline-offset:2px;}
-  .review code{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.85em; background:var(--code-bg); padding:.1em .35em; border-radius:4px;}
-  .state{color:var(--muted); font-style:italic;}
-  .foot{margin-top:36px; padding-top:16px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
-  @media (max-width:520px){ body{font-size:18px;} .wrap{padding:24px 0 36px;} thead th{font-size:.66rem;} }
-  .cover-wrap{display:flex; align-items:center; gap:11px;}
-  .cover{width:34px; height:51px; object-fit:cover; border-radius:3px; box-shadow:0 1px 3px rgba(0,0,0,.28); background:var(--code-bg); flex:0 0 auto;}
-
-  /* Book-shaped placeholder shown when a cover image is missing.
-     Inherits size (34x51) from .cover; --ph-hue is set per-book in JS. */
-  .cover-ph{
-    border-radius:2px 3px 3px 2px;                 /* squared spine side, rounded fore-edge */
-    background:
-      linear-gradient(90deg,
-        rgba(0,0,0,.30) 0 2.5px,                   /* the spine */
-        rgba(255,255,255,.16) 2.5px 3.5px,         /* spine highlight */
-        transparent 3.5px),
-      linear-gradient(150deg,
-        hsl(var(--ph-hue,28) 34% 52%),             /* cover "cloth", muted to fit the palette */
-        hsl(var(--ph-hue,28) 36% 37%));
-    box-shadow:
-      inset -1.5px 0 0 rgba(255,255,255,.12),       /* hint of pages on the fore-edge */
-      inset 0 0 0 1px rgba(0,0,0,.10),
-      0 1px 3px rgba(0,0,0,.30);
-  }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/moonfavicon.svg">
+<style>
+:root{--bg:#f7f4ef;--ink:#252321;--muted:#77716b;--line:#ded8d0;--accent:#6d4f8b;--card:#fffdf9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "DM Sans",sans-serif}main{max-width:1100px;margin:0 auto;padding:42px 22px 70px}h1,h2{font-family:"Playfair Display",serif}h1{font-size:42px;margin:0 0 8px}h2{font-size:27px;margin:0}.intro{color:var(--muted);margin:0 0 30px}.section{margin:34px 0}.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:12px}.table-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:14px}table{width:100%;border-collapse:collapse;min-width:680px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}tr:last-child td{border-bottom:0}.book-cell{display:flex;align-items:center;gap:13px}.cover,.cover-ph{width:52px;height:76px;border-radius:5px;object-fit:cover;display:block}.cover-ph{background:#e8e1d8;color:#756d64;font-size:10px;line-height:1.2;padding:7px;text-align:center;display:flex;align-items:center;justify-content:center}.book-cell a{text-decoration:none;color:inherit}.title{font-weight:600}.meta{color:var(--muted);font-size:13px}.state{padding:22px;color:var(--muted)}.error{background:#fff4f1;border:1px solid #e7c9c1;border-radius:12px;padding:16px}.pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:3px 9px;font-size:12px;color:var(--muted)}
 </style>
 </head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3PM570SXPX');
-</script>
 <body>
-  <div class="wrap">
-    <!-- ▼ Edit your club name + tagline here. Everything below comes from books.md. -->
-    <header class="masthead">
-      <h1>Book Club</h1>
-      <p>Reading & Read</p>
-      <hr class="rule" />
-    </header>
-
-    <main id="shelf"><p class="state">Loading the shelf…</p></main>
-
-    <footer class="foot">Already Read: * - RGF ** - LAB</footer>
-  </div>
-
+<main>
+<h1>Book Club</h1>
+<p class="intro">Our reading lists, ratings, and what we’re reading next.</p>
+<div id="shelf"><p class="state">Loading books…</p></div>
+</main>
 <script>
-(() => {
-  const shelf = document.getElementById('shelf');
+const READERS=['RGF','LAB'];
+const DATA_URL=new URL('books.md',window.location.href).href;
+const GOODREADS='https://www.goodreads.com/search?q=';
 
-  // ▼ The two of you — put your names back here.
-  const READERS = ['RGF', 'LAB'];
-
-  const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // Same as esc, but also safe to drop inside a double-quoted HTML attribute.
-  const escAttr = s => esc(s).replace(/"/g,'&quot;');
-  const inline = s => esc(s)
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-
-  function coverImg(isbn, title){
-    if(!isbn) return '';
-    const clean = isbn.replace(/[^0-9Xx]/g,'');
-    const t   = escAttr(title || '');
-    const gr  = 'https://www.goodreads.com/search?q=' + encodeURIComponent(clean);
-    const url = 'https://covers.openlibrary.org/b/isbn/' + encodeURIComponent(clean) + '-M.jpg?default=false';
-    return '<a href="'+gr+'" target="_blank" rel="noopener">' +
-           '<img class="cover" src="'+url+'" alt="" loading="lazy" ' +
-           'data-isbn="'+clean+'" data-title="'+t+'" onerror="bookPlaceholder(this)">' +
-           '</a>';
-  }
-
-  // Swap a broken cover for a small book-shaped placeholder that stays clickable
-  // (it lives inside the Goodreads <a>). Each book gets its own hue from its ISBN,
-  // and the title shows on hover.
-  function bookPlaceholder(img){
-    const isbn  = img.getAttribute('data-isbn') || '';
-    const title = img.getAttribute('data-title') || '';
-    let h = 0; for(const c of isbn) h = (h*31 + c.charCodeAt(0)) % 360;
-    const ph = document.createElement('div');
-    ph.className = 'cover cover-ph';
-    ph.style.setProperty('--ph-hue', h);
-    ph.setAttribute('role','img');
-    ph.setAttribute('aria-label', (title ? title + ' — ' : '') + 'no cover available');
-    if(title) ph.title = title;
-    img.replaceWith(ph);
-  }
-
-  function stars(v){
-    const t = (v===undefined || v===null) ? '' : String(v).trim();
-    if(t==='' || t==='0'){ return '<span class="stars off" aria-label="not yet rated">—</span>'; }
-    let n = parseInt(t,10); if(isNaN(n)) n=0; n=Math.max(0,Math.min(5,n));
-    let out=''; for(let i=1;i<=5;i++) out+='<span class="'+(i<=n?'on':'off')+'">★</span>';
-    return '<span class="stars" aria-label="'+n+' out of 5 stars">'+out+'</span>';
-  }
-
-  // Parse into an ORDERED list of blocks, so the page follows books.md order exactly.
-  function parse(text){
-    const lines = text.replace(/\r\n/g,'\n').split('\n');
-    const blocks = [];
-    let mode=null, curBook=null, curRead=null, curList=null;
-    const flushBook=()=>{ if(curBook && curRead){ curBook.review=curBook.reviewLines.join(' ').trim(); curRead.books.push(curBook); curBook=null; } };
-    for(const raw of lines){
-      const line = raw.replace(/\s+$/,'');
-      const sec = line.match(/^#\s+(.*)/);
-      if(sec){
-        flushBook();
-        const heading = sec[1].trim();
-        if(heading.toLowerCase()==='read'){ curRead={ type:'read', books:[] }; blocks.push(curRead); mode='read'; curList=null; }
-        else { curList={ type:'list', title:heading, items:[] }; blocks.push(curList); mode='toread'; curRead=null; }
-        continue;
-      }
-      if(mode==='read'){
-        const bk = line.match(/^##\s+(.*)/);
-        if(bk){ flushBook(); const p = bk[1].split('|').map(s=>s.trim()); curBook={title:p[0]||'', author:p[1]||'', stars:[p[2]||'', p[3]||''], isbn:p[4]||'', reviewLines:[], lines:[]}; continue; }
-        if(!curBook) continue;
-        const fav = line.match(/^\s*-\s+(.*)/);
-        if(fav){ curBook.lines.push(fav[1].trim()); continue; }
-        if(line.trim()==='') continue;
-        curBook.reviewLines.push(line.trim());
-      } else if(mode==='toread'){
-        if(line.trim()==='' || !curList) continue;
-        const p = line.split('|').map(s=>s.trim());
-        curList.items.push({title:p[0]||'', author:p[1]||'', isbn:p[2]||''});
-      }
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function coverImg(isbn,title){
+  const clean=String(isbn||'').replace(/[^0-9Xx]/g,'');
+  const t=esc(title||'');
+  if(!clean)return '<div class="cover-ph">No cover</div>';
+  const gr=GOODREADS+encodeURIComponent(clean);
+  const url='https://covers.openlibrary.org/b/isbn/'+encodeURIComponent(clean)+'-M.jpg?default=false';
+  return '<a href="'+gr+'" target="_blank" rel="noopener noreferrer" aria-label="Search Goodreads for '+t+'">'+
+    '<img class="cover" src="'+url+'" alt="'+t+' cover" loading="lazy" data-isbn="'+clean+'" onerror="bookPlaceholder(this)">'+
+    '</a>';
+}
+function bookPlaceholder(img){
+  const d=document.createElement('div');
+  d.className='cover-ph';
+  d.textContent=img.dataset.isbn||'No cover';
+  img.replaceWith(d);
+}
+function parse(text){
+  const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/);
+  const blocks=[];let current=null,book=null;
+  for(const raw of lines){
+    const line=raw.trim();
+    if(!line)continue;
+    if(/^#\s+/.test(line)){
+      current={type:/^#\s+Read\s*$/i.test(line)?'read':'list',title:line.replace(/^#\s+/,'').trim(),items:[]};
+      blocks.push(current);book=null;continue;
     }
-    flushBook();
-    return blocks;
+    if(/^##\s+/.test(line)&&current?.type==='read'){
+      const parts=line.replace(/^##\s+/,'').split('|').map(x=>x.trim());
+      current.items.push({title:parts[0]||'Untitled',author:parts[1]||'',isbn:parts[2]||'',rating:parts[3]||''});
+      continue;
+    }
+    if(current?.type==='list'&&/^[-*]\s+/.test(line))current.items.push(line.replace(/^[-*]\s+/,''));
   }
-
-  function render(blocks){
-    const hasContent = blocks.some(b => (b.type==='read' && b.books.length) || (b.type==='list' && b.items.length));
-    if(!hasContent){ shelf.innerHTML='<p class="state">No books yet — add some in books.md.</p>'; return; }
-
-    const listTable = list => {
-      if(!list.items.length) return '';
-      let s = '<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';
-      list.items.forEach(b=>{ s+='<tr><td class="t"><span class="cover-wrap">'+coverImg(b.isbn, b.title)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td></tr>'; });
-      return s + '</tbody></table>';
-    };
-
-    const readTable = books => {
-      if(!books.length) return '';
-      let s = '<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';
-      books.forEach(b=>{
-        s+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn, b.title)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';
-        if(b.review || b.lines.length){
-          s+='<tr class="detail-row"><td colspan="4">';
-          if(b.review) s+='<p class="review">'+inline(b.review)+'</p>';
-          if(b.lines.length) s+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';
-          s+='</td></tr>';
-        }
-      });
-      return s + '</tbody></table>';
-    };
-
-    let h='';
-    blocks.forEach(b=>{ h += (b.type==='read') ? readTable(b.books) : listTable(b); });
-    shelf.innerHTML=h;
+  return blocks;
+}
+function render(blocks){
+  const shelf=document.getElementById('shelf');
+  if(!blocks.length){shelf.innerHTML='<p class="state">No book lists found in books.md.</p>';return;}
+  shelf.innerHTML=blocks.map(block=>{
+    if(block.type==='read'){
+      const rows=block.items.map(b=>'<tr><td><div class="book-cell">'+coverImg(b.isbn,b.title)+'<div><div class="title">'+esc(b.title)+'</div><div class="meta">'+esc(b.author)+(b.isbn?' · '+esc(b.isbn):'')+'</div></div></div></td><td>'+(b.rating?'<span class="pill">'+esc(b.rating)+'</span>':'—')+'</td></tr>').join('');
+      return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2><span class="pill">'+block.items.length+' books</span></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>Rating</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+    }
+    const rows=block.items.map(item=>'<tr><td>'+esc(item)+'</td></tr>').join('');
+    return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2></div><div class="table-wrap"><table><tbody>'+rows+'</tbody></table></div></section>';
+  }).join('');
+}
+async function loadBooks(){
+  const shelf=document.getElementById('shelf');
+  try{
+    const r=await fetch(DATA_URL+'?t='+Date.now(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const text=await r.text();
+    render(parse(text));
+  }catch(err){
+    console.error('Book Club load failed:',err,DATA_URL);
+    shelf.innerHTML='<div class="error"><strong>Couldn’t load books.md.</strong><br>'+esc(err.message)+'<br><small>Expected file: '+esc(DATA_URL)+'</small></div>';
   }
-
-  fetch('books.md?t=' + Date.now(), { cache:'no-store' })
-    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.text(); })
-    .then(t => render(parse(t)))
-    .catch(err => {
-      shelf.innerHTML = '<p class="state">Couldn’t load <b>books.md</b> (' + esc(err.message) + ').<br>' +
-        'If you opened this file straight from your computer, browsers block that — view it on your live site. ' +
-        'Make sure books.md sits in the same folder as this page.</p>';
-    });
-})();
+}
+loadBooks();
 </script>
 </body>
 </html>
