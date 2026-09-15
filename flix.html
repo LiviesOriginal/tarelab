@@ -28,7 +28,7 @@
   .masthead p{margin:10px 0 0; color:var(--muted); font-style:italic; font-size:1.05rem;}
   .masthead .rule{height:1px; background:var(--rule); border:0; margin:18px 0 0;}
 
-  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; letter-spacing:-0.01em; margin:28px 0 10px;}
+  h2.section{font-family:"Fraunces",serif; font-weight:600; font-size:1.5rem; letter-spacing:-.01em; margin:28px 0 10px;}
   h2.section:first-of-type{margin-top:8px;}
 
   table{width:100%; border-collapse:collapse; margin:0; border:1px solid var(--grid);}
@@ -52,7 +52,7 @@
 
   .state{color:var(--muted); font-style:italic;}
   .foot{margin-top:36px; padding-top:16px; border-top:1px solid var(--rule); color:var(--muted); font-size:.85rem;}
-  @media (max-width:520px){ body{font-size:18px;} .wrap{padding:24px 0 36px;} thead th{font-size:.66rem;} }
+  @media (max-width:520px){body{font-size:18px;background:#2f80c3;padding:12px 10px;min-height:100vh}.wrap{width:100%;max-width:760px;margin:0 auto;padding:24px 16px 32px;background:#fff;border-radius:26px;box-shadow:0 10px 30px rgba(0,0,0,.18)}.masthead{margin-bottom:20px}.masthead h1{font-size:clamp(30px,9vw,40px)}h2.section{font-size:1.3rem;margin:22px 0 8px}table{font-size:16px}.film-row td{padding:6px 6px 3px}.detail-row td{padding:3px 6px 8px}.cover-wrap{gap:8px}.cover{width:34px;height:51px}thead th{font-size:.62rem;padding:5px 6px}}
 </style>
 </head>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
@@ -83,10 +83,8 @@
     .replace(/\*([^*]+)\*/g,'<em>$1</em>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-  // A poster is fetched by IMDb ID (OMDb needs a lookup), so we render a placeholder
-  // <img> and fill its src afterwards in loadPosters().
   function poster(imdb){
-  const id = (imdb||'').trim();
+    const id = (imdb||'').trim();
     if(!/^tt\d+$/i.test(id)) return '';
     return '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy">';
   }
@@ -108,7 +106,6 @@
           const r = await fetch('https://api.themoviedb.org/3/find/' + encodeURIComponent(id) +
             '?external_source=imdb_id&api_key=' + encodeURIComponent(TMDB_KEY));
           const d = await r.json();
-          // works for both films and TV: TMDB returns movie_results or tv_results
           const hit = (d && ((d.movie_results && d.movie_results[0]) || (d.tv_results && d.tv_results[0]))) || null;
           cache[id] = (hit && hit.poster_path) ? ('https://image.tmdb.org/t/p/w342' + hit.poster_path) : '';
         }
@@ -117,7 +114,6 @@
     }
   }
 
-  // Parse movies.md into ordered sections (file order preserved).
   function parse(text){
     const lines = text.replace(/\r\n/g,'\n').split('\n');
     const sections = []; let cur=null, curFilm=null;
