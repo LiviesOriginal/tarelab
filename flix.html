@@ -84,9 +84,10 @@
   // A poster is fetched by IMDb ID (OMDb needs a lookup), so we render a placeholder
   // <img> and fill its src afterwards in loadPosters().
   function poster(imdb){
-    const id = (imdb||'').trim();
+  const id = (imdb||'').trim();
     if(!/^tt\d+$/i.test(id)) return '';
-    return '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy">';
+    return '<a href="https://www.imdb.com/title/'+id+'/" target="_blank" rel="noopener">' +
+           '<img class="cover" data-imdb="'+id+'" alt="" loading="lazy"></a>';
   }
 
   async function loadPosters(){
