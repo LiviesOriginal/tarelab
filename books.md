@@ -35,7 +35,7 @@ Fitting follow-up to Evelyn Hugo, this is a sapphic office romance / ultimate lo
 - "I feel like I could know you forever and still be curious about what you’re going to say next."
 - “I was circling two hundred miles above the Earth, and all I wanted was to get home and see you. Do you understand that? Do you understand that I don’t care how big or small this world is, that you are the center of mine? Do you understand that, to someone, you are everything that matters on this entire planet?”
 
-## The Seven Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
+## The 7 Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
 Official first selection of the Book Club. Lovable characters that make you root for them despite of their flaws.
 - …there is nothing an extraordinary person likes more than someone else extraordinary.
 - "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
