@@ -2,7 +2,7 @@
 The Women | Kristen Hannah | 9781250178633
 Midnight Rain | Haley Cass | 9798988492993
 The Invisible Life of Addie Larue | V.E. Schwab | 9780765387578
-This Book Made Me Think of You | Libby Page | 9780241729717
+This Book Made Me Think of You | Libby Page | 9798217186990
 
 # Read
 ## Next Time Will Be Our Turn | Jessie Q. Sutanto | 5 | 0 | 9780593816875
