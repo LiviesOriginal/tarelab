@@ -51,12 +51,23 @@ function parse(text){
       current={type:/^#\s+Read\s*$/i.test(line)?'read':'list',title:line.replace(/^#\s+/,'').trim(),items:[]};
       blocks.push(current);book=null;continue;
     }
-    if(/^##\s+/.test(line)&&current?.type==='read'){
-      const parts=line.replace(/^##\s+/,'').split('|').map(x=>x.trim());
-      current.items.push({title:parts[0]||'Untitled',author:parts[1]||'',isbn:parts[2]||'',rating:parts[3]||''});
+    if(current?.type==='read'){
+      if(/^##\s+/.test(line)){
+        const parts=line.replace(/^##\s+/,'').split('|').map(x=>x.trim());
+        // Read format: title | author | RGF rating | LAB rating | ISBN
+        current.items.push({title:parts[0]||'Untitled',author:parts[1]||'',rgf:parts[2]||'',lab:parts[3]||'',isbn:parts[4]||''});
+      }
       continue;
     }
-    if(current?.type==='list'&&/^[-*]\s+/.test(line))current.items.push(line.replace(/^[-*]\s+/,''));
+    if(current?.type==='list'){
+      // To-read entries are plain pipe-delimited lines, not necessarily Markdown bullets.
+      const parts=line.replace(/^[-*]\s+/,'').split('|').map(x=>x.trim());
+      if(parts.length>=2){
+        current.items.push({title:parts[0].replace(/\s+\*\*$/,'').trim(),author:parts[1]||'',isbn:parts[2]||'',priority:/\*\*$/.test(parts[0])});
+      }else if(/^[-*]\s+/.test(line)){
+        current.items.push({title:line.replace(/^[-*]\s+/,''),author:'',isbn:''});
+      }
+    }
   }
   return blocks;
 }
@@ -65,11 +76,11 @@ function render(blocks){
   if(!blocks.length){shelf.innerHTML='<p class="state">No book lists found in books.md.</p>';return;}
   shelf.innerHTML=blocks.map(block=>{
     if(block.type==='read'){
-      const rows=block.items.map(b=>'<tr><td><div class="book-cell">'+coverImg(b.isbn,b.title)+'<div><div class="title">'+esc(b.title)+'</div><div class="meta">'+esc(b.author)+(b.isbn?' · '+esc(b.isbn):'')+'</div></div></div></td><td>'+(b.rating?'<span class="pill">'+esc(b.rating)+'</span>':'—')+'</td></tr>').join('');
-      return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2><span class="pill">'+block.items.length+' books</span></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>Rating</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
+      const rows=block.items.map(b=>'<tr><td><div class="book-cell">'+coverImg(b.isbn,b.title)+'<div><div class="title">'+esc(b.title)+'</div><div class="meta">'+esc(b.author)+(b.isbn?' · '+esc(b.isbn):'')+'</div></div></div></td><td>'+(b.rgf?'<span class="pill">RGF: '+esc(b.rgf)+'</span>':'—')+'</td><td>'+(b.lab?'<span class="pill">LAB: '+esc(b.lab)+'</span>':'—')+'</td></tr>').join('');
+      return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2><span class="pill">'+block.items.length+' books</span></div><div class="table-wrap"><table><thead><tr><th>Book</th><th>RGF</th><th>LAB</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
     }
-    const rows=block.items.map(item=>'<tr><td>'+esc(item)+'</td></tr>').join('');
-    return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2></div><div class="table-wrap"><table><tbody>'+rows+'</tbody></table></div></section>';
+    const rows=block.items.map(b=>'<tr><td><div class="book-cell">'+coverImg(b.isbn,b.title)+'<div><div class="title">'+esc(b.title)+(b.priority?' <span class="pill">priority</span>':'')+'</div><div class="meta">'+esc(b.author)+(b.isbn?' · '+esc(b.isbn):'')+'</div></div></div></td></tr>').join('');
+    return '<section class="section"><div class="section-head"><h2>'+esc(block.title)+'</h2><span class="pill">'+block.items.length+' books</span></div><div class="table-wrap"><table><thead><tr><th>Book</th></tr></thead><tbody>'+rows+'</tbody></table></div></section>';
   }).join('');
 }
 async function loadBooks(){
