@@ -96,10 +96,25 @@
     .replace(/\*([^*]+)\*/g,'<em>$1</em>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
 
-  function coverImg(isbn){
+    function coverImg(isbn){
     if(!isbn) return '';
-    const url = 'https://covers.openlibrary.org/b/isbn/' + encodeURIComponent(isbn.replace(/[^0-9Xx]/g,'')) + '-M.jpg?default=false';
-    return '<img class="cover" src="'+url+'" alt="" loading="lazy" onerror="this.remove()">';
+    const clean = isbn.replace(/[^0-9Xx]/g,'');
+    const gr  = 'https://www.goodreads.com/search?q=' + encodeURIComponent(clean);
+    const url = 'https://covers.openlibrary.org/b/isbn/' + encodeURIComponent(clean) + '-M.jpg?default=false';
+    return '<a href="'+gr+'" target="_blank" rel="noopener">' +
+           '<img class="cover" src="'+url+'" alt="" loading="lazy" ' +
+           'data-isbn="'+clean+'" onerror="bookPlaceholder(this)">' +
+           '</a>';
+  }
+
+  function bookPlaceholder(img){
+    const isbn = img.getAttribute('data-isbn') || '';
+    let h = 0; for(const c of isbn) h = (h*31 + c.charCodeAt(0)) % 360;
+    const ph = document.createElement('div');
+    ph.className = 'cover cover-ph';
+    ph.style.setProperty('--ph-hue', h);
+    ph.innerHTML = '<span class="cover-ph-label">No cover</span>';
+    img.replaceWith(ph);
   }
 
   function stars(v){
