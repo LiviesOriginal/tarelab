@@ -6,7 +6,7 @@
 <title>Book Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,400&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="/moonfavicon.svg">
   <style>
   :root{
@@ -70,22 +70,28 @@
   }
   function coverImg(isbn,title){
     if(!isbn)return '';
-    const clean=isbn.replace(/[^0-9Xx]/g,''), t=escAttr(title||''), gr='https://www.goodreads.com/search?q='+encodeURIComponent(clean), url='https://covers.openlibrary.org/b/isbn/'+encodeURIComponent(clean)+'-M.jpg?default=false';
-    return '<a href="'+gr+'" target="_blank" rel="noopener">'+placeholderMarkup(clean,title)+'<img class="cover" src="'+url+'" alt="" loading="lazy" data-isbn="'+clean+'" data-title="'+t+'" style="display:none" onerror="bookPlaceholder(this)" onload="checkCover(this)"></a>';
+    const clean=isbn.replace(/[^0-9Xx]/g,''), gr='https://www.goodreads.com/search?q='+encodeURIComponent(clean), t=escAttr(title||'');
+    return '<a href="'+gr+'" target="_blank" rel="noopener" class="cover-link" data-isbn="'+clean+'" data-title="'+t+'">'+placeholderMarkup(clean,title)+'</a>';
   }
-  function bookPlaceholder(img){
-    if(!img)return;
-    img.style.display='none';
-    const a=img.parentElement;
-    if(a && a.querySelector('.cover-ph'))return;
-    if(a)a.insertAdjacentHTML('afterbegin',placeholderMarkup(img.getAttribute('data-isbn')||'',img.getAttribute('data-title')||''));
+  function loadCover(link){
+    const isbn=link.getAttribute('data-isbn')||'', title=link.getAttribute('data-title')||'';
+    if(!isbn)return;
+    fetch('https://openlibrary.org/api/books?bibkeys=ISBN:'+encodeURIComponent(isbn)+'&format=json&jscmd=data')
+      .then(r=>r.ok?r.json():{})
+      .then(data=>{
+        const book=data['ISBN:'+isbn];
+        const cover=book && book.cover && (book.cover.medium || book.cover.small || book.cover.large);
+        if(!cover)return;
+        const img=new Image();
+        img.className='cover'; img.alt=''; img.loading='lazy';
+        img.onload=()=>{const ph=link.querySelector('.cover-ph');if(ph)ph.remove();link.insertBefore(img,link.firstChild);};
+        img.onerror=()=>{};
+        img.src=cover;
+      })
+      .catch(()=>{});
   }
-  function checkCover(img){
-    if(!img || !img.naturalWidth || img.naturalWidth < 20){bookPlaceholder(img);return;}
-    const a=img.parentElement, ph=a&&a.querySelector('.cover-ph');
-    if(ph)ph.remove();
-    img.style.display='block';
-  }
+  function bookPlaceholder(img){if(img)img.style.display='none';}
+  function checkCover(img){if(img&&!img.naturalWidth)bookPlaceholder(img);}
   function stars(v){const t=(v==null)?'':String(v).trim();if(t===''||t==='0')return '<span class="stars off" aria-label="not yet rated">—</span>';let n=parseInt(t,10);if(isNaN(n))n=0;n=Math.max(0,Math.min(5,n));let out='';for(let i=1;i<=5;i++)out+='<span class="'+(i<=n?'on':'off')+'">★</span>';return '<span class="stars" aria-label="'+n+' out of 5 stars">'+out+'</span>';}
   function parse(text){
     const lines=text.replace(/\r\n/g,'\n').split('\n'),blocks=[];let mode=null,curBook=null,curRead=null,curList=null;
@@ -100,6 +106,7 @@
     const listTable=list=>{if(!list.items.length)return '';let s='<h2 class="section">'+esc(list.title)+'</h2><table class="toread"><thead><tr><th>Title</th><th>Author</th></tr></thead><tbody>';list.items.forEach(b=>{s+='<tr><td class="t"><span class="cover-wrap">'+coverImg(b.isbn,b.title)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td></tr>';});return s+'</tbody></table>';};
     const readTable=books=>{if(!books.length)return '';let s='<h2 class="section">Read</h2><table class="read"><thead><tr><th>Book</th><th>Author</th><th>'+esc(READERS[0])+'</th><th>'+esc(READERS[1])+'</th></tr></thead><tbody>';books.forEach(b=>{s+='<tr class="book-row"><td class="t"><span class="cover-wrap">'+coverImg(b.isbn,b.title)+'<span class="ttl">'+esc(b.title)+'</span></span></td><td class="a">'+esc(b.author)+'</td><td class="s">'+stars(b.stars[0])+'</td><td class="s">'+stars(b.stars[1])+'</td></tr>';if(b.review||b.lines.length){s+='<tr class="detail-row"><td colspan="4">';if(b.review)s+='<p class="review">'+inline(b.review)+'</p>';if(b.lines.length)s+='<ul class="lines">'+b.lines.map(l=>'<li>'+esc(l)+'</li>').join('')+'</ul>';s+='</td></tr>';}});return s+'</tbody></table>';};
     let h='';blocks.forEach(b=>{h+=(b.type==='read')?readTable(b.books):listTable(b);});shelf.innerHTML=h;
+    shelf.querySelectorAll('.cover-link').forEach(loadCover);
   }
   fetch('books.md?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text();}).then(t=>render(parse(t))).catch(err=>{shelf.innerHTML='<p class="state">Couldn’t load <b>books.md</b> ('+esc(err.message)+').<br>If you opened this file straight from your computer, browsers block that — view it on your live site. Make sure books.md sits in the same folder as this page.</p>';});
 })();
