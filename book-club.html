@@ -38,9 +38,8 @@ function coverImg(isbn,title){
 function bookPlaceholder(img){
   const d=document.createElement('div');
   d.className='cover-ph';
-  d.textContent=img.dataset.isbn||'No cover';
-  const parent=img.closest('a');
-  if(parent){parent.replaceWith(d);}else{img.replaceWith(d);}
+  d.textContent='No cover';
+  img.replaceWith(d);
 }
 function parse(text){
   const lines=text.replace(/^\uFEFF/,'').split(/\r?\n/);
