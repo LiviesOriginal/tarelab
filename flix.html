@@ -504,26 +504,437 @@ h2.section {
 </head>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){return dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-3PM570SXPX')</script>
-<body><div class="wrap"><header class="masthead" id="top"><h1>Screens Big and Small</h1><hr class="rule"/></header>
-<nav class="nav" aria-label="Flix sections"><a href="#movies">Movies</a><a href="#series">Series</a><a href="#watching">Watching</a><a href="#watched">Watched</a></nav><main id="shelf"><p class="state">Loading the shelf…</p></main></div>
-<script>
-(()=>{
-  const shelf=document.getElementById('shelf');
-  const TMDB_KEY='06cf868a53dce6149194addbd212d29d';
-  const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');
-  const coverCache={};
-  function poster(imdb,large=false){const id=(imdb||'').trim();if(!/^tt\d+$/i.test(id))return '<span class="cover-ph">No poster</span>';return '<a class="cover-link" href="https://www.imdb.com/title/'+encodeURIComponent(id)+'/" target="_blank" rel="noopener"><img class="cover" data-imdb="'+esc(id)+'" data-large="'+(large?'1':'0')+'" alt="" loading="lazy"></a>'}
-  function stars(value){const n=parseFloat(String(value||'').replace(/[^0-9.]/g,''));if(!Number.isFinite(n))return '—';const score=Math.max(0,Math.min(5,n));const full=Math.round(score);return '★'.repeat(full)+'☆'.repeat(5-full)}
-  async function loadPosters(){const imgs=[...document.querySelectorAll('img.cover[data-imdb]')];for(const img of imgs){const id=img.getAttribute('data-imdb');try{if(!(id in coverCache)){const r=await fetch('https://api.themoviedb.org/3/find/'+encodeURIComponent(id)+'?external_source=imdb_id&api_key='+encodeURIComponent(TMDB_KEY));const d=await r.json();const hit=(d&&((d.movie_results&&d.movie_results[0])||(d.tv_results&&d.tv_results[0])))||null;coverCache[id]=(hit&&hit.poster_path)?(img.getAttribute('data-large')==='1'?'https://image.tmdb.org/t/p/w500':'https://image.tmdb.org/t/p/w342')+hit.poster_path:''}if(coverCache[id])img.src=coverCache[id];else img.replaceWith(document.createTextNode(''))}catch(_){img.replaceWith(document.createTextNode(''))}}}
-  function parse(text){const lines=text.replace(/\r\n/g,'\n').split('\n');const sections=[];let cur=null,film=null;const flush=()=>{if(film&&cur){film.notes=film.noteLines.join(' ').trim();cur.films.push(film);film=null}};for(const raw of lines){const line=raw.replace(/\s+$/,'');const h1=line.match(/^#\s+(.*)/);if(h1){flush();cur={sourceTitle:h1[1].trim(),films:[]};sections.push(cur);continue}const h2=line.match(/^##\s+(.*)/);if(h2){if(!cur)continue;flush();const p=h2[1].split('|').map(s=>s.trim());film={title:p[0]||'',released:p[1]||'',imdb:p[2]||'',rgb:p[3]||'—',lab:p[4]||'—',noteLines:[],lines:[]};continue}if(!film)continue;const quote=line.match(/^\s*-\s+(.*)/);if(quote){film.lines.push(quote[1].trim());continue}if(line.trim()==='')continue;film.noteLines.push(line.trim())}flush();return sections.filter(s=>s.films.length)}
 
-function sectionId(title){const t=title.toLowerCase();if(t.includes('movie'))return 'movies';if(t.includes('series'))return 'series';if(t.includes('watching'))return 'watching';return 'watched'}
-function render(sections){if(!sections.length){shelf.innerHTML='<p class="state">No films yet — add some in flix.md.</p>';return}let h='';const ordered=['movies','series','watching','watched'];const mapped={};sections.forEach(s=>mapped[sectionId(s.sourceTitle)]=s);ordered.forEach(id=>{const sec=mapped[id];if(!sec)return;const large=id==='watched';h+='<section id="'+id+'"><h2 class="section">'+esc(sec.sourceTitle)+'</h2>';if(large){h+='<table class="read"><tbody>';sec.films.forEach(m=>{h+='<tr class="film-row"><td class="t"><span class="cover-wrap">'+poster(m.imdb,true)+'</span></td><td class="watched-info" colspan="3"><div class="book-title">'+esc(m.title)+'</div><div class="released">Released in '+esc(m.released)+'</div><div class="ratings"><span class="rating"><span class="rating-label">RGB</span><span class="rating-stars">'+stars(m.rgb)+'</span></span><span class="rating"><span class="rating-label">LAB</span><span class="rating-stars">'+stars(m.lab)+'</span></span></div>'+(m.notes||m.lines.length?'<div class="desktop-review">'+(m.notes?'<p class="review">'+esc(m.notes)+'</p>':'')+(m.lines.length?'<ul class="lines">'+m.lines.map(q=>'<li>'+esc(q)+'</li>').join('')+'</ul>':'')+'</div>':'')+'</td></tr>';if(m.notes||m.lines.length){h+='<tr class="detail-row"><td colspan="4">';if(m.notes)h+='<p class="review">'+esc(m.notes)+'</p>';if(m.lines.length)h+='<ul class="lines">'+m.lines.map(q=>'<li>'+esc(q)+'</li>').join('')+'</ul>';h+='</td></tr>'}});h+='</tbody></table>'}else{h+='<table class="toread"><tbody>';sec.films.forEach(m=>{h+='<tr><td class="t"><span class="cover-wrap">'+poster(m.imdb)+'</span><span class="book-title">'+esc(m.title)+'</span></td><td class="released">Released in '+esc(m.released)+'</td></tr>'});h+='</tbody></table>'}h+='<div class="section-end"><a class="return-top" href="#'+id+'">Return to top</a></div></section>'});shelf.innerHTML=h;loadPosters()}
-  function scrollToSection(target){const el=document.getElementById(target);if(!el)return;const top=el.getBoundingClientRect().top-shelf.getBoundingClientRect().top+shelf.scrollTop;shelf.scrollTo({top:Math.max(0,top),behavior:'smooth'})}
-  document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();scrollToSection(a.getAttribute('href').slice(1))}));
-  shelf.addEventListener('click',e=>{const a=e.target.closest('.return-top');if(!a)return;e.preventDefault();const section=a.closest('section');if(section)scrollToSection(section.id)});
-  fetch('flix.md?t='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()}).then(t=>render(parse(t))).catch(err=>{shelf.innerHTML='<p class="state">Couldn’t load <b>flix.md</b> ('+esc(err.message)+').</p>'});
+<script>
+window.dataLayer = window.dataLayer || [];
+
+function gtag() {
+  return dataLayer.push(arguments);
+}
+
+gtag('js', new Date());
+gtag('config', 'G-3PM570SXPX');
+</script>
+
+<body>
+<div class="wrap">
+  <header class="masthead" id="top">
+    <h1>Screens Big and Small</h1>
+    <hr class="rule" />
+  </header>
+
+  <nav class="nav" aria-label="Flix sections">
+    <a href="#movies">Movies</a>
+    <a href="#series">Series</a>
+    <a href="#watching">Watching</a>
+    <a href="#watched">Watched</a>
+  </nav>
+
+  <main id="shelf">
+    <p class="state">Loading the shelf…</p>
+  </main>
+</div>
+
+<script>
+(() => {
+  const shelf = document.getElementById('shelf');
+
+  const TMDB_KEY = '06cf868a53dce6149194addbd212d29d';
+
+  const esc = s =>
+    (s || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\"/g, '&quot;');
+
+  const coverCache = {};
+
+  function poster(imdb, large = false) {
+    const id = (imdb || '').trim();
+
+    if (!/^tt\d+$/i.test(id)) {
+      return '<span class="cover-ph">No poster</span>';
+    }
+
+    return '<a class="cover-link" href="https://www.imdb.com/title/' +
+      encodeURIComponent(id) +
+      '/" target="_blank" rel="noopener">' +
+      '<img class="cover" data-imdb="' +
+      esc(id) +
+      '" data-large="' +
+      (large ? '1' : '0') +
+      '" alt="" loading="lazy">' +
+      '</a>';
+  }
+
+  function stars(value) {
+    const n = parseFloat(
+      String(value || '').replace(/[^0-9.]/g, '')
+    );
+
+    if (!Number.isFinite(n)) {
+      return '—';
+    }
+
+    const score = Math.max(0, Math.min(5, n));
+    const full = Math.round(score);
+
+    return '★'.repeat(full) + '☆'.repeat(5 - full);
+  }
+
+  async function loadPosters() {
+    const imgs = [
+      ...document.querySelectorAll('img.cover[data-imdb]')
+    ];
+
+    for (const img of imgs) {
+      const id = img.getAttribute('data-imdb');
+
+      try {
+        if (!(id in coverCache)) {
+          const r = await fetch(
+            'https://api.themoviedb.org/3/find/' +
+            encodeURIComponent(id) +
+            '?external_source=imdb_id&api_key=' +
+            encodeURIComponent(TMDB_KEY)
+          );
+
+          const d = await r.json();
+
+          const hit =
+            (d &&
+              (
+                (d.movie_results && d.movie_results[0]) ||
+                (d.tv_results && d.tv_results[0])
+              )
+            ) || null;
+
+          coverCache[id] =
+            (hit && hit.poster_path)
+              ? (
+                  img.getAttribute('data-large') === '1'
+                    ? 'https://image.tmdb.org/t/p/w500'
+                    : 'https://image.tmdb.org/t/p/w342'
+                ) + hit.poster_path
+              : '';
+        }
+
+        if (coverCache[id]) {
+          img.src = coverCache[id];
+        } else {
+          img.replaceWith(document.createTextNode(''));
+        }
+      } catch (_) {
+        img.replaceWith(document.createTextNode(''));
+      }
+    }
+  }
+
+  function parse(text) {
+    const lines = text.replace(/\r\n/g, '\n').split('\n');
+    const sections = [];
+
+    let cur = null;
+    let film = null;
+
+    const flush = () => {
+      if (film && cur) {
+        film.notes = film.noteLines.join(' ').trim();
+        cur.films.push(film);
+        film = null;
+      }
+    };
+
+    for (const raw of lines) {
+      const line = raw.replace(/\s+$/, '');
+
+      const h1 = line.match(/^#\s+(.*)/);
+
+      if (h1) {
+        flush();
+
+        cur = {
+          sourceTitle: h1[1].trim(),
+          films: []
+        };
+
+        sections.push(cur);
+        continue;
+      }
+
+      const h2 = line.match(/^##\s+(.*)/);
+
+      if (h2) {
+        if (!cur) continue;
+
+        flush();
+
+        const p = h2[1].split('|').map(s => s.trim());
+
+        film = {
+          title: p[0] || '',
+          released: p[1] || '',
+          imdb: p[2] || '',
+          rgb: p[3] || '—',
+          lab: p[4] || '—',
+          noteLines: [],
+          lines: []
+        };
+
+        continue;
+      }
+
+      if (!film) continue;
+
+      const quote = line.match(/^\s*-\s+(.*)/);
+
+      if (quote) {
+        film.lines.push(quote[1].trim());
+        continue;
+      }
+
+      if (line.trim() === '') continue;
+
+      film.noteLines.push(line.trim());
+    }
+
+    flush();
+
+    return sections.filter(s => s.films.length);
+  }
+
+  function sectionId(title) {
+    const t = title.toLowerCase();
+
+    if (t.includes('movie')) {
+      return 'movies';
+    }
+
+    if (t.includes('series')) {
+      return 'series';
+    }
+
+    if (t.includes('watching')) {
+      return 'watching';
+    }
+
+    return 'watched';
+  }
+
+  function render(sections) {
+    if (!sections.length) {
+      shelf.innerHTML =
+        '<p class="state">No films yet — add some in flix.md.</p>';
+      return;
+    }
+
+    let h = '';
+
+    const ordered = [
+      'movies',
+      'series',
+      'watching',
+      'watched'
+    ];
+
+    const mapped = {};
+
+    sections.forEach(
+      s => mapped[sectionId(s.sourceTitle)] = s
+    );
+
+    ordered.forEach(id => {
+      const sec = mapped[id];
+
+      if (!sec) return;
+
+      const large = id === 'watched';
+
+      h +=
+        '<section id="' + id + '">' +
+        '<h2 class="section">' +
+        esc(sec.sourceTitle) +
+        '</h2>';
+
+      if (large) {
+        h += '<table class="read"><tbody>';
+
+        sec.films.forEach(m => {
+          h +=
+            '<tr class="film-row">' +
+            '<td class="t">' +
+            '<span class="cover-wrap">' +
+            poster(m.imdb, true) +
+            '</span>' +
+            '</td>' +
+            '<td class="watched-info" colspan="3">' +
+            '<div class="book-title">' +
+            esc(m.title) +
+            '</div>' +
+            '<div class="released">Released in ' +
+            esc(m.released) +
+            '</div>' +
+            '<div class="ratings">' +
+            '<span class="rating">' +
+            '<span class="rating-label">RGB</span>' +
+            '<span class="rating-stars">' +
+            stars(m.rgb) +
+            '</span>' +
+            '</span>' +
+            '<span class="rating">' +
+            '<span class="rating-label">LAB</span>' +
+            '<span class="rating-stars">' +
+            stars(m.lab) +
+            '</span>' +
+            '</span>' +
+            '</div>' +
+            (
+              m.notes || m.lines.length
+                ? '<div class="desktop-review">' +
+                  (
+                    m.notes
+                      ? '<p class="review">' +
+                        esc(m.notes) +
+                        '</p>'
+                      : ''
+                  ) +
+                  (
+                    m.lines.length
+                      ? '<ul class="lines">' +
+                        m.lines
+                          .map(q => '<li>' + esc(q) + '</li>')
+                          .join('') +
+                        '</ul>'
+                      : ''
+                  ) +
+                  '</div>'
+                : ''
+            ) +
+            '</td>' +
+            '</tr>';
+
+          if (m.notes || m.lines.length) {
+            h +=
+              '<tr class="detail-row">' +
+              '<td colspan="4">';
+
+            if (m.notes) {
+              h +=
+                '<p class="review">' +
+                esc(m.notes) +
+                '</p>';
+            }
+
+            if (m.lines.length) {
+              h +=
+                '<ul class="lines">' +
+                m.lines
+                  .map(q => '<li>' + esc(q) + '</li>')
+                  .join('') +
+                '</ul>';
+            }
+
+            h += '</td></tr>';
+          }
+        });
+
+        h += '</tbody></table>';
+      } else {
+        h += '<table class="toread"><tbody>';
+
+        sec.films.forEach(m => {
+          h +=
+            '<tr>' +
+            '<td class="t">' +
+            '<span class="cover-wrap">' +
+            poster(m.imdb) +
+            '</span>' +
+            '<span class="book-title">' +
+            esc(m.title) +
+            '</span>' +
+            '</td>' +
+            '<td class="released">Released in ' +
+            esc(m.released) +
+            '</td>' +
+            '</tr>';
+        });
+
+        h += '</tbody></table>';
+      }
+
+      h +=
+        '<div class="section-end">' +
+        '<a class="return-top" href="#' +
+        id +
+        '">Return to top</a>' +
+        '</div>' +
+        '</section>';
+    });
+
+    shelf.innerHTML = h;
+    loadPosters();
+  }
+
+  function scrollToSection(target) {
+    const el = document.getElementById(target);
+
+    if (!el) return;
+
+    const top =
+      el.getBoundingClientRect().top -
+      shelf.getBoundingClientRect().top +
+      shelf.scrollTop;
+
+    shelf.scrollTo({
+      top: Math.max(0, top),
+      behavior: 'smooth'
+    });
+  }
+
+  document
+    .querySelectorAll('.nav a')
+    .forEach(a =>
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        scrollToSection(
+          a.getAttribute('href').slice(1)
+        );
+      })
+    );
+
+  shelf.addEventListener('click', e => {
+    const a = e.target.closest('.return-top');
+
+    if (!a) return;
+
+    e.preventDefault();
+
+    const section = a.closest('section');
+
+    if (section) {
+      scrollToSection(section.id);
+    }
+  });
+
+  fetch('flix.md?t=' + Date.now(), {
+    cache: 'no-store'
+  })
+    .then(r => {
+      if (!r.ok) {
+        throw new Error('HTTP ' + r.status);
+      }
+
+      return r.text();
+    })
+    .then(t => render(parse(t)))
+    .catch(err => {
+      shelf.innerHTML =
+        '<p class="state">Couldn’t load ' +
+        '<b>flix.md</b> (' +
+        esc(err.message) +
+        ').</p>';
+    });
 })();
 </script>
 </body>
