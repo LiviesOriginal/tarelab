@@ -25,6 +25,12 @@ wtf
 ## Girls Like Girls | 2026 | tt32432654 | — | 4
 Olive juice.
 
+## Something Very Bad Is Going to Happen | 2026 | tt32937780 | — | 4
+Beginning to detect a pattern.
+
+## Get Out | 2017 | tt5052448 | — | 4
+No but for real, go.
+
 ## Scary Movie | 2026 | tt32093575 | — | 4
 Not bad.
 
@@ -42,3 +48,6 @@ Great soundtrack.
 
 ## Interstellar | 2014 | tt0816692 | 5 | 5
 Blue
+
+## Love is Blind Season 10 | 2020 | tt11704040 | 5 | 5
+Binge-worthy cringe watching.
