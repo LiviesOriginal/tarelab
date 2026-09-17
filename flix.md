@@ -8,7 +8,6 @@
 
 # To Watch - Movies
 ## The Invite | 2026 | tt14173636 | — | —
-## Edward Scissorhands | 1990 | tt0099487 | — | —
 ## The Prestige | 2006 | tt0482571 | — | —
 ## Arrival | 2016 | tt2543164 | — | —
 
