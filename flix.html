@@ -363,7 +363,14 @@ display:none}
 <nav class="nav" aria-label="Flix sections"></nav>
 <main id="shelf"><p class="state">Loading the shelf…</p></main>
 </div>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3PM570SXPX');
+</script>
 <script>
    (() => {
   const shelf=document.getElementById('shelf'), nav=document.querySelector('.nav');
