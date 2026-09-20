@@ -82,23 +82,23 @@ Quick read with a few gems.
 - [Love Song](https://poets.org/poem/love-song-0)
 - [Symbols](https://www.poetryverse.com/rainer-maria-rilke-poems/symbols)
 - From The Book of Pilgramage
-  Extinguish my eyes, I still can see you,
-  Close my ears, I can hear your footsteps fall,
-  And without feet I still can follow you,
-  And without voice I still can to you call.
-  Break off my arms, and I can embrace you,
-  Enfold you with my heart as with a hand.
-  Hold my heart, my brain will take fire of you
-  As flax ignites from a lit fire-brand—
-  And flame will sweep in a swift rushing flood
-  Through all the singing currents of my blood.
+  - Extinguish my eyes, I still can see you,
+  -  Close my ears, I can hear your footsteps fall,
+-   And without feet I still can follow you,
+ - And without voice I still can to you call.
+ - Break off my arms, and I can embrace you,
+ - Enfold you with my heart as with a hand.
+ - Hold my heart, my brain will take fire of you
+ - As flax ignites from a lit fire-brand—
+ - And flame will sweep in a swift rushing flood
+ - Through all the singing currents of my blood.
 - From The Knight
-  When will the foe's delivering stroke
-  Set me free
-  To dance
-  And sing?
- - From the introduction:
-    Art, like Nature, its great and only reservoir for all time past and all time to come, ever strives for elimination and selection.
+ -  When will the foe's delivering stroke
+ -  Set me free
+ -  To dance
+ -  And sing?
+ - From the introduction
+ -   Art, like Nature, its great and only reservoir for all time past and all time to come, ever strives for elimination and selection.
 
 
 ## Delilah Green Doesn’t Care (Bright Falls Series) | Ashley Herring Blake | 4 | 9780593336403
