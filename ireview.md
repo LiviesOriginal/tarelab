@@ -6,6 +6,18 @@ A for effort. Self publishing is not for the faint of heart. Respect the hustle,
 - "...most artwork directly prompts the validation of applause or laughter or furrowed brows and nodding heads. But external validation is a bottomless pit - there's no amount that'll make you feel whole if you do not love yourself."
 - "Logic serves that if I never age, I can't be thrown away."
 
+## Anxious People | Fredrik Backman | 5 | 9781982121686
+The worst hostages ever. Strangers come together under unlikely circumstances and eventually help each other find what they're each missing.
+- Loneliness is like starvation; you don't realize how hungry you are until you begin to eat. 
+- "Even if I knew that tomorrow the world would go to pieces, I would still plant my apple tree."
+
+## Thornbird | E. Kennedy | 4 | 9780008813420
+A young girl returns to the town where she was born to face the past that tore her family apart and help her father's victims get closure.
+
+## The Vanishing Half | Brit Bennett | 5 | 9780525536963
+A family with roots in Mallard, LA come to terms with their past.
+- She didn't understand exactly what he meant, but she liked being part of an us. People thought that being one of a kind made you special. No, it just made you lonely. What was special was belonging with someone else." - Jude
+
 ## Local Woman Missing | Mary Kubica | 4 | 9780008916459
 Twisty thriller about a child missing for 11 years after her mother kills herself under suspicious circumstances.
 
