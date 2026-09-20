@@ -3,7 +3,7 @@
 A for effort. Self publishing is not for the faint of heart. Respect the hustle, and found a few nuggets of wisdom.
 - "I stopped trying to force my voice and submitted to the chords that always struck with repetition."
 - "Once again, a standard interview had turned into me unpacking the adulthood-formerly-known-as-childhood-trauma of not having normal answers to normal questions because I am not normal."
-- ""...most artwork directly prompts the validation of applause or laughter or furrowed brows and nodding heads. But external validation is a bottomless pit - there's no amount that'll make you feel whole if you do not love yourself."
+- "...most artwork directly prompts the validation of applause or laughter or furrowed brows and nodding heads. But external validation is a bottomless pit - there's no amount that'll make you feel whole if you do not love yourself."
 - "Logic serves that if I never age, I can't be thrown away."
 
 ## Local Woman Missing | Mary Kubica | 4 | 9780008916459
