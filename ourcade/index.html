@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090014">
+<title>OURCADE — Play</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05020a}body{min-height:100vh;display:grid;place-items:center;overflow-x:hidden;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.arcade{position:relative;width:min(100vw,calc(100vh * 1660 / 934));aspect-ratio:1660/934;background:url("./arcade.png") center/cover no-repeat;overflow:hidden;isolation:isolate}.game{position:absolute;display:block;z-index:5;border-radius:14px;outline:none;cursor:pointer;transition:transform .16s ease,background .16s ease,box-shadow .16s ease}.game::after{content:attr(aria-label);position:absolute;left:50%;bottom:7%;transform:translate(-50%,8px);padding:.45rem .7rem;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(5,2,10,.88);color:#fff;font-size:clamp(11px,1vw,15px);font-weight:800;letter-spacing:.06em;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;box-shadow:0 0 18px rgba(255,25,217,.35)}.game:hover,.game:focus-visible{background:rgba(255,255,255,.055);box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 24px rgba(255,25,217,.7),inset 0 0 24px rgba(255,255,255,.08);transform:translateY(-3px)}.game:hover::after,.game:focus-visible::after{opacity:1;transform:translate(-50%,0)}.pacman{left:2.8%;top:32%;width:16.6%;height:58%}.galaga{left:20.6%;top:32.1%;width:15%;height:58%}.sweet{left:37.9%;top:32%;width:14.2%;height:58%}.sims{left:53.7%;top:32%;width:14.2%;height:58%}.tetris{left:68.6%;top:32%;width:15.1%;height:58%}.made4u{left:84%;top:32%;width:14%;height:58%}.hint{position:absolute;z-index:10;left:50%;bottom:2.3%;transform:translateX(-50%);padding:.35rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.8);font-size:clamp(9px,.8vw,12px);letter-spacing:.12em;text-transform:uppercase;pointer-events:none}@media(max-width:760px){body{display:block;overflow-x:auto}.arcade{width:760px;min-width:760px}.hint{display:none}}@media(prefers-reduced-motion:reduce){.game,.game::after{transition:none}}
+</style></head>
+<body><main class="arcade" aria-label="OURCADE game selection">
+<!-- Replace the six URLs below with your actual game URLs. -->
+<a class="game pacman" href="https://YOUR-DOMAIN.com/pacman/" aria-label="Play Pac-Man"></a>
+<a class="game galaga" href="https://YOUR-DOMAIN.com/galaga/" aria-label="Play Galaga"></a>
+<a class="game sweet" href="https://YOUR-DOMAIN.com/sweet-fighter/" aria-label="Play Sweet Fighter"></a>
+<a class="game sims" href="https://YOUR-DOMAIN.com/the-sims/" aria-label="Play The Sims"></a>
+<a class="game tetris" href="https://YOUR-DOMAIN.com/tetris/" aria-label="Play Tetris"></a>
+<a class="game made4u" href="https://YOUR-DOMAIN.com/made-4-u/" aria-label="Play Made 4 U"></a>
+<div class="hint">Select a cabinet to play</div></main></body></html>
