@@ -12,15 +12,15 @@
 
 # The Oracle
 
-[When things feel uncertain, consult the oracle.](https://tarelab.com/oracle.html) 
+[When things feel uncertain, consult the oracle.](https://tarelab.com/ourcade/oracle.html) 
 
 # Marshmallow Toss
 
-[Satisfy your marshmallow cravings.](https://tarelab.com/marshmallow-toss.html) 
+[Satisfy your marshmallow cravings.](https://tarelab.com/ourcade/marshmallow-toss.html) 
 
 # Bubble Pop
 
-[Hugs and Kisses for when you're feeling stressed.](https://tarelab.com/bubblepop) 
+[Hugs and Kisses for when you're feeling stressed.](https://tarelab.com/ourcade/bubblepop) 
 
 # "Talking to the Moon" Playlist
 
