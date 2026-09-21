@@ -38,7 +38,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   mugImg.onerror = () => {
     mugReady = false;
   };
-  mugImg.src = '/vites/falltoss/public/mug.png';
+  mugImg.src = '/vites/falltoss/mug.png';
 
   const mug = { x: MUG.cx, phase: 0 };
 
