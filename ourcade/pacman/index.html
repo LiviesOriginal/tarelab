@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tare Lab Arcade — Pac-Man</title>
+  <base href="https://raw.githubusercontent.com/jrhollis/jspacman/master/">
+  <style>
+    html,body{margin:0;min-height:100%;background:#080808;color:#fff;font-family:monospace}
+    body{display:flex;justify-content:center;align-items:flex-start;padding:24px;box-sizing:border-box}
+    .arcade{display:flex;gap:24px;align-items:flex-start;max-width:1000px;width:100%}
+    #game{min-width:448px}
+    .scores{width:280px;border:2px solid #555;background:#111;padding:16px;box-sizing:border-box}
+    .scores h1{font-size:20px;margin:0 0 12px;text-align:center}
+    .tabs{display:flex;gap:6px;margin-bottom:12px}
+    button{font:inherit;background:#222;color:#fff;border:1px solid #666;padding:7px 9px;cursor:pointer}
+    button.active{background:#444;border-color:#fff}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:5px 3px;border-bottom:1px solid #333}
+    th{text-align:left}
+    td:last-child,th:last-child{text-align:right}
+    .note{margin-top:12px;color:#aaa;font-size:12px;line-height:1.4}
+    .actions{margin-top:12px;text-align:center}
+    @media(max-width:800px){
+      body{padding:10px}.arcade{flex-direction:column;align-items:center}
+      #game{min-width:0}.scores{width:min(448px,100%)}
+    }
+  </style>
+</head>
+<body>
+  <main class="arcade">
+    <section id="game" aria-label="Pac-Man game"></section>
+    <aside class="scores">
+      <h1>LOCAL HIGH SCORES</h1>
+      <div class="tabs">
+        <button id="pacTab" class="active">PAC-MAN</button>
+        <button id="msTab">MS PAC-MAN</button>
+      </div>
+      <table>
+        <thead><tr><th>#</th><th>NAME</th><th>SCORE</th></tr></thead>
+        <tbody id="scoreRows"></tbody>
+      </table>
+      <div class="actions"><button id="clearScores">Clear local scores</button></div>
+      <div class="note">Scores are stored only in this browser using localStorage. The original game and gameplay remain unchanged.</div>
+    </aside>
+  </main>
+
+  <script>
+    // Load the original jspacman bundle from the public source repository.
+    // The <base> above keeps its original res/ paths working.
+    window.addEventListener('load', function () {
+      var script = document.createElement('script');
+      script.src = 'jspacman.js';
+      script.onload = initLocalHighScores;
+      document.head.appendChild(script);
+    });
+
+    function initLocalHighScores() {
+      var KEY = 'tarelab_pacman_highscores_v1';
+      var MAX = 10;
+      var mode = 0;
+      var rows = document.getElementById('scoreRows');
+      var pacTab = document.getElementById('pacTab');
+      var msTab = document.getElementById('msTab');
+
+      function load() {
+        try {
+          var data = JSON.parse(localStorage.getItem(KEY) || '{}');
+          if (!Array.isArray(data.pacman)) data.pacman = [];
+          if (!Array.isArray(data.mspacman)) data.mspacman = [];
+          return data;
+        } catch (e) {
+          return {pacman: [], mspacman: []};
+        }
+      }
+
+      function save(data) {
+        try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+      }
+
+      function listFor(m) {
+        return load()[m === 0 ? 'pacman' : 'mspacman'];
+      }
+
+      function render() {
+        mode = (window.Game && typeof Game.GAME_MODE === 'number') ? Game.GAME_MODE : mode;
+        pacTab.classList.toggle('active', mode === 0);
+        msTab.classList.toggle('active', mode === 1);
+        var list = listFor(mode);
+        rows.innerHTML = '';
+        for (var i = 0; i < MAX; i++) {
+          var tr = document.createElement('tr');
+          var entry = list[i];
+          tr.innerHTML = '<td>' + (i + 1) + '</td>' +
+                         '<td>' + (entry ? escapeHtml(entry.name) : '---</td>') +
+                         '<td>' + (entry ? Number(entry.score).toLocaleString() : '---') + '</td>';
+          rows.appendChild(tr);
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function(c) {
+          return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+        });
+      }
+
+      function record(score, gameMode) {
+        score = Math.max(0, Number(score) || 0);
+        if (!score) return;
+        var data = load();
+        var key = gameMode === 0 ? 'pacman' : 'mspacman';
+        var list = data[key];
+
+        // Migrate the original single-score localStorage value once.
+        if (!list.length) {
+          try {
+            var legacy = Number(localStorage.getItem('highscore_' + gameMode) || 0);
+            if (legacy > 0) list.push({name:'OLD', score:legacy});
+          } catch (e) {}
+        }
+
+        var qualifies = list.length < MAX || score > list[list.length - 1].score;
+        var name = 'YOU';
+        if (qualifies) {
+          var entered = window.prompt('New local high score! Enter your initials:', 'AAA');
+          if (entered !== null) name = entered.trim().toUpperCase().slice(0, 3) || 'YOU';
+        }
+
+        list.push({name:name, score:score});
+        list.sort(function(a,b){ return b.score - a.score; });
+        data[key] = list.slice(0, MAX);
+        save(data);
+        render();
+      }
+
+      // Capture the final scores immediately before the original game leaves GameScene.
+      var originalReplace = SceneManager.replaceScene;
+      SceneManager.replaceScene = function(nextScene) {
+        var current = SceneManager.currentScene();
+        if (current && current instanceof GameScene && current.players) {
+          current.players.forEach(function(player) {
+            record(player.score, Game.GAME_MODE);
+          });
+        }
+        return originalReplace.call(SceneManager, nextScene);
+      };
+
+      pacTab.onclick = function(){ mode = 0; render(); };
+      msTab.onclick = function(){ mode = 1; render(); };
+      document.getElementById('clearScores').onclick = function() {
+        if (window.confirm('Clear all local Pac-Man high scores?')) {
+          try { localStorage.removeItem(KEY); } catch (e) {}
+          render();
+        }
+      };
+
+      // Keep the side panel synced with the game's selected mode.
+      setInterval(render, 500);
+      render();
+    }
+  </script>
+</body>
+</html>
