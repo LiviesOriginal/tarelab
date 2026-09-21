@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07030d">
+  <meta name="description" content="MADE 4 U — simple browser games from OURCADE.">
+  <title>MADE 4 U — More Games</title>
+  <style>
+    :root {
+      --pink: #ff19d9;
+      --blue: #19a8ff;
+      --green: #39ff72;
+      --yellow: #ffe52e;
+      --purple: #a72cff;
+      --bg: #07030d;
+      --panel: rgba(13, 7, 25, .86);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: #fff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255,25,217,.18), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(25,168,255,.17), transparent 28%),
+        radial-gradient(circle at 50% 100%, rgba(57,255,114,.10), transparent 35%),
+        #07030d;
+      overflow-x: hidden;
+    }
+
+    /* Faux dark-brick texture, so the page does not depend on another image. */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .22;
+      background:
+        linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px) 0 0 / 100% 42px,
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 84px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+
+    header {
+      position: relative;
+      text-align: center;
+      padding: 70px 20px 42px;
+    }
+
+    .back {
+      position: absolute;
+      top: 22px;
+      left: 24px;
+      color: rgba(255,255,255,.78);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .back:hover { color: white; }
+
+    .brand {
+      margin: 0;
+      font-size: clamp(3.2rem, 10vw, 8rem);
+      line-height: .82;
+      font-weight: 900;
+      letter-spacing: .02em;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--pink);
+      text-shadow:
+        0 0 8px var(--pink),
+        0 0 25px var(--pink),
+        0 0 55px rgba(255,25,217,.7);
+    }
+
+    .sub {
+      margin: 24px 0 0;
+      color: var(--blue);
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px var(--blue);
+    }
+
+    .rule {
+      width: min(680px, 80vw);
+      height: 4px;
+      margin: 24px auto 0;
+      background: linear-gradient(90deg, transparent, var(--blue), var(--pink), var(--blue), transparent);
+      box-shadow: 0 0 18px var(--blue);
+    }
+
+    main {
+      position: relative;
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto 70px;
+    }
+
+    .intro {
+      text-align: center;
+      color: rgba(255,255,255,.72);
+      max-width: 650px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .game {
+      position: relative;
+      min-height: 190px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-decoration: none;
+      color: white;
+      border: 1px solid rgba(255,255,255,.17);
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.08), transparent 45%),
+        var(--panel);
+      box-shadow:
+        inset 0 0 30px rgba(255,255,255,.025),
+        0 12px 35px rgba(0,0,0,.35);
+      overflow: hidden;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .game::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 4px;
+      background: var(--accent, var(--pink));
+      box-shadow: 0 0 18px var(--accent, var(--pink));
+    }
+
+    .game:hover,
+    .game:focus-visible {
+      transform: translateY(-5px);
+      border-color: var(--accent, var(--pink));
+      box-shadow:
+        0 0 0 1px var(--accent, var(--pink)),
+        0 0 28px color-mix(in srgb, var(--accent, var(--pink)) 45%, transparent),
+        0 18px 45px rgba(0,0,0,.45);
+      outline: none;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 0 10px var(--accent, var(--pink)));
+    }
+
+    h2 {
+      margin: 12px 0 5px;
+      font-size: 1.35rem;
+    }
+
+    .desc {
+      margin: 0;
+      color: rgba(255,255,255,.62);
+      font-size: .92rem;
+      line-height: 1.45;
+    }
+
+    .play {
+      margin-top: 18px;
+      color: var(--accent, var(--pink));
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      text-align: center;
+      padding: 0 20px 36px;
+      color: rgba(255,255,255,.4);
+      font-size: .8rem;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 820px) {
+      .games { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      header { padding-top: 80px; }
+      .games { grid-template-columns: 1fr; }
+      .back { left: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <!-- Change this URL if your main OURCADE page lives somewhere else. -->
+    <a class="back" href="/">← OURCADE</a>
+
+    <h1 class="brand">MADE 4 U</h1>
+    <p class="sub">More games. More ways to play.</p>
+    <div class="rule"></div>
+  </header>
+
+  <main>
+    <p class="intro">
+      A collection of smaller browser games, experiments, and quick plays.
+      Pick a game below and jump straight in.
+    </p>
+
+    <section class="games" aria-label="Games">
+      <!-- Replace each href with the URL for your game. Add or remove cards as needed. -->
+
+      <a class="game" style="--accent: #ff19d9" href="https://YOUR-DOMAIN.com/games/game-1/">
+        <div>
+          <div class="icon">👾</div>
+          <h2>Game One</h2>
+          <p class="desc">A quick browser game ready to play.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+
+      <a class="game" style="--accent: #19a8ff" href="https://YOUR-DOMAIN.com/games/game-2/">
+        <div>
+          <div class="icon">🕹️</div>
+          <h2>Game Two</h2>
+          <p class="desc">Another small arcade-style experiment.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+
+      <a class="game" style="--accent: #39ff72" href="https://YOUR-DOMAIN.com/games/game-3/">
+        <div>
+          <div class="icon">⚡</div>
+          <h2>Game Three</h2>
+          <p class="desc">Simple, fast, and built for the browser.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+
+      <a class="game" style="--accent: #ffe52e" href="https://YOUR-DOMAIN.com/games/game-4/">
+        <div>
+          <div class="icon">🚀</div>
+          <h2>Game Four</h2>
+          <p class="desc">One more little game to try.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+
+      <a class="game" style="--accent: #a72cff" href="https://YOUR-DOMAIN.com/games/game-5/">
+        <div>
+          <div class="icon">💥</div>
+          <h2>Game Five</h2>
+          <p class="desc">A bite-sized game from the collection.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+
+      <a class="game" style="--accent: #ff6b19" href="https://YOUR-DOMAIN.com/games/game-6/">
+        <div>
+          <div class="icon">⭐</div>
+          <h2>Game Six</h2>
+          <p class="desc">Another quick game. Give it a shot.</p>
+        </div>
+        <div class="play">Play now →</div>
+      </a>
+    </section>
+  </main>
+
+  <footer>MADE 4 U · PART OF OURCADE</footer>
+</body>
+</html>
