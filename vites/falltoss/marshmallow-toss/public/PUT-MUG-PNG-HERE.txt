@@ -1,0 +1,20 @@
+Drop your transparent mug art in this folder as:
+
+    mug.png
+
+That's it — with `npm run dev` running, the game picks it up automatically and
+replaces the dashed "mug.png" placeholder. No rebuild needed.
+
+Line the opening up with the (invisible) scoring ring using the three knobs in
+src/game/constants.ts -> MUG_PLACEMENT:
+
+    drawW      how wide to draw your image, in play units (the ring is ~156 wide)
+    openXFrac  where the cup opening sits ACROSS your art  (0 = left … 1 = right)
+    openYFrac  where the cup opening sits DOWN your art     (0 = top  … 1 = bottom)
+
+The point (openXFrac, openYFrac) inside your image is pinned to the mug opening,
+so dunks keep landing where the art shows. If dunks score above the drawn
+opening, raise openYFrac; if they're off to a side, nudge openXFrac; if the
+opening is a different size than the target, tweak MUG.rimRx / MUG.rimRy.
+
+You can delete this .txt file once mug.png is in place.
