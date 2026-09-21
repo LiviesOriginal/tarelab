@@ -56,4 +56,4 @@ Great soundtrack.
 Blue
 
 ## Love is Blind Season 10 | 2020 | tt11704040 | 5 | 5
-Binge-worthy cringe watching.
+Cringe binge.
