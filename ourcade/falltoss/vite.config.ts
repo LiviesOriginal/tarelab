@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/vites/falltoss/",
+  base: "/ourcade/falltoss/",
   server: {
     port: 5173
   }
