@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>5999</title>
+
+<!-- ============================================================= -->
+<!--  STEP 4: PASTE YOUR FIREBASE CONFIG OBJECT BELOW.              -->
+<!--  Firebase console -> Project settings (gear) -> General ->     -->
+<!--  "Your apps" -> Web app -> copy the firebaseConfig object,     -->
+<!--  and replace the whole object below with it.                   -->
+<!-- ============================================================= -->
+<script>
+  const firebaseConfig = {
+    apiKey: "PASTE_API_KEY",
+    authDomain: "PASTE_PROJECT.firebaseapp.com",
+    projectId: "PASTE_PROJECT_ID",
+    appId: "PASTE_APP_ID"
+  };
+</script>
+<!-- ============================================================= -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore-compat.js"></script>
+<style>
+  :root{
+    --night:#14121f;--indigo:#1b1830;--surface:#232043;--surface-2:#2b2750;--line:#38335e;
+    --cream:#f2ead7;--cream-dim:#d9cfb8;--muted:#948dae;--muted-2:#6f6890;
+    --coral:#ff8464;--coral-soft:#ff9d80;--gold:#d9b072;
+    --serif:'Newsreader',Georgia,serif;--sans:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{background:radial-gradient(120% 80% at 50% -10%,#241f42 0%,var(--night) 55%) fixed;
+    color:var(--cream);font-family:var(--sans);min-height:100vh;overflow-x:hidden;}
+  .app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative;}
+  .screen{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .pad{padding:14px 22px 120px;}
+  .eyebrow{font-size:12.5px;color:var(--muted);font-weight:500;}
+  h2.title{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:-.01em;}
+  nav{position:fixed;left:0;right:0;bottom:0;height:78px;max-width:480px;margin:0 auto;
+    background:linear-gradient(180deg,rgba(20,18,31,.4),rgba(20,18,31,.97) 60%);backdrop-filter:blur(14px);
+    border-top:1px solid var(--line);display:flex;align-items:flex-start;justify-content:space-around;padding-top:12px;z-index:10;}
+  nav button{background:none;border:none;color:var(--muted-2);font-family:var(--sans);font-size:11px;font-weight:500;
+    display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;width:76px;transition:color .2s;}
+  nav button svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.6;}
+  nav button.active{color:var(--cream);}
+  .btn{font-family:var(--sans);font-weight:500;font-size:15px;border:none;border-radius:14px;padding:15px 20px;
+    cursor:pointer;width:100%;transition:transform .12s,opacity .2s;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--cream);color:#1a1730;}
+  .btn-primary:disabled{background:var(--surface-2);color:var(--muted-2);cursor:default;}
+  .btn-ghost{background:var(--surface);color:var(--cream);border:1px solid var(--line);}
+  .setup{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:44px 30px;}
+  .setup .mark{font-family:var(--serif);font-size:14px;color:var(--muted);letter-spacing:.18em;text-align:center;margin-bottom:34px;}
+  .setup h1{font-family:var(--serif);font-weight:300;font-size:27px;line-height:1.3;text-align:center;margin-bottom:10px;}
+  .setup p{color:var(--muted);font-size:14px;text-align:center;line-height:1.6;margin-bottom:30px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px;}
+  .field input{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:13px;color:var(--cream);
+    font-family:var(--sans);font-size:16px;padding:14px 16px;}
+  .field input:focus{outline:none;border-color:var(--muted-2);}
+  .hint{font-size:11.5px;color:var(--muted-2);margin-top:7px;line-height:1.5;}
+  .gate{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 34px;}
+  .gate .mark{font-family:var(--serif);font-size:15px;color:var(--muted);letter-spacing:.16em;margin-bottom:auto;padding-top:30px;}
+  .gate h1{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.28;margin-bottom:14px;}
+  .gate p{color:var(--muted);font-size:14.5px;line-height:1.6;max-width:260px;margin:0 auto 34px;}
+  .gate .cta-wrap{margin-top:auto;margin-bottom:24px;width:100%;max-width:340px;}
+  .count-hero{text-align:center;padding:30px 0 16px;}
+  .count-hero .label{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+  .count-hero .num{font-family:var(--serif);font-weight:300;font-size:60px;line-height:1;letter-spacing:-.02em;
+    color:var(--coral);text-shadow:0 0 34px rgba(255,132,100,.45),0 0 8px rgba(255,132,100,.35);}
+  .count-hero .sub{font-size:12.5px;color:var(--muted-2);margin-top:12px;}
+  .seg{display:flex;background:var(--night);border:1px solid var(--line);border-radius:13px;padding:4px;margin:6px 0 18px;}
+  .seg button{flex:1;border:none;background:none;color:var(--muted);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:9px;border-radius:9px;cursor:pointer;transition:.2s;}
+  .seg button.on{background:var(--surface-2);color:var(--cream);}
+  textarea.moment-input{width:100%;min-height:150px;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+    color:var(--cream);font-family:var(--serif);font-size:19px;line-height:1.55;padding:18px;resize:none;}
+  textarea.moment-input::placeholder{color:var(--muted-2);font-style:italic;}
+  textarea.moment-input:focus{outline:none;border-color:var(--muted-2);}
+  .photo-drop{width:100%;aspect-ratio:4/5;border-radius:16px;border:1px dashed var(--line);background:var(--surface);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;cursor:pointer;color:var(--muted);overflow:hidden;position:relative;}
+  .photo-drop svg{width:30px;height:30px;stroke:var(--muted);fill:none;stroke-width:1.4;}
+  .photo-drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .photo-drop .rechip{position:absolute;bottom:12px;background:rgba(12,11,21,.72);backdrop-filter:blur(6px);padding:7px 14px;border-radius:20px;font-size:12.5px;color:var(--cream);}
+  .share-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 17px;margin:16px 0 20px;}
+  .share-row .st{font-size:14.5px;}.share-row .sub{font-size:12px;color:var(--muted);margin-top:3px;}
+  .toggle{width:50px;height:29px;border-radius:16px;background:var(--surface-2);border:1px solid var(--line);position:relative;cursor:pointer;flex:none;transition:.24s;}
+  .toggle .knob{position:absolute;top:2.5px;left:2.5px;width:23px;height:23px;border-radius:50%;background:var(--muted);transition:.24s;}
+  .toggle.on{background:var(--coral);border-color:var(--coral);}
+  .toggle.on .knob{left:23px;background:#1a1730;}
+  /* full-screen vertical swipe feed */
+  .swipe{position:fixed;inset:0;max-width:480px;margin:0 auto;z-index:1;
+    overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;background:var(--night);}
+  .swipe::-webkit-scrollbar{width:0;}
+  .slide{position:relative;height:100vh;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;
+    overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;}
+  .slide .bg-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .slide .bg-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:52px 40px 130px;}
+  .slide .bg-text p{font-family:var(--serif);font-weight:300;font-size:29px;line-height:1.42;color:var(--cream);
+    text-align:center;letter-spacing:-.01em;}
+  .slide.me .bg-text{background:radial-gradient(120% 90% at 50% 20%,#2a2450,#141020 78%);}
+  .slide.partner .bg-text{background:radial-gradient(120% 90% at 50% 20%,#2e2440,#1a1322 78%);}
+  .slide .scrim{position:absolute;left:0;right:0;bottom:0;height:52%;
+    background:linear-gradient(180deg,transparent,rgba(8,7,14,.86) 74%);pointer-events:none;}
+  .slide .info{position:relative;z-index:2;padding:0 22px calc(96px + env(safe-area-inset-bottom,0px));}
+  .who-row{display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+  .who-badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:14px;background:var(--surface-2);color:var(--cream);flex:none;
+    border:1px solid rgba(255,255,255,.14);}
+  .slide.partner .who-badge{background:#463a2e;color:var(--gold);}
+  .who-name{font-weight:600;font-size:14px;color:var(--cream);}
+  .who-name.partner{color:var(--gold);}
+  .who-time{font-size:12.5px;color:rgba(242,234,215,.55);}
+  .who-lock{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:11.5px;color:rgba(242,234,215,.6);}
+  .who-lock svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.7;}
+  .reactions{display:flex;gap:8px;flex-wrap:wrap;}
+  .react{background:rgba(30,26,54,.62);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);
+    color:var(--cream);border-radius:22px;padding:10px 17px;font-size:13.5px;font-family:var(--sans);cursor:pointer;transition:.15s;}
+  .react:active{transform:scale(.95);}
+  .reacted{font-size:14px;color:var(--gold);display:flex;align-items:center;gap:8px;font-family:var(--serif);font-style:italic;}
+  .reacted .heart{color:var(--coral);font-style:normal;}
+  .swipe-hint{position:absolute;top:calc(20px + env(safe-area-inset-top,0px));left:0;right:0;text-align:center;
+    z-index:3;font-size:12px;color:rgba(242,234,215,.5);letter-spacing:.03em;pointer-events:none;
+    animation:hintfade 4s ease forwards;}
+  @keyframes hintfade{0%,60%{opacity:1;}100%{opacity:0;}}
+  .feed-empty{position:fixed;inset:0;max-width:480px;margin:0 auto;z-index:1;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:40px;background:var(--night);}
+  .feed-empty p{color:var(--muted);font-size:15px;line-height:1.6;max-width:280px;}
+  .feed-empty .m{font-family:var(--serif);font-size:15px;color:var(--muted);letter-spacing:.16em;margin-bottom:20px;}
+  .us-hero{text-align:center;padding:34px 0 10px;}
+  .streak-num{font-family:var(--serif);font-weight:300;font-size:72px;line-height:1;}
+  .streak-lbl{font-size:14px;color:var(--muted);margin-top:6px;}
+  .today-chip{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:9px 16px;border-radius:20px;font-size:13px;background:var(--surface);border:1px solid var(--line);color:var(--muted);}
+  .today-chip .d{width:8px;height:8px;border-radius:50%;background:var(--muted-2);}
+  .today-chip.done{color:var(--cream);}.today-chip.done .d{background:var(--coral);box-shadow:0 0 10px var(--coral);}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px;}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;}
+  .stat .v{font-family:var(--serif);font-size:30px;font-weight:300;}.stat .v .again-c{color:var(--coral);}
+  .stat .k{font-size:12.5px;color:var(--muted);margin-top:6px;line-height:1.4;}
+  .stat.wide{grid-column:1/-1;}
+  .signout{margin-top:30px;text-align:center;}
+  .signout button{background:none;border:none;color:var(--muted-2);font-size:12.5px;font-family:var(--sans);text-decoration:underline;cursor:pointer;}
+  .overlay{position:fixed;inset:0;z-index:50;max-width:480px;margin:0 auto;
+    background:radial-gradient(90% 70% at 50% 38%,#2a2148,#100e1c 80%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 34px;animation:fade .5s ease both;}
+  @keyframes fade{from{opacity:0;}to{opacity:1;}}
+  .overlay .big{font-family:var(--serif);font-weight:300;font-size:78px;line-height:1;color:var(--coral);letter-spacing:-.02em;text-shadow:0 0 60px rgba(255,132,100,.55);animation:glow 3.2s ease-in-out infinite;}
+  @keyframes glow{0%,100%{text-shadow:0 0 44px rgba(255,132,100,.42);}50%{text-shadow:0 0 74px rgba(255,132,100,.7);}}
+  .overlay .line{font-family:var(--serif);font-size:23px;font-weight:300;line-height:1.4;margin:26px 0 8px;max-width:270px;}
+  .overlay .again-word{font-style:italic;color:var(--coral-soft);}
+  .overlay .note{font-size:13px;color:var(--muted);margin-bottom:38px;}
+  .overlay .btns{width:100%;max-width:320px;display:flex;flex-direction:column;gap:11px;}
+  .toast{position:fixed;left:50%;bottom:104px;transform:translateX(-50%);background:var(--cream);color:#1a1730;font-size:13.5px;font-weight:500;padding:11px 20px;border-radius:22px;z-index:60;opacity:0;transition:.3s;white-space:nowrap;box-shadow:0 10px 30px -8px rgba(0,0,0,.6);max-width:88%;text-align:center;}
+  .toast.show{opacity:1;}
+  .loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:var(--serif);font-size:18px;letter-spacing:.05em;}
+  .config-err{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;color:var(--muted);line-height:1.6;}
+  .config-err b{color:var(--cream);font-family:var(--serif);font-size:20px;display:block;margin-bottom:12px;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="screen" id="screen"><div class="loading">5999</div></div>
+  <div class="toast" id="toast"></div>
+  <nav id="nav" class="hidden">
+    <button data-tab="capture" class="active"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="4"/><path d="M4 8h3l1.5-2.2h7L17 8h3v11H4z"/></svg>Moment</button>
+    <button data-tab="feed"><svg viewBox="0 0 24 24"><path d="M5 6h14M5 12h14M5 18h9"/></svg>Feed</button>
+    <button data-tab="us"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.35-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.65-7 9-7 9z"/></svg>Us</button>
+  </nav>
+</div>
+
+<script>
+const GOAL=5999, H=3600*1000, DAY=24*H;
+const $=s=>document.querySelector(s);
+const screen=$('#screen'), nav=$('#nav');
+
+let db=null, moments=[], unsub=null, firstLoad=true, lastFeedIds='';
+let cfg={ space:localStorage.getItem('f_space')||'', me:localStorage.getItem('f_me')||'', partner:localStorage.getItem('f_partner')||'' };
+let ui={ tab:'capture', gateOpen:false, capture:{mode:'words',text:'',photo:null,_file:null,share:true,busy:false} };
+
+/* ---------- boot ---------- */
+function boot(){
+  if(!firebaseConfig || String(firebaseConfig.apiKey).startsWith('PASTE')){
+    screen.innerHTML=`<div class="config-err"><b>Almost there</b>Open index.html and paste your Firebase config object near the top, then re-deploy.</div>`;
+    return;
+  }
+  try{ firebase.initializeApp(firebaseConfig); db=firebase.firestore(); }
+  catch(e){ screen.innerHTML=`<div class="config-err"><b>Config problem</b>${e.message}</div>`; return; }
+  if(!cfg.space||!cfg.me||!cfg.partner){ renderSetup(); return; }
+  start();
+}
+function start(){
+  nav.classList.add('hidden');
+  screen.innerHTML=`<div class="loading">opening your space…</div>`;
+  firstLoad=true;
+  if(unsub) unsub();
+  unsub = db.collection('moments').where('space','==',cfg.space)
+    .onSnapshot(snap=>{
+      moments = snap.docs.map(d=>{const r=d.data();return {
+        id:d.id,author:r.author,type:r.type,text:r.text,photo:r.photo||null,
+        shared:!!r.shared,reaction:r.reaction||null,t:r.created_at||0};});
+      moments.sort((a,b)=>b.t-a.t);
+      if(firstLoad){
+        firstLoad=false;
+        const myLast=moments.filter(m=>m.author===cfg.me)[0];
+        ui.gateOpen = !!(myLast && (Date.now()-myLast.t < DAY));
+        if(ui.gateOpen){ ui.tab='feed'; renderApp(); } else { renderGate(); }
+      } else if(ui.tab==='us'){
+        renderApp();
+      } else if(ui.tab==='feed'){
+        // only rebuild the swipe if the set of visible moments changed, so a
+        // scroll-in-progress isn't yanked back to the top by unrelated updates
+        const ids=moments.filter(m=>m.author===cfg.me||m.shared).map(m=>m.id).join(',');
+        if(ids!==lastFeedIds) renderApp();
+      }
+    }, err=>{ toast('Sync error: '+err.message); });
+}
+
+/* ---------- helpers ---------- */
+function myMoments(){ return moments.filter(m=>m.author===cfg.me); }
+function myTotal(){ return myMoments().length; }
+function roundCount(){ return myTotal()%GOAL; }
+function agains(){ return Math.floor(myTotal()/GOAL); }
+function fmt(n){ return n.toLocaleString('en-US'); }
+function timeAgo(t){ const m=Math.round((Date.now()-t)/60000); if(m<1)return'just now'; if(m<60)return m+'m ago';
+  const h=Math.round(m/60); if(h<24)return h+'h ago'; return Math.round(h/24)+'d ago'; }
+function toast(msg){ const el=$('#toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2400); }
+function escapeHtml(s){return(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function compressImage(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{
+      const maxDim=1200; let {width,height}=img;
+      if(width>=height && width>maxDim){ height=Math.round(height*maxDim/width); width=maxDim; }
+      else if(height>maxDim){ width=Math.round(width*maxDim/height); height=maxDim; }
+      const cv=document.createElement('canvas'); cv.width=width; cv.height=height;
+      cv.getContext('2d').drawImage(img,0,0,width,height);
+      URL.revokeObjectURL(url);
+      let q=0.72, data=cv.toDataURL('image/jpeg',q);
+      while(data.length>900000 && q>0.35){ q-=0.12; data=cv.toDataURL('image/jpeg',q); }
+      resolve(data);
+    };
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Could not read that image'));};
+    img.src=url;
+  });
+}
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  nav.classList.add('hidden');
+  screen.innerHTML=`
+    <div class="setup">
+      <div class="mark">5999</div>
+      <h1>Set up your space</h1>
+      <p>You and your partner enter the exact same space code. Your names tell the app who’s who.</p>
+      <div class="field"><label>Your name</label><input id="s-me" placeholder="e.g. Alex" value="${escapeHtml(cfg.me)}"/></div>
+      <div class="field"><label>Your partner’s name</label><input id="s-partner" placeholder="e.g. Sam" value="${escapeHtml(cfg.partner)}"/></div>
+      <div class="field"><label>Space code (both of you use this)</label><input id="s-space" placeholder="a private phrase only you two know" value="${escapeHtml(cfg.space)}"/>
+        <div class="hint">Pick something private, like “rainy-bench-2019”. Your partner types the identical code on their phone.</div></div>
+      <button class="btn btn-primary" id="s-go" style="margin-top:10px">Enter our space</button>
+    </div>`;
+  $('#s-go').onclick=()=>{
+    const me=$('#s-me').value.trim(), partner=$('#s-partner').value.trim(), space=$('#s-space').value.trim().toLowerCase();
+    if(!me||!partner||!space){ toast('Fill in all three'); return; }
+    cfg={me,partner,space};
+    localStorage.setItem('f_me',me); localStorage.setItem('f_partner',partner); localStorage.setItem('f_space',space);
+    start();
+  };
+}
+
+/* ---------- gate ---------- */
+function renderGate(){
+  nav.classList.add('hidden');
+  screen.innerHTML=`
+    <div class="gate">
+      <div class="mark">5999</div>
+      <div><h1>Take your moment<br/>to open the day.</h1>
+      <p>Add one thing you noticed — keep it or share it. Then your feed is yours for the day.</p></div>
+      <div class="cta-wrap"><button class="btn btn-primary" id="gate-go">Add a moment</button></div>
+    </div>`;
+  $('#gate-go').onclick=()=>{ ui.tab='capture'; renderApp(); };
+}
+
+/* ---------- shell ---------- */
+function renderApp(){
+  nav.classList.remove('hidden');
+  [...nav.children].forEach(b=>b.classList.toggle('active',b.dataset.tab===ui.tab));
+  if(ui.tab==='capture') renderCapture();
+  else if(ui.tab==='feed') renderFeed();
+  else renderUs();
+}
+
+/* ---------- capture ---------- */
+function renderCapture(){
+  const c=ui.capture, next=roundCount()+1;
+  screen.innerHTML=`<div class="pad">
+    <div class="count-hero"><div class="label">This will be moment</div>
+      <div class="num">${fmt(next)}</div><div class="sub">${fmt(GOAL-next)} more until 5,999</div></div>
+    <div class="seg"><button data-mode="words" class="${c.mode==='words'?'on':''}">Words</button>
+      <button data-mode="photo" class="${c.mode==='photo'?'on':''}">Photo</button></div>
+    ${c.mode==='words'
+      ? `<textarea class="moment-input" id="ta" placeholder="What made you think of them?">${escapeHtml(c.text)}</textarea>`
+      : `<label class="photo-drop" id="drop">${c.photo
+          ? `<img src="${c.photo}" alt=""/><span class="rechip">Tap to change</span>`
+          : `<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="4"/><path d="M4 8h3l1.5-2.2h7L17 8h3v11H4z"/></svg><span>Add a photo</span>`}
+         <input type="file" accept="image/*" id="file" style="display:none"/></label>`}
+    <div class="share-row"><div>
+      <div class="st">${c.share?'Share with '+escapeHtml(cfg.partner):'Keep private'}</div>
+      <div class="sub">${c.share?'Sent the moment you add it':'Only you will see this'}</div></div>
+      <div class="toggle ${c.share?'on':''}" id="tg"><div class="knob"></div></div></div>
+    <button class="btn btn-primary" id="add" ${(canAdd()&&!c.busy)?'':'disabled'}>${c.busy?'Adding…':'Add moment'}</button>
+  </div>`;
+  screen.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{c.mode=b.dataset.mode;renderCapture();});
+  $('#tg').onclick=()=>{c.share=!c.share;renderCapture();};
+  if(c.mode==='words'){ const ta=$('#ta'); ta.oninput=()=>{c.text=ta.value;$('#add').disabled=!canAdd()||c.busy;}; ta.focus(); }
+  else { $('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;c._file=f;c.photo=URL.createObjectURL(f);renderCapture();}; }
+  $('#add').onclick=addMoment;
+}
+function canAdd(){ const c=ui.capture; return c.mode==='words'?c.text.trim().length>0:!!c.photo; }
+async function addMoment(){
+  const c=ui.capture; if(!canAdd()||c.busy) return;
+  c.busy=true; renderCapture();
+  let photo=null;
+  if(c.mode==='photo'&&c._file){
+    try{ photo=await compressImage(c._file); }catch(e){ toast(e.message); c.busy=false; renderCapture(); return; }
+  }
+  const expectedTotal=myTotal()+1;
+  try{
+    await db.collection('moments').add({
+      space:cfg.space, author:cfg.me, type:c.mode==='words'?'text':'photo',
+      text:c.mode==='words'?c.text.trim():null, photo:photo,
+      shared:c.share, shared_at:c.share?Date.now():null, reaction:null, created_at:Date.now()
+    });
+  }catch(e){ toast('Could not add: '+e.message); c.busy=false; renderCapture(); return; }
+  const wasGated=!ui.gateOpen; ui.gateOpen=true;
+  ui.capture={mode:'words',text:'',photo:null,_file:null,share:true,busy:false};
+  if(expectedTotal>0 && expectedTotal%GOAL===0){ renderFive(); return; }
+  ui.tab='feed'; renderApp();
+  toast(wasGated?'Your feed is open':(c.share?'Shared with '+cfg.partner:'Saved to your feed'));
+}
+
+/* ---------- feed ---------- */
+function renderFeed(){
+  const items=moments.filter(m=>m.author===cfg.me||m.shared).sort((a,b)=>b.t-a.t);
+  if(!items.length){
+    screen.innerHTML=`<div class="feed-empty"><div class="m">5999</div>
+      <p>Nothing here yet. Add your first moment, and anything ${escapeHtml(cfg.partner)} shares will appear here.</p></div>`;
+    return;
+  }
+  const slides=items.map((m,i)=>{
+    const partner=m.author!==cfg.me;
+    const name=partner?escapeHtml(cfg.partner):'You';
+    const initial=(name.trim()[0]||'•').toUpperCase();
+    const media=m.type==='text'
+      ? `<div class="bg-text"><p>${escapeHtml(m.text)}</p></div>`
+      : `<img class="bg-photo" src="${m.photo}" alt=""/>`;
+    const lock=(!partner&&!m.shared)
+      ? `<span class="who-lock"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>private</span>`:'';
+    const hint = i===0 ? `<div class="swipe-hint">swipe up for more</div>` : '';
+    return `<div class="slide ${partner?'partner':'me'}">
+      ${media}
+      <div class="scrim"></div>
+      ${hint}
+      <div class="info">
+        <div class="who-row">
+          <span class="who-badge">${initial}</span>
+          <span class="who-name ${partner?'partner':''}">${name}</span>
+          <span class="who-time">${timeAgo(m.t)}</span>
+          ${lock}
+        </div>
+        ${partner?reactionBlock(m):''}
+      </div>
+    </div>`;
+  }).join('');
+  screen.innerHTML=`<div class="swipe" id="swipe">${slides}</div>`;
+  lastFeedIds=items.map(m=>m.id).join(',');
+  screen.querySelectorAll('.react').forEach(btn=>btn.onclick=()=>react(btn.dataset.id,btn.dataset.r));
+}
+const RESPONSES=['thank you','your favorite!','love it','saw you'];
+function reactionBlock(m){
+  if(m.reaction) return `<div class="reacted"><span class="heart">♥</span> You said “${escapeHtml(m.reaction)}”</div>`;
+  return `<div class="reactions">${RESPONSES.map(r=>`<button class="react" data-id="${m.id}" data-r="${r}">${r}</button>`).join('')}</div>`;
+}
+async function react(id,r){
+  const m=moments.find(x=>x.id===id); if(m) m.reaction=r;
+  const btn=screen.querySelector('.react[data-id="'+id+'"]');
+  if(btn){ const box=btn.closest('.reactions'); if(box) box.outerHTML=`<div class="reacted"><span class="heart">♥</span> You said “${escapeHtml(r)}”</div>`; }
+  try{ await db.collection('moments').doc(id).update({reaction:r}); }
+  catch(e){ toast('Could not save that'); }
+}
+
+/* ---------- us ---------- */
+function computeStreak(){
+  const dayKey=t=>{const d=new Date(t);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();};
+  const byDay={};
+  moments.filter(m=>m.shared).forEach(m=>{const k=dayKey(m.t);byDay[k]=byDay[k]||new Set();byDay[k].add(m.author);});
+  let streak=0; const d=new Date();
+  for(let i=0;i<400;i++){
+    const k=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();
+    const both=byDay[k]&&byDay[k].has(cfg.me)&&byDay[k].has(cfg.partner);
+    if(both) streak++; else if(i===0){} else break;
+    d.setDate(d.getDate()-1);
+  }
+  return streak;
+}
+function sharedTodayByMe(){
+  const dayKey=t=>{const d=new Date(t);return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();};
+  const today=dayKey(Date.now());
+  return moments.some(m=>m.author===cfg.me&&m.shared&&dayKey(m.t)===today);
+}
+function renderUs(){
+  const streak=computeStreak();
+  screen.innerHTML=`<div class="pad">
+    <div class="us-hero"><div style="font-size:22px">✦</div>
+      <div class="streak-num">${streak}</div>
+      <div class="streak-lbl">${streak===1?'day':'days'}, both of you, unbroken</div>
+      <div class="today-chip ${sharedTodayByMe()?'done':''}"><span class="d"></span>${sharedTodayByMe()?'You’ve shared today':'You haven’t shared today'}</div></div>
+    <div class="stat-grid">
+      <div class="stat"><div class="v"><span class="again-c">${agains()}</span></div><div class="k">agains — full 5,999s reached</div></div>
+      <div class="stat"><div class="v">${fmt(roundCount())}</div><div class="k">your moments this round</div></div>
+      <div class="stat wide"><div class="v" style="font-size:20px">${escapeHtml(cfg.me)} &amp; ${escapeHtml(cfg.partner)}</div><div class="k">space: ${escapeHtml(cfg.space)}</div></div>
+    </div>
+    <div class="signout"><button id="so">Leave this space on this device</button></div>
+  </div>`;
+  $('#so').onclick=()=>{ if(confirm('Clear this space from this device? Your moments stay saved; you can re-enter with the same code.')){
+    localStorage.removeItem('f_space');localStorage.removeItem('f_me');localStorage.removeItem('f_partner');
+    cfg={space:'',me:'',partner:''}; if(unsub)unsub(); renderSetup(); } };
+}
+
+/* ---------- 5999 card ---------- */
+function renderFive(){
+  const again=agains()>0;
+  const ov=document.createElement('div'); ov.className='overlay';
+  ov.innerHTML=`<div class="big">5,999</div>
+    <div class="line">I thought of you 5,999 times${again?` <span class="again-word">again</span>`:''}.</div>
+    <div class="note">A full day of you. Send it, or keep it — either is true.</div>
+    <div class="btns"><button class="btn btn-primary" id="send-five">Send to ${escapeHtml(cfg.partner)}</button>
+      <button class="btn btn-ghost" id="skip-five">Not now</button></div>`;
+  document.querySelector('.app').appendChild(ov);
+  const close=async sent=>{
+    ov.remove();
+    if(sent){ try{ await db.collection('moments').add({space:cfg.space,author:cfg.me,type:'text',
+      text:'I thought of you 5,999 times.',photo:null,shared:true,shared_at:Date.now(),reaction:null,created_at:Date.now()}); }catch(e){} }
+    ui.tab=sent?'feed':'us'; renderApp();
+    toast(sent?'Sent — 5,999 times over':'Banked. On to the next.');
+  };
+  $('#send-five').onclick=()=>close(true);
+  $('#skip-five').onclick=()=>close(false);
+}
+
+/* ---------- nav ---------- */
+nav.querySelectorAll('button').forEach(b=>b.onclick=()=>{ui.tab=b.dataset.tab;renderApp();});
+
+boot();
+</script>
+</body>
+</html>
