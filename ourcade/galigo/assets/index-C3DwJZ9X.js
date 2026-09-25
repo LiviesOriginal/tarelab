@@ -1,13 +1,104 @@
-(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=`https://raw.githubusercontent.com/sunny567s35/Galaga_game/main/galaga/`,t={player:e+`images/player.png`,enemy:e+`images/enemy-2.png`,enemy2:e+`images/enemy-1.png`,enemy3:e+`images/enemy.png`,bullet:e+`images/missile2.png`,enemyBullet:e+`images/missile1.png`,stars:e+`images/stars.png`,blast:e+`images/blast.gif`},n={music:e+`audio/galaga.mp3`,laser:e+`audio/audio_laser.ogg`,hit:e+`audio/killenemy.mp3`,enemyHit:e+`audio/audio_enemy-hit.ogg`},r=[`You’re my favorite space cadet 🚀`,`Cosmic champion — I knew you had it 🌟`,`That’s my favorite pilot right there 🚀`,`The aliens won this round. You’re still my star ⭐`,`You flew farther than most of the universe 💫`,`One more? I like watching you play 🚀`],i=`galigo-high-scores`,a=JSON.parse(localStorage.getItem(i)||`[]`),o=localStorage.getItem(`galigo-sound`)!==`off`,s={},c=null;function l(e){return e.replace(/[&<>"']/g,e=>({"&":`&amp;`,"<":`&lt;`,">":`&gt;`,'"':`&quot;`,"'":`&#39;`})[e])}function u(){localStorage.setItem(i,JSON.stringify(a.slice(0,3)))}function d(e){return a.length<3||e>a[a.length-1].score}function f(e,t=!1){if(o)try{let n=new Audio(e);return n.loop=t,n.volume=.35,n.play().catch(()=>{}),t&&(s.music=n),n}catch{}}function p(){s.music&&=(s.music.pause(),s.music.currentTime=0,null)}function m(e,t=``){document.querySelector(`#app`).innerHTML=`<main class="cabinet ${t}"><div class="scanlines"></div>${e}</main>`}function h(e){return Array.from({length:15},(t,n)=>`<span class="heart ${n<e?`full`:``}">♥</span>`).join(``)}function g(){return Array.from({length:3},(e,t)=>{let n=a[t]||{initials:`XYZ`,score:0};return`<div class="score-row"><span>${t+1}. ${l(n.initials)}</span><b>${n.score.toString().padStart(5,`0`)}</b></div>`}).join(``)}function _(){p(),m(`<section class="title-screen">
-  <div class="logo">GALIGO</div><div class="subtitle">A GALAGA-STYLE ARCADE SHOOTER</div>
-  <div class="attract"><img src="${t.enemy}"/><span>READY PILOT</span><img src="${t.player}"/></div>
+/* GALIGAGA runtime asset kept in sync with src/main.js. */
+
+const REPO='https://raw.githubusercontent.com/sunny567s35/Galaga_game/main/galaga/';
+const IMG={player:REPO+'images/player.png',enemy:REPO+'images/enemy-2.png',enemy2:REPO+'images/enemy-1.png',enemy3:REPO+'images/enemy.png',bullet:REPO+'images/missile2.png',enemyBullet:REPO+'images/missile1.png',stars:REPO+'images/stars.png',blast:REPO+'images/blast.gif'};
+const AUDIO={music:REPO+'audio/galaga.mp3',laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
+
+const messages=[
+ "You’re my favorite space cadet 🚀",
+ "Cosmic champion — I knew you had it 🌟",
+ "That’s my favorite pilot right there 🚀",
+ "The aliens won this round. You’re still my star ⭐",
+ "You flew farther than most of the universe 💫",
+ "One more? I like watching you play 🚀"
+];
+const KEY='galigaga-high-scores';
+let scores=JSON.parse(localStorage.getItem(KEY)||'[]');
+let sound=localStorage.getItem('galigaga-sound')!=='off';
+let audio={};
+let state=null;
+
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function saveScores(){localStorage.setItem(KEY,JSON.stringify(scores.slice(0,3)));}
+function isHigh(score){return scores.length<3||score>scores[scores.length-1].score;}
+function play(src,loop=false){if(!sound)return; try{const a=new Audio(src);a.loop=loop;a.volume=.35;a.play().catch(()=>{}); if(loop)audio.music=a; return a;}catch{}}
+function stopMusic(){if(audio.music){audio.music.pause();audio.music.currentTime=0;audio.music=null;}}
+function renderShell(content, cls=''){document.querySelector('#app').innerHTML=`<main class="cabinet ${cls}"><div class="scanlines"></div>${content}</main>`;}
+function hearts(n){return Array.from({length:15},(_,i)=>`<span class="heart ${i<n?'full':''}">♥</span>`).join('');}
+function scoreBoard(){
+  const rows=Array.from({length:3},(_,i)=>{
+    const s=scores[i]||{initials:'XYZ',score:0};
+    return `<div class="score-row"><span>${i+1}. ${esc(s.initials)}</span><b>${s.score.toString().padStart(5,'0')}</b></div>`;
+  });
+  return rows.join('');
+}
+
+function title(){stopMusic(); renderShell(`<section class="title-screen">
+  <div class="logo">GALIGAGA</div><div class="subtitle">A GALAGA-STYLE ARCADE SHOOTER</div>
+  <div class="attract"><img src="${IMG.enemy}"/><span>READY PILOT</span><img src="${IMG.player}"/></div>
   <button id="play" class="arcade-btn primary">PLAY</button>
-  <div class="title-controls"><button id="sound" class="small-btn">SOUND: ${o?`ON`:`OFF`}</button></div>
-  <section class="scores"><h2>HIGH SCORES</h2>${g()}</section>
-  <p class="credit">© GALIGO</p>
-</section>`),document.querySelector(`#play`).onclick=()=>y(),document.querySelector(`#sound`).onclick=()=>v()}function v(){o=!o,localStorage.setItem(`galigo-sound`,o?`on`:`off`),o||p(),_()}function y(){c={score:0,lives:15,level:1,screen:1,playing:!0,player:{x:50,y:87,targetX:50,targetY:87},shots:[],enemies:[],enemyShots:[],lastShot:0,lastEnemy:0,diveTimer:0,formationDir:1},b(),x()}function b(){c.enemies=[];for(let e=0;e<3;e++)for(let t=0;t<7;t++)c.enemies.push({x:16+t*11.3,y:17+e*8,alive:!0,row:e,diving:!1,phase:Math.random()*6})}function x(){p(),f(n.music,!0),m(`<section class="game-screen">
-  <header class="hud"><div>SCORE <b id="score">00000</b></div><div class="stage">STAGE ${String(c.level).padStart(2,`0`)}-${c.screen}</div><div class="lives" id="lives">${h(c.lives)}</div></header>
-  <div id="arena"><div class="formation" id="formation"></div><div id="shots"></div><div id="enemyShots"></div><img id="ship" class="ship" src="${t.player}"/></div>
-  <nav class="game-nav"><button id="mute" class="small-btn">SOUND: ${o?`ON`:`OFF`}</button><button id="menu" class="small-btn">MENU</button></nav>
+  <div class="title-controls"><button id="sound" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button></div>
+  <section class="scores"><h2>HIGH SCORES</h2>${scoreBoard()}</section>
+  <p class="credit">© GALIGAGA</p>
+</section>`);
+  document.querySelector('#play').onclick=()=>start(); document.querySelector('#sound').onclick=()=>toggleSound();
+}
+function toggleSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off'); if(!sound)stopMusic(); title();}
+
+function start(){
+  state={score:0,lives:15,level:1,screen:1,playing:true,player:{x:50,y:87,targetX:50,targetY:87},shots:[],enemies:[],enemyShots:[],lastShot:0,lastEnemy:0,diveTimer:0,formationDir:1};
+  makeWave(); game();
+}
+function makeWave(){
+  state.enemies=[]; const rows=3, cols=7; for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)state.enemies.push({x:16+c*11.3,y:17+r*8,alive:true,row:r,diving:false,phase:Math.random()*6});
+}
+function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class="game-screen">
+  <header class="hud"><div>SCORE <b id="score">00000</b></div><div class="stage">STAGE ${String(state.level).padStart(2,'0')}-${state.screen}</div><div class="lives" id="lives">${hearts(state.lives)}</div></header>
+  <div id="arena"><div class="formation" id="formation"></div><div id="shots"></div><div id="enemyShots"></div><img id="ship" class="ship" src="${IMG.player}"/></div>
+  <nav class="game-nav"><button id="mute" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button><button id="menu" class="small-btn">MENU</button></nav>
   <div class="touch-hint">DRAG TO MOVE • HOLD TO FIRE</div>
-</section>`),document.querySelector(`#menu`).onclick=()=>_(),document.querySelector(`#mute`).onclick=()=>S(),C(),k(),requestAnimationFrame(w)}function S(){o=!o,localStorage.setItem(`galigo-sound`,o?`on`:`off`),o?f(n.music,!0):p(),document.querySelector(`#mute`).textContent=`SOUND: `+(o?`ON`:`OFF`)}function C(){let e=document.querySelector(`#arena`),t=!1,n=t=>{let n=e.getBoundingClientRect(),r=t.touches?t.touches[0]:t,i=(r.clientX-n.left)/n.width*100,a=(r.clientY-n.top)/n.height*100;c.player.targetX=Math.max(7,Math.min(93,i)),c.player.targetY=Math.max(76,Math.min(94,a))};e.addEventListener(`pointerdown`,r=>{t=!0,n(r),e.setPointerCapture?.(r.pointerId)}),e.addEventListener(`pointermove`,e=>{t&&n(e)}),e.addEventListener(`pointerup`,()=>t=!1),e.addEventListener(`pointercancel`,()=>t=!1),window.addEventListener(`keydown`,e=>{e.key===` `&&(t=!0,e.preventDefault()),e.key===`ArrowLeft`&&(c.player.targetX=Math.max(7,c.player.targetX-4)),e.key===`ArrowRight`&&(c.player.targetX=Math.min(93,c.player.targetX+4)),e.key===`ArrowUp`&&(c.player.targetY=Math.max(76,c.player.targetY-3)),e.key===`ArrowDown`&&(c.player.targetY=Math.min(94,c.player.targetY+3))}),window.addEventListener(`keyup`,e=>{e.key===` `&&(t=!1)}),c.isFiring=()=>t}function w(e){c?.playing&&(T(e),k(),requestAnimationFrame(w))}function T(e){c.player.x+=(c.player.targetX-c.player.x)*.18,c.player.y+=(c.player.targetY-c.player.y)*.18,c.isFiring?.()&&e-c.lastShot>190&&(c.shots.push({x:c.player.x,y:c.player.y-4}),c.lastShot=e,f(n.laser)),c.shots.forEach(e=>e.y-=1.6),c.shots=c.shots.filter(e=>e.y>-5),c.formationDir=c.formationDir,c.enemies.forEach(e=>{e.alive&&(e.diving?(e.phase+=.07,e.y+=.16,e.x+=Math.sin(e.phase)*.45,e.y>96&&(e.diving=!1,e.y=17+e.row*8,e.x=10+Math.random()*80)):e.x+=c.formationDir*.035)});let t=c.enemies.filter(e=>e.alive&&!e.diving).map(e=>e.x);if(t.length&&(Math.max(...t)>93||Math.min(...t)<7)&&(c.formationDir*=-1),e-c.diveTimer>1100){let t=c.enemies.filter(e=>e.alive&&!e.diving);t.length&&(t[Math.floor(Math.random()*t.length)].diving=!0,c.diveTimer=e)}if(e-c.lastEnemy>850){let t=c.enemies.filter(e=>e.alive);if(t.length){let n=t[Math.floor(Math.random()*t.length)];c.enemyShots.push({x:n.x,y:n.y+3}),c.lastEnemy=e}}c.enemyShots.forEach(e=>e.y+=.65),c.enemyShots=c.enemyShots.filter(e=>e.y<105);for(let e of c.shots)for(let t of c.enemies)t.alive&&Math.hypot(e.x-t.x,e.y-t.y)<4.2&&(t.alive=!1,e.y=-99,c.score+=t.diving?150:100,f(n.hit));for(let e of c.enemies)if(e.alive&&Math.hypot(e.x-c.player.x,e.y-c.player.y)<5.8){e.alive=!1,E();break}for(let e of c.enemyShots)if(Math.hypot(e.x-c.player.x,e.y-c.player.y)<4.2){e.y=999,E();break}c.lives>0&&c.enemies.every(e=>!e.alive)&&D()}function E(){if(!c.invuln){if(c.invuln=!0,c.lives--,O(),c.lives<=0){setTimeout(()=>A(),650);return}setTimeout(()=>{c.invuln=!1,c.shots=[],c.enemyShots=[],c.player.x=50,c.player.y=87,c.player.targetX=50,c.player.targetY=87},900)}}function D(){c.screen++;let e=c.level<3?2:3;c.screen>e&&(c.level++,c.screen=1),c.playing=!1,m(`<section class="transition"><div class="transition-title">STAGE ${String(c.level).padStart(2,`0`)}</div><div class="transition-sub">SCREEN ${c.screen}</div><div class="ready">READY</div></section>`),setTimeout(()=>{c.lives>0&&(c.playing=!0,b(),x())},1100)}function O(){let e=document.querySelector(`#score`);e&&(e.textContent=String(c.score).padStart(5,`0`));let t=document.querySelector(`#lives`);t&&(t.innerHTML=h(c.lives))}function k(){if(!document.querySelector(`#ship`))return;let e=document.querySelector(`#ship`);e.style.left=c.player.x+`%`,e.style.top=c.player.y+`%`,e.classList.toggle(`blink`,!!c.invuln);let n=document.querySelector(`#formation`);n.innerHTML=c.enemies.filter(e=>e.alive).map(e=>`<img class="enemy ${e.diving?`diver`:``}" style="left:${e.x}%;top:${e.y}%" src="${e.row===0?t.enemy3:e.row===1?t.enemy2:t.enemy}"/>`).join(``),document.querySelector(`#shots`).innerHTML=c.shots.map(e=>`<img class="shot" style="left:${e.x}%;top:${e.y}%" src="${t.bullet}"/>`).join(``),document.querySelector(`#enemyShots`).innerHTML=c.enemyShots.map(e=>`<img class="enemy-shot" style="left:${e.x}%;top:${e.y}%" src="${t.enemyBullet}"/>`).join(``),O()}function A(){c.playing=!1,p();let e=r[Math.floor(Math.random()*r.length)],t=d(c.score);if(m(`<section class="over"><div class="over-title">GAME OVER</div><p class="message">${e}</p><div class="final-score">SCORE <b>${String(c.score).padStart(5,`0`)}</b></div>${t?`<div class="initials"><label>NEW HIGH SCORE — INITIALS</label><input id="initialInput" maxlength="3" inputmode="text" autocomplete="off" placeholder="XYZ"/></div>`:``}<section class="scores"><h2>HIGH SCORES</h2>${g()}</section><div class="over-actions"><button id="again" class="arcade-btn primary">PLAY AGAIN</button><button id="return" class="arcade-btn">RETURN</button></div></section>`),t){let e=document.querySelector(`#initialInput`);e.focus(),e.oninput=()=>e.value=e.value.replace(/[^a-z]/gi,``).toUpperCase()}document.querySelector(`#again`).onclick=()=>{t&&j(),y()},document.querySelector(`#return`).onclick=()=>{t&&j(),_()}}function j(){let e=(document.querySelector(`#initialInput`)?.value||`XYZ`).padEnd(3,`X`).slice(0,3);a.push({initials:e,score:c.score}),a.sort((e,t)=>t.score-e.score),a=a.slice(0,3),u()}_();
+</section>`);
+  document.querySelector('#menu').onclick=()=>title(); document.querySelector('#mute').onclick=()=>toggleInGameSound();
+  bindControls(); draw(); requestAnimationFrame(loop);
+}
+function toggleInGameSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off');if(!sound)stopMusic(); else play(AUDIO.music,true);document.querySelector('#mute').textContent='SOUND: '+(sound?'ON':'OFF');}
+function bindControls(){const arena=document.querySelector('#arena');let firing=false;let activeTouch=false;
+ const setPosition=(clientX,clientY)=>{const r=arena.getBoundingClientRect();const x=(clientX-r.left)/r.width*100;const y=(clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(50,Math.min(92,y));};
+ const stopFire=()=>{firing=false;activeTouch=false;};
+ const start=(e)=>{const p=e.touches?.[0]||e;setPosition(p.clientX,p.clientY);firing=true;activeTouch=true;e.preventDefault?.();};
+ const move=(e)=>{if(!activeTouch)return;const p=e.touches?.[0]||e;setPosition(p.clientX,p.clientY);e.preventDefault?.();};
+ arena.addEventListener('pointerdown',start,{passive:false});arena.addEventListener('pointermove',move,{passive:false});arena.addEventListener('pointerup',stopFire);arena.addEventListener('pointercancel',stopFire);
+ arena.addEventListener('touchstart',start,{passive:false});arena.addEventListener('touchmove',move,{passive:false});arena.addEventListener('touchend',stopFire,{passive:true});arena.addEventListener('touchcancel',stopFire,{passive:true});
+ window.addEventListener('pointerup',stopFire);window.addEventListener('blur',stopFire);
+ window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(50,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(92,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
+function loop(t){if(!state?.playing)return; update(t);draw();requestAnimationFrame(loop);}
+function update(t){
+ state.player.x += (state.player.targetX - state.player.x) * 0.18;
+ state.player.y += (state.player.targetY - state.player.y) * 0.18;
+ if(state.isFiring?.() && t-state.lastShot>190){state.shots.push({x:state.player.x,y:state.player.y-4});state.lastShot=t;play(AUDIO.laser);}
+ state.shots.forEach(s=>s.y-=1.6); state.shots=state.shots.filter(s=>s.y>-5);
+ state.formationDir=state.formationDir; state.enemies.forEach(e=>{if(!e.alive)return; if(!e.diving)e.x+=state.formationDir*.035; else {e.phase+=.07;e.y+=.16;e.x+=Math.sin(e.phase)*.45;if(e.y>96){e.diving=false;e.y=17+e.row*8;e.x=10+Math.random()*80;}}});
+ const xs=state.enemies.filter(e=>e.alive&&!e.diving).map(e=>e.x); if(xs.length&&(Math.max(...xs)>93||Math.min(...xs)<7))state.formationDir*=-1;
+ if(t-state.diveTimer>1100){const candidates=state.enemies.filter(e=>e.alive&&!e.diving);if(candidates.length){candidates[Math.floor(Math.random()*candidates.length)].diving=true;state.diveTimer=t;}}
+ if(t-state.lastEnemy>850){const alive=state.enemies.filter(e=>e.alive);if(alive.length){const e=alive[Math.floor(Math.random()*alive.length)];state.enemyShots.push({x:e.x,y:e.y+3});state.lastEnemy=t;}}
+ state.enemyShots.forEach(s=>s.y+=.65); state.enemyShots=state.enemyShots.filter(s=>s.y<105);
+ for(const s of state.shots){for(const e of state.enemies){if(e.alive&&Math.hypot(s.x-e.x,s.y-e.y)<4.2){e.alive=false;s.y=-99;state.score+=e.diving?150:100;play(AUDIO.hit);}}}
+ for(const e of state.enemies){
+   if(e.alive && Math.hypot(e.x-state.player.x,e.y-state.player.y)<5.8){e.alive=false;loseLife();break;}
+ }
+ for(const s of state.enemyShots){if(Math.hypot(s.x-state.player.x,s.y-state.player.y)<4.2){s.y=999;loseLife();break;}}
+ if(state.lives>0 && state.enemies.every(e=>!e.alive)){advance();}
+}
+function loseLife(){if(state.invuln)return;state.invuln=true;state.lives--;updateHud(); if(state.lives<=0){setTimeout(()=>gameOver(),650);return;} setTimeout(()=>{state.invuln=false;state.shots=[];state.enemyShots=[];state.player.x=50;state.player.y=87;state.player.targetX=50;state.player.targetY=87;},900);}
+function advance(){state.screen++; const max=state.level<3?2:3; if(state.screen>max){state.level++;state.screen=1;} state.playing=false; renderShell(`<section class="transition"><div class="transition-title">STAGE ${String(state.level).padStart(2,'0')}</div><div class="transition-sub">SCREEN ${state.screen}</div><div class="ready">READY</div></section>`); setTimeout(()=>{if(state.lives>0){state.playing=true;makeWave();game();}},1100);}
+function updateHud(){const s=document.querySelector('#score');if(s)s.textContent=String(state.score).padStart(5,'0');const l=document.querySelector('#lives');if(l)l.innerHTML=hearts(state.lives);}
+function draw(){if(!document.querySelector('#ship'))return;const ship=document.querySelector('#ship');ship.style.left=state.player.x+'%';ship.style.top=state.player.y+'%';ship.classList.toggle('blink',!!state.invuln);
+ const f=document.querySelector('#formation');f.innerHTML=state.enemies.filter(e=>e.alive).map(e=>`<img class="enemy ${e.diving?'diver':''}" style="left:${e.x}%;top:${e.y}%" src="${e.row===0?IMG.enemy3:e.row===1?IMG.enemy2:IMG.enemy}"/>`).join('');
+ document.querySelector('#shots').innerHTML=state.shots.map(s=>`<img class="shot" style="left:${s.x}%;top:${s.y}%" src="${IMG.bullet}"/>`).join(''); document.querySelector('#enemyShots').innerHTML=state.enemyShots.map(s=>`<img class="enemy-shot" style="left:${s.x}%;top:${s.y}%" src="${IMG.enemyBullet}"/>`).join(''); updateHud();}
+function gameOver(){state.playing=false;stopMusic();const msg=messages[Math.floor(Math.random()*messages.length)];const qualifies=isHigh(state.score);renderShell(`<section class="over"><div class="over-title">GAME OVER</div><p class="message">${msg}</p><div class="final-score">SCORE <b>${String(state.score).padStart(5,'0')}</b></div>${qualifies?`<div class="initials"><label>NEW HIGH SCORE — INITIALS</label><input id="initialInput" maxlength="3" inputmode="text" autocomplete="off" placeholder="XYZ"/></div>`:''}<section class="scores"><h2>HIGH SCORES</h2>${scoreBoard()}</section><div class="over-actions"><button id="again" class="arcade-btn primary">PLAY AGAIN</button><button id="return" class="arcade-btn">RETURN</button></div></section>`);
+ if(qualifies){const i=document.querySelector('#initialInput');i.focus();i.oninput=()=>i.value=i.value.replace(/[^a-z]/gi,'').toUpperCase();}
+ document.querySelector('#again').onclick=()=>{if(qualifies)recordScore();start();};document.querySelector('#return').onclick=()=>{if(qualifies)recordScore();title();};
+}
+function recordScore(){const i=document.querySelector('#initialInput');const initials=(i?.value||'XYZ').padEnd(3,'X').slice(0,3);scores.push({initials,score:state.score});scores.sort((a,b)=>b.score-a.score);scores=scores.slice(0,3);saveScores();}
+
+title();
