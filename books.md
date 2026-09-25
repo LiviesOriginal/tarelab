@@ -62,6 +62,7 @@ The Last Thing He Told Me | Laura Dave | 9781501171369
 Before the Coffee Gets Cold | Toshikazu Kawaguchi | 9781335430991
 The Midnight Library | Matt Haig | 9780525559481
 The Calamity Club | Kathrynn Stockett | 9781954118812
+Theo of Golden | Allen Levi | 9781668236512
 
 # To read - Sapphic
 Late Bloomer ** | Mazey Eddings | 9781035404018
@@ -71,14 +72,20 @@ Here We Go Again | Allison Cochran | 9781668021194
 Big Swiss | Jen Beagin | 9780571378586
 The Safekeep | Yael van der Wouden | 9781668034347
 Our Wives Under The Sea | Julia Armfield | 9781250229892
+Meet Me in the Garden | Nina LaCour | 9781250810472
 Don’t Let Me Go ** | Rachel Sommers | 9783690060127
 The Snowball Effect ** | Haley Cass | 9798988492986
 Midnight Rain | Haley Cass | 9798988492993
 Bloom Town: Genesis | Aly North | 9798217374861
 Bloom Town: Exodus | Aly North | 9798332716966
 Hearing Red | Nicole Maser | 9798988226031
-Meet Me in the Garden | Nina LaCour | 9781250810472
 Almost Life | Kiran Millwood Hargrave | 9781035007509
+
+# To read - Thrillers
+Five Survive | Holly Jackson | 9780593374191
+No Place Left to Hide | Megan Lally | 9781728270142
+The Last Word | Taylor Adams | 9780063222915
+Gray After Dark | Noelle W. Ihli | 9781496761262
 
 # To read - Classic 
 Madame Bovary | Gustave Flaubert | 9781908533814
