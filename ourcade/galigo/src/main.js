@@ -13,9 +13,9 @@ const messages=[
  "You flew farther than most of the universe 💫",
  "One more? I like watching you play 🚀"
 ];
-const KEY='galigo-high-scores';
+const KEY='galigaga-high-scores';
 let scores=JSON.parse(localStorage.getItem(KEY)||'[]');
-let sound=localStorage.getItem('galigo-sound')!=='off';
+let sound=localStorage.getItem('galigaga-sound')!=='off';
 let audio={};
 let state=null;
 
@@ -35,16 +35,16 @@ function scoreBoard(){
 }
 
 function title(){stopMusic(); renderShell(`<section class="title-screen">
-  <div class="logo">GALIGO</div><div class="subtitle">A GALAGA-STYLE ARCADE SHOOTER</div>
+  <div class="logo">GALIGAGA</div><div class="subtitle">A GALAGA-STYLE ARCADE SHOOTER</div>
   <div class="attract"><img src="${IMG.enemy}"/><span>READY PILOT</span><img src="${IMG.player}"/></div>
   <button id="play" class="arcade-btn primary">PLAY</button>
   <div class="title-controls"><button id="sound" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button></div>
   <section class="scores"><h2>HIGH SCORES</h2>${scoreBoard()}</section>
-  <p class="credit">© GALIGO</p>
+  <p class="credit">© GALIGAGA</p>
 </section>`);
   document.querySelector('#play').onclick=()=>start(); document.querySelector('#sound').onclick=()=>toggleSound();
 }
-function toggleSound(){sound=!sound;localStorage.setItem('galigo-sound',sound?'on':'off'); if(!sound)stopMusic(); title();}
+function toggleSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off'); if(!sound)stopMusic(); title();}
 
 function start(){
   state={score:0,lives:15,level:1,screen:1,playing:true,player:{x:50,y:87,targetX:50,targetY:87},shots:[],enemies:[],enemyShots:[],lastShot:0,lastEnemy:0,diveTimer:0,formationDir:1};
@@ -60,13 +60,22 @@ function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class
   <div class="touch-hint">DRAG TO MOVE • HOLD TO FIRE</div>
 </section>`);
   document.querySelector('#menu').onclick=()=>title(); document.querySelector('#mute').onclick=()=>toggleInGameSound();
+  // Keep the utility buttons out of the playfield on mobile so they never cover the ship.
+  const nav=document.querySelector('.game-nav');
+  if(nav){nav.style.bottom='auto';nav.style.top='13.5%';}
+  const arena=document.querySelector('#arena');
+  if(arena)arena.style.touchAction='none';
   bindControls(); draw(); requestAnimationFrame(loop);
 }
-function toggleInGameSound(){sound=!sound;localStorage.setItem('galigo-sound',sound?'on':'off');if(!sound)stopMusic(); else play(AUDIO.music,true);document.querySelector('#mute').textContent='SOUND: '+(sound?'ON':'OFF');}
-function bindControls(){const arena=document.querySelector('#arena');let firing=false;let pointer=false;
- const move=e=>{const r=arena.getBoundingClientRect(),p=e.touches?e.touches[0]:e; let x=(p.clientX-r.left)/r.width*100,y=(p.clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(76,Math.min(94,y));pointer=true;};
- arena.addEventListener('pointerdown',e=>{firing=true;move(e);arena.setPointerCapture?.(e.pointerId)});arena.addEventListener('pointermove',e=>{if(firing)move(e)});arena.addEventListener('pointerup',()=>firing=false);arena.addEventListener('pointercancel',()=>firing=false);
- window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()} if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(76,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(94,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
+function toggleInGameSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off');if(!sound)stopMusic(); else play(AUDIO.music,true);document.querySelector('#mute').textContent='SOUND: '+(sound?'ON':'OFF');}
+function bindControls(){const arena=document.querySelector('#arena');let firing=false;
+ const move=e=>{const r=arena.getBoundingClientRect(),p=e.touches?e.touches[0]:e; if(!p)return; let x=(p.clientX-r.left)/r.width*100,y=(p.clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(60,Math.min(90,y));};
+ const stopFire=()=>{firing=false;};
+ arena.addEventListener('pointerdown',e=>{firing=true;move(e);arena.setPointerCapture?.(e.pointerId);e.preventDefault();});
+ arena.addEventListener('pointermove',e=>{if(firing)move(e);e.preventDefault();});
+ arena.addEventListener('pointerup',stopFire);arena.addEventListener('pointercancel',stopFire);arena.addEventListener('lostpointercapture',stopFire);
+ window.addEventListener('pointerup',stopFire);window.addEventListener('blur',stopFire);
+ window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(60,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(90,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
 function loop(t){if(!state?.playing)return; update(t);draw();requestAnimationFrame(loop);}
 function update(t){
  state.player.x += (state.player.targetX - state.player.x) * 0.18;
