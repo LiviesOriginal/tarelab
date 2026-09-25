@@ -73,6 +73,7 @@ Redeemed itself towards the end and eeked out a 5. (Alfie’s pick) They write t
 
 ## The Invisible Life of Addie Larue | V.E. Schwab | 5 | 9780765387578
 Outstanding. Love love love. Can read it again and again. 5/5 tissues
+- What is a person, if not the marks they leave behind?
 - "Not all sins are boulders. Most, in fact, are more like pebbles." 
 - "Life is a bitch with a crooked sense of humor."
 - This is the problem with a life like Addie's. She has gone so long without roots, she doesn't know how to grow them anymore. So used to losing things, she isn't sure how to hold them, how to make space in a world the size of herself.
