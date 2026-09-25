@@ -1,4 +1,9 @@
 # Read
+## Into the Blue | Emma Brodie | 4 | 9798217093700
+They push each other away for decades then end up together in the end.
+- "Falling in love is like being a celebrity to one person."
+- "Most people don't have hidden depths, they have hidden shadows."
+
 ## Black Friend: Essays | Ziwe | 4 | 9781419777974
 A for effort. Self publishing is not for the faint of heart. Respect the hustle, and found a few nuggets of wisdom.
 - "I stopped trying to force my voice and submitted to the chords that always struck with repetition."
