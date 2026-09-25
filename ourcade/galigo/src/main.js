@@ -60,22 +60,18 @@ function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class
   <div class="touch-hint">DRAG TO MOVE • HOLD TO FIRE</div>
 </section>`);
   document.querySelector('#menu').onclick=()=>title(); document.querySelector('#mute').onclick=()=>toggleInGameSound();
-  // Keep the utility buttons out of the playfield on mobile so they never cover the ship.
-  const nav=document.querySelector('.game-nav');
-  if(nav){nav.style.bottom='auto';nav.style.top='13.5%';}
-  const arena=document.querySelector('#arena');
-  if(arena)arena.style.touchAction='none';
   bindControls(); draw(); requestAnimationFrame(loop);
 }
 function toggleInGameSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off');if(!sound)stopMusic(); else play(AUDIO.music,true);document.querySelector('#mute').textContent='SOUND: '+(sound?'ON':'OFF');}
-function bindControls(){const arena=document.querySelector('#arena');let firing=false;
- const move=e=>{const r=arena.getBoundingClientRect(),p=e.touches?e.touches[0]:e; if(!p)return; let x=(p.clientX-r.left)/r.width*100,y=(p.clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(60,Math.min(90,y));};
- const stopFire=()=>{firing=false;};
- arena.addEventListener('pointerdown',e=>{firing=true;move(e);arena.setPointerCapture?.(e.pointerId);e.preventDefault();});
- arena.addEventListener('pointermove',e=>{if(firing)move(e);e.preventDefault();});
- arena.addEventListener('pointerup',stopFire);arena.addEventListener('pointercancel',stopFire);arena.addEventListener('lostpointercapture',stopFire);
+function bindControls(){const arena=document.querySelector('#arena');let firing=false;let activeTouch=false;
+ const setPosition=(clientX,clientY)=>{const r=arena.getBoundingClientRect();const x=(clientX-r.left)/r.width*100;const y=(clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(50,Math.min(92,y));};
+ const stopFire=()=>{firing=false;activeTouch=false;};
+ const start=(e)=>{const p=e.touches?.[0]||e;setPosition(p.clientX,p.clientY);firing=true;activeTouch=true;e.preventDefault?.();};
+ const move=(e)=>{if(!activeTouch)return;const p=e.touches?.[0]||e;setPosition(p.clientX,p.clientY);e.preventDefault?.();};
+ arena.addEventListener('pointerdown',start,{passive:false});arena.addEventListener('pointermove',move,{passive:false});arena.addEventListener('pointerup',stopFire);arena.addEventListener('pointercancel',stopFire);
+ arena.addEventListener('touchstart',start,{passive:false});arena.addEventListener('touchmove',move,{passive:false});arena.addEventListener('touchend',stopFire,{passive:true});arena.addEventListener('touchcancel',stopFire,{passive:true});
  window.addEventListener('pointerup',stopFire);window.addEventListener('blur',stopFire);
- window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(60,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(90,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
+ window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(50,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(92,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
 function loop(t){if(!state?.playing)return; update(t);draw();requestAnimationFrame(loop);}
 function update(t){
  state.player.x += (state.player.targetX - state.player.x) * 0.18;
