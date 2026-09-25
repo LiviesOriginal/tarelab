@@ -1,10 +1,15 @@
 # Roxy's list (9/9/2026)
-The Women | Kristen Hannah | 9781250178633
-Midnight Rain | Haley Cass | 9798988492993
 The Invisible Life of Addie Larue | V.E. Schwab | 9780765387578
+Midnight Rain | Haley Cass | 9798988492993
 This Book Made Me Think of You | Libby Page | 9798217186990
 
 # Read
+## The Women | Kristen Hannah | 4 | 4 | 9781250178633
+Women did, in fact, serve in Nam.
+- Words were creators of worlds. You had to be careful with them.
+- “Maybe happy now, happy for a moment, is all we really get. Happy forever seems a shitload to ask in a world on fire.” - Barb
+- It became a cycle, like the ebb and flow of the tide. She stopped visiting her parents, stopped answering the phone, stopped writing letters to her friends. She didn’t want to hear their pep talks, and no wanted to listen to her despair.
+
 ## Next Time Will Be Our Turn | Jessie Q. Sutanto | 5 | 5 | 9780593816875
 The story of Magnolia, her family, and the love of her life.
 - "How does one cheat without cheating? One does it by loving every second spent together, consuming every moment with her greedily, memorizing every facet of her, down to the way she blinks her eyes. One does it by making up more and more excuses to spend time with her, running all sorts of mundane errands with her, like changing the oil in your car, which you know very well how to do, but you pretend not to so she'd have to come with you. One does it by thinking of her nonstop when she's not around. Wondering how she would react to every little thing that happens in your life. Whenever something funny or interesting or sad happens, you don't think, what would my husband say? You think, what would she say? How hard would she laugh at this? And this, and this?” - Magnolia
@@ -41,8 +46,6 @@ Official first selection of the Book Club. Lovable characters that make you root
 - "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
 
 # To read - General
-
-The Women ** | Kristen Hannah | 9781250178633
 The Teacher ** | Freida McFadden | 9781728296210
 Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
 Beach Read ** | Emily Henry | 9788383210711
