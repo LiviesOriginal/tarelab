@@ -1,17 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090014">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08000f">
+<meta name="description" content="OURCADE — a growing collection of little games.">
 <title>OURCADE — Play</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05020a}body{min-height:100vh;display:grid;place-items:center;overflow-x:hidden;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.arcade{position:relative;width:min(100vw,calc(100vh * 1660 / 934));aspect-ratio:1660/934;background:url("./arcade.png") center/cover no-repeat;overflow:hidden;isolation:isolate}.game{position:absolute;display:block;z-index:5;border-radius:14px;outline:none;cursor:pointer;transition:transform .16s ease,background .16s ease,box-shadow .16s ease}.game::after{content:attr(aria-label);position:absolute;left:50%;bottom:7%;transform:translate(-50%,8px);padding:.45rem .7rem;border:1px solid rgba(255,255,255,.4);border-radius:999px;background:rgba(5,2,10,.88);color:#fff;font-size:clamp(11px,1vw,15px);font-weight:800;letter-spacing:.06em;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;box-shadow:0 0 18px rgba(255,25,217,.35)}.game:hover,.game:focus-visible{background:rgba(255,255,255,.055);box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 24px rgba(255,25,217,.7),inset 0 0 24px rgba(255,255,255,.08);transform:translateY(-3px)}.game:hover::after,.game:focus-visible::after{opacity:1;transform:translate(-50%,0)}.pacman{left:2.8%;top:32%;width:16.6%;height:58%}.galaga{left:20.6%;top:32.1%;width:15%;height:58%}.sweet{left:37.9%;top:32%;width:14.2%;height:58%}.sims{left:53.7%;top:32%;width:14.2%;height:58%}.tetris{left:68.6%;top:32%;width:15.1%;height:58%}.made4u{left:84%;top:32%;width:14%;height:58%}.hint{position:absolute;z-index:10;left:50%;bottom:2.3%;transform:translateX(-50%);padding:.35rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.8);font-size:clamp(9px,.8vw,12px);letter-spacing:.12em;text-transform:uppercase;pointer-events:none}@media(max-width:760px){body{display:block;overflow-x:auto}.arcade{width:760px;min-width:760px}.hint{display:none}}@media(prefers-reduced-motion:reduce){.game,.game::after{transition:none}}
-</style></head>
-<body><main class="arcade" aria-label="OURCADE game selection">
-<!-- Replace the six URLs below with your actual game URLs. -->
-<a class="game pacman" href="https://YOUR-DOMAIN.com/pacman/" aria-label="Play Pac-Man"></a>
-<a class="game galaga" href="https://tarelab.com/ourcade/galigo/" aria-label="Play Galigo"></a>
-<a class="game sweet" href="https://YOUR-DOMAIN.com/sweet-fighter/" aria-label="Play Sweet Fighter"></a>
-<a class="game sims" href="https://YOUR-DOMAIN.com/the-sims/" aria-label="Play The Sims"></a>
-<a class="game tetris" href="https://YOUR-DOMAIN.com/tetris/" aria-label="Play Tetris"></a>
-<a class="game made4u" href="https://tarelab.com/ourcade/made4u/" aria-label="More Favorites"></a>
-<div class="hint">Select a cabinet to play</div></main></body></html>
+:root{--pink:#ff19d9;--blue:#19a7ff;--green:#55ff8a;--purple:#9a4dff;--ink:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;overflow-x:hidden;color:var(--ink);background:#07000d;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:url("./arcade.png") center top/cover no-repeat;transform:scale(1.01)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(to bottom,rgba(5,0,12,.04) 0 30%,rgba(5,0,12,.70) 38%,rgba(5,0,12,.88) 76%,rgba(5,0,12,.62) 100%),radial-gradient(circle at 50% 55%,transparent 18%,rgba(0,0,0,.42) 100%)}
+.page{width:min(1500px,100%);margin:0 auto;padding:22px 22px 90px}
+.hero{min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px 12px 10px}
+.logo{margin:0;font-size:clamp(56px,9vw,132px);line-height:.82;letter-spacing:.035em;font-weight:900;color:#fff;text-shadow:0 0 3px #fff,0 0 12px var(--pink),0 0 28px var(--pink),0 0 60px rgba(255,25,217,.65)}
+.tagline{margin:24px 0 0;display:inline-flex;align-items:center;justify-content:center;padding:8px 18px;border:2px solid var(--blue);color:#fff;font-size:clamp(13px,2vw,20px);font-weight:900;letter-spacing:.16em;text-transform:uppercase;background:rgba(4,5,22,.62);box-shadow:0 0 8px var(--blue),0 0 24px rgba(25,167,255,.65),inset 0 0 14px rgba(25,167,255,.2)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:14px auto 18px;width:min(1320px,100%)}
+.section-head h2{margin:0;font-size:clamp(20px,3vw,32px);letter-spacing:.08em;text-transform:uppercase;text-shadow:0 0 10px rgba(255,25,217,.7)}
+.section-head p{margin:0;color:rgba(255,255,255,.7);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.game-grid{width:min(1320px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:34px 26px;align-items:end}
+.cabinet-link{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.cabinet{--accent:#19a7ff;position:relative;min-width:0;filter:drop-shadow(0 20px 22px rgba(0,0,0,.55));transition:transform .18s ease,filter .18s ease}
+.cabinet:hover,.cabinet:focus-within{transform:translateY(-9px);filter:drop-shadow(0 24px 28px rgba(0,0,0,.58)) drop-shadow(0 0 14px color-mix(in srgb,var(--accent),transparent 62%))}
+.cabinet-shell{position:relative;overflow:hidden;border:3px solid var(--accent);border-radius:18px 18px 10px 10px;background:linear-gradient(90deg,rgba(255,255,255,.08),transparent 14%,transparent 86%,rgba(255,255,255,.06)),linear-gradient(#11131c,#05060a 75%);box-shadow:0 0 5px var(--accent),0 0 22px color-mix(in srgb,var(--accent),transparent 48%),inset 0 0 25px rgba(0,0,0,.8);padding:14px 13px 18px}
+.marquee{min-height:64px;display:grid;place-items:center;border:2px solid color-mix(in srgb,var(--accent),white 10%);border-radius:9px;padding:9px 8px;background:radial-gradient(circle at 50% 10%,rgba(255,255,255,.15),transparent 55%),#090b13;box-shadow:inset 0 0 18px rgba(0,0,0,.85),0 0 10px color-mix(in srgb,var(--accent),transparent 45%)}
+.marquee strong{text-align:center;font-size:clamp(19px,2.2vw,28px);letter-spacing:.06em;line-height:1;text-shadow:0 0 4px #fff,0 0 12px var(--accent),0 0 22px var(--accent)}
+.screen-bezel{margin-top:12px;padding:10px;border-radius:12px;background:#020308;border:2px solid #242936;box-shadow:inset 0 0 18px #000,0 0 6px rgba(0,0,0,.8)}
+.screen{aspect-ratio:4/3;display:grid;place-items:center;position:relative;overflow:hidden;border:2px solid color-mix(in srgb,var(--accent),#111 55%);border-radius:7px;background:radial-gradient(circle at 50% 48%,color-mix(in srgb,var(--accent),transparent 82%),transparent 48%),repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),#03050b;box-shadow:0 0 12px color-mix(in srgb,var(--accent),transparent 58%),inset 0 0 24px rgba(0,0,0,.9)}
+.screen::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,rgba(255,255,255,.09),transparent 25% 75%,rgba(255,255,255,.04));pointer-events:none}
+.screen-title{position:relative;z-index:1;padding:8px;text-align:center;font-weight:900;font-size:clamp(17px,2vw,24px);letter-spacing:.09em;color:#fff;text-shadow:0 0 4px #fff,0 0 14px var(--accent)}
+.deck{margin:10px -2px 0;padding:10px 10px 8px;border-radius:9px 9px 13px 13px;background:linear-gradient(#171a22,#080a0f);border:2px solid #252a36;box-shadow:inset 0 5px 10px rgba(255,255,255,.03),0 7px 10px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:space-between}
+.joystick{width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);position:relative;margin-left:12px}
+.joystick::after{content:"";position:absolute;left:50%;top:11px;width:5px;height:23px;transform:translateX(-50%);background:#555b66;border-radius:5px}
+.buttons{display:flex;gap:7px;align-items:center}
+.button{width:15px;height:15px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px color-mix(in srgb,var(--accent),transparent 35%)}
+.button:nth-child(2){filter:brightness(1.25)}.button:nth-child(3){filter:brightness(.75)}
+.base{height:88px;margin-top:-1px;border:3px solid var(--accent);border-top:0;border-radius:0 0 17px 17px;background:radial-gradient(circle at 50% 15%,rgba(255,255,255,.06),transparent 35%),linear-gradient(90deg,#08090e,#14151c 50%,#08090e);box-shadow:0 0 10px color-mix(in srgb,var(--accent),transparent 68%),inset 0 0 25px rgba(0,0,0,.8)}
+.cabinet-meta{text-align:center;padding:11px 6px 0}.cabinet-meta .subtitle{display:block;color:rgba(255,255,255,.62);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.play{display:inline-flex;margin-top:8px;padding:7px 16px;border:1px solid var(--accent);border-radius:999px;background:rgba(5,3,12,.8);font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 0 9px color-mix(in srgb,var(--accent),transparent 48%)}
+.add-note{width:min(1320px,100%);margin:46px auto 0;padding:15px 18px;text-align:center;border:1px dashed rgba(255,255,255,.25);border-radius:12px;background:rgba(0,0,0,.25);color:rgba(255,255,255,.58);font-size:12px;letter-spacing:.06em}
+.add-note code{color:#fff}.footer{text-align:center;margin-top:28px;color:rgba(255,255,255,.38);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+@media(max-width:760px){body::before{background-size:auto 100%;background-position:center top}.page{padding:10px 14px 70px}.hero{min-height:220px;padding-top:22px}.logo{font-size:clamp(52px,17vw,88px)}.tagline{margin-top:18px;font-size:11px;padding:7px 13px}.section-head{margin-top:2px;align-items:flex-start;flex-direction:column;gap:5px}.game-grid{grid-template-columns:minmax(0,1fr);width:min(390px,100%);gap:44px}.cabinet-shell{padding:12px 12px 16px}.base{height:76px}.add-note{margin-top:38px}}
+@media(min-width:761px) and (max-width:1100px){.game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cabinet{transition:none}}
+</style>
+</head>
+<body>
+<main class="page">
+<header class="hero"><h1 class="logo">OURCADE</h1><div class="tagline">GAME ON!</div></header>
+<section aria-labelledby="games-heading">
+<div class="section-head"><h2 id="games-heading">Play now</h2><p id="game-count"></p></div>
+<div class="game-grid" id="game-grid"></div>
+</section>
+<div class="add-note">New game? Add one object to <code>games.js</code>. The arcade lays it out automatically.</div>
+<footer class="footer">© 2026 OURCADE</footer>
+</main>
+<script src="./games.js"></script>
+<script>
+(() => {
+const games=Array.isArray(window.OURCADE_GAMES)?window.OURCADE_GAMES:[];
+document.getElementById("game-count").textContent=`${games.length} ${games.length===1?"game":"games"} ready to play`;
+document.getElementById("game-grid").innerHTML=games.map(game=>`
+<a class="cabinet-link" href="${game.href}" aria-label="Play ${escapeHtml(game.title)}">
+<article class="cabinet" style="--accent:${game.accent||"#19a7ff"}">
+<div class="cabinet-shell"><div class="marquee"><strong>${escapeHtml(game.title)}</strong></div>
+<div class="screen-bezel"><div class="screen"><div class="screen-title">${escapeHtml(game.screen||game.title)}</div></div></div>
+<div class="deck" aria-hidden="true"><span class="joystick"></span><span class="buttons"><i class="button"></i><i class="button"></i><i class="button"></i></span></div>
+</div><div class="base"></div><div class="cabinet-meta"><span class="subtitle">${escapeHtml(game.subtitle||"")}</span><span class="play">${escapeHtml(game.status||"PLAY")}</span></div>
+</article></a>`).join("");
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]))}
+})();
+</script>
+</body>
+</html>
