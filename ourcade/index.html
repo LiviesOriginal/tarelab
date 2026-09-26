@@ -6,23 +6,25 @@
 <meta name="theme-color" content="#07020d">
 <title>OURCADE — Play</title>
 <style>
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;overflow-x:hidden;background:#05030a;color:#fff;font-family:Inter,system-ui,sans-serif}
-body:before{content:"";position:fixed;inset:0;z-index:-3;background:url("./room.svg") center/cover no-repeat}
-body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(3,2,9,.05),rgba(3,2,9,.18) 38%,rgba(3,2,9,.52) 100%);pointer-events:none}
-.page{width:min(1480px,100%);margin:auto;padding:18px 22px 90px}
-.hero{min-height:270px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
-.logo{margin:0;font-size:clamp(58px,10vw,138px);font-weight:950;letter-spacing:.04em;line-height:.8;color:#fff;text-shadow:0 0 4px #fff,0 0 13px #ff1bd8,0 0 32px #ff1bd8,0 0 70px rgba(255,27,216,.7)}
-.tagline{margin-top:25px;padding:8px 20px;border:2px solid #20c8ff;background:rgba(4,2,13,.65);font-size:clamp(12px,1.8vw,19px);font-weight:900;letter-spacing:.2em;box-shadow:0 0 8px #20c8ff,0 0 26px rgba(32,200,255,.65)}
-.game-grid{width:min(1360px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px 18px;align-items:end}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;overflow-x:hidden;background:#05030a;color:#fff;font-family:Inter,system-ui,sans-serif}
+body:before{content:"";position:fixed;inset:0;z-index:-3;background:url("./ourcade-room.jpg") center top/cover no-repeat}
+body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(3,2,9,.03),rgba(3,2,9,.10) 55%,rgba(3,2,9,.35) 100%);pointer-events:none}
+.page{width:min(1500px,100%);margin:auto;padding:16px 18px 80px}
+.hero{min-height:245px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
+.logo{margin:0;font-size:clamp(54px,9vw,124px);font-weight:950;letter-spacing:.04em;line-height:.8;color:#fff;text-shadow:0 0 4px #fff,0 0 13px #ff1bd8,0 0 32px #ff1bd8,0 0 70px rgba(255,27,216,.7)}
+.tagline{margin-top:22px;padding:7px 18px;border:2px solid #20c8ff;background:rgba(4,2,13,.58);font-size:clamp(11px,1.5vw,17px);font-weight:900;letter-spacing:.2em;box-shadow:0 0 8px #20c8ff,0 0 24px rgba(32,200,255,.55)}
+.game-grid{width:min(1380px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 16px;align-items:end}
 .cabinet-link{display:block;color:#fff;text-decoration:none;touch-action:manipulation}
 .cabinet{position:relative;transition:transform .2s ease,filter .2s ease}
-.cabinet:hover{transform:translateY(-10px);filter:brightness(1.08) drop-shadow(0 18px 22px rgba(0,0,0,.7))}
-.cabinet-art{width:100%;height:auto;display:block;filter:drop-shadow(0 20px 18px rgba(0,0,0,.72))}
-.cabinet-title{position:absolute;top:7.8%;left:25%;width:50%;height:4.4%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(11px,1.35vw,19px);font-weight:950;letter-spacing:.07em;text-transform:uppercase;text-shadow:0 0 4px #fff,0 0 10px #ff1bd8;pointer-events:none}
-.cabinet-screen{position:absolute;top:17.2%;left:28%;width:44%;height:27%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:950;font-size:clamp(14px,2vw,25px);letter-spacing:.1em;color:#fff;text-shadow:0 0 4px #fff,0 0 14px #20c8ff,0 0 26px #20c8ff;pointer-events:none}
-.cabinet-meta{text-align:center;margin-top:-18px;position:relative}.subtitle{display:block;color:rgba(255,255,255,.72);font-size:11px;letter-spacing:.12em;text-transform:uppercase}.play{display:inline-block;margin-top:6px;padding:6px 15px;border:1px solid #20c8ff;border-radius:999px;background:rgba(4,2,12,.78);font-size:10px;font-weight:900;letter-spacing:.16em;box-shadow:0 0 10px rgba(32,200,255,.55)}
-@media(max-width:760px){.page{padding:8px 12px 70px}.hero{min-height:225px}.game-grid{grid-template-columns:minmax(0,420px);justify-content:center;gap:36px}.cabinet-meta{margin-top:-12px}.cabinet-title{font-size:clamp(13px,4vw,20px)}.cabinet-screen{font-size:clamp(16px,5vw,27px)}body:before{background-position:center top}}
-@media(min-width:761px) and (max-width:1050px){.game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.cabinet:hover{transform:translateY(-8px);filter:brightness(1.06) drop-shadow(0 18px 22px rgba(0,0,0,.75))}
+.cabinet-art{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 16px rgba(0,0,0,.72))}
+.cabinet-meta{text-align:center;margin-top:-4px;position:relative}
+.subtitle{display:block;color:rgba(255,255,255,.78);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 2px 6px #000}
+.play{display:inline-block;margin-top:6px;padding:6px 15px;border:1px solid #20c8ff;border-radius:999px;background:rgba(4,2,12,.8);font-size:10px;font-weight:900;letter-spacing:.16em;box-shadow:0 0 10px rgba(32,200,255,.55)}
+@media(max-width:900px){.page{padding:8px 12px 64px}.hero{min-height:210px}.game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}}
+@media(max-width:600px){.game-grid{grid-template-columns:minmax(0,430px);justify-content:center;gap:32px}.hero{min-height:205px}.cabinet-meta{margin-top:-2px}body:before{background-position:center top}}
 @media(prefers-reduced-motion:reduce){.cabinet{transition:none}}
 </style>
 </head>
@@ -33,7 +35,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 </main>
 <script src="./games.js"></script>
 <script>
-(()=>{const games=window.OURCADE_GAMES||[];document.getElementById("game-grid").innerHTML=games.map(g=>`<a class="cabinet-link" href="${g.href}" aria-label="Play ${esc(g.title)}"><article class="cabinet"><img class="cabinet-art" src="./cabinet.svg" alt="" aria-hidden="true"><div class="cabinet-title">${esc(g.title)}</div><div class="cabinet-screen">${esc(g.screen||g.title)}</div><div class="cabinet-meta"><span class="subtitle">${esc(g.subtitle||"")}</span><span class="play">PLAY</span></div></article></a>`).join("");function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}})();
+(()=>{const games=window.OURCADE_GAMES||[];document.getElementById("game-grid").innerHTML=games.map(g=>`<a class="cabinet-link" href="${esc(g.href)}" aria-label="Play ${esc(g.title)}"><article class="cabinet"><img class="cabinet-art" src="${esc(g.image)}" alt="${esc(g.title)} arcade cabinet" loading="lazy"><div class="cabinet-meta"><span class="subtitle">${esc(g.subtitle||"")}</span><span class="play">PLAY</span></div></article></a>`).join("");function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}})();
 </script>
 </body>
 </html>
