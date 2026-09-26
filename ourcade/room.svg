@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#090719"/><stop offset=".55" stop-color="#16091f"/><stop offset="1" stop-color="#05050d"/></linearGradient>
+ <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#080712"/><stop offset="1" stop-color="#010106"/></linearGradient>
+ <linearGradient id="ceiling" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#03030a"/><stop offset="1" stop-color="#0c0716"/></linearGradient>
+ <pattern id="brick" width="150" height="54" patternUnits="userSpaceOnUse">
+   <rect width="150" height="54" fill="none" stroke="#4c244d" stroke-width="3"/>
+   <path d="M75 0V54" stroke="#351a3a" stroke-width="3"/>
+ </pattern>
+ <pattern id="tiles" width="120" height="70" patternUnits="userSpaceOnUse">
+   <path d="M0 0H120M0 0V70" stroke="#29263c" stroke-width="2"/>
+ </pattern>
+ <filter id="neon"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <radialGradient id="pinkGlow"><stop stop-color="#ff1bd8" stop-opacity=".65"/><stop offset="1" stop-color="#ff1bd8" stop-opacity="0"/></radialGradient>
+ <radialGradient id="blueGlow"><stop stop-color="#20c8ff" stop-opacity=".6"/><stop offset="1" stop-color="#20c8ff" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1600" height="1000" fill="#020207"/>
+<!-- ceiling -->
+<path d="M0 0H1600V180L1120 245H480L0 180Z" fill="url(#ceiling)"/>
+<path d="M0 180L480 245H1120L1600 180" fill="none" stroke="#281a36" stroke-width="8"/>
+<!-- back wall -->
+<path d="M0 180L480 245H1120L1600 180V650H0Z" fill="url(#wall)"/>
+<path d="M0 180L480 245H1120L1600 180V650H0Z" fill="url(#brick)" opacity=".48"/>
+<!-- side walls -->
+<path d="M0 180L480 245V650L0 900Z" fill="#0c0715"/>
+<path d="M1600 180L1120 245V650L1600 900Z" fill="#0c0715"/>
+<!-- neon atmosphere -->
+<ellipse cx="310" cy="335" rx="330" ry="270" fill="url(#pinkGlow)"/>
+<ellipse cx="1290" cy="330" rx="330" ry="270" fill="url(#blueGlow)"/>
+<!-- signs -->
+<g filter="url(#neon)">
+ <rect x="92" y="260" width="320" height="112" rx="14" fill="#090611" stroke="#ff20d5" stroke-width="7"/>
+ <text x="252" y="330" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="55" fill="#fff" stroke="#ff20d5" stroke-width="3">PLAY</text>
+</g>
+<g filter="url(#neon)">
+ <rect x="1188" y="260" width="320" height="112" rx="14" fill="#090611" stroke="#20c8ff" stroke-width="7"/>
+ <text x="1348" y="330" text-anchor="middle" font-family="Arial Black,sans-serif" font-size="50" fill="#fff" stroke="#20c8ff" stroke-width="3">ARCADE</text>
+</g>
+<!-- center wall neon -->
+<path d="M535 205H1065" stroke="#ff25d9" stroke-width="7" filter="url(#neon)"/>
+<path d="M575 225H1025" stroke="#20c8ff" stroke-width="4" filter="url(#neon)"/>
+<!-- floor -->
+<path d="M0 650H1600L1600 1000H0Z" fill="url(#floor)"/>
+<path d="M0 650L800 715L1600 650" fill="none" stroke="#3c2851" stroke-width="5"/>
+<path d="M0 730L800 760L1600 730M0 815L800 840L1600 815M0 900L800 915L1600 900" fill="none" stroke="#241b34" stroke-width="4"/>
+<path d="M180 650L600 1000M430 650L690 1000M1170 650L910 1000M1420 650L1000 1000M800 650V1000" stroke="#1b1630" stroke-width="4"/>
+<!-- foreground glow -->
+<ellipse cx="800" cy="800" rx="700" ry="260" fill="url(#blueGlow)" opacity=".18"/>
+<ellipse cx="800" cy="780" rx="500" ry="210" fill="url(#pinkGlow)" opacity=".12"/>
+</svg>
