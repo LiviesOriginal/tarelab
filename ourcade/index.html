@@ -41,7 +41,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 </main>
 <script src="./games.js"></script>
 <script>
-(()=>{const games=window.OURCADE_GAMES||[];document.getElementById("game-grid").innerHTML=games.map(g=>`<a class="cabinet-link" href="${esc(g.href)}" aria-label="Play ${esc(g.title)}"><article class="cabinet cabinet--${esc(g.id)}"><img class="cabinet-art" src="${esc(g.image)}" alt="${esc(g.title)} arcade cabinet" loading="lazy"><div class="cabinet-meta"><span class="subtitle">${esc(g.subtitle||"")}</span><span class="play">PLAY</span></div></article></a>`).join("");function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}})();
+(()=>{const games=window.OURCADE_GAMES||[];document.getElementById("game-grid").innerHTML=games.map(g=>`<a class="cabinet-link" href="${esc(g.href)}" aria-label="Play ${esc(g.title)}"><article class="cabinet cabinet--${esc(g.id)}"><img class="cabinet-art" src="${esc(g.image)}" alt="${esc(g.title)} arcade cabinet" loading="lazy"></article></a>`).join("");function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}})();
 </script>
 </body>
 </html>
