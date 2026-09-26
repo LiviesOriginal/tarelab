@@ -2,6 +2,7 @@
 const REPO='https://raw.githubusercontent.com/sunny567s35/Galaga_game/main/galaga/';
 const IMG={player:REPO+'images/player.png',enemy:REPO+'images/enemy-2.png',enemy2:REPO+'images/enemy-1.png',enemy3:REPO+'images/enemy.png',bullet:REPO+'images/missile2.png',enemyBullet:REPO+'images/missile1.png',stars:REPO+'images/stars.png',blast:REPO+'images/blast.gif'};
 const AUDIO={music:REPO+'audio/galaga.mp3',laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
+const SPEED={ship:7.5};
 
 const messages=[
  "Live for the applause, applause, applause 👏",
@@ -60,7 +61,7 @@ function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class
   bindControls(); draw(); requestAnimationFrame(loop);
 }
 function toggleInGameSound(){sound=!sound;localStorage.setItem('galigaga-sound',sound?'on':'off');if(!sound)stopMusic(); else play(AUDIO.music,true);document.querySelector('#mute').textContent='SOUND: '+(sound?'ON':'OFF');}
-function bindControls(){const arena=document.querySelector('#arena');let firing=false;let activeTouch=false;
+function bindControls(){const arena=document.querySelector('#arena');let firing=false;let activeTouch=false; const stepX=()=>SPEED.ship/arena.getBoundingClientRect().width*100; const stepY=()=>SPEED.ship/arena.getBoundingClientRect().height*100;
  const setPosition=(clientX,clientY)=>{const r=arena.getBoundingClientRect();const x=(clientX-r.left)/r.width*100;const y=(clientY-r.top)/r.height*100;state.player.targetX=Math.max(7,Math.min(93,x));state.player.targetY=Math.max(50,Math.min(92,y));};
  const stopFire=()=>{firing=false;activeTouch=false;};
  const start=(e)=>{const p=e.touches?.[0]||e;setPosition(p.clientX,p.clientY);firing=true;activeTouch=true;e.preventDefault?.();};
@@ -68,11 +69,16 @@ function bindControls(){const arena=document.querySelector('#arena');let firing=
  arena.addEventListener('pointerdown',start,{passive:false});arena.addEventListener('pointermove',move,{passive:false});arena.addEventListener('pointerup',stopFire);arena.addEventListener('pointercancel',stopFire);
  arena.addEventListener('touchstart',start,{passive:false});arena.addEventListener('touchmove',move,{passive:false});arena.addEventListener('touchend',stopFire,{passive:true});arena.addEventListener('touchcancel',stopFire,{passive:true});
  window.addEventListener('pointerup',stopFire);window.addEventListener('blur',stopFire);
- window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-4);if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+4);if(e.key==='ArrowUp')state.player.targetY=Math.max(50,state.player.targetY-3);if(e.key==='ArrowDown')state.player.targetY=Math.min(92,state.player.targetY+3);});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
+ window.addEventListener('keydown',e=>{if(e.key===' '){firing=true;e.preventDefault()}if(e.key==='ArrowLeft')state.player.targetX=Math.max(7,state.player.targetX-stepX());if(e.key==='ArrowRight')state.player.targetX=Math.min(93,state.player.targetX+stepX());if(e.key==='ArrowUp')state.player.targetY=Math.max(50,state.player.targetY-stepY());if(e.key==='ArrowDown')state.player.targetY=Math.min(92,state.player.targetY+stepY());});window.addEventListener('keyup',e=>{if(e.key===' ')firing=false});state.isFiring=()=>firing;}
 function loop(t){if(!state?.playing)return; update(t);draw();requestAnimationFrame(loop);}
 function update(t){
- state.player.x += (state.player.targetX - state.player.x) * 0.18;
- state.player.y += (state.player.targetY - state.player.y) * 0.18;
+ const arena=document.querySelector('#arena');
+ const rect=arena?.getBoundingClientRect();
+ const maxStepX=rect?SPEED.ship/rect.width*100:0;
+ const maxStepY=rect?SPEED.ship/rect.height*100:0;
+ const move=(current,target,maxStep)=>Math.abs(target-current)<=maxStep?target:current+Math.sign(target-current)*maxStep;
+ state.player.x=move(state.player.x,state.player.targetX,maxStepX);
+ state.player.y=move(state.player.y,state.player.targetY,maxStepY);
  if(state.isFiring?.() && t-state.lastShot>190){state.shots.push({x:state.player.x,y:state.player.y-4});state.lastShot=t;play(AUDIO.laser);}
  state.shots.forEach(s=>s.y-=1.6); state.shots=state.shots.filter(s=>s.y>-5);
  state.formationDir=state.formationDir; state.enemies.forEach(e=>{if(!e.alive)return; if(!e.diving)e.x+=state.formationDir*.035; else {e.phase+=.07;e.y+=.16;e.x+=Math.sin(e.phase)*.45;if(e.y>96){e.diving=false;e.y=17+e.row*8;e.x=10+Math.random()*80;}}});
