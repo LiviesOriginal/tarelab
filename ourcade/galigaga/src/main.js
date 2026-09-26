@@ -16,28 +16,18 @@ const KEY='galigaga-high-scores';
 let scores=JSON.parse(localStorage.getItem(KEY)||'[]');
 let sound=localStorage.getItem('galigaga-sound')!=='off';
 let audio={};
-let audioCtx=null, musicBuffer=null, musicSource=null;
-async function loadMusic(){
-  if(musicBuffer)return musicBuffer;
-  audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();
-  const res=await fetch(AUDIO.music);
-  const data=await res.arrayBuffer();
-  musicBuffer=await audioCtx.decodeAudioData(data);
-  return musicBuffer;
-}
-async function playMusic(){
+function playMusic(){
   if(!sound)return;
-  await loadMusic();
-  if(audioCtx.state==='suspended')await audioCtx.resume();
-  stopMusicWA();
-  musicSource=audioCtx.createBufferSource();
-  musicSource.buffer=musicBuffer;
-  musicSource.loop=true;
-  musicSource.connect(audioCtx.destination);
-  musicSource.start(0);
+  if(!audio.music){
+    audio.music=new Audio(AUDIO.music);
+    audio.music.loop=true;
+    audio.music.volume=.35;
+    audio.music.preload='auto';
+  }
+  const p=audio.music.play();
+  if(p?.catch)p.catch(()=>{});
 }
-function stopMusicWA(){if(musicSource){try{musicSource.stop();}catch{} musicSource=null;}}
-function stopMusic(){if(audio.music){audio.music.pause();audio.music.currentTime=0;audio.music=null;} stopMusicWA();}
+function stopMusic(){if(audio.music){audio.music.pause();audio.music.currentTime=0;}}
 let state=null;
 
 function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -100,7 +90,7 @@ function update(t){
   const moveStep=2.5*frameScale;
   if(keys['ArrowLeft'])state.player.targetX=Math.max(7,state.player.targetX-moveStep);
   if(keys['ArrowRight'])state.player.targetX=Math.min(93,state.player.targetX+moveStep);
-  if(keys['ArrowUp'])state.player.targetY=Math.max(50,state.player.targetY-moveStep);
+  if(keys['ArrowUp'])state.player.targetY=Math.max(18,state.player.targetY-moveStep);
   if(keys['ArrowDown'])state.player.targetY=Math.min(92,state.player.targetY+moveStep);
  const dx=state.player.targetX-state.player.x;
  const dy=state.player.targetY-state.player.y;
