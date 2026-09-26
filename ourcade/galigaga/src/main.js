@@ -1,6 +1,6 @@
 const REPO='https://raw.githubusercontent.com/sunny567s35/Galaga_game/main/galaga/';
 const IMG={player:REPO+'images/player.png',enemy:REPO+'images/enemy-2.png',enemy2:REPO+'images/enemy-1.png',enemy3:REPO+'images/enemy.png',bullet:REPO+'images/missile2.png',enemyBullet:REPO+'images/missile1.png',stars:REPO+'images/stars.png',blast:REPO+'images/blast.gif'};
-const AUDIO={music:new URL('./audio/applause-loop.ogg',document.baseURI).href,laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
+const AUDIO={music:new URL('./audio/applause-loop.mp3',document.baseURI).href,laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
 const keys={};
 const SPEED={ship:12};
 
