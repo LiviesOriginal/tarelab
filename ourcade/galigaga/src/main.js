@@ -26,7 +26,6 @@ function playMusic(){
     audio.music.preload='auto';
     audio.music.setAttribute('playsinline','');
   }
-  audio.music.load();
   const p=audio.music.play();
   if(p?.catch)p.catch(()=>{});
 }
