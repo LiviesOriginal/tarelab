@@ -4,12 +4,12 @@ const IMG={player:REPO+'images/player.png',enemy:REPO+'images/enemy-2.png',enemy
 const AUDIO={music:REPO+'audio/galaga.mp3',laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
 
 const messages=[
- "You’re my favorite space cadet 🚀",
- "Cosmic champion — I knew you had it 🌟",
- "That’s my favorite pilot right there 🚀",
- "The aliens won this round. You’re still my star ⭐",
- "You flew farther than most of the universe 💫",
- "One more? I like watching you play 🚀"
+ "Live for the applause, applause, applause 👏",
+ "You're on the Edge of Glory! 🌟",
+ "Hold your head up, girl, and you'll go far 🚀",
+ "Baby you were born this way ⭐",
+ "The only war worth fighting for 💫",
+ "You're far from the shallow now 🚀"
 ];
 const KEY='galigaga-high-scores';
 let scores=JSON.parse(localStorage.getItem(KEY)||'[]');
