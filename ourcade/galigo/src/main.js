@@ -52,9 +52,8 @@ function makeWave(){
   state.enemies=[]; const rows=3, cols=7; for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)state.enemies.push({x:16+c*11.3,y:17+r*8,alive:true,row:r,diving:false,phase:Math.random()*6});
 }
 function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class="game-screen">
-  <header class="hud"><div>SCORE <b id="score">00000</b></div><div class="stage">STAGE ${String(state.level).padStart(2,'0')}-${state.screen}</div><div class="lives" id="lives">${hearts(state.lives)}</div></header>
+  <header class="hud"><div class="hud-left"><button id="mute" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button><div>SCORE <b id="score">00000</b></div></div><div class="stage">STAGE ${String(state.level).padStart(2,'0')}<span>SCREEN ${state.screen}</span></div><div class="hud-right"><div class="lives" id="lives">${hearts(state.lives)}</div><button id="menu" class="small-btn">MENU</button></div></header>
   <div id="arena"><div class="formation" id="formation"></div><div id="shots"></div><div id="enemyShots"></div><img id="ship" class="ship" src="${IMG.player}"/></div>
-  <nav class="game-nav"><button id="mute" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button><button id="menu" class="small-btn">MENU</button></nav>
   <div class="touch-hint">DRAG TO MOVE • HOLD TO FIRE</div>
 </section>`);
   document.querySelector('#menu').onclick=()=>title(); document.querySelector('#mute').onclick=()=>toggleInGameSound();
