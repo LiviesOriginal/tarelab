@@ -22,7 +22,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 .hero{min-height:250px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}
 .logo{margin:0;font-size:clamp(54px,9vw,124px);font-weight:950;letter-spacing:.04em;line-height:.8;color:#fff;text-shadow:0 0 4px #fff,0 0 13px #ff1bd8,0 0 32px #ff1bd8,0 0 70px rgba(255,27,216,.7)}
 .tagline{margin-top:22px;padding:7px 18px;border:2px solid #20c8ff;background:rgba(4,2,13,.58);font-size:clamp(11px,1.5vw,17px);font-weight:900;letter-spacing:.2em;box-shadow:0 0 8px #20c8ff,0 0 24px rgba(32,200,255,.55)}
-.game-grid{width:min(1380px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 16px;align-items:end}
+.game-grid{width:min(1380px,100%);margin:230px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 16px;align-items:end}
 .cabinet-link{display:block;color:#fff;text-decoration:none;touch-action:manipulation}
 .cabinet{position:relative;transition:transform .2s ease,filter .2s ease}
 .cabinet:hover{transform:translateY(-8px);filter:brightness(1.06) drop-shadow(0 18px 22px rgba(0,0,0,.75))}
@@ -30,8 +30,8 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradie
 .cabinet-meta{text-align:center;margin-top:-4px;position:relative}
 .subtitle{display:block;color:rgba(255,255,255,.78);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-shadow:0 2px 6px #000}
 .play{display:inline-block;margin-top:6px;padding:6px 15px;border:1px solid #20c8ff;border-radius:999px;background:rgba(4,2,12,.8);font-size:10px;font-weight:900;letter-spacing:.16em;box-shadow:0 0 10px rgba(32,200,255,.55)}
-@media(max-width:900px){.page{padding:8px 12px 64px}.hero{min-height:210px}.game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}}
-@media(max-width:600px){.game-grid{grid-template-columns:minmax(0,430px);justify-content:center;gap:32px}.hero{min-height:205px}.cabinet-meta{margin-top:-2px}body:before{background-position:center top}}
+@media(max-width:900px){.page{padding:8px 12px 64px}.hero{min-height:210px}.game-grid{margin-top:190px;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}}
+@media(max-width:600px){.game-grid{margin-top:150px;grid-template-columns:minmax(0,430px);justify-content:center;gap:32px}.hero{min-height:205px}.cabinet-meta{margin-top:-2px}body:before{background-position:center top}}
 @media(prefers-reduced-motion:reduce){.cabinet{transition:none}}
 </style>
 </head>
