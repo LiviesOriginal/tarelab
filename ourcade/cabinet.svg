@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 900" role="img" aria-label="Arcade cabinet">
+<defs>
+  <linearGradient id="body" x1="0" x2="1"><stop stop-color="#090a12"/><stop offset=".5" stop-color="#242536"/><stop offset=".8" stop-color="#11121d"/><stop offset="1" stop-color="#05060a"/></linearGradient>
+  <linearGradient id="side" x1="0" x2="1"><stop stop-color="#070811"/><stop offset=".55" stop-color="#171827"/><stop offset="1" stop-color="#05060b"/></linearGradient>
+  <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#3c3d4a"/><stop offset=".2" stop-color="#171925"/><stop offset="1" stop-color="#080911"/></linearGradient>
+  <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#111a2b"/><stop offset=".5" stop-color="#03070e"/><stop offset="1" stop-color="#172034"/></linearGradient>
+  <filter id="glow"><feGaussianBlur stdDeviation="7" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="soft"><feGaussianBlur stdDeviation="2.5"/></filter>
+</defs>
+<!-- soft shadow -->
+<ellipse cx="250" cy="875" rx="195" ry="20" fill="#000" opacity=".65" filter="url(#soft)"/>
+<!-- cabinet body -->
+<path d="M70 850 L70 170 Q70 115 118 92 L151 77 L151 38 Q151 25 166 25 L400 25 Q415 25 415 42 L415 100 Q442 123 442 173 L442 850 Z" fill="url(#body)" stroke="#4a4d62" stroke-width="5"/>
+<!-- left/right side depth -->
+<path d="M70 170 Q70 115 118 92 L151 77 L151 850 L70 850 Z" fill="url(#side)" opacity=".92"/>
+<path d="M415 100 Q442 123 442 173 L442 850 L401 850 L401 83 Z" fill="#080910" opacity=".9"/>
+<!-- neon edge -->
+<path d="M86 837 L86 174 Q86 131 124 112 L160 94 L160 52 L405 52 L405 113 Q426 135 426 174 L426 837" fill="none" stroke="#20c8ff" stroke-width="7" filter="url(#glow)"/>
+<path d="M86 837 L86 174 Q86 131 124 112 L160 94 L160 52 L405 52 L405 113 Q426 135 426 174 L426 837" fill="none" stroke="#7ef5ff" stroke-width="2"/>
+<!-- marquee -->
+<path d="M112 70 L391 70 L405 112 L99 112 Z" fill="#0b0c15" stroke="#ff25d9" stroke-width="5" filter="url(#glow)"/>
+<path d="M112 70 L391 70 L405 112 L99 112 Z" fill="#171020" stroke="#ff8bea" stroke-width="2"/>
+<rect x="125" y="77" width="250" height="22" rx="8" fill="#ff22d4" opacity=".25"/>
+<!-- screen housing -->
+<path d="M112 138 Q112 126 125 122 L376 122 Q389 126 389 138 L382 400 Q381 414 367 418 L133 418 Q119 414 118 400 Z" fill="#06070d" stroke="#5c6072" stroke-width="6"/>
+<path d="M137 156 Q137 144 150 141 L351 141 Q364 144 364 156 L358 374 Q357 386 345 389 L155 389 Q143 386 142 374 Z" fill="url(#screen)" stroke="#1eecff" stroke-width="4"/>
+<path d="M145 153 L356 153" stroke="#fff" opacity=".25" stroke-width="3"/>
+<!-- screen reflection -->
+<path d="M151 150 L226 150 L170 382 L146 374 Z" fill="#fff" opacity=".055"/>
+<!-- control deck -->
+<path d="M102 430 Q102 414 119 409 L381 409 Q398 414 398 430 L407 520 L93 520 Z" fill="url(#deck)" stroke="#515466" stroke-width="5"/>
+<path d="M105 438 L395 438" stroke="#ff2bd8" stroke-width="5" filter="url(#glow)"/>
+<path d="M126 463 Q126 446 143 442 L357 442 Q374 446 374 463 L378 500 L122 500 Z" fill="#0a0b12"/>
+<!-- joystick -->
+<circle cx="165" cy="475" r="25" fill="#171923" stroke="#626676" stroke-width="3"/>
+<rect x="159" y="418" width="12" height="60" rx="6" fill="#777b88"/>
+<circle cx="165" cy="412" r="19" fill="#20c8ff" stroke="#a4f8ff" stroke-width="3" filter="url(#glow)"/>
+<!-- buttons -->
+<g stroke="#fff" stroke-opacity=".28" stroke-width="2" filter="url(#glow)">
+ <circle cx="292" cy="466" r="16" fill="#ff2bd8"/><circle cx="329" cy="458" r="16" fill="#ffb52f"/><circle cx="362" cy="470" r="16" fill="#48ff8d"/>
+</g>
+<!-- coin door -->
+<rect x="145" y="555" width="210" height="220" rx="12" fill="#0a0b12" stroke="#383b4b" stroke-width="5"/>
+<rect x="169" y="580" width="162" height="118" rx="8" fill="#11131c" stroke="#222634" stroke-width="3"/>
+<circle cx="250" cy="618" r="20" fill="#161925" stroke="#626676" stroke-width="4"/>
+<rect x="230" y="661" width="40" height="9" rx="4" fill="#242837"/>
+<rect x="191" y="720" width="118" height="28" rx="14" fill="#151722" stroke="#35394a" stroke-width="3"/>
+<circle cx="250" cy="734" r="6" fill="#ff25d9" filter="url(#glow)"/>
+<!-- lower neon -->
+<path d="M102 812 L398 812" stroke="#20c8ff" stroke-width="6" filter="url(#glow)"/>
+<path d="M100 840 L400 840" stroke="#ff25d9" stroke-width="3" opacity=".8"/>
+<!-- feet -->
+<path d="M115 850 L150 850 L141 875 L107 875 Z M350 850 L385 850 L393 875 L359 875 Z" fill="#06070b"/>
+</svg>
