@@ -8,7 +8,7 @@ This Book Made Me Think of You | Libby Page | 9798217186990
 Women did, in fact, serve in Nam.
 - Words were creators of worlds. You had to be careful with them.
 - “Maybe happy now, happy for a moment, is all we really get. Happy forever seems a shitload to ask in a world on fire.” - Barb
-- It became a cycle, like the ebb and flow of the tide. She stopped visiting her parents, stopped answering the phone, stopped writing letters to her friends. She didn’t want to hear their pep talks, and no wanted to listen to her despair.
+- It became a cycle, like the ebb and flow of the tide. She stopped visiting her parents, stopped answering the phone, stopped writing letters to her friends. She didn’t want to hear their pep talks, and no one wanted to listen to her despair.
 
 ## Next Time Will Be Our Turn | Jessie Q. Sutanto | 5 | 5 | 9780593816875
 The story of Magnolia, her family, and the love of her life.
