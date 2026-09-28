@@ -1,4 +1,8 @@
 # Read
+## My Friends | Fredrik Backman | 5 | 9781982121655
+Art and love and disappointment and living despite of it all. I could quote this entire book.
+- "Art is coincidence. Love is chaos." - Ted
+
 ## Into the Blue | Emma Brodie | 4 | 9798217093700
 They push each other away for decades then end up together in the end.
 - "Falling in love is like being a celebrity to one person."
