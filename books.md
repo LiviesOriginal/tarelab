@@ -1,5 +1,5 @@
 # Roxy's list (9/9/2026)
-The Invisible Life of Addie Larue | V.E. Schwab | 9780765387578
+The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
 Midnight Rain | Haley Cass | 9798988492993
 This Book Made Me Think of You | Libby Page | 9798217186990
 
