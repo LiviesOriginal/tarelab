@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/moonfavicon.svg">
+
+<style>
+:root{
+  --paper:#f5f0e8;
+  --paper-2:#ebe3d7;
+  --ink:#171514;
+  --muted:#756d66;
+  --line:#cfc5b8;
+  --accent:#8b2f58;
+  --accent-soft:#ead8df;
+  --green:#31564d;
+  --gold:#a97824;
+  --measure:1280px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"DM Sans",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.5;
+}
+a{color:inherit}
+.wrap{max-width:var(--measure);margin:0 auto;padding:38px 42px 90px}
+.masthead{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:32px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--ink);
+}
+.brand{
+  display:flex;
+  align-items:baseline;
+  gap:18px;
+}
+h1{
+  font-family:"DM Serif Display",Georgia,serif;
+  font-weight:400;
+  font-size:clamp(44px,7vw,88px);
+  line-height:.9;
+  letter-spacing:-.045em;
+  margin:0;
+}
+.masthead-note{
+  max-width:280px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.4;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+.nav{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  padding:13px 0 0;
+  margin:0 0 55px;
+}
+.nav a{
+  text-decoration:none;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+}
+.nav a:hover{color:var(--accent)}
+
+.section{scroll-margin-top:20px}
+.section-title{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin:0 0 22px;
+}
+.section-title h2{
+  margin:0;
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:42px;
+  font-weight:400;
+  line-height:1;
+  letter-spacing:-.025em;
+}
+.section-title .kicker{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.reading{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--ink);
+  border:1px solid var(--ink);
+}
+.reader{
+  background:var(--paper);
+  padding:28px 30px 34px;
+  min-width:0;
+}
+.reader-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  border-bottom:1px solid var(--line);
+  padding-bottom:10px;
+  margin-bottom:25px;
+}
+.reader-name{
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.14em;
+}
+.reader-label{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.book-feature{
+  display:grid;
+  grid-template-columns:minmax(120px,180px) 1fr;
+  gap:28px;
+  align-items:start;
+}
+.feature-cover{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  display:block;
+}
+.feature-cover.ph{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:17px;
+  text-align:center;
+}
+.book-meta{padding-top:2px}
+.book-title{
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:29px;
+  line-height:1.04;
+  letter-spacing:-.025em;
+  text-decoration:none;
+}
+.book-title:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.author{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:13px;
+}
+.book-index{
+  margin-top:30px;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+.empty-reader{
+  color:var(--muted);
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:24px;
+  padding:12px 0 45px;
+}
+
+.future{
+  margin-top:86px;
+}
+.future-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--ink);
+  border-left:1px solid var(--ink);
+}
+.future-category{
+  min-width:0;
+  min-height:250px;
+  padding:18px 20px 25px;
+  border-right:1px solid var(--ink);
+  border-bottom:1px solid var(--ink);
+}
+.future-category h3{
+  margin:0 0 25px;
+  font-size:10px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.future-book{
+  padding:0 0 15px;
+  margin-bottom:15px;
+  border-bottom:1px solid var(--line);
+}
+.future-book:last-child{border-bottom:0;margin-bottom:0}
+.future-book .book-title{
+  font-size:22px;
+}
+.future-book .author{font-size:12px}
+
+.read-section{margin-top:92px}
+.year{
+  margin-top:50px;
+}
+.year:first-of-type{margin-top:0}
+.year-label{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:10px;
+}
+.year-label strong{
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:29px;
+  font-weight:400;
+}
+.year-label span{
+  height:1px;
+  flex:1;
+  background:var(--line);
+}
+.read-table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+.read-table th{
+  padding:10px 12px;
+  text-align:left;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  border-bottom:1px solid var(--ink);
+}
+.read-table th:nth-child(1){width:38%}
+.read-table th:nth-child(2){width:20%}
+.read-table th:nth-child(3),.read-table th:nth-child(4){width:21%;text-align:right}
+.read-row>td{
+  padding:17px 12px;
+  vertical-align:top;
+  border-bottom:1px solid var(--line);
+}
+.read-row:hover{background:rgba(255,255,255,.22)}
+.read-book{
+  display:flex;
+  gap:15px;
+  align-items:flex-start;
+}
+.table-cover{
+  width:38px;
+  height:57px;
+  flex:0 0 38px;
+  object-fit:cover;
+}
+.table-cover.ph{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--paper-2);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:7px;
+  line-height:1;
+  text-align:center;
+}
+.read-book-title{
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:21px;
+  line-height:1.08;
+}
+.read-author{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+.stars{
+  white-space:nowrap;
+  color:var(--gold);
+  letter-spacing:.03em;
+}
+.stars .off{color:var(--line)}
+.rating-cell{text-align:right}
+.rating-wrap{display:inline-flex;gap:7px;align-items:center}
+.rating-reader{
+  color:var(--muted);
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.08em;
+}
+.detail-row td{
+  padding:0 12px 25px;
+  border-bottom:1px solid var(--line);
+}
+.review{
+  max-width:850px;
+  margin:0 0 16px 53px;
+  font-size:14px;
+  line-height:1.55;
+}
+.quotes{
+  max-width:850px;
+  margin:0 0 0 53px;
+  padding:0;
+  list-style:none;
+}
+.quotes li{
+  color:var(--muted);
+  font-family:"DM Serif Display",Georgia,serif;
+  font-size:17px;
+  line-height:1.4;
+  padding:10px 0;
+  border-top:1px solid var(--line);
+}
+.quotes li:first-child{border-top:0}
+
+.state{color:var(--muted);font-style:italic}
+.section-end{text-align:right;margin-top:10px}
+.section-end a{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  text-decoration:none;
+}
+.section-end a:hover{color:var(--accent)}
+
+@media(max-width:800px){
+  .wrap{padding:25px 20px 70px}
+  .masthead{display:block}
+  .masthead-note{margin-top:13px}
+  .nav{margin-bottom:42px}
+  .reading{grid-template-columns:1fr}
+  .future-grid{grid-template-columns:1fr 1fr}
+  .future-category{min-height:200px}
+}
+@media(max-width:560px){
+  body{font-size:15px}
+  .wrap{padding:22px 14px 55px}
+  h1{font-size:56px}
+  .brand{display:block}
+  .masthead-note{max-width:230px}
+  .nav{gap:14px;margin-bottom:36px}
+  .section-title h2{font-size:34px}
+  .reader{padding:22px 18px 27px}
+  .book-feature{grid-template-columns:105px 1fr;gap:18px}
+  .book-title{font-size:24px}
+  .future{margin-top:60px}
+  .future-grid{grid-template-columns:1fr}
+  .future-category{min-height:0;padding:17px}
+  .read-section{margin-top:65px}
+  .read-table th:nth-child(2){display:none}
+  .read-table th:nth-child(3),.read-table th:nth-child(4){width:25%}
+  .read-row>td:nth-child(2){display:none}
+  .read-row>td{padding:14px 5px}
+  .read-table th:first-child{padding-left:5px}
+  .read-book{gap:9px}
+  .table-cover{width:30px;height:45px;flex-basis:30px}
+  .read-book-title{font-size:17px}
+  .read-author{font-size:10px}
+  .rating-wrap{display:block}
+  .rating-reader{display:block;margin-bottom:2px}
+  .stars{font-size:12px}
+  .review,.quotes{margin-left:39px}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+<header class="masthead" id="top">
+  <div class="brand"><h1>Book Club</h1></div>
+  <div class="masthead-note">Two people, reading things.<br>Some together. Some not.</div>
+</header>
+
+<nav class="nav" aria-label="Book Club sections">
+  <a href="#reading">Reading</a>
+  <a href="#future">In the future</a>
+  <a href="#read">Read</a>
+</nav>
+
+<main id="shelf"><p class="state">Loading the shelf…</p></main>
+</div>
+
+<script>
+(()=> {
+const shelf=document.getElementById('shelf');
+const READERS=['RGF','LAB'];
+const PLACEHOLDER='/assets/no-cover.png';
+
+const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const cleanIsbn=s=>(s||'').replace(/[^0-9Xx]/g,'');
+const stars=v=>{
+  const n=Math.max(0,Math.min(5,parseInt(v,10)||0));
+  return '<span class="stars">'+[1,2,3,4,5].map(i=>'<span class="'+(i<=n?'on':'off')+'">★</span>').join('')+'</span>';
+};
+const bookUrl=isbn=>{
+  const q=encodeURIComponent(cleanIsbn(isbn));
+  return 'https://www.goodreads.com/search?q='+q;
+};
+const coverImg=(isbn,cls='table-cover')=>{
+  const clean=cleanIsbn(isbn);
+  if(!clean) return '<span class="'+cls+' ph">NO<br>COVER</span>';
+  return '<img class="'+cls+'" src="https://covers.openlibrary.org/b/isbn/'+encodeURIComponent(clean)+'-M.jpg?default=false" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+PLACEHOLDER+'\';this.alt=\'No cover available\'">';
+};
+const coverLink=(isbn,cls='table-cover')=>{
+  return '<a href="'+bookUrl(isbn)+'" target="_blank" rel="noopener">'+coverImg(isbn,cls)+'</a>';
+};
+
+function parse(md){
+  const lines=md.split(/\r?\n/), blocks=[];
+  let mode=null, currentReader=null, curBook=null, curRead=null, curList=null;
+
+  const flushBook=()=>{
+    if(curBook && curRead){
+      curBook.review=curBook.reviewLines.join(' ').trim();
+      curRead.books.push(curBook);
+      curBook=null;
+    }
+  };
+
+  for(const raw of lines){
+    const line=raw.replace(/\s+$/,'');
+    const h1=line.match(/^#\s+(.*)/);
+    if(h1){
+      flushBook();
+      const heading=h1[1].trim();
+      const low=heading.toLowerCase();
+
+      if(low==='read'){
+        curRead={type:'read',books:[]};
+        blocks.push(curRead); mode='read'; curList=null; currentReader=null;
+      } else if(/^to read - /i.test(heading) || /^in the future - /i.test(heading)){
+        curList={type:'list',title:heading.replace(/^In the future - /i,'To read - ') ,items:[]};
+        blocks.push(curList); mode='toread'; curRead=null; currentReader=null;
+      } else if(READERS.some(r=>r.toLowerCase()===low)){
+        currentReader=READERS.find(r=>r.toLowerCase()===low);
+        curRead={type:'reader',reader:currentReader,books:[]};
+        blocks.push(curRead); mode='reader'; curList=null;
+      } else if(/^next(?: - |: )/i.test(heading)){
+        const reader=heading.replace(/^next(?: - |: )/i,'').trim();
+        currentReader=reader;
+        curRead={type:'next',reader,books:[]};
+        blocks.push(curRead); mode='reader'; curList=null;
+      }
+      continue;
+    }
+
+    if(mode==='read'){
+      const bk=line.match(/^##\s+(.*)/);
+      if(bk){
+        flushBook();
+        const p=bk[1].split('|').map(s=>s.trim());
+        curBook={title:p[0]||'',author:p[1]||'',stars:[p[2]||'',p[3]||''],isbn:p[4]||'',date:p[5]||'',reviewLines:[],lines:[]};
+        continue;
+      }
+      if(!curBook) continue;
+      const fav=line.match(/^\s*-\s+(.*)/);
+      if(fav){curBook.lines.push(fav[1].trim());continue}
+      if(line.trim()==='')continue;
+      curBook.reviewLines.push(line.trim());
+    } else if(mode==='reader'){
+      const bk=line.match(/^(?:##\s+)?(.*)/);
+      if(!line.trim())continue;
+      const p=line.split('|').map(s=>s.trim());
+      if(p.length>=3){
+        curRead.books.push({title:p[0]||'',author:p[1]||'',isbn:p[2]||'',reader:currentReader});
+      }
+    } else if(mode==='toread'){
+      if(!line.trim()||!curList)continue;
+      const p=line.split('|').map(s=>s.trim());
+      curList.items.push({title:(p[0]||'').replace(/\s*\*\*\s*$/,''),author:p[1]||'',isbn:p[2]||''});
+    }
+  }
+  flushBook();
+  return blocks;
+}
+
+function byReader(blocks){
+  const out={};
+  READERS.forEach(r=>out[r]=[]);
+  blocks.filter(b=>b.type==='reader').forEach(b=>{
+    if(!out[b.reader])out[b.reader]=[];
+    out[b.reader]=out[b.reader].concat(b.books);
+  });
+  return out;
+}
+
+function readingSection(blocks){
+  const readers=byReader(blocks);
+  return '<section class="section" id="reading">'+
+    '<div class="section-title"><h2>Reading</h2><span class="kicker">right now</span></div>'+
+    '<div class="reading">'+READERS.map(r=>{
+      const b=readers[r]?.[0];
+      if(!b)return '<div class="reader"><div class="reader-head"><span class="reader-name">'+esc(r)+'</span><span class="reader-label">reading</span></div><div class="empty-reader">Nothing here yet.</div></div>';
+      return '<div class="reader"><div class="reader-head"><span class="reader-name">'+esc(r)+'</span><span class="reader-label">reading</span></div>'+
+        '<div class="book-feature">'+
+          '<a href="'+bookUrl(b.isbn)+'" target="_blank" rel="noopener">'+coverImg(b.isbn,'feature-cover')+'</a>'+
+          '<div class="book-meta"><a class="book-title" href="'+bookUrl(b.isbn)+'" target="_blank" rel="noopener">'+esc(b.title)+'</a>'+
+          '<div class="author">'+esc(b.author)+'</div><div class="book-index">01 / current</div></div>'+
+        '</div></div>';
+    }).join('')+'</div>'+
+    sectionEnd('reading')+'</section>';
+}
+
+function nextBlocks(blocks){
+  const next=blocks.filter(b=>b.type==='next');
+  if(!next.length)return '';
+  return '<section class="section" id="next">'+
+    '<div class="section-title"><h2>Next</h2><span class="kicker">one each</span></div>'+
+    '<div class="reading">'+next.map(b=>{
+      const book=b.books[0];
+      return '<div class="reader"><div class="reader-head"><span class="reader-name">'+esc(b.reader)+'</span><span class="reader-label">next</span></div>'+
+      (book?'<div class="book-feature"><a href="'+bookUrl(book.isbn)+'" target="_blank" rel="noopener">'+coverImg(book.isbn,'feature-cover')+'</a><div class="book-meta"><a class="book-title" href="'+bookUrl(book.isbn)+'" target="_blank" rel="noopener">'+esc(book.title)+'</a><div class="author">'+esc(book.author)+'</div></div></div>':'<div class="empty-reader">Nothing here yet.</div>')+
+      '</div>';
+    }).join('')+'</div></section>';
+}
+
+function futureSection(blocks){
+  const lists=blocks.filter(b=>b.type==='list');
+  if(!lists.length)return '';
+  const wanted=['General','Sapphic','Thrillers','Thriller','Classic','Classics'];
+  const ordered=[];
+  wanted.forEach(name=>{
+    const found=lists.find(b=>b.title.toLowerCase()==('to read - '+name).toLowerCase());
+    if(found && !ordered.includes(found))ordered.push(found);
+  });
+  lists.forEach(b=>{if(!ordered.includes(b))ordered.push(b)});
+  return '<section class="section future" id="future">'+
+    '<div class="section-title"><h2>In the future</h2><span class="kicker">less formal</span></div>'+
+    '<div class="future-grid">'+ordered.map(b=>{
+      const title=b.title.replace(/^To read - /i,'');
+      return '<div class="future-category"><h3>'+esc(title)+'</h3>'+
+        b.items.map(x=>'<div class="future-book"><a class="book-title" href="'+bookUrl(x.isbn)+'" target="_blank" rel="noopener">'+esc(x.title)+'</a><div class="author">'+esc(x.author)+'</div></div>').join('')+
+      '</div>';
+    }).join('')+'</div></section>';
+}
+
+function yearFor(book,index){
+  if(book.date){
+    const m=String(book.date).match(/\b(20\d{2})\b/);
+    if(m)return m[1];
+  }
+  return '2026';
+}
+
+function readSection(blocks){
+  const read=blocks.find(b=>b.type==='read');
+  if(!read?.books?.length)return '';
+  const groups={};
+  read.books.forEach((b,i)=>{const y=yearFor(b,i);(groups[y] ||= []).push(b)});
+  const years=Object.keys(groups).sort((a,b)=>b-a);
+
+  return '<section class="section read-section" id="read">'+
+    '<div class="section-title"><h2>Read</h2><span class="kicker">together, eventually</span></div>'+
+    years.map(year=>{
+      return '<div class="year"><div class="year-label"><strong>'+esc(year)+'</strong><span></span></div>'+
+      '<table class="read-table"><thead><tr><th>Book</th><th>Author</th><th>RGF</th><th>LAB</th></tr></thead><tbody>'+
+      groups[year].map(b=>{
+        return '<tr class="read-row"><td><div class="read-book">'+coverLink(b.isbn,'table-cover')+'<div><a class="read-book-title" href="'+bookUrl(b.isbn)+'" target="_blank" rel="noopener">'+esc(b.title)+'</a><div class="read-author">'+esc(b.author)+'</div></div></div></td>'+
+        '<td>'+esc(b.author)+'</td>'+
+        '<td class="rating-cell"><span class="rating-wrap"><span class="rating-reader">RGF</span>'+stars(b.stars[0])+'</span></td>'+
+        '<td class="rating-cell"><span class="rating-wrap"><span class="rating-reader">LAB</span>'+stars(b.stars[1])+'</span></td></tr>'+
+        ((b.review||b.lines.length)?'<tr class="detail-row"><td colspan="4">'+
+          (b.review?'<div class="review">'+esc(b.review)+'</div>':'')+
+          (b.lines.length?'<ul class="quotes">'+b.lines.map(q=>'<li>'+esc(q)+'</li>').join('')+'</ul>':'')+
+        '</td></tr>':'');
+      }).join('')+'</tbody></table></div>';
+    }).join('')+
+    '</section>';
+}
+
+function sectionEnd(id){
+  return '<div class="section-end"><a href="#top">Back to top</a></div>';
+}
+
+function render(blocks){
+  const html=readingSection(blocks)+nextBlocks(blocks)+futureSection(blocks)+readSection(blocks);
+  shelf.innerHTML=html || '<p class="state">No books yet — add some in books.md.</p>';
+}
+
+fetch('books.md?t='+Date.now(),{cache:'no-store'})
+.then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text()})
+.then(t=>render(parse(t)))
+.catch(err=>{
+  shelf.innerHTML='<p class="state">Couldn’t load <b>books.md</b> ('+esc(err.message)+').<br>Make sure books.md sits beside this page.</p>';
+});
+})();
+</script>
+</body>
+</html>
