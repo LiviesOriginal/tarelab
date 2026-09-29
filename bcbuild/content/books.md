@@ -1,0 +1,92 @@
+# Roxy's list (9/9/2026)
+The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
+Midnight Rain | Haley Cass | 9798988492993
+This Book Made Me Think of You | Libby Page | 9798217186990
+
+# Read
+## The Women | Kristen Hannah | 4 | 4 | 9781250178633
+Women did, in fact, serve in Nam.
+- Words were creators of worlds. You had to be careful with them.
+- “Maybe happy now, happy for a moment, is all we really get. Happy forever seems a shitload to ask in a world on fire.” - Barb
+- It became a cycle, like the ebb and flow of the tide. She stopped visiting her parents, stopped answering the phone, stopped writing letters to her friends. She didn’t want to hear their pep talks, and no one wanted to listen to her despair.
+
+## Next Time Will Be Our Turn | Jessie Q. Sutanto | 5 | 5 | 9780593816875
+The story of Magnolia, her family, and the love of her life.
+- "How does one cheat without cheating? One does it by loving every second spent together, consuming every moment with her greedily, memorizing every facet of her, down to the way she blinks her eyes. One does it by making up more and more excuses to spend time with her, running all sorts of mundane errands with her, like changing the oil in your car, which you know very well how to do, but you pretend not to so she'd have to come with you. One does it by thinking of her nonstop when she's not around. Wondering how she would react to every little thing that happens in your life. Whenever something funny or interesting or sad happens, you don't think, what would my husband say? You think, what would she say? How hard would she laugh at this? And this, and this?” - Magnolia
+-  "I love you, I love you. Still, the words weren't enough. I should have said, You are my world, Ellery. You are my home. I should have said, I was lost until you. I can only rest here, in your arms.” - Magnolia
+
+## Wrong Place Wrong Time | Gillian McAllister | 3 | 3 | 9780063252349 
+Kind of weird it can happen twice. The twist wasn't obvious. 
+- "Life's too long for this worry." - Kelly/Ryan
+
+## Daisy Jones & The Six | Taylor Jenkins Reid | 4 | 4 | 9781804945957
+Great cast narration made it extra enjoyable. Some of the songwriting chapters ran a bit long. Would recommend for TJR fans.
+- "You have to have faith in people before they earn it. Otherwise it’s not faith."
+
+## Yesteryear | Caro Claire Burke | 4 | 5 | 9780593804216
+Roxy hated Caleb. Earned an immediate re-read from Laz.
+- TBA
+
+## Delilah Green Doesn’t Care | Ashley Herring Blake | 3 | 3 | 9780593336403
+Middle of the road sapphic romance.
+- "My whole life, this is what I’ve wanted. A best friend. Someone who gets me, who accepts me. Someone who fights like hell to get me to see that they love me. Someone who lets me love them back. Someone who’s so goddamn beautiful, she makes my toes curl. Someone who calls me on my bullshit. Someone who makes me laugh. Someone who makes me look at her like this and looks at me the same way. Someone who . . . who’s my home."
+
+## Never Lie | Freida McFadden | 3 | 4 | 9781464221361
+It's a Freida.
+- TBA
+
+## Atmosphere | Taylor Jenkins Reid | 5 | 4 | 9780385695824
+Fitting follow-up to Evelyn Hugo, this is a sapphic office romance / ultimate long distance relationship story about finding your true family. Readers who like outer space are in for a treat.
+- "I feel like I could know you forever and still be curious about what you’re going to say next."
+- “I was circling two hundred miles above the Earth, and all I wanted was to get home and see you. Do you understand that? Do you understand that I don’t care how big or small this world is, that you are the center of mine? Do you understand that, to someone, you are everything that matters on this entire planet?”
+
+## The 7 Husbands of Evelyn Hugo | Taylor Jenkins Reid | 5 | 5 | 9798212224604
+Official first selection of the Book Club. Lovable characters that make you root for them despite of their flaws.
+- …there is nothing an extraordinary person likes more than someone else extraordinary.
+- "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
+
+# To read - General
+The Teacher ** | Freida McFadden | 9781728296210
+Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
+Beach Read ** | Emily Henry | 9788383210711
+A Thousand Splendid Suns | Khaled Hosseini | 9781594483851
+The Correspondent | Virginia Evans | 9780241721254
+The Bright Years | Sarah Damoff | 9781668061442
+The Great Alone | Kristen Hannah | 9781250229533
+FantasticLand (Saving for Spooky Season) | Mike Bockoven | 9781510737884
+Circe | Madeline Miller | 9780316556323
+We Were Liars | E. Lockhart | 9780385741279
+A Little Life (for when I want to cry) | Hanya Yanagihara | 9780804172707
+On Earth We’re Briefly Gorgeous | Ocean Vuong | 9780525562047
+The Last Thing He Told Me | Laura Dave | 9781501171369
+Before the Coffee Gets Cold | Toshikazu Kawaguchi | 9781335430991
+The Midnight Library | Matt Haig | 9780525559481
+The Calamity Club | Kathrynn Stockett | 9781954118812
+Theo of Golden | Allen Levi | 9781668236512
+
+# To read - Sapphic
+Late Bloomer ** | Mazey Eddings | 9781035404018
+Last Night at the Telegraph Club | Malinda Lo | 9780525555278
+Sweetbitter Song | Rosie Hewlett | 9781728299044
+Here We Go Again | Allison Cochran | 9781668021194
+Big Swiss | Jen Beagin | 9780571378586
+The Safekeep | Yael van der Wouden | 9781668034347
+Our Wives Under The Sea | Julia Armfield | 9781250229892
+Meet Me in the Garden | Nina LaCour | 9781250810472
+Don’t Let Me Go ** | Rachel Sommers | 9783690060127
+The Snowball Effect ** | Haley Cass | 9798988492986
+Midnight Rain | Haley Cass | 9798988492993
+Bloom Town: Genesis | Aly North | 9798217374861
+Bloom Town: Exodus | Aly North | 9798332716966
+Hearing Red | Nicole Maser | 9798988226031
+Almost Life | Kiran Millwood Hargrave | 9781035007509
+
+# To read - Thrillers
+Five Survive | Holly Jackson | 9780593374191
+No Place Left to Hide | Megan Lally | 9781728270142
+The Last Word | Taylor Adams | 9780063222915
+Gray After Dark | Noelle W. Ihli | 9781496761262
+
+# To read - Classic 
+Madame Bovary | Gustave Flaubert | 9781908533814
+
