@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta content="Book Club for Two — read slowly, talk often." name="description"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book Club for Two</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+
+
+
+
+
+<link href="styles.css" rel="stylesheet"/><script defer="True" src="club-log.js"></script><script defer src="reading-room.js"></script><script defer src="home-content.js"></script></head>
+<body class="page-shell min-h-screen">
+<header class="site-header">
+<div class="site-header-inner">
+<div class="site-header-top">
+<div>
+<p class="header-kicker">A private little library</p>
+<h1 class="editorial-heading">Book Club for Two</h1>
+</div>
+<p class="header-dek">A shared shelf, thoughtful margins, and excellent excuses for one more chapter — for XY and ZZ.</p>
+</div>
+<nav class="home-nav" aria-label="Site navigation">
+<a class="focus-ring" href="/radar/">On the Radar</a>
+<a class="focus-ring" href="/already-read/">Already Read</a>
+<a class="focus-ring" href="#log-heading">Club Log</a>
+</nav>
+</div>
+</header>
+<main class="w-full" data-reading-room-url="/content/books.md">
+<section aria-labelledby="filter-heading" class="mx-auto max-w-7xl px-5 pt-9 sm:px-8 lg:px-10">
+<div class="flex flex-col gap-4 border-b border-[#dedfd8] pb-6 md:flex-row md:items-center md:justify-between">
+<div>
+<h2 class="text-sm font-bold uppercase tracking-[0.14em]" id="filter-heading">The reading room</h2>
+<p class="mt-3 text-sm text-[#66707d]">Browse the shelf by reader.</p>
+</div>
+<nav aria-label="Filter books by reader" class="flex flex-wrap gap-2" role="tablist"><button aria-selected="true" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="all" role="tab" type="button">All books</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="XY" role="tab" type="button">XY</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="ZZ" role="tab" type="button">ZZ</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="Shared" role="tab" type="button">Shared</button>
+</nav>
+</div>
+</section>
+<section aria-labelledby="current-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="mb-7 flex items-end justify-between gap-6">
+<div>
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em]">In progress</p>
+<h2 class="editorial-heading text-3xl font-semibold" id="current-heading">Currently Reading</h2>
+</div>
+<p class="hidden max-w-sm text-right text-sm leading-6 sm:block">Different pages, same conversation.</p>
+</div>
+<div class="current-reading-grid" data-reading-current></div></div>
+</section>
+<section class="border-y border-[#dedfd8] bg-[#efeee8]">
+<div aria-labelledby="next-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="mb-7">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em]">Queued up</p>
+<h2 class="editorial-heading text-3xl font-semibold" id="next-heading">Reading Next</h2>
+</div>
+<div class="grid reading-next-grid" data-reading-next></div></div>
+</section>
+<section aria-labelledby="radar-heading" class="home-preview-section radar-preview-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="preview-header">
+<div><p class="section-kicker">Maybe soon</p><h2 class="editorial-heading section-title" id="radar-heading">On the Radar</h2></div>
+<a class="page-link focus-ring" href="/radar/">03 / Possibilities →</a>
+</div>
+<div class="preview-grid radar-preview-grid"></div>
+</div>
+</section>
+<section aria-labelledby="reviews-heading" class="dark-section archive-preview-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Already Read</h2></div><a class="page-link focus-ring" href="/already-read/">02 / Finished books →</a></div>
+<div class="preview-grid archive-preview-grid"></div>
+</div>
+</section>
+<section aria-labelledby="log-heading" class="club-log-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="club-log-layout">
+<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Add to the Club Log</h2><p class="club-log-intro">Save a title, a passing thought, a rating, or the one line neither of you wants to forget.</p>
+<form id="club-log-form" class="club-log-form" novalidate>
+<input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
+<div class="form-row form-row-two"><label>Book title<input name="book_title" required maxlength="160" type="text"/></label><label>Author<input name="author" required maxlength="120" type="text"/></label></div>
+<div class="form-row form-row-two"><label>Shelf status<select name="status"><option>Currently Reading</option><option>Reading Next</option><option>On the Radar</option><option>Read Together</option></select></label><label>Reader<select name="reader"><option>XY</option><option>ZZ</option><option>Shared</option></select></label></div>
+<label>Notes<textarea name="notes" maxlength="1200" rows="4"></textarea></label>
+<div class="form-row form-row-two"><label>Rating (0–5)<input name="rating" min="0" max="5" step="0.5" type="number"/></label><label>Memorable quote<input name="quote" maxlength="1200" type="text"/></label></div>
+<label>Shared reflection<textarea name="reflection" maxlength="1600" rows="4"></textarea></label>
+<div class="form-actions"><button class="focus-ring" type="submit">Save to club log</button><p aria-live="polite" id="form-message"></p></div>
+</form></div>
+<div class="club-log-saved-column"><p class="section-kicker">Your saved notes</p><h2 class="editorial-heading section-title">Club Log</h2><div class="saved-divider"></div><p class="saved-count" id="record-count"></p><p class="saved-state" id="loading-state">Loading your saved notes…</p><p class="saved-state hidden" id="empty-state">Keep the notes you want to remember — a reaction, a quote, or a thought for your next conversation.</p><p class="saved-state hidden" id="load-error">We couldn’t load the club log. <button class="focus-ring retry-button" id="retry-button" type="button">Try again</button></p><div id="saved-list" class="saved-list"></div>
+<template id="saved-entry-template"><article class="saved-row"><div class="saved-row-top"><span class="saved-status"></span><span class="saved-meta"></span></div><h3 class="saved-title editorial-heading"></h3><p class="saved-author"></p><p class="saved-notes"></p><blockquote class="saved-quote"></blockquote><p class="saved-reflection"></p></article></template>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-[#dedfd8]"><div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><p class="text-xs text-[#66707d]">Book Club for Two · read slowly, talk often.</p></div></footer>
+</body></html>
