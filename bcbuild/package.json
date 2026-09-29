@@ -1,0 +1,14 @@
+{
+  "name": "book-club-for-two",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2026-09-29",
+    "deploy": "wrangler pages deploy public",
+    "db:migrate:local": "wrangler d1 migrations apply book-club-for-two --local",
+    "db:migrate:remote": "wrangler d1 migrations apply book-club-for-two --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
