@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta content="Book Club for Two — read slowly, talk often." name="description"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book Club for Two</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+
+
+
+
+
+
+<link href="styles.css" rel="stylesheet"/><script defer="True" src="club-log.js"></script></head>
+<body class="page-shell min-h-screen">
+<header class="w-full border-b border-[#dedfd8]">
+<div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
+<div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+<div>
+<p class="mb-3 text-xs font-bold uppercase tracking-[0.18em]">A private little library</p>
+<h1 class="editorial-heading max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl">Book Club for Two</h1>
+</div>
+<p class="max-w-md text-sm leading-6 sm:text-right">A shared shelf, thoughtful margins, and excellent excuses for one more chapter — for XY and ZZ.</p><nav class="home-nav flex flex-wrap gap-3 text-xs font-bold uppercase tracking-[.12em]" aria-label="Site navigation">
+<a class="focus-ring" href="/radar/">On the Radar</a>
+<a class="focus-ring" href="/already-read/">Already Read</a>
+<a class="focus-ring" href="#log-heading">Club Log</a>
+</nav>
+</div>
+</div>
+</header>
+<main class="w-full">
+<section aria-labelledby="filter-heading" class="mx-auto max-w-7xl px-5 pt-9 sm:px-8 lg:px-10">
+<div class="flex flex-col gap-4 border-b border-[#dedfd8] pb-6 md:flex-row md:items-center md:justify-between">
+<div>
+<h2 class="text-sm font-bold uppercase tracking-[0.14em]" id="filter-heading">The reading room</h2>
+<p class="mt-3 text-sm text-[#66707d]">Browse the shelf by reader.</p>
+</div>
+<nav aria-label="Filter books by reader" class="flex flex-wrap gap-2" role="tablist"><button aria-selected="true" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="all" role="tab" type="button">All books</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="XY" role="tab" type="button">XY</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="ZZ" role="tab" type="button">ZZ</button> <button aria-selected="false" class="reader-tab focus-ring rounded-full border px-4 py-2 text-sm font-semibold" data-filter="Shared" role="tab" type="button">Shared</button>
+</nav>
+</div>
+</section>
+<section aria-labelledby="current-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="mb-7 flex items-end justify-between gap-6">
+<div>
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em]">In progress</p>
+<h2 class="editorial-heading text-3xl font-semibold" id="current-heading">Currently Reading</h2>
+</div>
+<p class="hidden max-w-sm text-right text-sm leading-6 sm:block">Different pages, same conversation.</p>
+</div>
+<div class="current-reading-grid">
+<article class="book-card current-reading-card border border-[#1b2028] bg-[#ffffff] p-4 sm:p-5" data-reader="XY">
+<div class="current-book-grid">
+<div class="cover-frame current-cover relative aspect-[2/3] overflow-hidden"><img alt="Cover of Tomorrow, and Tomorrow, and Tomorrow by Gabrielle Zevin" class="h-full w-full object-cover" loading="eager" src="https://covers.openlibrary.org/b/isbn/9780593321201-L.jpg"/>
+<div aria-hidden="true" class="fallback-cover absolute inset-0 flex flex-col justify-between p-3 text-[#fffefa]"><span class="text-[10px] font-bold uppercase tracking-[.16em]">Book Club</span> <span class="editorial-heading text-lg leading-tight">A novel<br/>
+          for now</span>
+</div>
+</div>
+<div class="flex min-w-0 flex-col items-start"><span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">XY is reading</span>
+<h3 class="editorial-heading text-3xl font-bold leading-[.96] tracking-[-.045em]">Tomorrow, and Tomorrow, and Tomorrow</h3>
+<p class="mt-3 text-sm text-[#66707d]">Gabrielle Zevin</p>
+<p class="mt-5 text-sm leading-6">A warm, clever story about creative partnership and the worlds we make together.</p><a class="focus-ring link-line mt-auto pt-6 text-sm font-bold" href="https://www.goodreads.com/book/show/58784475-tomorrow-and-tomorrow-and-tomorrow" rel="noopener noreferrer" target="_blank">Find it on Goodreads</a>
+</div>
+</div>
+</article>
+<article class="book-card current-reading-card border border-[#1b2028] bg-[#ffffff] p-4 sm:p-5" data-reader="ZZ">
+<div class="current-book-grid">
+<div class="cover-frame current-cover relative aspect-[2/3] overflow-hidden"><img alt="Cover of The Heaven &amp; Earth Grocery Store by James McBride" class="h-full w-full object-cover" loading="eager" src="https://covers.openlibrary.org/b/isbn/9780593422946-L.jpg"/>
+<div aria-hidden="true" class="fallback-cover absolute inset-0 flex flex-col justify-between p-3 text-[#fffefa]"><span class="text-[10px] font-bold uppercase tracking-[.16em]">Book Club</span> <span class="editorial-heading text-lg leading-tight">A novel<br/>
+          for now</span>
+</div>
+</div>
+<div class="flex min-w-0 flex-col items-start"><span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">ZZ is reading</span>
+<h3 class="editorial-heading text-3xl font-bold leading-[.96] tracking-[-.045em]">The Heaven &amp; Earth Grocery Store</h3>
+<p class="mt-2 text-sm">James McBride</p>
+<p class="mt-5 text-sm leading-6">A generous, big-hearted mystery with a whole neighborhood on the page.</p><a class="focus-ring link-line mt-auto pt-6 text-sm font-bold" href="https://www.goodreads.com/book/show/61714633-the-heaven-earth-grocery-store" rel="noopener noreferrer" target="_blank">Find it on Goodreads</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<section class="border-y border-[#dedfd8] bg-[#efeee8]">
+<div aria-labelledby="next-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="mb-7">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em]">Queued up</p>
+<h2 class="editorial-heading text-3xl font-semibold" id="next-heading">Reading Next</h2>
+</div>
+<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+<article class="book-card rounded-xl border border-[#dedfd8] bg-[#fffefa] p-4" data-reader="Shared">
+<div class="cover-frame relative mb-4 aspect-[3/2] overflow-hidden rounded-lg"><img alt="Cover of 1984 by George Orwell" class="h-full w-full object-cover" loading="eager" src="https://covers.openlibrary.org/b/isbn/9780451524935-L.jpg"/>
+<div aria-hidden="true" class="fallback-cover absolute inset-0 flex items-end p-4 text-[#fffefa]">
+<span class="editorial-heading text-xl">Next up</span>
+</div>
+</div>
+<p class="mb-3 text-xs font-bold uppercase tracking-[.13em]">Read together</p>
+<h3 class="editorial-heading text-xl font-semibold">1984</h3>
+<p class="mt-1 text-sm">George Orwell</p><a class="focus-ring mt-4 inline-block text-sm font-bold underline underline-offset-4" href="https://www.goodreads.com/book/show/40961427-1984" rel="noopener noreferrer" target="_blank">Goodreads</a>
+</article>
+<article class="book-card rounded-xl border border-[#dedfd8] bg-[#fffefa] p-4" data-reader="XY">
+<div class="cover-frame relative mb-4 aspect-[3/2] overflow-hidden rounded-lg"><img alt="Cover of Where the Crawdads Sing by Delia Owens" class="h-full w-full object-cover" loading="eager" src="https://covers.openlibrary.org/b/isbn/9780735219090-L.jpg"/>
+<div aria-hidden="true" class="fallback-cover absolute inset-0 flex items-end p-4 text-[#fffefa]">
+<span class="editorial-heading text-xl">Next up</span>
+</div>
+</div>
+<p class="mb-3 text-xs font-bold uppercase tracking-[.13em]">XY's pick</p>
+<h3 class="editorial-heading text-xl font-semibold">Where the Crawdads Sing</h3>
+<p class="mt-1 text-sm">Delia Owens</p><a class="focus-ring mt-4 inline-block text-sm font-bold underline underline-offset-4" href="https://www.goodreads.com/book/show/36809135-where-the-crawdads-sing" rel="noopener noreferrer" target="_blank">Goodreads</a>
+</article>
+<article class="book-card rounded-xl border border-[#dedfd8] bg-[#fffefa] p-4" data-reader="ZZ">
+<div class="cover-frame relative mb-4 aspect-[3/2] overflow-hidden rounded-lg"><img alt="Cover of Klara and the Sun by Kazuo Ishiguro" class="h-full w-full object-cover" loading="eager" src="https://covers.openlibrary.org/b/isbn/9780593318171-L.jpg"/>
+<div aria-hidden="true" class="fallback-cover absolute inset-0 flex items-end p-4 text-[#fffefa]">
+<span class="editorial-heading text-xl">Next up</span>
+</div>
+</div>
+<p class="mb-3 text-xs font-bold uppercase tracking-[.13em]">ZZ's pick</p>
+<h3 class="editorial-heading text-xl font-semibold">Klara and the Sun</h3>
+<p class="mt-1 text-sm">Kazuo Ishiguro</p><a class="focus-ring mt-4 inline-block text-sm font-bold underline underline-offset-4" href="https://www.goodreads.com/book/show/50623864-klara-and-the-sun" rel="noopener noreferrer" target="_blank">Goodreads</a>
+</article>
+</div>
+</div>
+</section>
+<section aria-labelledby="radar-heading" class="home-preview-section radar-preview-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="preview-header">
+<div><p class="section-kicker">Maybe soon</p><h2 class="editorial-heading section-title" id="radar-heading">On the Radar</h2></div>
+<a class="page-link focus-ring" href="/radar/">03 / Possibilities →</a>
+</div>
+<div class="preview-grid radar-preview-grid">
+<article class="preview-card radar-preview-card"><div class="preview-cover"><img alt="Cover of The Midnight Library by Matt Haig" loading="lazy" src="https://covers.openlibrary.org/b/isbn/9780525559498-L.jpg"/></div><div class="preview-copy"><h3 class="editorial-heading">The Midnight Library</h3><p>Matt Haig</p><a class="focus-ring" href="https://www.goodreads.com/book/show/44421460-the-midnight-library" rel="noopener noreferrer" target="_blank">Goodreads</a></div></article>
+<article class="preview-card radar-preview-card"><div class="preview-cover"><img alt="Cover of Yellowface by R. F. Kuang" loading="lazy" src="https://covers.openlibrary.org/b/isbn/9780063250833-L.jpg"/></div><div class="preview-copy"><h3 class="editorial-heading">Yellowface</h3><p>R. F. Kuang</p><a class="focus-ring" href="https://www.goodreads.com/book/show/59575939-yellowface" rel="noopener noreferrer" target="_blank">Goodreads</a></div></article>
+<article class="preview-card radar-preview-card"><div class="preview-cover"><img alt="Cover of The Vanishing Half by Brit Bennett" loading="lazy" src="https://covers.openlibrary.org/b/isbn/9780525536291-L.jpg"/></div><div class="preview-copy"><h3 class="editorial-heading">The Vanishing Half</h3><p>Brit Bennett</p><a class="focus-ring" href="https://www.goodreads.com/book/show/49247356-the-vanishing-half" rel="noopener noreferrer" target="_blank">Goodreads</a></div></article>
+</div>
+</div>
+</section>
+<section aria-labelledby="reviews-heading" class="dark-section archive-preview-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Already Read</h2></div><a class="page-link focus-ring" href="/already-read/">02 / Finished books →</a></div>
+<div class="preview-grid archive-preview-grid">
+<article class="archive-preview-card"><div class="archive-preview-top"><span>4.5 / 5</span><span aria-label="4.5 out of 5 stars">★★★★☆</span></div><h3 class="editorial-heading">Lessons in Chemistry</h3><p class="archive-preview-author">Bonnie Garmus</p><blockquote>“Courage is the root of change — and change is what we’re chemically designed to do.”</blockquote><p class="archive-preview-reflection">We loved its sharp humor and the way Elizabeth Zott refuses to become smaller for anyone.</p></article>
+<article class="archive-preview-card"><div class="archive-preview-top"><span>5 / 5</span><span aria-label="5 out of 5 stars">★★★★★</span></div><h3 class="editorial-heading">The Dutch House</h3><p class="archive-preview-author">Ann Patchett</p><blockquote>“We were so used to being with each other that we didn’t have to say much.”</blockquote><p class="archive-preview-reflection">A book that made us pause after every chapter — tender, funny, and quietly devastating.</p></article>
+</div>
+</div>
+</section>
+<section aria-labelledby="log-heading" class="club-log-section">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="club-log-layout">
+<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Add to the Club Log</h2><p class="club-log-intro">Save a title, a passing thought, a rating, or the one line neither of you wants to forget.</p>
+<form id="club-log-form" class="club-log-form" novalidate>
+<input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
+<div class="form-row form-row-two"><label>Book title<input name="book_title" required maxlength="160" type="text"/></label><label>Author<input name="author" required maxlength="120" type="text"/></label></div>
+<div class="form-row form-row-two"><label>Shelf status<select name="status"><option>Currently Reading</option><option>Reading Next</option><option>On the Radar</option><option>Read Together</option></select></label><label>Reader<select name="reader"><option>XY</option><option>ZZ</option><option>Shared</option></select></label></div>
+<label>Notes<textarea name="notes" maxlength="1200" rows="4"></textarea></label>
+<div class="form-row form-row-two"><label>Rating (0–5)<input name="rating" min="0" max="5" step="0.5" type="number"/></label><label>Memorable quote<input name="quote" maxlength="1200" type="text"/></label></div>
+<label>Shared reflection<textarea name="reflection" maxlength="1600" rows="4"></textarea></label>
+<div class="form-actions"><button class="focus-ring" type="submit">Save to club log</button><p aria-live="polite" id="form-message"></p></div>
+</form></div>
+<div class="club-log-saved-column"><p class="section-kicker">Your saved notes</p><h2 class="editorial-heading section-title">Club Log</h2><div class="saved-divider"></div><p class="saved-count" id="record-count"></p><p class="saved-state" id="loading-state">Loading your saved notes…</p><p class="saved-state hidden" id="empty-state">Nothing saved here yet. Add the next thought worth keeping.</p><p class="saved-state hidden" id="load-error">We couldn’t load the club log. <button class="focus-ring retry-button" id="retry-button" type="button">Try again</button></p><div id="saved-list" class="saved-list"></div>
+<template id="saved-entry-template"><article class="saved-row"><div class="saved-row-top"><span class="saved-status"></span><span class="saved-meta"></span></div><h3 class="saved-title editorial-heading"></h3><p class="saved-author"></p><p class="saved-notes"></p><blockquote class="saved-quote"></blockquote><p class="saved-reflection"></p></article></template>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-[#dedfd8]"><div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><p class="text-xs text-[#66707d]">Book Club for Two · read slowly, talk often.</p></div></footer>
+</body></html>
