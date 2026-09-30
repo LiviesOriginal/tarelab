@@ -190,12 +190,17 @@
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
     const status = book.status;
+    const badge = status === "Currently Reading"
+      ? `<span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${reader} is reading</span>`
+      : reader === "Shared"
+        ? shelfBadge(book)
+        : `<span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${reader}'s pick</span>`;
 
     return `<article class="book-card current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card" data-reader="${reader}">
       <div class="current-book-grid">
         <div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
         <div class="reading-room-copy">
-          <span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${status === "Currently Reading" ? `${reader} is reading` : `${reader}'s pick`}</span>
+          ${badge}
           <h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
           <p class="book-author">${author}</p>
           ${book.description ? `<p class="book-description">${escapeHTML(book.description)}</p>` : ""}
@@ -235,14 +240,16 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<a aria-label="View ${title} by ${author} on the Radar" class="book-card current-reading-card reading-room-next-card focus-ring" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
+    return `<a aria-label="View ${title} by ${author} on the Radar" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
     const cover = coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`);
-    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div></a>`;
+    const note = Array.isArray(book.notes) ? book.notes.find((entry) => entry.trim()) : "";
+    const review = note ? `<p class="archive-preview-reflection">${escapeHTML(note)}</p>` : "";
+    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${review}</div></a>`;
   }
 
   function setBooks(target, books, renderCard) {

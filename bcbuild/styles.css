@@ -1106,6 +1106,12 @@ section[aria-labelledby="next-heading"] p.mb-3 { margin-bottom: .65rem; }
 .archive-preview-copy .rating-label { color: var(--accent-deep); font-size: .58rem; }
 .archive-preview-copy .stars { gap: .08em; font-size: .68rem; }
 .archive-preview-copy .stars > span { flex-basis: .82em; }
+.archive-preview-copy .archive-preview-reflection {
+  margin-top: .65rem;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.45;
+}
 
 .club-log-section {
   background: var(--obsidian);
