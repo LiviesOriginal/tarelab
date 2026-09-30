@@ -116,7 +116,7 @@
       setPending(false);
     })
     .catch((error) => {
-      console.error("Book update form setup failed", error);
+      console.error(`${isFlix ? "Flix" : "Book"} update form setup failed`, error);
       turnstileState.textContent = "Submissions are temporarily unavailable. Please try again later.";
       turnstileState.classList.add("is-error");
     });
@@ -166,9 +166,9 @@
       form.reset();
       updateRatingVisibility();
       resetTurnstile();
-      setMessage("Your update is ready for review.", false, result.html_url);
+      setMessage(`Your ${isFlix ? "Flix" : "book"} update is ready for review.`, false, result.html_url);
     } catch (error) {
-      console.error("Book update submission failed", error);
+      console.error(`${isFlix ? "Flix" : "Book"} update submission failed`, error);
       setMessage(error.message || "Could not submit the update. Please try again.", true);
       resetTurnstile();
     } finally {
