@@ -26,7 +26,7 @@ The shelf is selected explicitly from the headings in `books.md`. ISBN is used t
    - `GITHUB_REPOSITORY` — optional; defaults to `LiviesOriginal/tarelab`.
    - `GITHUB_BASE_BRANCH` — optional; defaults to `main`.
 3. Add a Cloudflare rate-limiting rule for `POST /api/book-submissions` (for example, five requests per ten minutes per IP). Turnstile reduces automated submissions but is not identity verification or a replacement for rate limiting.
-4. Protect `main` so changes require a pull request and at least one approving review before merge. This is the deployment gate; the submitter does not need GitHub credentials.
+4. Protect `main` so changes require a pull request. Require code-owner approval for `bcbuild/content/books.md` using `.github/CODEOWNERS`; this gates public book submissions for review without requiring blanket approvals on unrelated code changes.
 5. Ensure Cloudflare Pages deploys production from `main`. Form submissions create reviewable PRs and do not publish until merged.
 
 Never put the GitHub App private key or Turnstile secret in browser code or commit them to the repository. Until the required keys are configured, the form reports that submissions are unavailable.

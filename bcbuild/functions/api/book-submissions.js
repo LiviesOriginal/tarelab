@@ -320,13 +320,6 @@ async function getInstallationToken(env) {
   return result.token;
 }
 
-function hasExpectedHostname(requestHost, resultHost) {
-  if (!resultHost) return false;
-  const expected = requestHost.toLowerCase();
-  const actual = resultHost.toLowerCase();
-  return actual === expected || actual === `www.${expected}` || expected === `www.${actual}`;
-}
-
 async function verifyTurnstile(request, token, env) {
   if (!token) return false;
   const body = new URLSearchParams({
@@ -348,21 +341,8 @@ async function verifyTurnstile(request, token, env) {
     });
     throw new Error("Could not verify the anti-spam check.");
   }
-  if (!result || result.success !== true) {
-    console.error("Turnstile verification rejected", {
-      errorCodes: Array.isArray(result?.["error-codes"]) ? result["error-codes"] : []
-    });
-    return false;
-  }
   const hostname = new URL(request.url).hostname;
-  if (!hasExpectedHostname(hostname, result.hostname)) {
-    console.error("Turnstile hostname mismatch", {
-      expectedHostname: hostname,
-      actualHostname: result.hostname || null
-    });
-    return false;
-  }
-  return true;
+  return result?.success === true && result.hostname === hostname;
 }
 
 async function createPullRequest(submission, env) {
