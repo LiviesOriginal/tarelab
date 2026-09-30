@@ -1,20 +1,16 @@
 # Currently Watching
 ## Daisy Jones and the six | 2026 | tt8749198 | — | —
 
-# To Watch - Laz
+# To Watch
 ## Edward Scissorhands | 1990 | tt0099487 | — | —
 ## Bettlejuice | 1988 | tt0094721 | — | —
 ## The Nightmare Before Christmas | 1998 | tt0107688 | — | —
 ## Cunk on Earth | 2022 | tt16867040 | — | —
 ## Cunk on Life | 2024 | tt34874258 | — | —
-
-# To Watch - Movies
 ## Verity | 2026 | tt32261958 | — | —
 ## The Invite | 2026 | tt14173636 | — | —
 ## The Prestige | 2006 | tt0482571 | — | —
 ## Arrival | 2016 | tt2543164 | — | —
-
-# To Watch - Series
 ## Buffy the Vampire Slayer | 1997 | tt0118276 | — | —
 ## Lessons in Chemistry | 2023 | tt13911628 | — | —
 ## The Affair | 2019 | tt2699110 | — | —
