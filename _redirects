@@ -1,0 +1,3 @@
+# Preserve the old Book Club URL as a compatibility redirect.
+/bcbuild /bookclub 301
+/bcbuild/ /bookclub 301
