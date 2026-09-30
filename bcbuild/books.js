@@ -200,13 +200,14 @@
   function archivePreview(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
+    const cover = coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`);
     const reflections = Array.isArray(book.notes)
       ? book.notes
       : book.notes
         ? [book.notes]
         : [];
     const notes = reflections.slice(0, 1).map((note) => `<p class="archive-preview-reflection">${escapeHTML(note)}</p>`).join("");
-    return `<article class="archive-preview-card"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
+    return `<article class="archive-preview-card"><div class="archive-preview-cover">${cover}</div><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
   }
 
   function setBooks(target, books, renderCard) {

@@ -178,10 +178,11 @@ button[type="submit"]:hover, #retry-button:hover { background:var(--accent-deep)
 .radar-copy .link-line { margin-top:auto; padding-top:1rem; font-size:.875rem; font-weight:800; }
 .archive-card { padding:1.5rem; }
 .archive-top { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
-.archive-ratings { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; margin-top:1rem; }
-.archive-rating-row { display:flex; align-items:center; gap:.4rem; min-width:0; }
-.rating-label { color:var(--accent-deep); font-size:.7rem; font-weight:800; letter-spacing:.06em; }
-.stars { display:inline-flex; gap:.08em; font-size:.95rem; line-height:1; white-space:nowrap; }
+.archive-ratings { display:grid; grid-template-columns:minmax(0,1fr); gap:.45rem; margin-top:1rem; }
+.archive-rating-row { display:grid; grid-template-columns:2.25rem max-content; align-items:center; column-gap:.4rem; min-width:0; }
+.rating-label { color:var(--accent-deep); font-size:.68rem; font-weight:800; letter-spacing:.04em; }
+.stars { display:inline-flex; flex:none; gap:.1em; font-size:.9rem; line-height:1; white-space:nowrap; }
+.stars > span { display:block; flex:0 0 .9em; text-align:center; }
 .stars .on { color:#c58a19; }
 .stars .off { color:#ded6d8; }
 .archive-title { margin-top:1.25rem; font-size:1.6rem; line-height:1; font-weight:800; }
@@ -303,6 +304,12 @@ button[type="submit"]:hover, #retry-button:hover { background:var(--accent-deep)
   }
 }
 
+@media (max-width: 480px) {
+  .archive-rating-row { grid-template-columns:1.75rem max-content; column-gap:.25rem; }
+  .archive-rating-row .stars { font-size:.72rem; }
+  .archive-rating-row .rating-label { font-size:.62rem; }
+}
+
 /* Homepage previews + Club Log: added without changing the established
    Currently Reading / Reading Next layout above. */
 .home-preview-section {
@@ -355,10 +362,11 @@ button[type="submit"]:hover, #retry-button:hover { background:var(--accent-deep)
 }
 .archive-preview-card h3 { margin-top:1.2rem; font-size:1rem; line-height:1.05; font-weight:800; }
 .archive-preview-author { margin-top:.45rem; color:var(--secondary); font-size:.72rem; }
-.archive-preview-card .archive-ratings { margin-top:.7rem; gap:.4rem; }
-.archive-preview-card .archive-rating-row { gap:.3rem; }
+.archive-preview-card .archive-ratings { grid-column:2; margin-top:.7rem; gap:.35rem; }
+.archive-preview-card .archive-rating-row { grid-template-columns:1.8rem max-content; column-gap:.25rem; }
 .archive-preview-card .rating-label { color:var(--secondary); font-size:.55rem; }
-.archive-preview-card .stars { font-size:.7rem; }
+.archive-preview-card .stars { gap:.08em; font-size:.68rem; }
+.archive-preview-card .stars > span { flex-basis:.82em; }
 .archive-preview-card blockquote { margin-top:1.25rem; border-left:2px solid var(--accent); padding-left:.8rem; font-size:.75rem; line-height:1.45; }
 .archive-preview-reflection { margin-top:1rem; color:var(--secondary); font-size:.72rem; line-height:1.45; }
 
@@ -401,7 +409,8 @@ button[type="submit"]:hover, #retry-button:hover { background:var(--accent-deep)
   .archive-preview-card { padding:.65rem; }
   .archive-preview-card h3 { margin-top:.8rem; font-size:.72rem; }
   .archive-preview-card .archive-ratings { grid-template-columns:1fr; gap:.3rem; }
-  .archive-preview-card .archive-rating-row { gap:.25rem; }
+  .archive-preview-card .archive-rating-row { grid-template-columns:1.7rem max-content; column-gap:.2rem; }
+  .archive-preview-card .stars { font-size:.62rem; }
   .archive-preview-author, .archive-preview-reflection, .archive-preview-card blockquote { font-size:.62rem; }
   .club-log-layout { grid-template-columns:1fr; gap:2rem; }
   .club-log-form-column { padding-right:0; padding-bottom:2rem; border-right:0; border-bottom:1px solid var(--muted); }
