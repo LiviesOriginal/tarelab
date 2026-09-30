@@ -1,7 +1,21 @@
-# Roxy's list (9/9/2026)
+# XY is Reading
 The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
+
+# ZZ is Reading
+Britt-Marie Was Here | Fredrik Backman | 9781501142543
+
+# Next Synch Pick
 Midnight Rain | Haley Cass | 9798988492993
+
+# XY's Next Picks
 This Book Made Me Think of You | Libby Page | 9798217186990
+
+# ZZ's Next Picks
+Verity | Coleen Hoover | 9781538742112
+
+# To Read - Spooky Season
+The Manor of Dreams | Christina Li | 9781668051726
+FantasticLand (Saving for Spooky Season) | Mike Bockoven | 9781510737884
 
 # Read
 ## The Women | Kristen Hannah | 4 | 4 | 9781250178633
@@ -45,18 +59,22 @@ Official first selection of the Book Club. Lovable characters that make you root
 - …there is nothing an extraordinary person likes more than someone else extraordinary.
 - "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
 
-# To read - General
+# To read - Thrillers
 The Teacher ** | Freida McFadden | 9781728296210
+Five Survive | Holly Jackson | 9780593374191
+No Place Left to Hide | Megan Lally | 9781728270142
+The Last Word | Taylor Adams | 9780063222915
+Gray After Dark | Noelle W. Ihli | 9781496761262
+
+# To read - Pop Fiction
 Tomorrow, and Tomorrow, and Tomorrow ** | Gabrielle Zevin | 9781529944792
 Beach Read ** | Emily Henry | 9788383210711
 A Thousand Splendid Suns | Khaled Hosseini | 9781594483851
 The Correspondent | Virginia Evans | 9780241721254
 The Bright Years | Sarah Damoff | 9781668061442
 The Great Alone | Kristen Hannah | 9781250229533
-FantasticLand (Saving for Spooky Season) | Mike Bockoven | 9781510737884
-Circe | Madeline Miller | 9780316556323
 We Were Liars | E. Lockhart | 9780385741279
-A Little Life (for when I want to cry) | Hanya Yanagihara | 9780804172707
+A Little Life | Hanya Yanagihara | 9780804172707
 On Earth We’re Briefly Gorgeous | Ocean Vuong | 9780525562047
 The Last Thing He Told Me | Laura Dave | 9781501171369
 Before the Coffee Gets Cold | Toshikazu Kawaguchi | 9781335430991
@@ -79,14 +97,10 @@ Midnight Rain | Haley Cass | 9798988492993
 Bloom Town: Genesis | Aly North | 9798217374861
 Bloom Town: Exodus | Aly North | 9798332716966
 Hearing Red | Nicole Maser | 9798988226031
-Almost Life | Kiran Millwood Hargrave | 9781035007509
 
-# To read - Thrillers
-Five Survive | Holly Jackson | 9780593374191
-No Place Left to Hide | Megan Lally | 9781728270142
-The Last Word | Taylor Adams | 9780063222915
-Gray After Dark | Noelle W. Ihli | 9781496761262
+# To read - Historical Fiction
+Circe | Madeline Miller | 9780316556323
 
-# To read - Classic 
+# To read - Classics
 Madame Bovary | Gustave Flaubert | 9781908533814
 
