@@ -2,6 +2,9 @@
   const root = document.querySelector("[data-reading-room-url]");
   if (!root) return;
 
+  const NO_COVER_URL =
+    "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
+
   const escapeHTML = (value = "") =>
     String(value).replace(/[&<>"']/g, (char) => ({
       "&": "&amp;",
@@ -10,6 +13,10 @@
       '"': "&quot;",
       "'": "&#39;"
     }[char]));
+
+  function cleanISBN(isbn) {
+    return String(isbn || "").replace(/[^0-9Xx]/g, "");
+  }
 
   function sectionDefaults(sectionTitle) {
     const title = sectionTitle.toLowerCase().trim();
@@ -47,13 +54,19 @@
     if (parts.length < 3) return null;
 
     const [rawTitle, author, ...rest] = parts;
+
     const title = rawTitle.replace(/\*+\s*$/g, "").trim();
     const priority = /\*+\s*$/.test(rawTitle);
 
-    const isbn = rest[rest.length - 1] || "";
+    /*
+      Supported formats:
 
-    // Existing format:
-    // Title | Author | Rating for XY | Rating for ZZ | ISBN
+      Title | Author | ISBN
+
+      Title | Author | Rating for XY | Rating for ZZ | ISBN
+    */
+
+    const isbn = rest[rest.length - 1] || "";
     const rating = rest.length >= 3 ? rest[rest.length - 3] : "";
     const ratingOther = rest.length >= 2 ? rest[rest.length - 2] : "";
 
@@ -72,6 +85,7 @@
   function parseMarkdown(markdown) {
     const lines = markdown.split(/\r?\n/);
     const sections = [];
+
     let section = null;
     let book = null;
 
@@ -80,7 +94,14 @@
 
       if (!line) continue;
 
-      // A single # starts a new shelf/section.
+      /*
+        A single # starts a new section.
+
+        Examples:
+        # Roxy's list (9/9/2026)
+        # Read
+        # To read - General
+      */
       if (line.startsWith("# ")) {
         const title = line.slice(2).trim();
 
@@ -97,8 +118,12 @@
 
       if (!section) continue;
 
-      // ## Book Title | Author | ISBN
-      // ## Book Title | Author | Rating | Rating | ISBN
+      /*
+        ## headings represent books in the Read section.
+
+        Example:
+        ## The Women | Kristen Hannah | 4 | 4 | 9781250178633
+      */
       if (line.startsWith("## ")) {
         book = parseBookLine(line.slice(3).trim(), section);
 
@@ -109,7 +134,13 @@
         continue;
       }
 
-      // Plain pipe-delimited books under "To read" sections.
+      /*
+        Plain pipe-delimited lines represent books in sections
+        such as Roxy's list and To read.
+
+        Example:
+        The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
+      */
       if (line.includes("|") && !line.startsWith("- ")) {
         book = parseBookLine(line, section);
 
@@ -120,12 +151,19 @@
         continue;
       }
 
-      // Optional per-book overrides.
-      // Example:
-      // - reader: ZZ
-      // - status: Currently Reading
+      /*
+        Optional per-book overrides.
+
+        Example:
+        - reader: ZZ
+        - status: Currently Reading
+        - description: A short description
+        - goodreads: https://www.goodreads.com/...
+      */
       if (book && line.startsWith("- ")) {
-        const match = line.slice(2).match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
+        const match = line
+          .slice(2)
+          .match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
 
         if (match) {
           const [, key, value] = match;
@@ -137,23 +175,52 @@
     return sections;
   }
 
-  function coverURL(book) {
-    if (!book.isbn) return "";
+  function coverURL(isbn) {
+    const clean = cleanISBN(isbn);
 
-    const isbn = String(book.isbn).replace(/[^0-9Xx]/g, "");
+    if (!clean) {
+      return NO_COVER_URL;
+    }
+
+    return `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(
+      clean
+    )}-M.jpg?default=false`;
+  }
+
+  function coverHTML(book) {
+    const title = escapeHTML(book.title || "");
+    const author = escapeHTML(book.author || "");
+    const src = escapeHTML(coverURL(book.isbn));
+
+    return `
+      <img
+        class="cover"
+        src="${src}"
+        alt="Cover of ${title} by ${author}"
+        loading="lazy"
+        onerror="
+          this.onerror = null;
+          this.src = '${NO_COVER_URL}';
+          this.alt = 'No cover available';
+        "
+      >
+    `;
+  }
+
+  function goodreadsURL(book) {
+    const isbn = cleanISBN(book.isbn);
 
     if (!isbn) return "";
 
-    return `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(isbn)}-L.jpg?default=false`;
+    return `https://www.goodreads.com/search?q=${encodeURIComponent(isbn)}`;
   }
 
   function card(book, shelfStatus) {
     const title = escapeHTML(book.title || "");
     const author = escapeHTML(book.author || "");
     const reader = escapeHTML(book.reader || "Shared");
-    const src = escapeHTML(coverURL(book));
     const description = escapeHTML(book.description || "");
-    const goodreads = escapeHTML(book.goodreads || "");
+    const goodreads = goodreadsURL(book);
 
     const label =
       shelfStatus === "Currently Reading"
@@ -169,19 +236,7 @@
       >
         <div class="current-book-grid">
           <div class="cover-frame current-cover">
-            ${
-              src
-                ? `<img
-                    src="${src}"
-                    alt="Cover of ${title} by ${author}"
-                    loading="lazy"
-                    onerror="this.style.display='none';this.parentElement.classList.add('is-fallback')"
-                  >`
-                : ""
-            }
-            <div class="fallback-cover" aria-hidden="true">
-              Cover unavailable
-            </div>
+            ${coverHTML(book)}
           </div>
 
           <div class="reading-room-copy">
@@ -190,6 +245,7 @@
             </span>
 
             <h3 class="editorial-heading">${title}</h3>
+
             <p class="book-author">${author}</p>
 
             ${
@@ -200,12 +256,16 @@
 
             ${
               goodreads
-                ? `<a
+                ? `
+                  <a
                     class="focus-ring link-line"
                     href="${goodreads}"
-                    rel="noopener noreferrer"
                     target="_blank"
-                  >Find it on Goodreads</a>`
+                    rel="noopener"
+                  >
+                    Find it on Goodreads
+                  </a>
+                `
                 : ""
             }
           </div>
@@ -214,19 +274,38 @@
     `;
   }
 
+  function renderEmpty(message) {
+    return `
+      <p class="content-empty">
+        ${message}
+      </p>
+    `;
+  }
+
   async function load() {
     try {
-      const response = await fetch(root.dataset.readingRoomUrl, {
+      const fileURL = root.dataset.readingRoomUrl;
+
+      if (!fileURL) {
+        throw new Error("No books.md path was provided.");
+      }
+
+      const response = await fetch(fileURL, {
         headers: {
           Accept: "text/markdown,text/plain"
         }
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        throw new Error(`Could not load books.md: HTTP ${response.status}`);
       }
 
       const markdown = await response.text();
+
+      if (!markdown.trim()) {
+        throw new Error("books.md is empty.");
+      }
+
       const sections = parseMarkdown(markdown);
 
       const books = sections.flatMap((section) =>
@@ -244,17 +323,22 @@
         (book) => book.status === "Reading Next"
       );
 
-      const currentList = document.querySelector("[data-reading-current]");
-      const nextList = document.querySelector("[data-reading-next]");
+      const currentList = document.querySelector(
+        "[data-reading-current]"
+      );
+
+      const nextList = document.querySelector(
+        "[data-reading-next]"
+      );
 
       if (currentList) {
         currentList.innerHTML = current.length
           ? current
               .map((book) => card(book, "Currently Reading"))
               .join("")
-          : `<p class="content-empty">
-              No books are currently assigned to this shelf.
-            </p>`;
+          : renderEmpty(
+              "No books are currently assigned to this shelf."
+            );
       }
 
       if (nextList) {
@@ -262,9 +346,9 @@
           ? next
               .map((book) => card(book, "Reading Next"))
               .join("")
-          : `<p class="content-empty">
-              No books are assigned to the Reading Next shelf.
-            </p>`;
+          : renderEmpty(
+              "No books are assigned to the Reading Next shelf."
+            );
       }
 
       window.BookClubBooks = {
@@ -278,17 +362,27 @@
           detail: window.BookClubBooks
         })
       );
+
+      console.log("Reading room loaded:", {
+        sections,
+        totalBooks: books.length,
+        currentlyReading: current.length,
+        readingNext: next.length
+      });
     } catch (error) {
       console.error("Reading room load failed", error);
 
-      const currentList = document.querySelector("[data-reading-current]");
-      const nextList = document.querySelector("[data-reading-next]");
+      const currentList = document.querySelector(
+        "[data-reading-current]"
+      );
 
-      const message = `
-        <p class="content-empty">
-          The reading room could not be loaded.
-        </p>
-      `;
+      const nextList = document.querySelector(
+        "[data-reading-next]"
+      );
+
+      const message = renderEmpty(
+        "The reading room could not be loaded."
+      );
 
       if (currentList) currentList.innerHTML = message;
       if (nextList) nextList.innerHTML = message;
