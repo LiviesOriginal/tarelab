@@ -821,8 +821,8 @@ section[aria-labelledby="next-heading"] p.mb-3 { margin-bottom: .65rem; }
 .content-page .content-hero .section-title { font-size: clamp(1.8rem, 4vw, 2.75rem) !important; }
 .content-page .page-teaser-copy { max-width: 42rem; font-size: .95rem; line-height: 1.65; }
 .content-page .content-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
-.content-page .radar-card { grid-template-columns: 110px minmax(0, 1fr); gap: 1.1rem; padding: 1rem; }
-.content-page .radar-cover { width: 110px; aspect-ratio: 2 / 3; }
+.content-page .radar-card { grid-template-columns: 120px minmax(0, 1fr); gap: 1.1rem; padding: 1rem; }
+.content-page .radar-cover { width: 120px; aspect-ratio: 2 / 3; }
 .content-page .radar-copy h3 { margin-top: .8rem; font-size: 1.15rem; line-height: 1.1; }
 .content-page .radar-copy > p { font-size: .82rem; }
 .content-page .radar-copy .link-line { font-size: .78rem; }
@@ -996,10 +996,13 @@ section[aria-labelledby="next-heading"] p.mb-3 { margin-bottom: .65rem; }
 .archive-card .archive-title { margin-top: 1rem; }
 .archive-preview-card {
   display: grid;
-  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-columns: clamp(96px, 12vw, 142px) minmax(0, 1fr);
   gap: 1rem;
 }
-.archive-preview-cover { width: 76px; grid-row: 1 / span 4; }
+.archive-preview-cover {
+  width: clamp(96px, 12vw, 142px);
+  grid-row: 1 / span 4;
+}
 .archive-preview-cover + .archive-preview-top { grid-column: 2; }
 .archive-preview-card h3,
 .archive-preview-card .archive-preview-author,
@@ -1030,8 +1033,8 @@ section[aria-labelledby="next-heading"] p.mb-3 { margin-bottom: .65rem; }
   }
   .archive-card { grid-template-columns: 92px minmax(0, 1fr); gap: .9rem; padding: 1rem; }
   .archive-cover { width: 92px; }
-  .archive-preview-card { grid-template-columns: 72px minmax(0, 1fr); gap: .85rem; }
-  .archive-preview-cover { width: 72px; }
+  .archive-preview-card { grid-template-columns: 76px minmax(0, 1fr); gap: .85rem; }
+  .archive-preview-cover { width: 76px; }
 }
 
 @media (max-width: 480px) {
@@ -1226,4 +1229,73 @@ footer p { font-size: .7rem !important; }
 
 @media (max-width: 767px) {
   .site-header-top { grid-template-columns: 1fr; }
+}
+
+/* Shared reading-card scale across the homepage, Radar, and Read. */
+.site-header-inner { padding-top: .8rem; }
+.site-header .home-nav { margin-top: .75rem; padding-block: .5rem; }
+.content-page .site-header-inner { padding-top: .8rem; }
+
+.current-reading-card h3,
+.reading-room-copy h3,
+.content-page .radar-copy h3,
+.content-page .archive-title,
+.archive-preview-copy h3 {
+  font-size: 1rem !important;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+
+.current-reading-card .book-author,
+.reading-room-copy .book-author,
+.reading-room-copy .book-description,
+.content-page .radar-copy > p,
+.content-page .archive-author,
+.archive-preview-copy .archive-preview-author,
+.archive-preview-copy .archive-preview-reflection {
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.current-reading-card .reader-badge,
+.content-page .reader-badge,
+.archive-preview-copy .rating-label {
+  font-size: .62rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.content-page .radar-card,
+.content-page .archive-card {
+  align-items: start;
+}
+
+@media (max-width: 767px) {
+  .current-reading-grid .current-book-grid,
+  .reading-next-grid .current-book-grid {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: .75rem;
+  }
+
+  .current-reading-card { padding: .8rem !important; }
+  .current-reading-card .current-cover { width: 76px; }
+  .content-page .radar-card { grid-template-columns: 104px minmax(0, 1fr); }
+  .content-page .radar-cover { width: 104px; }
+  .content-page .archive-card { grid-template-columns: 104px minmax(0, 1fr); }
+  .content-page .archive-cover { width: 104px; }
+  .archive-preview-card { grid-template-columns: 76px minmax(0, 1fr); }
+  .archive-preview-cover { width: 76px; }
+}
+
+@media (max-width: 359px) {
+  .current-reading-grid .current-book-grid,
+  .reading-next-grid .current-book-grid {
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: .55rem;
+  }
+
+  .current-reading-card .current-cover { width: 68px; }
+  .archive-preview-card { grid-template-columns: 68px minmax(0, 1fr); }
+  .archive-preview-cover { width: 68px; }
 }
