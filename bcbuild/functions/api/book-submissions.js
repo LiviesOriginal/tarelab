@@ -136,21 +136,56 @@ function makeBookNotes(submission) {
 }
 
 function updateMarkdown(markdown, submission) {
-  const lines=markdown.replace(/\r\n/g,"\n").split("\n");
-  const section=findSection(lines,submission.section), start=section.start, end=section.end;
+  let lines=markdown.replace(/\r\n/g,"\n").split("\n");
+  let section=findSection(lines,submission.section), start=section.start, end=section.end;
   const isFlix=submission.target==="flix", isBookRead=!isFlix&&submission.section.toLowerCase()==="read";
   const itemLine=line=>isFlix?line.startsWith("## "):isBookLine(line,isBookRead);
   const parse=line=>{ if(!isFlix)return parseBookLine(line,isBookRead); const p=line.slice(3).trim().split("|").map(x=>x.trim()); return p.length>=3?{title:p[0],year:p[1],imdb:p[2],ratingXY:p[3]||"",ratingZZ:p[4]||""}:null; };
   const make=item=>isFlix?"## "+item.title+" | "+item.year+" | "+item.imdb+" | "+item.ratingXY+" | "+item.ratingZZ:makeBookLine(item,isBookRead);
-  const notes=()=>submission.reflection.trim()?submission.reflection.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(x=>"- "+x):[];
+  const noteLines=()=>submission.reflection.trim()?submission.reflection.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(x=>"- "+x):[];
   const item=isFlix?{title:submission.title,year:submission.year,imdb:submission.imdb,ratingXY:submission.ratingXY,ratingZZ:submission.ratingZZ}:{title:submission.title,author:submission.author,isbn:submission.isbn,ratingXY:submission.ratingXY,ratingZZ:submission.ratingZZ,priority:false};
   const key=isFlix?item.imdb.toLowerCase():normalizeISBN(item.isbn);
   const name=isFlix?(item.title+" "+item.year).toLowerCase().replace(/\s+/g," ").trim():(item.title+" "+item.author).toLowerCase().replace(/\s+/g," ").trim();
+  let sourceNotes=[];
+  if(isFlix){
+    let sourceStart=-1,sourceEnd=-1;
+    for(let i=0;i<lines.length;i++){
+      if(!lines[i].startsWith("## "))continue;
+      const parsed=parse(lines[i]); if(!parsed||parsed.imdb.toLowerCase()!==key)continue;
+      const sourceSection=findSection(lines,lines.slice(0,i+1).reverse().find(x=>x.startsWith("# "))?.slice(2).trim()||"");
+      if(sourceSection.start===start)continue;
+      sourceStart=i; sourceEnd=i+1;
+      while(sourceEnd<lines.length&&!lines[sourceEnd].startsWith("## ")&&!lines[sourceEnd].startsWith("# "))sourceEnd++;
+      sourceNotes=lines.slice(i+1,sourceEnd).map(x=>x.trim()).filter(Boolean);
+      break;
+    }
+    if(sourceStart>=0){ lines.splice(sourceStart,sourceEnd-sourceStart); section=findSection(lines,submission.section); start=section.start; end=section.end; }
+  }
+  if(sourceNotes.length&&!submission.reflection.trim()) submission.reflection=sourceNotes.join("\n");
   let matchStart=-1,matchEnd=-1,existing=null;
-  for(let i=start+1;i<end;i++){ if(!itemLine(lines[i]))continue; const parsed=parse(lines[i]); if(!parsed)continue; const parsedKey=isFlix?parsed.imdb.toLowerCase():normalizeISBN(parsed.isbn); const sameKey=key&&parsedKey===key; const parsedName=(isFlix?(parsed.title+" "+parsed.year):(parsed.title+" "+parsed.author)).toLowerCase().replace(/\s+/g," ").trim(); if(!sameKey&&!(parsedName===name&&(!key||!parsedKey)))continue; matchStart=i;existing=parsed;matchEnd=i+1;while(matchEnd<end&&!itemLine(lines[matchEnd]))matchEnd++;break; }
-  if(existing){ if(isFlix){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;} else {item.isbn ||= existing.isbn; item.priority=existing.priority; if(isBookRead){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;}} lines[matchStart]=make(item); const seen=new Set(lines.slice(matchStart+1,matchEnd).map(x=>x.trim().toLowerCase())); lines.splice(matchEnd,0,...notes().filter(x=>!seen.has(x.toLowerCase()))); }
-  else { const block=[make(item),...notes()],before=lines.slice(0,end),after=lines.slice(end); while(before.length&&!before[before.length-1].trim())before.pop(); while(after.length&&!after[0].trim())after.shift(); lines.splice(0,lines.length,...before,"",...block,"",...after); }
-  const result=lines.join("\n").replace(/\n*$/,"\n"); if(result===markdown)throw new Error("This submission does not change the file."); return result;
+  for(let i=start+1;i<end;i++){
+    if(!itemLine(lines[i]))continue;
+    const parsed=parse(lines[i]); if(!parsed)continue;
+    const parsedKey=isFlix?parsed.imdb.toLowerCase():normalizeISBN(parsed.isbn);
+    const sameKey=key&&parsedKey===key;
+    const parsedName=(isFlix?(parsed.title+" "+parsed.year):(parsed.title+" "+parsed.author)).toLowerCase().replace(/\s+/g," ").trim();
+    if(!sameKey&&!(parsedName===name&&(!key||!parsedKey)))continue;
+    matchStart=i;existing=parsed;matchEnd=i+1;while(matchEnd<end&&!itemLine(lines[matchEnd]))matchEnd++;break;
+  }
+  if(existing){
+    if(isFlix){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;}
+    else {item.isbn ||= existing.isbn; item.priority=existing.priority; if(isBookRead){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;}}
+    lines[matchStart]=make(item);
+    const seen=new Set(lines.slice(matchStart+1,matchEnd).map(x=>x.trim().toLowerCase()));
+    lines.splice(matchEnd,0,...noteLines().filter(x=>!seen.has(x.toLowerCase())));
+  } else {
+    const block=[make(item),...noteLines()],before=lines.slice(0,end),after=lines.slice(end);
+    while(before.length&&!before[before.length-1].trim())before.pop(); while(after.length&&!after[0].trim())after.shift();
+    lines.splice(0,lines.length,...before,"",...block,"",...after);
+  }
+  const result=lines.join("\n").replace(/\n*$/,"\n");
+  if(result===markdown)throw new Error("This submission does not change the file.");
+  return result;
 }
 function derLength(length) {
   if (length < 128) return Uint8Array.of(length);
