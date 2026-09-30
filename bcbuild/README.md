@@ -1,47 +1,48 @@
 # Book Club for Two
 
-A cleaned Canva-derived site for GitHub + Cloudflare Pages, with a D1-backed Club Log.
+The Reading Room, Radar, and Read pages are rendered from `content/books.md`. The homepage Updates form submits a structured change to that file and opens a GitHub pull request; merging the PR publishes the update through Cloudflare Pages.
 
 ## Structure
 
-- `index.html` — homepage / reading room, kept at the project root.
-- `radarview.html` — On the Radar page.
-- `readview.html` — Already Read page.
-- `content/books.md` — the single source of truth for Reading Room, Radar, and Already Read content.
-- `content/radar.md` and `content/already-read.md` are no longer used.
-- `books.js` — shared Markdown parser and renderer for the homepage shelves and both book-list pages.
-- `club-log.js` — browser client for the Club Log API.
-- `functions/api/club-log.js` — public GET/POST API.
-- `functions/api/club-log/[id].js` — protected admin DELETE API.
-- `migrations/0001_create_club_log.sql` — D1 schema.
-- `styles.css` — extracted site CSS plus the final visual overrides.
+- `index.html` — homepage and mobile-friendly Updates form.
+- `content/books.md` — canonical book and shelf data.
+- `books.js` — shared Markdown parser and renderer for all book pages.
+- `book-update.js` — Updates form client; loads shelf headings from `books.md`, verifies the Turnstile challenge, and submits the form.
+- `functions/api/book-submission-config.js` — supplies the public Turnstile site key.
+- `functions/api/book-submissions.js` — validates submissions, verifies Turnstile server-side, updates the selected Markdown section, and opens one GitHub PR per submission.
+- `radarview.html` and `readview.html` — complete Radar and Read shelves.
+- `styles.css` — shared site styles.
 
-The homepage structure and reading-card proportions are intentionally kept close to the supplied Canva HTML. The visual pass changes the blue/gray treatment to plum, cranberry, blush, warm paper, and dark wine; it uses Manrope as the closest practical substitute for the unavailable Canva font.
+The shelf is selected explicitly from the headings in `books.md`. ISBN is used to match an entry only within the selected section and to obtain covers/Goodreads links; it does not determine the shelf. For Read entries, the first and second ratings are XY and ZZ. Submitting a blank rating preserves the existing rating. Notes are appended without duplicating identical lines.
 
-## D1
+## Configure submissions
 
-Put your real database ID in `wrangler.toml`, then:
+1. Create a Cloudflare Turnstile widget for the production hostname (and any preview hostnames used for testing). Add these Pages environment variables:
+   - `TURNSTILE_SITE_KEY` — public site key.
+   - `TURNSTILE_SECRET_KEY` — secret key; store as a Cloudflare secret.
+2. Create a GitHub App and install it only on `LiviesOriginal/tarelab`. Grant repository **Contents: Read and write** and **Pull requests: Read and write**. Add these Pages variables/secrets:
+   - `GITHUB_APP_ID` — app ID.
+   - `GITHUB_INSTALLATION_ID` — installation ID.
+   - `GITHUB_APP_PRIVATE_KEY` — generated private key; store as a Cloudflare secret.
+   - `GITHUB_REPOSITORY` — optional; defaults to `LiviesOriginal/tarelab`.
+   - `GITHUB_BASE_BRANCH` — optional; defaults to `main`.
+3. Add a Cloudflare rate-limiting rule for `POST /api/book-submissions` (for example, five requests per ten minutes per IP). Turnstile reduces automated submissions but is not identity verification or a replacement for rate limiting.
+4. Protect `main` so changes require a pull request and at least one approving review before merge. This is the deployment gate; the submitter does not need GitHub credentials.
+5. Ensure Cloudflare Pages deploys production from `main`. Form submissions create reviewable PRs and do not publish until merged.
+
+Never put the GitHub App private key or Turnstile secret in browser code or commit them to the repository. Until the required keys are configured, the form reports that submissions are unavailable.
+
+## Local preview
+
+Install dependencies and run Cloudflare Pages locally:
 
 ```bash
 npm install
-npm run db:migrate:remote
-```
-
-For local development:
-
-```bash
-npm run db:migrate:local
 npm run dev
 ```
 
-## Cloudflare Pages
+The Pages Functions require local environment values in an untracked `.dev.vars` file to test submissions. Use test Turnstile credentials and a GitHub App installation restricted to a test repository; otherwise local submissions can create real PRs.
 
-The project root is the Pages build output directory, so `index.html` remains at the root. Connect the GitHub repository to Cloudflare Pages and deploy the repository root.
+## Legacy Club Log
 
-Set `ADMIN_API_KEY` as a Cloudflare secret only if you want to use the protected DELETE endpoint:
-
-```bash
-npx wrangler secret put ADMIN_API_KEY
-```
-
-The public Club Log POST endpoint has server-side validation and a honeypot. Before significant public traffic, add Cloudflare rate limiting and/or Turnstile.
+The former D1-backed Club Log API and migration files remain in the repository but are no longer used by the homepage form. The new source-of-truth flow writes to `content/books.md` through GitHub PRs.
