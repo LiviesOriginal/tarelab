@@ -14,6 +14,10 @@
     .screen-section > .home-section-heading { margin: 0 0 1rem; }
     .screen-section:first-child > .home-section-heading { margin-bottom: 1rem; }
     .screen-grid { margin-top: 0; }
+    .screen-card { align-self: stretch; }
+    .screen-cover { aspect-ratio: 2 / 3; }
+    .screen-cover img { height: 100%; }
+    .screen-cover img.screen-poster-missing { visibility: hidden; }
   </style>
 </head>
 <body class="page-shell min-h-screen content-page screen-page">
@@ -28,7 +32,7 @@
 <form id="book-update-form" class="club-log-form" data-submission-target="flix" novalidate>
 <input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
 <div class="form-row form-row-two"><label>Movie / series title<input name="book_title" required maxlength="160" type="text"/></label><label>Year<input name="year" required maxlength="4" inputmode="numeric" type="text"/></label></div>
-<input type="hidden" name="section" value="Currently Watching"/><label>IMDb ID<input name="imdb" required maxlength="20" placeholder="tt1234567" type="text"/></label>
+<input type="hidden" name="section" value="Currently Watching"/><label>IMDb ID<input name="imdb" required maxlength="20" type="text"/></label>
 <label>Review / Remember<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
 <div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div>
 <div class="turnstile-widget" id="turnstile-widget"></div>
@@ -49,8 +53,9 @@ const imdb=id=>/^tt\d+$/i.test(String(id||""))?"https://www.imdb.com/title/"+enc
 async function poster(id){if(!/^tt\d+$/i.test(String(id||"")))return"";if(!(id in cache)){try{const r=await fetch("https://api.themoviedb.org/3/find/"+encodeURIComponent(id)+"?external_source=imdb_id&api_key="+encodeURIComponent(KEY)),d=await r.json(),hit=(d&&(d.movie_results?.[0]||d.tv_results?.[0]))||null;cache[id]=hit?.poster_path?"https://image.tmdb.org/t/p/w342"+hit.poster_path:""}catch{cache[id]=""}}return cache[id]}
 function rating(label,value){return'<div class="screen-rating-row"><span class="screen-rating-label">'+label+'</span><span class="screen-stars">'+stars(value)+'</span></div>'}
 function card(f,watched){const notes=f.notes?'<p class="screen-note">'+esc(f.notes)+"</p>":"";const lines=f.lines.map(x=>'<p class="screen-note">'+esc(x)+"</p>").join("");const href=imdb(f.imdb);return'<a class="screen-card focus-ring" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer" aria-label="View '+esc(f.title)+' on IMDb"><div class="screen-cover"><img data-imdb="'+esc(f.imdb)+'" alt="Poster for '+esc(f.title)+'" loading="lazy"></div><div class="screen-copy"><h3 class="editorial-heading">'+esc(f.title)+'</h3><p class="screen-year">Released in '+esc(f.year)+'</p>'+(watched?'<div class="screen-ratings">'+rating("XY",f.rgb)+rating("ZZ",f.lab)+"</div>":"")+notes+lines+"</div></a>"}
-async function loadPosters(){await Promise.all([...shelf.querySelectorAll("img[data-imdb]")].map(async img=>{const src=await poster(img.dataset.imdb);if(src)img.src=src;else img.remove()}))}
-function render(sections){if(!sections.length){shelf.innerHTML='<p class="content-empty">No titles are available in flix.md.</p>';return}shelf.innerHTML=sections.map((s,index)=>{const watched=/\bwatched\b/i.test(s.title);const heading=index===0?'':'<h2 class="editorial-heading home-section-heading">'+esc(s.title)+'</h2>';return'<section class="screen-section">'+heading+'<div class="screen-grid">'+s.films.map(f=>card(f,watched)).join("")+'</div></section>'}).join("");loadPosters()}
+async function loadPosters(){await Promise.all([...shelf.querySelectorAll("img[data-imdb]")].map(async img=>{const src=await poster(img.dataset.imdb);if(src)img.src=src;else img.classList.add("screen-poster-missing")}))}
+function equalizeCards(){const cards=[...shelf.querySelectorAll(".screen-card")];if(!cards.length)return;cards.forEach(card=>card.style.height="auto");const height=Math.max(...cards.map(card=>card.getBoundingClientRect().height));cards.forEach(card=>card.style.height=height+"px")}
+function render(sections){if(!sections.length){shelf.innerHTML='<p class="content-empty">No titles are available in flix.md.</p>';return}shelf.innerHTML=sections.map((s,index)=>{const watched=/\bwatched\b/i.test(s.title);const heading=index===0?'':'<h2 class="editorial-heading home-section-heading">'+esc(s.title)+'</h2>';return'<section class="screen-section">'+heading+'<div class="screen-grid">'+s.films.map(f=>card(f,watched)).join("")+'</div></section>'}).join("");loadPosters().then(equalizeCards)}
 fetch("../flix.md?t="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(t=>render(parse(t))).catch(e=>{shelf.innerHTML='<p class="content-empty">Couldn’t load <b>flix.md</b> ('+esc(e.message)+').</p>'})})();
 </script>
 </body></html>
