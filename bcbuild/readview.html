@@ -15,8 +15,8 @@
     gtag('js', new Date());
     gtag('config', 'G-3PM570SXPX');
   </script>
-  <link href="styles.css?v=20260930-header-parity" rel="stylesheet"/>
-  <script defer data-cfasync="false" src="books.js?v=20260930-book-club-titles"></script>
+  <link href="styles.css?v=20260930-readview-spoilers" rel="stylesheet"/>
+  <script defer data-cfasync="false" src="books.js?v=20260930-readview-spoilers"></script>
 </head>
 <body class="page-shell min-h-screen content-page" data-books-url="./content/books.md" data-books-view="already-read">
   <header class="site-header">
@@ -26,7 +26,6 @@
           <p class="header-kicker">Book Club</p>
           <h1 class="editorial-heading">Reviews</h1>
         </div>
-        <p class="header-dek">The stories we’ve finished and the thoughts we kept.</p>
       </div>
       <nav class="home-nav" aria-label="Site navigation">
         <a class="focus-ring" href="./">The Reading Room</a>
@@ -36,10 +35,9 @@
   </header>
   <main class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
     <section class="content-hero pb-6">
-      <p class="section-kicker">Our recent reads</p>
-      <p class="page-teaser-copy" data-books-intro>Loading books…</p>
+      <h2 class="editorial-heading home-section-heading" id="reviews-list-heading">Read</h2>
     </section>
-    <section class="content-grid mt-8" aria-label="Reviews" data-books-list aria-live="polite"></section>
+    <section class="content-grid mt-8" aria-labelledby="reviews-list-heading" data-books-list aria-live="polite"></section>
   </main>
   <footer class="border-t border-[#dedfd8]">
     <div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><a class="page-link focus-ring" href="./">Back to The Reading Room</a></div>

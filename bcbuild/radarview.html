@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Books we're considering for our reading list."/>
-  <title>Book Club Reads · The Reading Room</title>
+  <title>The Stacks · The Reading Room</title>
   <link rel="icon" type="image/svg+xml" href="/moonfavicon.svg"/>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
   <!-- Google tag (gtag.js) -->
@@ -16,7 +16,7 @@
     gtag('config', 'G-3PM570SXPX');
   </script>
   <link href="styles.css?v=20260930-header-parity" rel="stylesheet"/>
-  <script defer data-cfasync="false" src="books.js?v=20260930-book-club-titles"></script>
+  <script defer data-cfasync="false" src="books.js?v=20260930-radarview-titles"></script>
 </head>
 <body class="page-shell min-h-screen content-page" data-books-url="./content/books.md" data-books-view="radar">
   <header class="site-header">
@@ -24,9 +24,8 @@
       <div class="site-header-top">
         <div>
           <p class="header-kicker">Book Club</p>
-          <h1 class="editorial-heading">Book Club Reads</h1>
+          <h1 class="editorial-heading">The Stacks</h1>
         </div>
-        <p class="header-dek">Possibilities for a future read, all gathered from our shared list.</p>
       </div>
       <nav class="home-nav" aria-label="Site navigation">
         <a class="focus-ring" href="./">The Reading Room</a>
@@ -36,10 +35,9 @@
   </header>
   <main class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
     <section class="content-hero pb-6">
-      <p class="section-kicker">Endless Possibilities</p>
-      <p class="page-teaser-copy" data-books-intro>Loading books…</p>
+      <h2 class="editorial-heading home-section-heading" id="radar-list-heading">Future Book Club Reads</h2>
     </section>
-    <section class="content-grid mt-8" aria-label="Book Club Reads" data-books-list aria-live="polite"></section>
+    <section class="content-grid mt-8" aria-labelledby="radar-list-heading" data-books-list aria-live="polite"></section>
   </main>
   <footer class="border-t border-[#dedfd8]">
     <div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><a class="page-link focus-ring" href="./">Back to The Reading Room</a></div>
