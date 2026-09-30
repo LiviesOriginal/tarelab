@@ -14,9 +14,9 @@
 gtag('js', new Date());
 gtag('config', 'G-3PM570SXPX');
 </script>
-<link href="styles.css?v=20260930-book-club-titles" rel="stylesheet"/>
+<link href="styles.css?v=20260930-section-heading-links" rel="stylesheet"/>
   <script defer data-cfasync="false" src="book-update.js?v=20260930-ddg"></script>
-  <script defer data-cfasync="false" src="books.js?v=20260930-book-club-titles"></script>
+  <script defer data-cfasync="false" src="books.js?v=20260930-section-heading-links"></script>
 </head>
 <body class="page-shell min-h-screen">
 <header class="site-header">
@@ -38,7 +38,7 @@ gtag('config', 'G-3PM570SXPX');
 <section aria-labelledby="current-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="mb-7 flex items-end justify-between gap-6">
 <div>
-<h2 class="editorial-heading text-3xl font-semibold" id="current-heading">Currently Reading</h2>
+<h2 class="editorial-heading home-section-heading" id="current-heading">Currently Reading</h2>
 </div>
 </div>
 <div class="current-reading-grid" data-reading-current></div>
@@ -46,28 +46,27 @@ gtag('config', 'G-3PM570SXPX');
 <section class="border-y border-[#dedfd8] bg-[#efeee8]">
 <div aria-labelledby="next-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="mb-7">
-<h2 class="editorial-heading text-3xl font-semibold" id="next-heading">Book Club Selection</h2>
+<h2 class="editorial-heading home-section-heading" id="next-heading">Book Club Selection</h2>
 </div>
 <div class="grid reading-next-grid" data-reading-next></div></div>
 </section>
 <section aria-labelledby="individual-picks-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="mb-7">
-<h2 class="editorial-heading text-3xl font-semibold" id="individual-picks-heading">On the Shelf</h2>
+<h2 class="editorial-heading home-section-heading" id="individual-picks-heading">On the Shelf</h2>
 </div>
 <div class="current-reading-grid" data-next-picks></div>
 </section>
 <section aria-labelledby="radar-heading" class="home-preview-section radar-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="preview-header">
-<div><h2 class="editorial-heading section-title" id="radar-heading">Book Club Reads</h2></div>
-<a class="page-link focus-ring" data-radar-preview-count href="./radarview.html">03 / Endless Possibilities →</a>
+<div><h2 class="editorial-heading section-title home-section-heading" id="radar-heading"><a class="focus-ring" href="./radarview.html">Book Club Reads →</a></h2></div>
 </div>
 <div class="current-reading-grid" data-radar-preview></div>
 </div>
 </section>
 <section aria-labelledby="reviews-heading" class="archive-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
-<div class="preview-header"><div><h2 class="editorial-heading section-title" id="reviews-heading">Reviews</h2></div><a class="page-link focus-ring" data-read-preview-count href="./readview.html">03 / Reviews →</a></div>
+<div class="preview-header"><div><h2 class="editorial-heading section-title home-section-heading" id="reviews-heading"><a class="focus-ring" href="./readview.html">Reviews →</a></h2></div></div>
 <div class="preview-grid archive-preview-grid"></div>
 </div>
 </section>
