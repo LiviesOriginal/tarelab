@@ -59,9 +59,11 @@
       .map((line) => line.slice(2).trim());
     if (!sections.length) throw new Error(`No sections were found in ${isFlix ? "flix.md" : "books.md"}.`);
 
-    sectionSelect.replaceChildren(new Option("Select", ""));
-    sections.forEach((section) => sectionSelect.add(new Option(sectionOptionLabel(section), section)));
-    sectionSelect.disabled = false;
+    if (sectionSelect) {
+      sectionSelect.replaceChildren(new Option("Select", ""));
+      sections.forEach((section) => sectionSelect.add(new Option(sectionOptionLabel(section), section)));
+      sectionSelect.disabled = false;
+    }
     updateRatingVisibility();
   }
 
@@ -107,10 +109,13 @@
     if (turnstileWidgetId !== null) window.turnstile.reset(turnstileWidgetId);
   }
 
-  sectionSelect.disabled = true;
+  if (sectionSelect) {
+    sectionSelect.disabled = true;
+    sectionSelect.addEventListener("change", updateRatingVisibility);
+  }
   submitButton.disabled = true;
-  sectionSelect.addEventListener("change", updateRatingVisibility);
-  Promise.all([loadSections(), configureTurnstile()])
+  const setup = isFlix ? configureTurnstile() : Promise.all([loadSections(), configureTurnstile()]);
+  setup
     .then(() => {
       formReady = true;
       setPending(false);
