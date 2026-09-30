@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Movies and series we've watched and want to watch."/>
+  <title>They Made a Movie · The Reading Room</title>
+  <link rel="icon" type="image/svg+xml" href="/moonfavicon.svg"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-3PM570SXPX');</script>
+  <link href="styles.css?v=20260930-screenview" rel="stylesheet"/>
+</head>
+<body class="page-shell min-h-screen content-page screen-page">
+<header class="site-header"><div class="site-header-inner"><div class="site-header-top"><div><p class="header-kicker">The Reading Room</p><h1 class="editorial-heading">They Made a Movie</h1></div></div>
+<nav class="home-nav" aria-label="Site navigation"><a class="focus-ring" href="./">The Reading Room</a><a class="focus-ring" href="./radarview.html">The Stacks</a><a class="focus-ring" href="./readview.html">Reviews</a></nav></div></header>
+<main class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10"><section class="content-hero pb-6"><h2 class="editorial-heading home-section-heading">Screen</h2><p class="screen-intro">Books are for the Reading Room. These are for the screen.</p></section><div id="screen-shelf" aria-live="polite"><p class="content-empty">Loading the shelf…</p></div></main>
+<footer class="site-footer border-t border-[#dedfd8]"><div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><p>© 2026 Elle Bee</p></div></footer>
+<script>
+(()=>{const shelf=document.getElementById("screen-shelf"),KEY="06cf868a53dce6149194addbd212d29d",cache={};
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stars=v=>{const n=Number.parseFloat(String(v||"").replace(/[^0-9.]/g,""));if(!Number.isFinite(n))return"—";const f=Math.round(Math.max(0,Math.min(5,n)));return"★".repeat(f)+"☆".repeat(5-f)};
+function parse(text){const sections=[];let section=null,film=null;const flush=()=>{if(film&&section){film.notes=film.noteLines.join(" ").trim();section.films.push(film);film=null}};for(const raw of text.replace(/\r\n/g,"\n").split("\n")){const line=raw.replace(/\s+$/,""),h1=line.match(/^#\s+(.*)/),h2=line.match(/^##\s+(.*)/);if(h1){flush();section={title:h1[1].trim(),films:[]};sections.push(section);continue}if(h2){if(!section)continue;flush();const p=h2[1].split("|").map(s=>s.trim());film={title:p[0]||"",year:p[1]||"",imdb:p[2]||"",rgb:p[3]||"—",lab:p[4]||"—",noteLines:[],lines:[]};continue}if(!film)continue;const q=line.match(/^\s*-\s+(.*)/);if(q)film.lines.push(q[1].trim());else if(line.trim())film.noteLines.push(line.trim())}flush();return sections.filter(s=>s.films.length)}
+const imdb=id=>/^tt\d+$/i.test(String(id||""))?"https://www.imdb.com/title/"+encodeURIComponent(id)+"/":"";
+async function poster(id){if(!/^tt\d+$/i.test(String(id||"")))return"";if(!(id in cache)){try{const r=await fetch("https://api.themoviedb.org/3/find/"+encodeURIComponent(id)+"?external_source=imdb_id&api_key="+encodeURIComponent(KEY)),d=await r.json(),hit=(d&&(d.movie_results?.[0]||d.tv_results?.[0]))||null;cache[id]=hit?.poster_path?"https://image.tmdb.org/t/p/w342"+hit.poster_path:""}catch{cache[id]=""}}return cache[id]}
+function rating(label,value){return'<div class="screen-rating-row"><span class="screen-rating-label">'+label+'</span><span class="screen-stars">'+stars(value)+'</span></div>'}
+function card(f,watched){const notes=f.notes?'<p class="screen-note">'+esc(f.notes)+"</p>":"";const lines=f.lines.map(x=>'<p class="screen-note">'+esc(x)+"</p>").join("");const href=imdb(f.imdb);return'<a class="screen-card focus-ring" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer" aria-label="View '+esc(f.title)+' on IMDb"><div class="screen-cover"><img data-imdb="'+esc(f.imdb)+'" alt="Poster for '+esc(f.title)+'" loading="lazy"></div><div class="screen-copy"><h3 class="editorial-heading">'+esc(f.title)+'</h3><p class="screen-year">Released in '+esc(f.year)+'</p>'+(watched?'<div class="screen-ratings">'+rating("RGB",f.rgb)+rating("LAB",f.lab)+"</div>":"")+notes+lines+"</div></a>"}
+async function loadPosters(){await Promise.all([...shelf.querySelectorAll("img[data-imdb]")].map(async img=>{const src=await poster(img.dataset.imdb);if(src)img.src=src;else img.remove()}))}
+function render(sections){if(!sections.length){shelf.innerHTML='<p class="content-empty">No titles are available in flix.md.</p>';return}shelf.innerHTML=sections.map(s=>{const watched=/\bwatched\b/i.test(s.title);return'<section class="screen-section"><h2 class="editorial-heading home-section-heading">'+esc(s.title)+'</h2><div class="screen-grid">'+s.films.map(f=>card(f,watched)).join("")+"</div></section>"}).join("");loadPosters()}
+fetch("../flix.md?t="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw new Error("HTTP "+r.status);return r.text()}).then(t=>render(parse(t))).catch(e=>{shelf.innerHTML='<p class="content-empty">Couldn’t load <b>flix.md</b> ('+esc(e.message)+').</p>'})})();
+</script>
+</body></html>
