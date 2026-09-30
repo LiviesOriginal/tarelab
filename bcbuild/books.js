@@ -135,24 +135,40 @@
     }).join("")}</div>`;
   }
 
+  function goodreadsURL(book) {
+    if (typeof book.goodreads === "string") {
+      try {
+        const url = new URL(book.goodreads);
+        if (
+          url.protocol === "https:" &&
+          (url.hostname === "goodreads.com" || url.hostname.endsWith(".goodreads.com"))
+        ) {
+          return url.href;
+        }
+      } catch {
+        // Use a Goodreads search if the optional book-specific URL is invalid.
+      }
+    }
+
+    const isbn = String(book.isbn || "").replace(/[^0-9Xx]/g, "");
+    const query = isbn || [book.title, book.author].filter(Boolean).join(" ");
+    return `https://www.goodreads.com/search?q=${encodeURIComponent(query)}`;
+  }
+
   function readingCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
     const status = book.status;
-    const goodreads = book.isbn
-      ? `https://www.goodreads.com/search?q=${encodeURIComponent(book.isbn)}`
-      : "";
 
     return `<article class="book-card current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card" data-reader="${reader}">
       <div class="current-book-grid">
         <div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
         <div class="reading-room-copy">
           <span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${status === "Currently Reading" ? `${reader} is reading` : `${reader}'s pick`}</span>
-          <h3 class="editorial-heading">${title}</h3>
+          <h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
           <p class="book-author">${author}</p>
           ${book.description ? `<p class="book-description">${escapeHTML(book.description)}</p>` : ""}
-          ${goodreads ? `<a class="focus-ring link-line" href="${goodreads}" target="_blank" rel="noopener noreferrer">Find it on Goodreads</a>` : ""}
         </div>
       </div>
     </article>`;
@@ -161,16 +177,11 @@
   function radarCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const goodreads = book.goodreads || (
-      book.isbn
-        ? `https://www.goodreads.com/search?q=${encodeURIComponent(book.isbn)}`
-        : ""
-    );
     const reader = escapeHTML(book.reader);
 
     return `<article class="book-card radar-card" data-reader="${reader}">
       <div class="radar-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="radar-copy"><span class="reader-badge">${reader}</span><h3 class="editorial-heading">${title}</h3><p>${author}</p>${goodreads ? `<a class="link-line focus-ring" href="${escapeHTML(goodreads)}" target="_blank" rel="noopener noreferrer">Find it on Goodreads</a>` : ""}</div>
+      <div class="radar-copy"><span class="reader-badge">${reader}</span><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
     </article>`;
   }
 
@@ -187,14 +198,14 @@
 
     return `<article class="book-card archive-card" data-reader="${reader}">
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
+      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
     </article>`;
   }
 
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<article class="preview-card"><div class="preview-cover">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div><div class="preview-copy"><h3 class="editorial-heading">${title}</h3><p>${author}</p></div></article>`;
+    return `<article class="preview-card"><div class="preview-cover">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div><div class="preview-copy"><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div></article>`;
   }
 
   function archivePreview(book) {
@@ -207,7 +218,7 @@
         ? [book.notes]
         : [];
     const notes = reflections.slice(0, 1).map((note) => `<p class="archive-preview-reflection">${escapeHTML(note)}</p>`).join("");
-    return `<article class="archive-preview-card"><div class="archive-preview-cover">${cover}</div><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
+    return `<article class="archive-preview-card"><div class="archive-preview-cover">${cover}</div><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
   }
 
   function setBooks(target, books, renderCard) {

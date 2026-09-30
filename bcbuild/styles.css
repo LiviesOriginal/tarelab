@@ -74,6 +74,12 @@ body { font-family: "Manrope", system-ui, sans-serif; }
 .cover-frame { border-radius: 0 !important; background: linear-gradient(145deg, var(--secondary), rgba(138, 123, 154, .35)); }
 .book-card a, .link-line { color: var(--link); }
 .book-card a:hover, .link-line:hover { color: var(--accent-deep); }
+.book-card .book-title-link,
+.preview-copy .book-title-link,
+.archive-preview-card .book-title-link { color: inherit; text-decoration: none; }
+.book-card .book-title-link:hover,
+.preview-copy .book-title-link:hover,
+.archive-preview-card .book-title-link:hover { color: var(--accent-deep); text-decoration: underline; text-underline-offset: .15em; }
 .reader-badge {
   display: inline-block;
   background: var(--accent-soft);
