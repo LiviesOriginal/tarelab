@@ -15,6 +15,10 @@
     "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
   const readers = ["XY", "ZZ"];
 
+  function isNextSynchPick(title) {
+    return /^next\s+syn(?:c|ch)\s+pick$/i.test(title.trim());
+  }
+
   function parseBookLine(line, defaults = {}) {
     const parts = line.split("|").map((part) => part.trim());
     if (parts.length < 3) return null;
@@ -40,7 +44,7 @@
     if (readingMatch) {
       return { status: "Currently Reading", reader: readingMatch[1].toUpperCase() };
     }
-    if (normalized === "next synch pick") {
+    if (isNextSynchPick(normalized)) {
       return { status: "Reading Next", reader: "Shared" };
     }
     const nextPicksMatch = normalized.match(/^(xy|zz)'s next picks$/);
@@ -265,7 +269,7 @@
     );
     const current = books.filter((book) => book.status === "Currently Reading");
     const next = sections
-      .filter((item) => item.title.toLowerCase().trim() === "next synch pick")
+      .filter((item) => isNextSynchPick(item.title))
       .flatMap((item) => item.books);
     const individualPicks = sections
       .filter((item) => /^(xy|zz)'s next picks$/i.test(item.title.trim()))
