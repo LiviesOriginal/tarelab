@@ -1473,3 +1473,29 @@ footer p { font-size: .7rem !important; }
     grid-template-columns: clamp(52px, 17vw, 68px) minmax(0, 1fr) !important;
   }
 }
+
+.page-shell:not(.content-page) .site-header .editorial-heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+main .home-section-heading {
+  font-size: clamp(1.35rem, 2vw, 1.8rem) !important;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+.home-preview-section .preview-header,
+.archive-preview-section .preview-header {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.home-section-heading a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-section-heading a:hover {
+  color: var(--link);
+}

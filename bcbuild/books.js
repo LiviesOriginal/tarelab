@@ -283,16 +283,8 @@
     setBooks(document.querySelector("[data-reading-next]"), next, readingCard);
     setBooks(document.querySelector("[data-next-picks]"), individualPicks, readingCard);
     setBooks(document.querySelector("[data-radar-preview]"), toRead, previewCard);
-    const radarLink = document.querySelector("[data-radar-preview-count]");
-    if (radarLink) {
-      radarLink.textContent = `${String(toRead.length).padStart(2, "0")} / Endless Possibilities →`;
-    }
     const recentReads = (read?.books || []).slice(0, 3);
     setBooks(document.querySelector(".archive-preview-grid"), recentReads, archivePreview);
-    const readLink = document.querySelector("[data-read-preview-count]");
-    if (readLink) {
-      readLink.textContent = `${String(recentReads.length).padStart(2, "0")} / Reviews →`;
-    }
     document.querySelectorAll(".reader-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         const filter = tab.dataset.filter;
