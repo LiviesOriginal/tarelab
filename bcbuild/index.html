@@ -15,7 +15,7 @@ gtag('js', new Date());
 gtag('config', 'G-3PM570SXPX');
 </script>
 <link href="styles.css?v=20260929-palette" rel="stylesheet"/>
-  <script defer="True" src="club-log.js"></script>
+  <script defer src="book-update.js"></script>
   <script defer src="books.js"></script>
 </head>
 <body class="page-shell min-h-screen">
@@ -68,37 +68,42 @@ gtag('config', 'G-3PM570SXPX');
 </div>
 <div class="grid reading-next-grid" data-reading-next></div></div>
 </section>
+<section aria-labelledby="individual-picks-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="mb-7">
+<p class="mb-2 text-xs font-bold uppercase tracking-[0.18em]">On deck</p>
+<h2 class="editorial-heading text-3xl font-semibold" id="individual-picks-heading">Next Picks</h2>
+</div>
+<div class="current-reading-grid" data-next-picks></div>
+</section>
 <section aria-labelledby="radar-heading" class="home-preview-section radar-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="preview-header">
 <div><p class="section-kicker">Maybe soon</p><h2 class="editorial-heading section-title" id="radar-heading">On the Radar</h2></div>
-<a class="page-link focus-ring" href="./radarview.html">03 / Endless Possibilities →</a>
+<a class="page-link focus-ring" data-radar-preview-count href="./radarview.html">03 / Endless Possibilities →</a>
 </div>
-<div class="preview-grid radar-preview-grid"></div>
+<div class="current-reading-grid" data-radar-preview></div>
 </div>
 </section>
-<section aria-labelledby="reviews-heading" class="dark-section archive-preview-section">
+<section aria-labelledby="reviews-heading" class="archive-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
-<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Read</h2></div><a class="page-link focus-ring" href="./readview.html">02 / Finished books →</a></div>
+<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Read</h2></div><a class="page-link focus-ring" data-read-preview-count href="./readview.html">03 / Finished books →</a></div>
 <div class="preview-grid archive-preview-grid"></div>
 </div>
 </section>
-<section aria-labelledby="log-heading" class="club-log-section">
+<section aria-labelledby="log-heading" class="dark-section club-log-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="club-log-layout">
-<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Updates</h2><p class="club-log-intro">Save a title, a passing thought, a rating, or the one line you can't forget.</p>
-<form id="club-log-form" class="club-log-form" novalidate>
+<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Updates</h2><p class="club-log-intro">Add to any shelf in books.md. Your submission opens a pull request for review; it won’t appear on the site until it’s approved and merged.</p>
+<form id="book-update-form" class="club-log-form" novalidate>
 <input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
 <div class="form-row form-row-two"><label>Book title<input name="book_title" required maxlength="160" type="text"/></label><label>Author<input name="author" required maxlength="120" type="text"/></label></div>
-<div class="form-row form-row-two"><label>Shelf status<select name="status"><option>Currently Reading</option><option>Reading Next</option><option>On the Radar</option><option>Read Together</option></select></label><label>Reader<select name="reader"><option>XY</option><option>ZZ</option><option>Shared</option></select></label></div>
-<label>Notes<textarea name="notes" maxlength="1200" rows="4"></textarea></label>
-<div class="form-row form-row-two"><label>Rating (0–5)<input name="rating" min="0" max="5" step="0.5" type="number"/></label><label>Quote<input name="quote" maxlength="1200" type="text"/></label></div>
-<label>Thoughts<textarea name="reflection" maxlength="1600" rows="4"></textarea></label>
-<div class="form-actions"><button class="focus-ring" type="submit">Save</button><p aria-live="polite" id="form-message"></p></div>
+<div class="form-row form-row-two"><label>Books.md section<select id="book-section" name="section" required><option value="">Loading sections…</option></select></label><label>ISBN <span class="optional-label">(optional)</span><input name="isbn" maxlength="20" inputmode="numeric" type="text"/></label></div>
+<label>Notes or reflection<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
+<div class="form-row form-row-two"><label>Quote <span class="optional-label">(optional)</span><textarea name="quote" maxlength="1200" rows="3"></textarea></label><div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div></div>
+<div class="turnstile-widget" id="turnstile-widget"></div>
+<div class="form-actions"><button class="focus-ring" type="submit">Submit for review</button><p aria-live="polite" id="form-message"></p></div>
 </form></div>
-<div class="club-log-saved-column"><p class="section-kicker">Your saved notes</p><h2 class="editorial-heading section-title">Club Log</h2><div class="saved-divider"></div><p class="saved-count" id="record-count"></p><p class="saved-state" id="loading-state">Loading your saved notes…</p><p class="saved-state hidden" id="empty-state">Keep the notes you want to remember — a reaction, a quote, or a thought for your next conversation.</p><p class="saved-state hidden" id="load-error">We couldn’t load the club log. <button class="focus-ring retry-button" id="retry-button" type="button">Try again</button></p><div id="saved-list" class="saved-list"></div>
-<template id="saved-entry-template"><article class="saved-row"><div class="saved-row-top"><span class="saved-status"></span><span class="saved-meta"></span></div><h3 class="saved-title editorial-heading"></h3><p class="saved-author"></p><p class="saved-notes"></p><blockquote class="saved-quote"></blockquote><p class="saved-reflection"></p></article></template>
-</div>
+<aside class="club-log-saved-column update-process-note"><p class="section-kicker">How updates work</p><h2 class="editorial-heading section-title">Your shelf, together</h2><div class="saved-divider"></div><p>Choose the exact section, then add the book and any notes or ratings. Matching books in that same section are updated; the same ISBN can still appear in another section.</p><p>Each submission opens its own pull request. Once the other partner reviews and merges it, Cloudflare Pages deploys the updated books.md.</p><p id="turnstile-state" class="saved-state" aria-live="polite"></p></aside>
 </div>
 </div>
 </section>

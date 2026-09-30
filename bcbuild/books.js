@@ -13,7 +13,7 @@
 
   const noCoverURL =
     "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
-  const readers = ["RGF", "LAB"];
+  const readers = ["XY", "ZZ"];
 
   function parseBookLine(line, defaults = {}) {
     const parts = line.split("|").map((part) => part.trim());
@@ -36,6 +36,17 @@
 
   function sectionDefaults(title) {
     const normalized = title.toLowerCase().trim();
+    const readingMatch = normalized.match(/^(xy|zz) is reading$/);
+    if (readingMatch) {
+      return { status: "Currently Reading", reader: readingMatch[1].toUpperCase() };
+    }
+    if (normalized === "next synch pick") {
+      return { status: "Reading Next", reader: "Shared" };
+    }
+    const nextPicksMatch = normalized.match(/^(xy|zz)'s next picks$/);
+    if (nextPicksMatch) {
+      return { status: "Reading Next", reader: nextPicksMatch[1].toUpperCase() };
+    }
     if (normalized.includes("roxy")) {
       return { status: "Currently Reading", reader: "XY" };
     }
@@ -46,6 +57,18 @@
       return { status: "Reading Next", reader: "Shared" };
     }
     return { status: "", reader: "Shared" };
+  }
+
+  function shelfLabel(title = "") {
+    const trimmed = title.trim();
+    const match = trimmed.match(/^to read(?:\s*-\s*(.*))?$/i);
+    return match ? match[1]?.trim() || "To read" : trimmed;
+  }
+
+  function shelfBadge(book) {
+    const label = shelfLabel(book.sectionTitle || "");
+    const spooky = /^spooky season$/i.test(label);
+    return `<span class="reader-badge shelf-label${spooky ? " shelf-label-spooky" : ""}">${escapeHTML(label)}</span>`;
   }
 
   function parseMarkdown(markdown) {
@@ -69,13 +92,19 @@
 
       if (line.startsWith("## ")) {
         book = parseBookLine(line.slice(3).trim(), section);
-        if (book) section.books.push(book);
+        if (book) {
+          book.sectionTitle = section.title;
+          section.books.push(book);
+        }
         continue;
       }
 
       if (line.includes("|") && !line.startsWith("- ")) {
         book = parseBookLine(line, section);
-        if (book) section.books.push(book);
+        if (book) {
+          book.sectionTitle = section.title;
+          section.books.push(book);
+        }
         continue;
       }
 
@@ -116,14 +145,15 @@
   }
 
   function ratingStars(value, reader) {
-    const parsed = Number.parseInt(value, 10);
+    const parsed = Number.parseFloat(value);
     const rating = Number.isFinite(parsed) ? Math.max(0, Math.min(5, parsed)) : 0;
     const label = value
       ? `${reader}: ${rating} out of 5 stars`
       : `${reader}: not rated`;
-    const stars = Array.from({ length: 5 }, (_, index) =>
-      `<span class="${index < rating ? "on" : "off"}">★</span>`
-    ).join("");
+    const stars = Array.from({ length: 5 }, (_, index) => {
+      const state = rating >= index + 1 ? "on" : rating >= index + 0.5 ? "half" : "off";
+      return `<span class="${state}">★</span>`;
+    }).join("");
 
     return `<span class="stars" role="img" aria-label="${label}">${stars}</span>`;
   }
@@ -181,7 +211,7 @@
 
     return `<article class="book-card radar-card" data-reader="${reader}">
       <div class="radar-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="radar-copy"><span class="reader-badge">${reader}</span><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
+      <div class="radar-copy">${shelfBadge(book)}<h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
     </article>`;
   }
 
@@ -205,20 +235,14 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<article class="preview-card"><div class="preview-cover">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div><div class="preview-copy"><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div></article>`;
+    return `<a aria-label="View ${title} by ${author} on the Radar" class="book-card current-reading-card reading-room-next-card focus-ring" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
     const cover = coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`);
-    const reflections = Array.isArray(book.notes)
-      ? book.notes
-      : book.notes
-        ? [book.notes]
-        : [];
-    const notes = reflections.slice(0, 1).map((note) => `<p class="archive-preview-reflection">${escapeHTML(note)}</p>`).join("");
-    return `<article class="archive-preview-card"><div class="archive-preview-cover">${cover}</div><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
+    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div></a>`;
   }
 
   function setBooks(target, books, renderCard) {
@@ -233,17 +257,31 @@
       item.books.map((book) => ({ ...book, section: item.title }))
     );
     const current = books.filter((book) => book.status === "Currently Reading");
-    const next = books.filter((book) => book.status === "Reading Next");
+    const next = sections
+      .filter((item) => item.title.toLowerCase().trim() === "next synch pick")
+      .flatMap((item) => item.books);
+    const individualPicks = sections
+      .filter((item) => /^(xy|zz)'s next picks$/i.test(item.title.trim()))
+      .flatMap((item) => item.books);
     const toRead = sections
       .filter((item) => /^to read/i.test(item.title) || /^roxy's list/i.test(item.title))
-      .flatMap((item) => item.books)
-      .slice(0, 3);
+      .map((item) => item.books[0] && { ...item.books[0], sectionTitle: item.title })
+      .filter(Boolean);
     const read = sections.find((item) => item.title.toLowerCase() === "read");
-
     setBooks(document.querySelector("[data-reading-current]"), current, readingCard);
     setBooks(document.querySelector("[data-reading-next]"), next, readingCard);
-    setBooks(document.querySelector(".radar-preview-grid"), toRead, previewCard);
-    setBooks(document.querySelector(".archive-preview-grid"), (read?.books || []).slice(0, 2), archivePreview);
+    setBooks(document.querySelector("[data-next-picks]"), individualPicks, readingCard);
+    setBooks(document.querySelector("[data-radar-preview]"), toRead, previewCard);
+    const radarLink = document.querySelector("[data-radar-preview-count]");
+    if (radarLink) {
+      radarLink.textContent = `${String(toRead.length).padStart(2, "0")} / Endless Possibilities →`;
+    }
+    const recentReads = (read?.books || []).slice(0, 3);
+    setBooks(document.querySelector(".archive-preview-grid"), recentReads, archivePreview);
+    const readLink = document.querySelector("[data-read-preview-count]");
+    if (readLink) {
+      readLink.textContent = `${String(recentReads.length).padStart(2, "0")} / Finished books →`;
+    }
     document.querySelectorAll(".reader-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
         const filter = tab.dataset.filter;
@@ -282,7 +320,7 @@
         ? section?.books || []
         : sections
             .filter((item) => /^to read/i.test(item.title) || /^roxy's list/i.test(item.title))
-            .flatMap((item) => item.books);
+            .flatMap((item) => item.books.map((book) => ({ ...book, sectionTitle: item.title })));
 
       const title = isRead ? "Already Read" : "On the Radar";
       const intro = isRead
@@ -304,7 +342,7 @@
       if (list) {
         list.innerHTML = message;
       } else {
-        document.querySelectorAll("[data-reading-current], [data-reading-next], .radar-preview-grid, .archive-preview-grid")
+        document.querySelectorAll("[data-reading-current], [data-reading-next], [data-next-picks], [data-radar-preview]")
           .forEach((target) => { target.innerHTML = message; });
       }
     }
