@@ -11,6 +11,9 @@
       "'": "&#39;"
     }[char]));
 
+  const noCoverURL =
+    "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
+
   function parseBookLine(line, defaults = {}) {
     const parts = line.split("|").map((part) => part.trim());
     if (parts.length < 3) return null;
@@ -95,10 +98,16 @@
 
   function coverURL(book, size = "M") {
     if (book.cover) return book.cover;
-    if (!book.isbn) return "";
+    if (!book.isbn) return noCoverURL;
     return `https://covers.openlibrary.org/b/isbn/${encodeURIComponent(
       book.isbn.replace(/[^0-9Xx]/g, "")
     )}-${size}.jpg?default=false`;
+  }
+
+  function coverImage(book, size, className, alt) {
+    const src = escapeHTML(coverURL(book, size));
+    const fallback = escapeHTML(noCoverURL);
+    return `<img class="${className}" src="${src}" alt="${escapeHTML(alt)}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}';this.alt='No cover available'">`;
   }
 
   function readingCard(book) {
@@ -106,14 +115,13 @@
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
     const status = book.status;
-    const src = escapeHTML(coverURL(book));
     const goodreads = book.isbn
       ? `https://www.goodreads.com/search?q=${encodeURIComponent(book.isbn)}`
       : "";
 
     return `<article class="book-card current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card" data-reader="${reader}">
       <div class="current-book-grid">
-        <div class="cover-frame current-cover${src ? "" : " is-fallback"}">${src ? `<img src="${src}" alt="Cover of ${title} by ${author}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('is-fallback')">` : ""}<div class="fallback-cover" aria-hidden="true">Cover unavailable</div></div>
+        <div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
         <div class="reading-room-copy">
           <span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${status === "Currently Reading" ? `${reader} is reading` : `${reader}'s pick`}</span>
           <h3 class="editorial-heading">${title}</h3>
@@ -128,7 +136,6 @@
   function radarCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const src = escapeHTML(coverURL(book, "L"));
     const goodreads = book.goodreads || (
       book.isbn
         ? `https://www.goodreads.com/search?q=${encodeURIComponent(book.isbn)}`
@@ -137,7 +144,7 @@
     const reader = escapeHTML(book.reader);
 
     return `<article class="book-card radar-card" data-reader="${reader}">
-      <div class="radar-cover cover-frame${src ? "" : " is-fallback"}">${src ? `<img src="${src}" alt="Cover of ${title} by ${author}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('is-fallback')">` : ""}<div class="fallback-cover" aria-hidden="true">Cover unavailable</div></div>
+      <div class="radar-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
       <div class="radar-copy"><span class="reader-badge">${reader}</span><h3 class="editorial-heading">${title}</h3><p>${author}</p>${goodreads ? `<a class="link-line focus-ring" href="${escapeHTML(goodreads)}" target="_blank" rel="noopener noreferrer">Find it on Goodreads</a>` : ""}</div>
     </article>`;
   }
@@ -145,7 +152,6 @@
   function archiveCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const src = escapeHTML(coverURL(book, "L"));
     const reader = escapeHTML(book.reader);
     const reflections = Array.isArray(book.notes)
       ? book.notes
@@ -155,7 +161,7 @@
     const notes = reflections.map((note) => `<p class="archive-reflection">${escapeHTML(note)}</p>`).join("");
 
     return `<article class="book-card archive-card" data-reader="${reader}">
-      <div class="archive-cover cover-frame${src ? "" : " is-fallback"}">${src ? `<img src="${src}" alt="Cover of ${title} by ${author}" loading="lazy" onerror="this.style.display='none';this.parentElement.classList.add('is-fallback')">` : ""}<div class="fallback-cover" aria-hidden="true">Cover unavailable</div></div>
+      <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
       <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span>${book.rating ? `<span class="archive-rating">${escapeHTML(book.rating)} / 5</span>` : ""}</div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${notes}</div>
     </article>`;
   }
@@ -163,8 +169,7 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const src = escapeHTML(coverURL(book, "L"));
-    return `<article class="preview-card"><div class="preview-cover">${src ? `<img src="${src}" alt="Cover of ${title} by ${author}" loading="lazy" onerror="this.style.display='none'">` : ""}</div><div class="preview-copy"><h3 class="editorial-heading">${title}</h3><p>${author}</p></div></article>`;
+    return `<article class="preview-card"><div class="preview-cover">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div><div class="preview-copy"><h3 class="editorial-heading">${title}</h3><p>${author}</p></div></article>`;
   }
 
   function archivePreview(book) {
