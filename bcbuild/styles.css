@@ -1192,3 +1192,38 @@ section[aria-labelledby="next-heading"] p.mb-3 { margin-bottom: .65rem; }
   .club-log-section .club-log-form textarea { padding: .7rem; font-size: 1rem; }
   .club-log-section .club-log-intro { font-size: .95rem; }
 }
+
+/* Keep the homepage sections aligned to the same outer gutter as the header. */
+main > section.mx-auto,
+main > section > .mx-auto,
+main > .home-preview-section > .mx-auto,
+main > .club-log-section > .mx-auto {
+  padding-inline: 0 !important;
+}
+
+.site-header-inner,
+main > section.mx-auto,
+main > section > .mx-auto,
+main > .home-preview-section > .mx-auto,
+main > .club-log-section > .mx-auto,
+footer > .mx-auto {
+  width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max));
+  max-width: none;
+}
+
+.site-header-inner { padding-top: .8rem; }
+.site-header-top { grid-template-columns: 1fr; gap: 0; }
+.header-kicker { margin-bottom: .4rem; }
+.site-header .home-nav {
+  margin-top: .75rem;
+  padding-block: .5rem;
+}
+
+footer > .mx-auto {
+  padding: .75rem 0 !important;
+}
+footer p { font-size: .7rem !important; }
+
+@media (max-width: 767px) {
+  .site-header-top { grid-template-columns: 1fr; }
+}
