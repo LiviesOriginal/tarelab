@@ -28,6 +28,9 @@ body { font-family: "Libre Franklin", sans-serif; color: var(--ink); }
 .book-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(10, 10, 12, .07); }
 .cover-frame { background: linear-gradient(145deg, var(--secondary), rgba(138, 123, 154, .35)); }
 .cover-frame img { transition: opacity .25s ease; }
+/* The fallback PNG has an opaque white background; blend it into the card surface. */
+.cover-frame img.no-cover-image,
+.preview-cover img.no-cover-image { mix-blend-mode: multiply; }
 .cover-frame.is-fallback img { opacity: 0; }
 .cover-frame.is-fallback .fallback-cover { opacity: 1; }
 .fallback-cover { opacity: 0; transition: opacity .25s ease; }

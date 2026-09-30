@@ -107,7 +107,11 @@
   function coverImage(book, size, className, alt) {
     const src = escapeHTML(coverURL(book, size));
     const fallback = escapeHTML(noCoverURL);
-    return `<img class="${className}" src="${src}" alt="${escapeHTML(alt)}" loading="lazy" onerror="this.onerror=null;this.src='${fallback}';this.alt='No cover available'">`;
+    const isFallback = !book.cover && !book.isbn;
+    const imageClass = [className, "book-cover-image", isFallback ? "no-cover-image" : ""]
+      .filter(Boolean)
+      .join(" ");
+    return `<img class="${imageClass}" src="${src}" alt="${escapeHTML(alt)}" loading="lazy" onerror="this.onerror=null;this.classList.add('no-cover-image');this.src='${fallback}';this.alt='No cover available'">`;
   }
 
   function readingCard(book) {
