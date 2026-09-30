@@ -7,6 +7,7 @@
   const message = document.getElementById("form-message");
   const turnstileState = document.getElementById("turnstile-state");
   const ratings = form.querySelector(".rating-fields");
+  const booksUrl = form.dataset.booksUrl || "./content/books.md";
   const submitButton = form.querySelector('button[type="submit"]');
   let turnstileToken = "";
   let turnstileWidgetId = null;
@@ -48,7 +49,7 @@
   }
 
   async function loadSections() {
-    const response = await fetch(isFlix ? "../flix.md" : "./content/books.md", {
+    const response = await fetch(isFlix ? "../flix.md" : booksUrl, {
       headers: { Accept: "text/markdown,text/plain" }
     });
     if (!response.ok) throw new Error(`Could not load ${isFlix ? "Flix" : "book"} sections: HTTP ${response.status}`);
