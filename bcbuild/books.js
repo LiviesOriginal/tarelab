@@ -258,7 +258,7 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<a aria-label="View ${title} by ${author} in The Stacks" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
+    return `<a aria-label="View ${title} by ${author} in The Stacks" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="/bcbuild/radarview"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
@@ -268,7 +268,7 @@
     const description = book.description
       ? `<p class="archive-preview-description">${escapeHTML(book.description)}</p>`
       : "";
-    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div>${description}</a>`;
+    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="/bcbuild/readview"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div>${description}</a>`;
   }
 
   function setBooks(target, books, renderCard) {
