@@ -34,6 +34,7 @@
       ratingOther: rest.length >= 2 ? rest[rest.length - 2] : "",
       status: defaults.status || "",
       reader: defaults.reader || "Shared",
+      description: "",
       notes: []
     };
   }
@@ -65,6 +66,7 @@
 
   function shelfLabel(title = "") {
     const trimmed = title.trim();
+    if (isNextSynchPick(trimmed)) return "Shared Reading";
     const match = trimmed.match(/^to read(?:\s*-\s*(.*))?$/i);
     return match ? match[1]?.trim() || "To read" : trimmed;
   }
@@ -121,7 +123,11 @@
           book.notes.push(entry);
         }
       } else if (book) {
-        book.notes.push(line);
+        if (book.status === "Already Read" && !book.description) {
+          book.description = line;
+        } else {
+          book.notes.push(line);
+        }
       } else {
         section.intro = section.intro ? `${section.intro} ${line}` : line;
       }
@@ -227,6 +233,9 @@
   function archiveCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
+    const description = book.description
+      ? `<p class="archive-description">${escapeHTML(book.description)}</p>`
+      : "";
     const reflections = Array.isArray(book.notes)
       ? book.notes
       : book.notes
@@ -241,6 +250,7 @@
       <a aria-label="View ${title} by ${author} on Goodreads" class="archive-card-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer"></a>
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
       <div class="archive-content"><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}</div>
+      ${description}
       ${reviewDisclosure}
     </article>`;
   }
@@ -248,16 +258,17 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<a aria-label="View ${title} by ${author} in Book Club Reads" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
+    return `<a aria-label="View ${title} by ${author} in Future Reads" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
     const cover = coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`);
-    const note = Array.isArray(book.notes) ? book.notes.find((entry) => entry.trim()) : "";
-    const review = note ? `<p class="archive-preview-reflection">${escapeHTML(note)}</p>` : "";
-    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div>${review}</a>`;
+    const description = book.description
+      ? `<p class="archive-preview-description">${escapeHTML(book.description)}</p>`
+      : "";
+    return `<a aria-label="Read reviews for ${title} by ${author}" class="archive-preview-card focus-ring" href="./readview.html"><div class="archive-preview-cover">${cover}</div><div class="archive-preview-copy"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}</div>${description}</a>`;
   }
 
   function setBooks(target, books, renderCard) {

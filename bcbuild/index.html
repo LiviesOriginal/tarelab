@@ -14,9 +14,9 @@
 gtag('js', new Date());
 gtag('config', 'G-3PM570SXPX');
 </script>
-<link href="styles.css?v=20260930-header-parity" rel="stylesheet"/>
-  <script defer data-cfasync="false" src="book-update.js?v=20260930-ddg"></script>
-  <script defer data-cfasync="false" src="books.js?v=20260930-section-heading-links"></script>
+<link href="styles.css?v=20260930-update-form" rel="stylesheet"/>
+  <script defer data-cfasync="false" src="book-update.js?v=20260930-update-form"></script>
+  <script defer data-cfasync="false" src="books.js?v=20260930-reading-room-labels"></script>
 </head>
 <body class="page-shell min-h-screen">
 <header class="site-header">
@@ -28,7 +28,7 @@ gtag('config', 'G-3PM570SXPX');
 </div>
 </div>
 <nav class="home-nav" aria-label="Site navigation">
-<a class="focus-ring" href="./radarview.html">Book Club Reads</a>
+<a class="focus-ring" href="./radarview.html">Future Reads</a>
 <a class="focus-ring" href="./readview.html">Reviews</a>
 <a class="focus-ring" href="#log-heading">Updates</a>
 </nav>
@@ -46,20 +46,20 @@ gtag('config', 'G-3PM570SXPX');
 <section class="border-y border-[#dedfd8] bg-[#efeee8]">
 <div aria-labelledby="next-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="mb-7">
-<h2 class="editorial-heading home-section-heading" id="next-heading">Book Club Selection</h2>
+<h2 class="editorial-heading home-section-heading" id="next-heading">Next Up</h2>
 </div>
 <div class="grid reading-next-grid" data-reading-next></div></div>
 </section>
 <section aria-labelledby="individual-picks-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="mb-7">
-<h2 class="editorial-heading home-section-heading" id="individual-picks-heading">On the Shelf</h2>
+<h2 class="editorial-heading home-section-heading" id="individual-picks-heading">On Our Shelves</h2>
 </div>
 <div class="current-reading-grid" data-next-picks></div>
 </section>
 <section aria-labelledby="radar-heading" class="home-preview-section radar-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="preview-header">
-<div><h2 class="editorial-heading section-title home-section-heading" id="radar-heading"><a class="focus-ring" href="./radarview.html">Book Club Reads →</a></h2></div>
+<div><h2 class="editorial-heading section-title home-section-heading" id="radar-heading"><a class="focus-ring" href="./radarview.html">Future Reads →</a></h2></div>
 </div>
 <div class="current-reading-grid" data-radar-preview></div>
 </div>
@@ -73,17 +73,17 @@ gtag('config', 'G-3PM570SXPX');
 <section aria-labelledby="log-heading" class="dark-section club-log-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="club-log-layout">
-<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Updates</h2><p class="club-log-intro">Add to any shelf in books.md. Your submission opens a pull request for review; it won’t appear on the site until it’s approved and merged.</p>
+<div class="club-log-form-column"><h2 class="editorial-heading section-title" id="log-heading">Updates</h2>
 <form id="book-update-form" class="club-log-form" novalidate>
 <input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
 <div class="form-row form-row-two"><label>Book title<input name="book_title" required maxlength="160" type="text"/></label><label>Author<input name="author" required maxlength="120" type="text"/></label></div>
-<div class="form-row form-row-two"><label>Books.md section<select id="book-section" name="section" required><option value="">Loading sections…</option></select></label><label>ISBN <span class="optional-label">(optional)</span><input name="isbn" maxlength="20" inputmode="numeric" type="text"/></label></div>
-<label>Notes or reflection<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
-<div class="form-row form-row-two"><label>Quote <span class="optional-label">(optional)</span><textarea name="quote" maxlength="1200" rows="3"></textarea></label><div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div></div>
+<div class="form-row form-row-two"><label>Shelf<select id="book-section" name="section" required><option value="">Loading sections…</option></select></label><label>ISBN-13 <span class="optional-label">(optional)</span><input name="isbn" maxlength="20" inputmode="numeric" type="text"/></label></div>
+<label>Review / Remember<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
+<div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div>
 <div class="turnstile-widget" id="turnstile-widget"></div>
-<div class="form-actions"><button class="focus-ring" type="submit">Submit for review</button><p aria-live="polite" id="form-message"></p></div>
+<div class="form-actions"><button class="focus-ring" type="submit">Submit</button><p aria-live="polite" id="form-message"></p></div>
+<p id="turnstile-state" class="saved-state" aria-live="polite"></p>
 </form></div>
-<aside class="club-log-saved-column update-process-note"><p class="section-kicker">How updates work</p><h2 class="editorial-heading section-title">Your shelf, together</h2><div class="saved-divider"></div><p>Choose the exact section, then add the book and any notes or ratings. Matching books in that same section are updated; the same ISBN can still appear in another section.</p><p>Each submission opens its own pull request. Once the other partner reviews and merges it, Cloudflare Pages deploys the updated books.md.</p><p id="turnstile-state" class="saved-state" aria-live="polite"></p></aside>
 </div>
 </div>
 </section>

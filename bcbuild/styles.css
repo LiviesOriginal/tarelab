@@ -1616,6 +1616,30 @@ main .home-section-heading {
   }
 }
 
+.archive-preview-grid {
+  align-items: start;
+}
+
+.archive-preview-card {
+  align-self: start;
+}
+
+.archive-preview-description {
+  grid-column: 1 / -1;
+  margin-top: .1rem;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.45;
+}
+
+.content-page[data-books-view="already-read"] .archive-description {
+  grid-column: 1 / -1;
+  margin-top: .75rem;
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.55;
+}
+
   .content-page main {
     width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max));
     max-width: none;
