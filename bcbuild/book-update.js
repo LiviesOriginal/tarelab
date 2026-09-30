@@ -39,7 +39,7 @@
   }
 
   function updateRatingVisibility() {
-    const showRatings = isFlix ? sectionSelect.value.trim().toLowerCase() === "watched" : sectionSelect.value.trim().toLowerCase() === "read";
+    const showRatings = isFlix ? sectionSelect?.value.trim().toLowerCase() === "watched" : sectionSelect?.value.trim().toLowerCase() === "read";
     ratings.hidden = !showRatings;
     ratings.querySelectorAll("input").forEach((input) => {
       input.disabled = !showRatings;
