@@ -1434,3 +1434,34 @@ footer p { font-size: .7rem !important; }
   .preview-cover,
   .archive-preview-cover { width: 84px; }
 }
+
+/* Preserve separate cover and copy columns, including in the three-up radar preview. */
+.current-reading-card .current-book-grid {
+  display: grid;
+  align-items: start;
+}
+.current-reading-card .current-book-grid > * {
+  min-width: 0;
+}
+.current-reading-card .reading-room-copy {
+  overflow-wrap: anywhere;
+}
+.radar-preview-section [data-radar-preview] {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  align-items: stretch;
+  gap: 1rem !important;
+}
+
+@media (max-width: 767px) {
+  .radar-preview-section [data-radar-preview] {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .75rem !important;
+  }
+  .radar-preview-section [data-radar-preview] .current-reading-card .current-book-grid {
+    grid-template-columns: clamp(96px, 28vw, 128px) minmax(0, 1fr) !important;
+    gap: .85rem !important;
+  }
+  .current-reading-grid:not([data-radar-preview]) .current-reading-card .current-book-grid {
+    grid-template-columns: clamp(52px, 17vw, 68px) minmax(0, 1fr) !important;
+  }
+}
