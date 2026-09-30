@@ -58,7 +58,7 @@
       .map((line) => line.slice(2).trim());
     if (!sections.length) throw new Error("No sections were found in books.md.");
 
-    sectionSelect.replaceChildren(new Option("Choose a section", ""));
+    sectionSelect.replaceChildren(new Option("Select", ""));
     sections.forEach((section) => sectionSelect.add(new Option(sectionOptionLabel(section), section)));
     sectionSelect.disabled = false;
     updateRatingVisibility();
@@ -144,7 +144,6 @@
       section: String(formData.get("section") || "").trim(),
       isbn: String(formData.get("isbn") || "").trim(),
       reflection: String(formData.get("reflection") || "").trim(),
-      quote: String(formData.get("quote") || "").trim(),
       rating_xy: numberOrNull("rating_xy"),
       rating_zz: numberOrNull("rating_zz"),
       turnstile_token: turnstileToken

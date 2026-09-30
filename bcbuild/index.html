@@ -14,8 +14,8 @@
 gtag('js', new Date());
 gtag('config', 'G-3PM570SXPX');
 </script>
-<link href="styles.css?v=20260930-reading-room-labels" rel="stylesheet"/>
-  <script defer data-cfasync="false" src="book-update.js?v=20260930-reading-room-labels"></script>
+<link href="styles.css?v=20260930-update-form" rel="stylesheet"/>
+  <script defer data-cfasync="false" src="book-update.js?v=20260930-update-form"></script>
   <script defer data-cfasync="false" src="books.js?v=20260930-reading-room-labels"></script>
 </head>
 <body class="page-shell min-h-screen">
@@ -73,15 +73,15 @@ gtag('config', 'G-3PM570SXPX');
 <section aria-labelledby="log-heading" class="dark-section club-log-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="club-log-layout">
-<div class="club-log-form-column"><p class="section-kicker">Keep the margins</p><h2 class="editorial-heading section-title" id="log-heading">Updates</h2><p class="club-log-intro">Add to any shelf in books.md. Your submission opens a pull request for review; it won’t appear on the site until it’s approved and merged.</p>
+<div class="club-log-form-column"><h2 class="editorial-heading section-title" id="log-heading">Updates</h2>
 <form id="book-update-form" class="club-log-form" novalidate>
 <input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
 <div class="form-row form-row-two"><label>Book title<input name="book_title" required maxlength="160" type="text"/></label><label>Author<input name="author" required maxlength="120" type="text"/></label></div>
-<div class="form-row form-row-two"><label>Books.md section<select id="book-section" name="section" required><option value="">Loading sections…</option></select></label><label>ISBN <span class="optional-label">(optional)</span><input name="isbn" maxlength="20" inputmode="numeric" type="text"/></label></div>
-<label>Notes or reflection<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
-<div class="form-row form-row-two"><label>Quote <span class="optional-label">(optional)</span><textarea name="quote" maxlength="1200" rows="3"></textarea></label><div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div></div>
+<div class="form-row form-row-two"><label>Shelf<select id="book-section" name="section" required><option value="">Loading sections…</option></select></label><label>ISBN-13 <span class="optional-label">(optional)</span><input name="isbn" maxlength="20" inputmode="numeric" type="text"/></label></div>
+<label>Review / Remember<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
+<div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div>
 <div class="turnstile-widget" id="turnstile-widget"></div>
-<div class="form-actions"><button class="focus-ring" type="submit">Submit for review</button><p aria-live="polite" id="form-message"></p></div>
+<div class="form-actions"><button class="focus-ring" type="submit">Submit</button><p aria-live="polite" id="form-message"></p></div>
 <p id="turnstile-state" class="saved-state" aria-live="polite"></p>
 </form></div>
 </div>

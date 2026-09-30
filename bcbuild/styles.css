@@ -1640,17 +1640,6 @@ main .home-section-heading {
   line-height: 1.55;
 }
 
-.club-log-section .club-log-layout {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-.club-log-section .club-log-form-column {
-  padding-right: 0;
-  padding-bottom: 0;
-  border-right: 0;
-  border-bottom: 0;
-}
-
   .content-page main {
     width: min(calc(100% - (2 * var(--page-gutter))), var(--content-max));
     max-width: none;
