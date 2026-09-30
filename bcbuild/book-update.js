@@ -11,6 +11,10 @@
   let turnstileWidgetId = null;
   let formReady = false;
 
+  function sectionOptionLabel(section) {
+    return /^next\s+syn(?:c|ch)\s+pick$/i.test(section.trim()) ? "Shared Reading" : section;
+  }
+
   function setMessage(text, isError = false, link = "") {
     message.replaceChildren();
     message.className = `club-log-message ${isError ? "is-error" : "is-success"}`;
@@ -55,7 +59,7 @@
     if (!sections.length) throw new Error("No sections were found in books.md.");
 
     sectionSelect.replaceChildren(new Option("Choose a section", ""));
-    sections.forEach((section) => sectionSelect.add(new Option(section, section)));
+    sections.forEach((section) => sectionSelect.add(new Option(sectionOptionLabel(section), section)));
     sectionSelect.disabled = false;
     updateRatingVisibility();
   }
