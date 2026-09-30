@@ -171,7 +171,7 @@
       form.reset();
       updateRatingVisibility();
       resetTurnstile();
-      setMessage(`Your ${isFlix ? "Flix" : "book"} update is ready for review.`, false, result.html_url);
+      setMessage(`Your ${isFlix ? "update" : "book update"} is ready for review.`, false, result.html_url);
     } catch (error) {
       console.error(`${isFlix ? "Flix" : "Book"} update submission failed`, error);
       setMessage(error.message || "Could not submit the update. Please try again.", true);
