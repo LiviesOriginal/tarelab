@@ -333,10 +333,16 @@ async function verifyTurnstile(request, token, env) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body
   });
-  if (!response.ok) throw new Error("Could not verify the anti-spam check.");
-  const result = await response.json();
+  const result = await response.json().catch(() => null);
+  if (!response.ok) {
+    console.error("Turnstile siteverify failed", {
+      status: response.status,
+      errorCodes: Array.isArray(result?.["error-codes"]) ? result["error-codes"] : []
+    });
+    throw new Error("Could not verify the anti-spam check.");
+  }
   const hostname = new URL(request.url).hostname;
-  return result.success === true && result.hostname === hostname;
+  return result?.success === true && result.hostname === hostname;
 }
 
 async function createPullRequest(submission, env) {
