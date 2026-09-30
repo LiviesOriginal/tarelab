@@ -1299,3 +1299,138 @@ footer p { font-size: .7rem !important; }
   .archive-preview-card { grid-template-columns: 68px minmax(0, 1fr); }
   .archive-preview-cover { width: 68px; }
 }
+
+/* Shared book cards: larger covers, consistent type, and a full-card target. */
+.book-card-link {
+  display: block;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+.book-card-link.radar-card,
+.book-card-link.archive-card {
+  display: grid;
+}
+.book-card-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.book-card-link h3,
+.current-reading-card h3,
+.preview-card h3,
+.archive-preview-card h3 {
+  font-size: 1.12rem !important;
+  line-height: 1.16 !important;
+  text-decoration: none;
+}
+.book-card-link .reader-badge,
+.current-reading-card .reader-badge,
+.book-card-link .shelf-label,
+.current-reading-card .shelf-label,
+.book-card-link .book-author,
+.current-reading-card .book-author,
+.book-card-link .archive-author,
+.book-card-link .radar-copy > p,
+.book-card-link .rating-label,
+.preview-card .shelf-label,
+.preview-card .book-author,
+.preview-copy > p,
+.archive-preview-card .archive-preview-author,
+.archive-preview-card .rating-label {
+  font-size: .8rem !important;
+  line-height: 1.4 !important;
+}
+.current-reading-card .current-book-grid {
+  grid-template-columns: clamp(128px, 16vw, 180px) minmax(0, 1fr) !important;
+  gap: clamp(.75rem, 1.6vw, 1.25rem) !important;
+}
+.current-reading-card .current-cover {
+  width: 100% !important;
+}
+.content-page .book-card-link.radar-card {
+  grid-template-columns: clamp(132px, 14vw, 160px) minmax(0, 1fr);
+}
+.content-page .book-card-link.radar-card .radar-cover {
+  width: 100%;
+}
+.content-page .book-card-link.archive-card {
+  grid-template-columns: clamp(132px, 14vw, 160px) minmax(0, 1fr);
+}
+.content-page .book-card-link.archive-card .archive-cover {
+  width: 100%;
+}
+.preview-card {
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+.preview-cover { width: 104px; }
+.archive-preview-card {
+  grid-template-columns: 104px minmax(0, 1fr);
+}
+.archive-preview-cover { width: 104px; }
+
+@media (max-width: 767px) {
+  .book-card-link h3,
+  .current-reading-card h3,
+  .preview-card h3,
+  .archive-preview-card h3 { font-size: 1rem !important; }
+  .book-card-link .reader-badge,
+  .current-reading-card .reader-badge,
+  .book-card-link .shelf-label,
+  .current-reading-card .shelf-label,
+  .book-card-link .book-author,
+  .current-reading-card .book-author,
+  .book-card-link .archive-author,
+  .book-card-link .radar-copy > p,
+  .book-card-link .rating-label,
+  .preview-card .shelf-label,
+  .preview-card .book-author,
+  .preview-copy > p,
+  .archive-preview-card .archive-preview-author,
+  .archive-preview-card .rating-label {
+    font-size: .75rem !important;
+  }
+  .current-reading-grid .current-reading-card .current-book-grid {
+    grid-template-columns: clamp(72px, 22vw, 88px) minmax(0, 1fr) !important;
+    gap: .65rem !important;
+  }
+  .reading-next-grid .current-reading-card .current-book-grid {
+    grid-template-columns: clamp(112px, 34vw, 144px) minmax(0, 1fr) !important;
+  }
+  .content-page .book-card-link.radar-card,
+  .content-page .book-card-link.archive-card {
+    grid-template-columns: 132px minmax(0, 1fr);
+  }
+  .content-page .book-card-link.radar-card .radar-cover,
+  .content-page .book-card-link.archive-card .archive-cover {
+    width: 132px;
+  }
+  .preview-card,
+  .archive-preview-card {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+  .preview-cover,
+  .archive-preview-cover { width: 96px; }
+}
+
+@media (max-width: 359px) {
+  .current-reading-grid .current-reading-card .current-book-grid {
+    grid-template-columns: 68px minmax(0, 1fr) !important;
+  }
+  .reading-next-grid .current-reading-card .current-book-grid {
+    grid-template-columns: 104px minmax(0, 1fr) !important;
+  }
+  .content-page .book-card-link.radar-card,
+  .content-page .book-card-link.archive-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+  .content-page .book-card-link.radar-card .radar-cover,
+  .content-page .book-card-link.archive-card .archive-cover {
+    width: 112px;
+  }
+  .preview-card,
+  .archive-preview-card {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+  .preview-cover,
+  .archive-preview-cover { width: 84px; }
+}

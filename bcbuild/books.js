@@ -200,17 +200,17 @@
         ? shelfBadge(book)
         : `<span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${reader}'s pick</span>`;
 
-    return `<article class="book-card current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card" data-reader="${reader}">
+    return `<a aria-label="View ${title} by ${author} on Goodreads" class="book-card book-card-link current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card focus-ring" data-reader="${reader}" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">
       <div class="current-book-grid">
-        <div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
+        <div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
         <div class="reading-room-copy">
           ${badge}
-          <h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
+          <h3 class="editorial-heading">${title}</h3>
           <p class="book-author">${author}</p>
           ${book.description ? `<p class="book-description">${escapeHTML(book.description)}</p>` : ""}
         </div>
       </div>
-    </article>`;
+    </a>`;
   }
 
   function radarCard(book) {
@@ -218,10 +218,10 @@
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
 
-    return `<article class="book-card radar-card" data-reader="${reader}">
+    return `<a aria-label="View ${title} by ${author} on Goodreads" class="book-card book-card-link radar-card focus-ring" data-reader="${reader}" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">
       <div class="radar-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="radar-copy">${shelfBadge(book)}<h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
-    </article>`;
+      <div class="radar-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p>${author}</p></div>
+    </a>`;
   }
 
   function archiveCard(book) {
@@ -235,16 +235,16 @@
         : [];
     const notes = reflections.map((note) => `<p class="archive-reflection">${escapeHTML(note)}</p>`).join("");
 
-    return `<article class="book-card archive-card" data-reader="${reader}">
+    return `<a aria-label="View ${title} by ${author} on Goodreads" class="book-card book-card-link archive-card focus-ring" data-reader="${reader}" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
-    </article>`;
+      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
+    </a>`;
   }
 
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<a aria-label="View ${title} by ${author} on the Radar" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
+    return `<a aria-label="View ${title} by ${author} on the Radar" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
