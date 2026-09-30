@@ -3,6 +3,7 @@
   if (!form) return;
 
   const sectionSelect = document.getElementById("book-section");
+  const isFlix = form.dataset.submissionTarget === "flix";
   const message = document.getElementById("form-message");
   const turnstileState = document.getElementById("turnstile-state");
   const ratings = form.querySelector(".rating-fields");
@@ -38,7 +39,7 @@
   }
 
   function updateRatingVisibility() {
-    const showRatings = sectionSelect.value.trim().toLowerCase() === "read";
+    const showRatings = isFlix ? sectionSelect.value.trim().toLowerCase() === "watched" : sectionSelect.value.trim().toLowerCase() === "read";
     ratings.hidden = !showRatings;
     ratings.querySelectorAll("input").forEach((input) => {
       input.disabled = !showRatings;
@@ -47,16 +48,16 @@
   }
 
   async function loadSections() {
-    const response = await fetch("./content/books.md", {
+    const response = await fetch(isFlix ? "../flix.md" : "./content/books.md", {
       headers: { Accept: "text/markdown,text/plain" }
     });
-    if (!response.ok) throw new Error(`Could not load book sections: HTTP ${response.status}`);
+    if (!response.ok) throw new Error(`Could not load ${isFlix ? "Flix" : "book"} sections: HTTP ${response.status}`);
     const markdown = await response.text();
     const sections = markdown
       .split(/\r?\n/)
       .filter((line) => line.startsWith("# "))
       .map((line) => line.slice(2).trim());
-    if (!sections.length) throw new Error("No sections were found in books.md.");
+    if (!sections.length) throw new Error(`No sections were found in ${isFlix ? "flix.md" : "books.md"}.`);
 
     sectionSelect.replaceChildren(new Option("Select", ""));
     sections.forEach((section) => sectionSelect.add(new Option(sectionOptionLabel(section), section)));
@@ -139,10 +140,13 @@
     };
     const submission = {
       website: "",
+      target: isFlix ? "flix" : "book",
       title: String(formData.get("book_title") || "").trim(),
       author: String(formData.get("author") || "").trim(),
+      year: String(formData.get("year") || "").trim(),
       section: String(formData.get("section") || "").trim(),
       isbn: String(formData.get("isbn") || "").trim(),
+      imdb: String(formData.get("imdb") || "").trim(),
       reflection: String(formData.get("reflection") || "").trim(),
       rating_xy: numberOrNull("rating_xy"),
       rating_zz: numberOrNull("rating_zz"),
