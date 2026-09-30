@@ -20,6 +20,25 @@
 <header class="site-header"><div class="site-header-inner"><div class="site-header-top"><div><p class="header-kicker">THE BOOK CLUB</p><h1 class="editorial-heading">They Made a Movie</h1></div></div>
 <nav class="home-nav" aria-label="Site navigation"><a class="focus-ring" href="./">The Reading Room</a><a class="focus-ring" href="./radarview.html">The Stacks</a><a class="focus-ring" href="./readview.html">Reviews</a></nav></div></header>
 <main class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10"><section class="content-hero pb-6"><h2 class="editorial-heading home-section-heading">Flix</h2></section><div id="screen-shelf" aria-live="polite"><p class="content-empty">Loading the shelf…</p></div></main>
+<section class="dark-section club-log-section screen-update-section" aria-labelledby="flix-update-heading">
+<div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+<div class="club-log-layout">
+<div class="club-log-form-column">
+<h2 class="editorial-heading section-title" id="flix-update-heading">Updates</h2>
+<form id="book-update-form" class="club-log-form" data-submission-target="flix" novalidate>
+<input aria-hidden="true" autocomplete="off" class="honeypot" name="website" tabindex="-1" type="text"/>
+<div class="form-row form-row-two"><label>Movie / series title<input name="book_title" required maxlength="160" type="text"/></label><label>Year<input name="year" required maxlength="4" inputmode="numeric" type="text"/></label></div>
+<div class="form-row form-row-two"><label>Status<select id="book-section" name="section" required><option value="">Loading statuses…</option></select></label><label>IMDb ID<input name="imdb" required maxlength="20" placeholder="tt1234567" type="text"/></label></div>
+<label>Review / Remember<textarea name="reflection" maxlength="1600" rows="3"></textarea></label>
+<div aria-live="polite" class="rating-fields" hidden><p class="rating-fields-heading">Ratings (0–5)</p><div class="form-row form-row-two"><label>XY<input name="rating_xy" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label><label>ZZ<input name="rating_zz" min="0" max="5" step="0.5" type="number" inputmode="decimal"/></label></div></div>
+<div class="turnstile-widget" id="turnstile-widget"></div>
+<div class="form-actions"><button class="focus-ring" type="submit">Submit</button><p aria-live="polite" id="form-message"></p></div>
+<p id="turnstile-state" class="saved-state" aria-live="polite"></p>
+</form>
+</div>
+</div>
+</div>
+</section>
 <footer class="site-footer border-t border-[#dedfd8]"><div class="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10"><p>© 2026 Elle Bee</p></div></footer>
 <script>
 (()=>{const shelf=document.getElementById("screen-shelf"),KEY="06cf868a53dce6149194addbd212d29d",cache={};

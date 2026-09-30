@@ -2,6 +2,7 @@ const OWNER = "LiviesOriginal";
 const REPOSITORY = "tarelab";
 const BASE_BRANCH = "main";
 const BOOKS_PATH = "bcbuild/content/books.md";
+const FLIX_PATH = "flix.md";
 const MAX_BODY_BYTES = 20_000;
 const MAX_TEXT = { title: 160, author: 120, isbn: 20, reflection: 1600, quote: 1200 };
 
@@ -43,49 +44,21 @@ function parseRating(value, field) {
 }
 
 function validateSubmission(body) {
-  if (!body || typeof body !== "object" || Array.isArray(body)) {
-    return { error: "Submission must be a JSON object." };
-  }
-  if (typeof body.website === "string" && body.website.trim()) {
-    return { error: "Invalid submission." };
-  }
-
+  if (!body || typeof body !== "object" || Array.isArray(body)) return { error: "Submission must be a JSON object." };
+  if (typeof body.website === "string" && body.website.trim()) return { error: "Invalid submission." };
+  const target = body.target === "flix" ? "flix" : "book";
+  const specs = target === "flix" ? [["title","title",true,160],["year","year",true,4],["section","section",true,40],["imdb","imdb",true,20],["reflection","reflection",false,1600]] : [["title","title",true,160],["author","author",true,120],["section","section",true,120],["isbn","isbn",false,20],["reflection","reflection",false,1600],["quote","quote",false,1200]];
   const fields = {};
-  for (const [field, key, required] of [
-    ["title", "title", true],
-    ["author", "author", true],
-    ["section", "section", true],
-    ["isbn", "isbn", false],
-    ["reflection", "reflection", false],
-    ["quote", "quote", false]
-  ]) {
-    const result = cleanText(body[key] ?? "", field, MAX_TEXT[field] || 120, required);
-    if (result.error) return result;
-    fields[field] = result.value;
-  }
-
-  if (fields.isbn && !normalizeISBN(fields.isbn)) return { error: "Enter a valid ISBN." };
-  const ratingXY = parseRating(body.rating_xy, "XY rating");
-  if (ratingXY.error) return ratingXY;
-  const ratingZZ = parseRating(body.rating_zz, "ZZ rating");
-  if (ratingZZ.error) return ratingZZ;
-  const hasRating =
-    (body.rating_xy !== null && body.rating_xy !== undefined && body.rating_xy !== "")
-    || (body.rating_zz !== null && body.rating_zz !== undefined && body.rating_zz !== "");
-  if (fields.section.toLowerCase() !== "read" && hasRating) {
-    return { error: "Ratings can only be submitted for the Read section." };
-  }
-
-  return {
-    value: {
-      ...fields,
-      isbn: normalizeISBN(fields.isbn),
-      ratingXY: ratingXY.value,
-      ratingZZ: ratingZZ.value
-    }
-  };
+  for (const [field,key,required,maxLength] of specs) { const result=cleanText(body[key] ?? "",field,maxLength,required); if(result.error)return result; fields[field]=result.value; }
+  if(target==="flix"){ if(!/^\d{4}$/.test(fields.year))return {error:"Year must be a four-digit year."}; if(!/^tt\d+$/i.test(fields.imdb))return {error:"Enter a valid IMDb ID."}; if(!["Currently Watching","To Watch","Watched"].includes(fields.section))return {error:"Choose a valid Flix status."}; }
+  else if(fields.isbn && !normalizeISBN(fields.isbn)) return {error:"Enter a valid ISBN."};
+  const ratingXY=parseRating(body.rating_xy,"XY rating"), ratingZZ=parseRating(body.rating_zz,"ZZ rating");
+  if(ratingXY.error)return ratingXY; if(ratingZZ.error)return ratingZZ;
+  const hasRating=(body.rating_xy!==null&&body.rating_xy!==undefined&&body.rating_xy!=="")||(body.rating_zz!==null&&body.rating_zz!==undefined&&body.rating_zz!=="");
+  if(target==="book"&&fields.section.toLowerCase()!=="read"&&hasRating)return {error:"Ratings can only be submitted for the Read section."};
+  if(target==="flix"&&fields.section!=="Watched"&&hasRating)return {error:"Ratings can only be submitted for Watched titles."};
+  return {value:{target,...fields,isbn:target==="book"?normalizeISBN(fields.isbn):"",ratingXY:ratingXY.value,ratingZZ:ratingZZ.value}};
 }
-
 function decodeBase64UTF8(value) {
   const bytes = Uint8Array.from(atob(value.replace(/\s/g, "")), (char) => char.charCodeAt(0));
   return new TextDecoder().decode(bytes);
@@ -162,66 +135,58 @@ function makeBookNotes(submission) {
   return notes;
 }
 
-function updateBooksMarkdown(markdown, submission) {
-  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
-  const { start, end } = findSection(lines, submission.section);
-  const isRead = submission.section.toLowerCase() === "read";
-  const newBook = {
-    title: submission.title,
-    author: submission.author,
-    isbn: submission.isbn,
-    ratingXY: submission.ratingXY,
-    ratingZZ: submission.ratingZZ,
-    priority: false
-  };
-  const wantedISBN = normalizeISBN(newBook.isbn);
-  const wantedName = `${newBook.title} ${newBook.author}`.toLowerCase().replace(/\s+/g, " ").trim();
-
-  let matchStart = -1;
-  let matchEnd = -1;
-  let existing = null;
-  for (let index = start + 1; index < end; index += 1) {
-    if (!isBookLine(lines[index], isRead)) continue;
-    const parsed = parseBookLine(lines[index], isRead);
-    if (!parsed) continue;
-    const sameISBN = wantedISBN && normalizeISBN(parsed.isbn) === wantedISBN;
-    const existingName = `${parsed.title} ${parsed.author}`.toLowerCase().replace(/\s+/g, " ").trim();
-    const canMatchByName = existingName === wantedName && (!wantedISBN || !normalizeISBN(parsed.isbn));
-    if (!sameISBN && !canMatchByName) continue;
-    matchStart = index;
-    existing = parsed;
-    matchEnd = index + 1;
-    while (matchEnd < end && !isBookLine(lines[matchEnd], isRead)) matchEnd += 1;
-    break;
-  }
-
-  if (existing) {
-    newBook.isbn ||= existing.isbn;
-    newBook.priority = existing.priority;
-    if (isRead) {
-      newBook.ratingXY ||= existing.ratingXY;
-      newBook.ratingZZ ||= existing.ratingZZ;
+function updateMarkdown(markdown, submission) {
+  let lines=markdown.replace(/\r\n/g,"\n").split("\n");
+  let section=findSection(lines,submission.section), start=section.start, end=section.end;
+  const isFlix=submission.target==="flix", isBookRead=!isFlix&&submission.section.toLowerCase()==="read";
+  const itemLine=line=>isFlix?line.startsWith("## "):isBookLine(line,isBookRead);
+  const parse=line=>{ if(!isFlix)return parseBookLine(line,isBookRead); const p=line.slice(3).trim().split("|").map(x=>x.trim()); return p.length>=3?{title:p[0],year:p[1],imdb:p[2],ratingXY:p[3]||"",ratingZZ:p[4]||""}:null; };
+  const make=item=>isFlix?"## "+item.title+" | "+item.year+" | "+item.imdb+" | "+item.ratingXY+" | "+item.ratingZZ:makeBookLine(item,isBookRead);
+  const noteLines=()=>submission.reflection.trim()?submission.reflection.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).map(x=>"- "+x):[];
+  const item=isFlix?{title:submission.title,year:submission.year,imdb:submission.imdb,ratingXY:submission.ratingXY,ratingZZ:submission.ratingZZ}:{title:submission.title,author:submission.author,isbn:submission.isbn,ratingXY:submission.ratingXY,ratingZZ:submission.ratingZZ,priority:false};
+  const key=isFlix?item.imdb.toLowerCase():normalizeISBN(item.isbn);
+  const name=isFlix?(item.title+" "+item.year).toLowerCase().replace(/\s+/g," ").trim():(item.title+" "+item.author).toLowerCase().replace(/\s+/g," ").trim();
+  let sourceNotes=[];
+  if(isFlix){
+    let sourceStart=-1,sourceEnd=-1;
+    for(let i=0;i<lines.length;i++){
+      if(!lines[i].startsWith("## "))continue;
+      const parsed=parse(lines[i]); if(!parsed||parsed.imdb.toLowerCase()!==key)continue;
+      const sourceSection=findSection(lines,lines.slice(0,i+1).reverse().find(x=>x.startsWith("# "))?.slice(2).trim()||"");
+      if(sourceSection.start===start)continue;
+      sourceStart=i; sourceEnd=i+1;
+      while(sourceEnd<lines.length&&!lines[sourceEnd].startsWith("## ")&&!lines[sourceEnd].startsWith("# "))sourceEnd++;
+      sourceNotes=lines.slice(i+1,sourceEnd).map(x=>x.trim()).filter(Boolean);
+      break;
     }
-    lines[matchStart] = makeBookLine(newBook, isRead);
-    const existingNotes = new Set(
-      lines.slice(matchStart + 1, matchEnd).map((line) => line.trim().toLowerCase())
-    );
-    const additions = makeBookNotes(submission).filter((line) => !existingNotes.has(line.toLowerCase()));
-    lines.splice(matchEnd, 0, ...additions);
-  } else {
-    const block = [makeBookLine(newBook, isRead), ...makeBookNotes(submission)];
-    const before = lines.slice(0, end);
-    const after = lines.slice(end);
-    while (before.length && !before[before.length - 1].trim()) before.pop();
-    while (after.length && !after[0].trim()) after.shift();
-    lines.splice(0, lines.length, ...before, "", ...block, "", ...after);
+    if(sourceStart>=0){ lines.splice(sourceStart,sourceEnd-sourceStart); section=findSection(lines,submission.section); start=section.start; end=section.end; }
   }
-
-  const result = lines.join("\n").replace(/\n*$/, "\n");
-  if (result === markdown) throw new Error("This submission does not change books.md.");
+  if(sourceNotes.length&&!submission.reflection.trim()) submission.reflection=sourceNotes.join("\n");
+  let matchStart=-1,matchEnd=-1,existing=null;
+  for(let i=start+1;i<end;i++){
+    if(!itemLine(lines[i]))continue;
+    const parsed=parse(lines[i]); if(!parsed)continue;
+    const parsedKey=isFlix?parsed.imdb.toLowerCase():normalizeISBN(parsed.isbn);
+    const sameKey=key&&parsedKey===key;
+    const parsedName=(isFlix?(parsed.title+" "+parsed.year):(parsed.title+" "+parsed.author)).toLowerCase().replace(/\s+/g," ").trim();
+    if(!sameKey&&!(parsedName===name&&(!key||!parsedKey)))continue;
+    matchStart=i;existing=parsed;matchEnd=i+1;while(matchEnd<end&&!itemLine(lines[matchEnd]))matchEnd++;break;
+  }
+  if(existing){
+    if(isFlix){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;}
+    else {item.isbn ||= existing.isbn; item.priority=existing.priority; if(isBookRead){item.ratingXY ||= existing.ratingXY; item.ratingZZ ||= existing.ratingZZ;}}
+    lines[matchStart]=make(item);
+    const seen=new Set(lines.slice(matchStart+1,matchEnd).map(x=>x.trim().toLowerCase()));
+    lines.splice(matchEnd,0,...noteLines().filter(x=>!seen.has(x.toLowerCase())));
+  } else {
+    const block=[make(item),...noteLines()],before=lines.slice(0,end),after=lines.slice(end);
+    while(before.length&&!before[before.length-1].trim())before.pop(); while(after.length&&!after[0].trim())after.shift();
+    lines.splice(0,lines.length,...before,"",...block,"",...after);
+  }
+  const result=lines.join("\n").replace(/\n*$/,"\n");
+  if(result===markdown)throw new Error("This submission does not change the file.");
   return result;
 }
-
 function derLength(length) {
   if (length < 128) return Uint8Array.of(length);
   const bytes = [];
@@ -348,13 +313,14 @@ async function verifyTurnstile(request, token, env) {
 async function createPullRequest(submission, env) {
   const token = await getInstallationToken(env);
   const repository = env.GITHUB_REPOSITORY || `${OWNER}/${REPOSITORY}`;
+  const targetPath = submission.target === "flix" ? FLIX_PATH : BOOKS_PATH;
   const [owner, repo] = repository.split("/");
   if (!owner || !repo || repository.split("/").length !== 2) {
     throw new Error("GITHUB_REPOSITORY must be in owner/repo format.");
   }
   const baseBranch = env.GITHUB_BASE_BRANCH || BASE_BRANCH;
   const repoPath = `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`;
-  const encodedBooksPath = BOOKS_PATH.split("/").map(encodeURIComponent).join("/");
+  const encodedBooksPath = targetPath.split("/").map(encodeURIComponent).join("/");
 
   const branch = await githubRequest(
     token,
@@ -371,7 +337,7 @@ async function createPullRequest(submission, env) {
     throw new Error("Could not load books.md from the configured repository.");
   }
   const currentMarkdown = decodeBase64UTF8(file.content);
-  const updatedMarkdown = updateBooksMarkdown(currentMarkdown, submission);
+  const updatedMarkdown = updateMarkdown(currentMarkdown, submission);
   const branchName = `book-submission/${crypto.randomUUID()}`;
 
   await githubRequest(token, `${repoPath}/git/refs`, {
@@ -383,7 +349,7 @@ async function createPullRequest(submission, env) {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      message: `Update books: ${submission.title}`,
+      message: `Update ${submission.target === "flix" ? "flix" : "books"}: ${submission.title}`,
       content: encodeBase64UTF8(updatedMarkdown),
       sha: file.sha,
       branch: branchName
@@ -393,10 +359,10 @@ async function createPullRequest(submission, env) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      title: `Book update: ${submission.title}`,
+      title: `${submission.target === "flix" ? "Flix" : "Book"} update: ${submission.title}`,
       head: branchName,
       base: baseBranch,
-      body: `Mobile book update submission for **${submission.section}**.\n\nReview the book details and changes to \`bcbuild/content/books.md\` before merging.`
+      body: `Mobile ${submission.target === "flix" ? "Flix" : "book"} update submission for **${submission.section}**.\n\nReview the details and changes to \`${targetPath}\` before merging.`
     })
   });
 }
