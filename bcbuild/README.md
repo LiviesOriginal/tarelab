@@ -8,8 +8,7 @@ The Reading Room, Radar, and Read pages are rendered from `content/books.md`. Th
 - `content/books.md` — canonical book and shelf data.
 - `books.js` — shared Markdown parser and renderer for all book pages.
 - `book-update.js` — Updates form client; loads shelf headings from `books.md`, verifies the Turnstile challenge, and submits the form.
-- `functions/api/book-submission-config.js` — supplies the public Turnstile site key.
-- `functions/api/book-submissions.js` — validates submissions, verifies Turnstile server-side, updates the selected Markdown section, and opens one GitHub PR per submission.
+- `functions/api/book-submission-config.js` and `functions/api/book-submissions.js` — submission handlers. The Pages project serving `tarelab.com` discovers functions from the repository-root `functions/api` directory; thin root route adapters forward these API paths to these handlers.
 - `radarview.html` and `readview.html` — complete Radar and Read shelves.
 - `styles.css` — shared site styles.
 
@@ -17,10 +16,10 @@ The shelf is selected explicitly from the headings in `books.md`. ISBN is used t
 
 ## Configure submissions
 
-1. Create a Cloudflare Turnstile widget for the production hostname (and any preview hostnames used for testing). Add these Pages environment variables:
+1. In the Cloudflare Pages project that serves `tarelab.com`, create a Turnstile widget for the production hostname (and any preview hostnames used for testing). Add these Pages environment variables:
    - `TURNSTILE_SITE_KEY` — public site key.
    - `TURNSTILE_SECRET_KEY` — secret key; store as a Cloudflare secret.
-2. Create a GitHub App and install it only on `LiviesOriginal/tarelab`. Grant repository **Contents: Read and write** and **Pull requests: Read and write**. Add these Pages variables/secrets:
+2. Create a GitHub App and install it only on `LiviesOriginal/tarelab`. Grant repository **Contents: Read and write** and **Pull requests: Read and write**. Add these variables/secrets to that same Pages project:
    - `GITHUB_APP_ID` — app ID.
    - `GITHUB_INSTALLATION_ID` — installation ID.
    - `GITHUB_APP_PRIVATE_KEY` — generated private key; store as a Cloudflare secret.
