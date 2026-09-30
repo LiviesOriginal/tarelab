@@ -1651,3 +1651,30 @@ main .home-section-heading {
   .content-page .content-hero {
     padding-top: 2.25rem !important;
   }
+
+
+/* Final shared navigation/footer details. */
+.site-footer p { margin: 0; font-size: .55rem; line-height: 1; color: var(--muted); }
+.content-page[data-books-view="radar"] .site-header .home-nav a:first-child { color: var(--surface); }
+.content-page[data-books-view="radar"] .site-header .home-nav a:first-child:hover { color: var(--accent); }
+
+/* Screen view: Reading Room typography, borders, hover treatment, and full-card actions. */
+.screen-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
+.screen-card { position: relative; min-width: 0; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: .9rem; padding: .9rem; border: 1px solid var(--ink); background: var(--surface); color: inherit; text-decoration: none; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.screen-card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 var(--ink); }
+.screen-card:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.screen-cover { width: 112px; min-width: 0; }
+.screen-cover img { display: block; width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border: 1px solid var(--line); }
+.screen-copy { min-width: 0; display: flex; flex-direction: column; }
+.screen-copy h3 { margin: 0; font-size: 1.05rem; line-height: 1.16; font-weight: 800; letter-spacing: -.02em; }
+.screen-year { margin-top: .35rem; color: var(--muted); font-size: .75rem; line-height: 1.4; }
+.screen-ratings { display: grid; gap: .2rem; margin-top: .65rem; }
+.screen-rating-row { display: flex; align-items: center; gap: .35rem; font-size: .72rem; }
+.screen-rating-label { min-width: 1.8rem; color: var(--accent-deep); font-size: .58rem; font-weight: 800; letter-spacing: .06em; }
+.screen-stars { letter-spacing: .05em; color: var(--gold); white-space: nowrap; }
+.screen-note { margin-top: .7rem; color: var(--muted); font-size: .75rem; line-height: 1.5; }
+.screen-note + .screen-note { margin-top: .45rem; padding-top: .45rem; border-top: 1px solid var(--line); }
+.screen-section + .screen-section { margin-top: 2.5rem; }
+@media (max-width: 900px) { .screen-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .screen-grid { grid-template-columns: 1fr; gap: .75rem; } .screen-card { grid-template-columns: 104px minmax(0, 1fr); } .screen-cover { width: 104px; } .screen-copy h3 { font-size: 1rem; } }
+@media (max-width: 359px) { .screen-card { grid-template-columns: 84px minmax(0, 1fr); } .screen-cover { width: 84px; } }

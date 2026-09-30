@@ -243,7 +243,7 @@
         : [];
     const notes = reflections.map((note) => `<p class="archive-reflection">${escapeHTML(note)}</p>`).join("");
     const reviewDisclosure = notes
-      ? `<details class="archive-review"><summary>Spoilers: reveal review notes</summary><div class="archive-review-copy">${notes}</div></details>`
+      ? `<details class="archive-review"><summary>Read More...</summary><div class="archive-review-copy">${notes}</div></details>`
       : "";
 
     return `<article class="book-card archive-card read-review-card" data-reader="Shared">
@@ -258,7 +258,7 @@
   function previewCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    return `<a aria-label="View ${title} by ${author} in Future Reads" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
+    return `<a aria-label="View ${title} by ${author} in The Stacks" class="book-card current-reading-card reading-room-next-card focus-ring" data-reader="Shared" href="./radarview.html"><div class="current-book-grid"><div class="cover-frame current-cover">${coverImage(book, "L", "cover", `Cover of ${book.title} by ${book.author}`)}</div><div class="reading-room-copy">${shelfBadge(book)}<h3 class="editorial-heading">${title}</h3><p class="book-author">${author}</p></div></div></a>`;
   }
 
   function archivePreview(book) {
