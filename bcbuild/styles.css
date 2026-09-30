@@ -1474,8 +1474,12 @@ footer p { font-size: .7rem !important; }
   }
 }
 
-.page-shell:not(.content-page) .site-header .editorial-heading {
+.site-header .editorial-heading {
   font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.content-page .content-hero .section-kicker {
+  font-size: .68rem;
 }
 
 main .home-section-heading {
@@ -1498,4 +1502,12 @@ main .home-section-heading {
 
 .home-section-heading a:hover {
   color: var(--link);
+}
+
+.page-shell:not(.content-page) .site-header .home-nav a {
+  color: var(--surface);
+}
+
+.page-shell:not(.content-page) .site-header .home-nav a:hover {
+  color: var(--accent);
 }
