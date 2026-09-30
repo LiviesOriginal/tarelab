@@ -14,8 +14,7 @@ gtag('config', 'G-3PM570SXPX');
 </script>
 <link href="styles.css?v=20260929-palette" rel="stylesheet"/>
   <script defer="True" src="club-log.js"></script>
-  <script defer src="reading-room.js"></script>
-  <script defer src="home-content.js"></script>
+  <script defer src="books.js"></script>
 </head>
 <body class="page-shell min-h-screen">
 <header class="site-header">
@@ -28,13 +27,13 @@ gtag('config', 'G-3PM570SXPX');
 <p class="header-dek">You are never alone when you have a good book.</p>
 </div>
 <nav class="home-nav" aria-label="Site navigation">
-<a class="focus-ring" href="/radar/">On the Radar</a>
-<a class="focus-ring" href="/already-read/">Read</a>
+<a class="focus-ring" href="./radarview.html">On the Radar</a>
+<a class="focus-ring" href="./readview.html">Read</a>
 <a class="focus-ring" href="#log-heading">Updates</a>
 </nav>
 </div>
 </header>
-<<main class="w-full" data-reading-room-url="./content/books.md">
+<main class="w-full" data-books-url="./content/books.md" data-books-view="home">
 <section aria-labelledby="filter-heading" class="mx-auto max-w-7xl px-5 pt-9 sm:px-8 lg:px-10">
 <div class="flex flex-col gap-4 border-b border-[#dedfd8] pb-6 md:flex-row md:items-center md:justify-between">
 <div>
@@ -57,7 +56,7 @@ gtag('config', 'G-3PM570SXPX');
 </div>
 <p class="hidden max-w-sm text-right text-sm leading-6 sm:block">Different pages, same conversation.</p>
 </div>
-<div class="current-reading-grid" data-reading-current></div></div>
+<div class="current-reading-grid" data-reading-current></div>
 </section>
 <section class="border-y border-[#dedfd8] bg-[#efeee8]">
 <div aria-labelledby="next-heading" class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
@@ -71,14 +70,14 @@ gtag('config', 'G-3PM570SXPX');
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
 <div class="preview-header">
 <div><p class="section-kicker">Maybe soon</p><h2 class="editorial-heading section-title" id="radar-heading">On the Radar</h2></div>
-<a class="page-link focus-ring" href="/radar/">03 / Endless Possibilities →</a>
+<a class="page-link focus-ring" href="./radarview.html">03 / Endless Possibilities →</a>
 </div>
 <div class="preview-grid radar-preview-grid"></div>
 </div>
 </section>
 <section aria-labelledby="reviews-heading" class="dark-section archive-preview-section">
 <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
-<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Read</h2></div><a class="page-link focus-ring" href="/already-read/">02 / Finished books →</a></div>
+<div class="preview-header"><div><p class="section-kicker">From the finished stack</p><h2 class="editorial-heading section-title" id="reviews-heading">Read</h2></div><a class="page-link focus-ring" href="./readview.html">02 / Finished books →</a></div>
 <div class="preview-grid archive-preview-grid"></div>
 </div>
 </section>

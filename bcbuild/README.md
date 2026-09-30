@@ -5,11 +5,11 @@ A cleaned Canva-derived site for GitHub + Cloudflare Pages, with a D1-backed Clu
 ## Structure
 
 - `index.html` — homepage / reading room, kept at the project root.
-- `radar/index.html` — standalone On the Radar page.
-- `already-read/index.html` — standalone Already Read page.
-- `content/books.md` — source of truth for Currently Reading and Reading Next books.
+- `radarview.html` — On the Radar page.
+- `readview.html` — Already Read page.
 - `content/books.md` — the single source of truth for Reading Room, Radar, and Already Read content.
 - `content/radar.md` and `content/already-read.md` are no longer used.
+- `books.js` — shared Markdown parser and renderer for the homepage shelves and both book-list pages.
 - `club-log.js` — browser client for the Club Log API.
 - `functions/api/club-log.js` — public GET/POST API.
 - `functions/api/club-log/[id].js` — protected admin DELETE API.
