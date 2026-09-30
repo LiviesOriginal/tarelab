@@ -227,18 +227,22 @@
   function archiveCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const reader = escapeHTML(book.reader);
     const reflections = Array.isArray(book.notes)
       ? book.notes
       : book.notes
         ? [book.notes]
         : [];
     const notes = reflections.map((note) => `<p class="archive-reflection">${escapeHTML(note)}</p>`).join("");
+    const reviewDisclosure = notes
+      ? `<details class="archive-review"><summary>Spoilers: reveal review notes</summary><div class="archive-review-copy">${notes}</div></details>`
+      : "";
 
-    return `<a aria-label="View ${title} by ${author} on Goodreads" class="book-card book-card-link archive-card focus-ring" data-reader="${reader}" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">
+    return `<article class="book-card archive-card read-review-card" data-reader="Shared">
+      <a aria-label="View ${title} by ${author} on Goodreads" class="archive-card-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer"></a>
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}</div>${notes}
-    </a>`;
+      <div class="archive-content"><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}</div>
+      ${reviewDisclosure}
+    </article>`;
   }
 
   function previewCard(book) {
@@ -261,6 +265,35 @@
     target.innerHTML = books.length
       ? books.map(renderCard).join("")
       : '<p class="content-empty">No books are available in books.md for this shelf.</p>';
+  }
+
+  function wireReviewDisclosure(target) {
+    if (!target) return;
+
+    target.addEventListener("pointerover", (event) => {
+      if (event.pointerType !== "mouse") return;
+      const review = event.target.closest(".archive-review");
+      if (!review || review.contains(event.relatedTarget)) return;
+      review.dataset.pointerHover = "true";
+      review.open = true;
+    });
+    target.addEventListener("pointerout", (event) => {
+      if (event.pointerType !== "mouse") return;
+      const review = event.target.closest(".archive-review");
+      if (!review || review.contains(event.relatedTarget)) return;
+      delete review.dataset.pointerHover;
+      if (!review.contains(document.activeElement)) review.open = false;
+    });
+    target.addEventListener("focusin", (event) => {
+      const review = event.target.closest(".archive-review");
+      if (review) review.open = true;
+    });
+    target.addEventListener("focusout", (event) => {
+      const review = event.target.closest(".archive-review");
+      if (review && !review.contains(event.relatedTarget) && review.dataset.pointerHover !== "true") {
+        review.open = false;
+      }
+    });
   }
 
   function renderHome(sections) {
@@ -325,16 +358,16 @@
             .filter((item) => /^to read/i.test(item.title) || /^roxy's list/i.test(item.title))
             .flatMap((item) => item.books.map((book) => ({ ...book, sectionTitle: item.title })));
 
-      const intro = isRead
-        ? section?.intro || "Books we’ve finished reading together."
-        : "Books we’re considering for a future read.";
-      const introElement = document.querySelector("[data-books-intro]");
-      if (introElement) introElement.textContent = intro;
+      if (!isRead) {
+        const introElement = document.querySelector("[data-books-intro]");
+        if (introElement) introElement.textContent = "Books we’re considering for a future read.";
+      }
       setBooks(
         document.querySelector("[data-books-list]"),
         books,
         isRead ? archiveCard : radarCard
       );
+      if (isRead) wireReviewDisclosure(document.querySelector("[data-books-list]"));
     } catch (error) {
       console.error("Book content load failed", error);
       const message = `<p class="content-error" role="alert">The books could not be loaded. ${escapeHTML(error.message)}</p>`;

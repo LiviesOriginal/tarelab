@@ -1511,3 +1511,107 @@ main .home-section-heading {
 .page-shell:not(.content-page) .site-header .home-nav a:hover {
   color: var(--accent);
 }
+
+.content-page[data-books-view="already-read"] .site-header .home-nav a {
+  color: var(--surface);
+}
+
+.content-page[data-books-view="already-read"] .site-header .home-nav a:hover {
+  color: var(--accent);
+}
+
+.content-page[data-books-view="already-read"] .content-grid {
+  align-items: start;
+}
+
+.content-page[data-books-view="already-read"] .archive-card {
+  position: relative;
+  grid-template-columns: clamp(132px, 14vw, 160px) minmax(0, 1fr);
+  align-items: start;
+  gap: .85rem 1rem;
+}
+
+.content-page[data-books-view="already-read"] .archive-card-link {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+}
+
+.content-page[data-books-view="already-read"] .archive-card-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.content-page[data-books-view="already-read"] .archive-cover {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+}
+
+.content-page[data-books-view="already-read"] .archive-content {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.content-page[data-books-view="already-read"] .archive-title {
+  margin-top: 0;
+}
+
+.content-page[data-books-view="already-read"] .archive-review {
+  z-index: 2;
+  grid-column: 1 / -1;
+  min-width: 0;
+  border-top: 1px solid var(--line);
+}
+
+.content-page[data-books-view="already-read"] .archive-review summary {
+  padding: .55rem 0;
+  color: var(--link);
+  cursor: pointer;
+  font-size: .72rem;
+  font-weight: 800;
+  list-style: none;
+}
+
+.content-page[data-books-view="already-read"] .archive-review summary::-webkit-details-marker {
+  display: none;
+}
+
+.content-page[data-books-view="already-read"] .archive-review summary::after {
+  content: "+";
+  float: right;
+}
+
+.content-page[data-books-view="already-read"] .archive-review[open] summary::after {
+  content: "−";
+}
+
+.content-page[data-books-view="already-read"] .archive-review-copy {
+  display: grid;
+  gap: .65rem;
+  padding-bottom: .25rem;
+}
+
+.content-page[data-books-view="already-read"] .archive-review:not([open]) .archive-review-copy {
+  display: none;
+}
+
+.content-page[data-books-view="already-read"] .archive-review-copy .archive-reflection {
+  margin: 0;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 767px) {
+  .content-page[data-books-view="already-read"] .archive-card {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: .75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-page[data-books-view="already-read"] .archive-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+}
