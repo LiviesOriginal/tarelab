@@ -15,6 +15,15 @@
     "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
   const readers = ["RGF", "LAB"];
 
+  function isToReadSection(title) {
+    return /^to read(?:\s|$)/i.test(title.trim());
+  }
+
+  function shelfLabel(title) {
+    const match = title.trim().match(/^to read(?:\s*-\s*(.*))?$/i);
+    return match ? match[1]?.trim() || "To read" : title.trim();
+  }
+
   function parseBookLine(line, defaults = {}) {
     const parts = line.split("|").map((part) => part.trim());
     if (parts.length < 3) return null;
@@ -30,6 +39,7 @@
       ratingOther: rest.length >= 2 ? rest[rest.length - 2] : "",
       status: defaults.status || "",
       reader: defaults.reader || "Shared",
+      shelfLabel: defaults.shelfLabel || "Shared",
       notes: []
     };
   }
@@ -42,7 +52,7 @@
     if (normalized === "read" || normalized.startsWith("read ")) {
       return { status: "Already Read", reader: "Shared" };
     }
-    if (normalized.startsWith("to read")) {
+    if (isToReadSection(title)) {
       return { status: "Reading Next", reader: "Shared" };
     }
     return { status: "", reader: "Shared" };
@@ -59,7 +69,13 @@
 
       if (line.startsWith("# ")) {
         const title = line.slice(2).trim();
-        section = { title, intro: "", books: [], ...sectionDefaults(title) };
+        section = {
+          title,
+          shelfLabel: shelfLabel(title),
+          intro: "",
+          books: [],
+          ...sectionDefaults(title)
+        };
         sections.push(section);
         book = null;
         continue;
@@ -160,12 +176,13 @@
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
     const status = book.status;
+    const label = escapeHTML(book.shelfLabel);
 
     return `<article class="book-card current-reading-card reading-room-${status === "Currently Reading" ? "current" : "next"}-card" data-reader="${reader}">
       <div class="current-book-grid">
         <div class="cover-frame current-cover">${coverImage(book, "M", "cover", `Cover of ${book.title} by ${book.author}`)}</div>
         <div class="reading-room-copy">
-          <span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${status === "Currently Reading" ? `${reader} is reading` : `${reader}'s pick`}</span>
+          <span class="reader-badge mb-4 px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em]">${status === "Currently Reading" ? `${reader} is reading` : label}</span>
           <h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3>
           <p class="book-author">${author}</p>
           ${book.description ? `<p class="book-description">${escapeHTML(book.description)}</p>` : ""}
@@ -177,11 +194,11 @@
   function radarCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
-    const reader = escapeHTML(book.reader);
+    const label = escapeHTML(book.shelfLabel);
 
-    return `<article class="book-card radar-card" data-reader="${reader}">
+    return `<article class="book-card radar-card" data-reader="${escapeHTML(book.reader)}">
       <div class="radar-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="radar-copy"><span class="reader-badge">${reader}</span><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
+      <div class="radar-copy"><span class="reader-badge">${label}</span><h3 class="editorial-heading"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p>${author}</p></div>
     </article>`;
   }
 
@@ -189,6 +206,7 @@
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
     const reader = escapeHTML(book.reader);
+    const label = escapeHTML(book.shelfLabel);
     const reflections = Array.isArray(book.notes)
       ? book.notes
       : book.notes
@@ -198,7 +216,7 @@
 
     return `<article class="book-card archive-card" data-reader="${reader}">
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
+      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${label}</span></div><h3 class="editorial-heading archive-title"><a class="book-title-link focus-ring" href="${escapeHTML(goodreadsURL(book))}" target="_blank" rel="noopener noreferrer">${title}</a></h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
     </article>`;
   }
 
@@ -235,7 +253,7 @@
     const current = books.filter((book) => book.status === "Currently Reading");
     const next = books.filter((book) => book.status === "Reading Next");
     const toRead = sections
-      .filter((item) => /^to read/i.test(item.title) || /^roxy's list/i.test(item.title))
+      .filter((item) => isToReadSection(item.title) || /^roxy's list/i.test(item.title))
       .flatMap((item) => item.books)
       .slice(0, 3);
     const read = sections.find((item) => item.title.toLowerCase() === "read");
@@ -281,7 +299,7 @@
       const books = isRead
         ? section?.books || []
         : sections
-            .filter((item) => /^to read/i.test(item.title) || /^roxy's list/i.test(item.title))
+            .filter((item) => isToReadSection(item.title) || /^roxy's list/i.test(item.title))
             .flatMap((item) => item.books);
 
       const title = isRead ? "Already Read" : "On the Radar";
