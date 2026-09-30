@@ -13,6 +13,7 @@
 
   const noCoverURL =
     "https://dryofg8nmyqjw.cloudfront.net/images/no-cover.png";
+  const readers = ["RGF", "LAB"];
 
   function parseBookLine(line, defaults = {}) {
     const parts = line.split("|").map((part) => part.trim());
@@ -114,6 +115,26 @@
     return `<img class="${imageClass}" src="${src}" alt="${escapeHTML(alt)}" loading="lazy" onerror="this.onerror=null;this.classList.add('no-cover-image');this.src='${fallback}';this.alt='No cover available'">`;
   }
 
+  function ratingStars(value, reader) {
+    const parsed = Number.parseInt(value, 10);
+    const rating = Number.isFinite(parsed) ? Math.max(0, Math.min(5, parsed)) : 0;
+    const label = value
+      ? `${reader}: ${rating} out of 5 stars`
+      : `${reader}: not rated`;
+    const stars = Array.from({ length: 5 }, (_, index) =>
+      `<span class="${index < rating ? "on" : "off"}">★</span>`
+    ).join("");
+
+    return `<span class="stars" role="img" aria-label="${label}">${stars}</span>`;
+  }
+
+  function bookRatings(book) {
+    return `<div class="archive-ratings">${readers.map((reader, index) => {
+      const rating = index === 0 ? book.rating : book.ratingOther;
+      return `<div class="archive-rating-row"><span class="rating-label">${reader}</span>${ratingStars(rating, reader)}</div>`;
+    }).join("")}</div>`;
+  }
+
   function readingCard(book) {
     const title = escapeHTML(book.title);
     const author = escapeHTML(book.author);
@@ -166,7 +187,7 @@
 
     return `<article class="book-card archive-card" data-reader="${reader}">
       <div class="archive-cover cover-frame">${coverImage(book, "L", "", `Cover of ${book.title} by ${book.author}`)}</div>
-      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span>${book.rating ? `<span class="archive-rating">${escapeHTML(book.rating)} / 5</span>` : ""}</div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${notes}</div>
+      <div class="archive-content"><div class="archive-top"><span class="reader-badge">${reader}</span></div><h3 class="editorial-heading archive-title">${title}</h3><p class="archive-author">${author}</p>${bookRatings(book)}${notes}</div>
     </article>`;
   }
 
@@ -185,7 +206,7 @@
         ? [book.notes]
         : [];
     const notes = reflections.slice(0, 1).map((note) => `<p class="archive-preview-reflection">${escapeHTML(note)}</p>`).join("");
-    return `<article class="archive-preview-card"><div class="archive-preview-top"><span>${book.rating ? `${escapeHTML(book.rating)} / 5` : ""}</span></div><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${notes}</article>`;
+    return `<article class="archive-preview-card"><h3 class="editorial-heading">${title}</h3><p class="archive-preview-author">${author}</p>${bookRatings(book)}${notes}</article>`;
   }
 
   function setBooks(target, books, renderCard) {
