@@ -48,10 +48,8 @@ button { font: inherit; }
 }
 .scene {
   position: relative;
-  width: min(100vw, 100svh, 1254px);
-  aspect-ratio: 1 / 1;
+  width: 100vw;
+  height: 100svh;
   overflow: hidden;
-  isolation: isolate;
   background: transparent;
-  box-shadow: 0 0 80px rgb(0 0 0 / 55%);
 }
