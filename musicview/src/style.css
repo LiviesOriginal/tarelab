@@ -1,0 +1,375 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  background: #100a06;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #100a06;
+}
+
+button {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.scene {
+  position: relative;
+  width: min(100vw, 1254px);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    linear-gradient(rgb(20 8 2 / 10%), rgb(20 8 2 / 10%)),
+    url("/retro-music-tv-bg.png") center / cover no-repeat;
+  box-shadow: 0 0 80px rgb(0 0 0 / 55%);
+}
+
+.scene::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 43%, transparent 45%, rgb(0 0 0 / 35%) 100%);
+}
+
+.brand {
+  position: absolute;
+  z-index: 8;
+  top: 2.2%;
+  left: 4%;
+  color: #ffe96b;
+  font-size: clamp(1.1rem, 3vw, 2.5rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.08em;
+  line-height: .9;
+  text-shadow: 2px 2px 0 #df3e8b, 4px 4px 0 #1ecbc4;
+  transform: rotate(-3deg);
+  opacity: .96;
+  pointer-events: none;
+}
+
+.tv-player {
+  position: absolute;
+  z-index: 4;
+  top: 23.35%;
+  left: 30.65%;
+  width: 44.85%;
+  aspect-ratio: 16 / 9;
+  border-radius: 2.2%;
+  overflow: hidden;
+  background: #050505;
+  box-shadow:
+    0 0 0 3px rgb(12 9 8 / 85%),
+    0 0 24px rgb(38 255 220 / 15%);
+}
+
+.player-screen,
+.player-screen iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.player-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.player-screen iframe {
+  display: block;
+  border: 0;
+}
+
+.screen-effects {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 4%) 0,
+      rgb(255 255 255 / 4%) 1px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(ellipse at center, transparent 48%, rgb(0 0 0 / 40%) 100%);
+  mix-blend-mode: screen;
+}
+
+.live-badge {
+  position: absolute;
+  z-index: 5;
+  top: 4%;
+  right: 3%;
+  padding: .35em .55em;
+  border-radius: 3px;
+  background: #df263e;
+  color: #fff;
+  font-size: clamp(.42rem, .75vw, .7rem);
+  font-weight: 900;
+  letter-spacing: .08em;
+  box-shadow: 0 2px 7px rgb(0 0 0 / 35%);
+  animation: blink 1.4s steps(2, start) infinite;
+  pointer-events: none;
+}
+
+.now-playing {
+  position: absolute;
+  z-index: 5;
+  top: 7%;
+  left: 3%;
+  max-width: 66%;
+  padding: .5em .7em;
+  border-left: 3px solid #ffed39;
+  background: rgb(0 0 0 / 68%);
+  color: #fff;
+  font-size: clamp(.42rem, .85vw, .78rem);
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow: 1px 1px #000;
+  pointer-events: none;
+}
+
+@keyframes blink {
+  50% { opacity: .35; }
+}
+
+.playlist-panel {
+  position: absolute;
+  z-index: 7;
+  top: 22%;
+  right: 2.7%;
+  width: min(25%, 315px);
+  max-height: 44%;
+  overflow: auto;
+  padding: 15px;
+  border: 1px solid rgb(255 239 135 / 30%);
+  border-radius: 12px;
+  background: rgb(15 9 7 / 88%);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 14px 35px rgb(0 0 0 / 40%);
+}
+
+.playlist-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.eyebrow {
+  margin: 0 0 2px;
+  color: #ffef87;
+  font-size: .55rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+}
+
+.playlist-heading h2 {
+  margin: 0;
+  font-size: clamp(.72rem, 1.2vw, 1rem);
+}
+
+.playlist-heading button {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #1a0d08;
+  background: #ffef87;
+  font-weight: 900;
+}
+
+.playlist {
+  display: grid;
+  gap: 6px;
+}
+
+.playlist-button {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 8px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  cursor: pointer;
+  color: #fff;
+  background: rgb(61 35 25 / 82%);
+  text-align: left;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease;
+}
+
+.playlist-button:hover,
+.playlist-button.active {
+  border-color: #ffef35;
+  background: rgb(104 54 35 / 92%);
+  transform: translateX(3px);
+}
+
+.track-number {
+  color: #ffef35;
+  font-family: monospace;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.track-title {
+  overflow: hidden;
+  font-size: clamp(.55rem, .85vw, .72rem);
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-arrow {
+  color: #ffef87;
+  font-size: .55rem;
+}
+
+.playlist-toggle {
+  display: none;
+  position: absolute;
+  z-index: 9;
+  right: 4%;
+  bottom: 4%;
+  border: 1px solid rgb(255 239 135 / 55%);
+  border-radius: 999px;
+  padding: 9px 14px;
+  cursor: pointer;
+  color: #180e09;
+  background: #ffef87;
+  font-size: .75rem;
+  font-weight: 900;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 35%);
+}
+
+@media (max-width: 900px) {
+  .scene {
+    width: 100vw;
+  }
+
+  .playlist-panel {
+    width: 27%;
+  }
+}
+
+@media (max-width: 760px) {
+  .app {
+    min-height: 100svh;
+    place-items: start center;
+  }
+
+  .scene {
+    min-height: 100svh;
+    width: 100vw;
+    aspect-ratio: auto;
+    background-position: 50% 31%;
+    background-size: auto 100%;
+  }
+
+  .brand {
+    top: 3%;
+    left: 5%;
+    font-size: clamp(1rem, 7vw, 1.8rem);
+  }
+
+  .tv-player {
+    top: 24.7%;
+    left: 9.7%;
+    width: 80.8%;
+    aspect-ratio: 16 / 9;
+    border-radius: 2.8%;
+  }
+
+  .now-playing {
+    max-width: 70%;
+    font-size: .55rem;
+  }
+
+  .playlist-toggle {
+    display: block;
+  }
+
+  .playlist-panel {
+    top: 22%;
+    right: 5%;
+    width: 90%;
+    max-height: 57%;
+    padding: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+  }
+
+  .playlist-panel.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .playlist-button {
+    padding: 11px 9px;
+  }
+
+  .track-title {
+    font-size: .7rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .scene {
+    background-size: auto 100%;
+    background-position: 50% 29%;
+  }
+
+  .tv-player {
+    top: 25.1%;
+    left: 9.4%;
+    width: 81.2%;
+  }
+
+  .live-badge {
+    font-size: .42rem;
+  }
+
+  .now-playing {
+    top: 8%;
+    padding: 4px 6px;
+    font-size: .46rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-badge,
+  .playlist-button,
+  .playlist-panel {
+    animation: none;
+    transition: none;
+  }
+}
