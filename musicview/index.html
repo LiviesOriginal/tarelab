@@ -10,7 +10,6 @@
   <body>
     <main class="app">
       <section class="scene" aria-label="Retro living-room television">
-        <div class="brand">RETRO MUSIC TV</div>
         <div class="tv-player" id="tvPlayer">
           <div class="player-screen">
             <iframe
@@ -20,24 +19,8 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen
             ></iframe>
-            <div class="screen-effects" aria-hidden="true"></div>
           </div>
         </div>
-
-        <button class="playlist-toggle" id="playlistToggle" type="button" aria-expanded="false">
-          Queue
-        </button>
-
-        <aside class="playlist-panel" id="playlistPanel" aria-label="Now playing queue">
-          <div class="playlist-heading">
-            <div>
-              <p class="eyebrow">RETRO MUSIC TV</p>
-              <h2>Now Playing Queue</h2>
-            </div>
-            <button id="refreshPlaylist" type="button" title="Reload playlist.md">↻</button>
-          </div>
-          <div id="playlist" class="playlist" aria-live="polite">Loading playlist…</div>
-        </aside>
       </section>
     </main>
 
