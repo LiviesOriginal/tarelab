@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#160f0a" />
+    <meta name="description" content="Retro Music TV — a CRT living-room music video player." />
+    <title>Retro Music TV</title>
+  </head>
+  <body>
+    <main class="app">
+      <section class="scene" aria-label="Retro living-room television">
+        <div class="brand">RETRO MUSIC TV</div>
+
+        <div class="tv-player" id="tvPlayer">
+          <div class="player-screen">
+            <iframe
+              id="player"
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0&modestbranding=1"
+              title="Retro Music TV YouTube player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+            <div class="screen-effects" aria-hidden="true"></div>
+            <div class="live-badge">ON AIR</div>
+            <div class="now-playing" id="nowPlaying">Now playing: Never Gonna Give You Up — Rick Astley</div>
+          </div>
+        </div>
+
+        <button class="playlist-toggle" id="playlistToggle" type="button" aria-expanded="false">
+          Queue
+        </button>
+
+        <aside class="playlist-panel" id="playlistPanel" aria-label="Now playing queue">
+          <div class="playlist-heading">
+            <div>
+              <p class="eyebrow">RETRO MUSIC TV</p>
+              <h2>Now Playing Queue</h2>
+            </div>
+            <button id="refreshPlaylist" type="button" title="Reload playlist.md">↻</button>
+          </div>
+          <div id="playlist" class="playlist" aria-live="polite">Loading playlist…</div>
+        </aside>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
