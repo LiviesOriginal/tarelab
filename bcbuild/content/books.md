@@ -49,6 +49,9 @@ Middle of the road sapphic romance.
 It's a Freida.
 - TBA
 
+## The House on Mango Street | Sandra Cisneros | 2 | 5 | 9780833568526
+Not everyone's cup of tea.
+
 ## Atmosphere | Taylor Jenkins Reid | 5 | 4 | 9780385695824
 Fitting follow-up to Evelyn Hugo, this is a sapphic office romance / ultimate long distance relationship story about finding your true family. Readers who like outer space are in for a treat.
 - "I feel like I could know you forever and still be curious about what you’re going to say next."
