@@ -5,69 +5,34 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
-
 * { box-sizing: border-box; }
-
-html, body {
-  min-width: 320px;
-  min-height: 100%;
-  margin: 0;
-}
-
+html, body { min-width: 320px; min-height: 100%; margin: 0; }
 body {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
   background:
     linear-gradient(rgb(20 8 2 / 10%), rgb(20 8 2 / 10%)),
-    url("/retro-music-tv-bg.png") center top / min(100vw, 1254px) auto no-repeat fixed,
+    url("/retro-music-tv-bg.png") center center / min(100vw, 100svh, 1254px) auto no-repeat fixed,
     #100a06;
 }
-
 button { font: inherit; }
-
 .app {
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100svh;
   display: grid;
   place-items: center;
+  overflow: hidden;
   padding: 0;
 }
-
 .scene {
   position: relative;
-  width: min(100vw, 1254px);
+  width: min(100vw, 100svh, 1254px);
   aspect-ratio: 1 / 1;
   overflow: hidden;
   isolation: isolate;
   background: transparent;
   box-shadow: 0 0 80px rgb(0 0 0 / 55%);
 }
-
-/* Replace the baked-in SONY mark without adding a full-page overlay. */
-.scene::before {
-  content: "XYZZ";
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  top: 52.6%;
-  transform: translate(-50%, -50%);
-  width: 7.2%;
-  min-width: 54px;
-  height: 2.25%;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border-radius: 2px;
-  background: rgb(28 18 14 / 96%);
-  color: #d99c78;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(.6rem, 1.55vw, 1.15rem);
-  font-weight: 700;
-  letter-spacing: .03em;
-  line-height: 1;
-  text-shadow: 0 0 3px rgb(255 191 148 / 35%);
-  pointer-events: none;
-}
-
 .brand {
   position: absolute;
   z-index: 8;
@@ -77,16 +42,13 @@ button { font: inherit; }
   font-size: clamp(1.1rem, 3vw, 2.5rem);
   font-weight: 900;
   font-style: italic;
-  letter-spacing: -0.08em;
+  letter-spacing: -.08em;
   line-height: .9;
   text-shadow: 2px 2px 0 #df3e8b, 4px 4px 0 #1ecbc4;
   transform: rotate(-3deg);
   opacity: .96;
   pointer-events: none;
 }
-
-/* This iframe is the only element placed over the TV artwork.
-   Its 16:9 shape matches the actual screen opening in the original CRT image. */
 .tv-player {
   position: absolute;
   z-index: 4;
@@ -97,45 +59,21 @@ button { font: inherit; }
   border-radius: 2.2%;
   overflow: hidden;
   background: #050505;
-  box-shadow:
-    0 0 0 3px rgb(12 9 8 / 85%),
-    0 0 24px rgb(38 255 220 / 15%);
+  box-shadow: 0 0 0 3px rgb(12 9 8 / 85%), 0 0 24px rgb(38 255 220 / 15%);
 }
-
-.player-screen,
-.player-screen iframe {
-  width: 100%;
-  height: 100%;
-}
-
-.player-screen {
-  position: relative;
-  overflow: hidden;
-}
-
-.player-screen iframe {
-  display: block;
-  border: 0;
-}
-
+.player-screen, .player-screen iframe { width: 100%; height: 100%; }
+.player-screen { position: relative; overflow: hidden; }
+.player-screen iframe { display: block; border: 0; }
 .screen-effects {
   position: absolute;
   z-index: 3;
   inset: 0;
   pointer-events: none;
   background:
-    repeating-linear-gradient(
-      to bottom,
-      rgb(255 255 255 / 4%) 0,
-      rgb(255 255 255 / 4%) 1px,
-      transparent 2px,
-      transparent 4px
-    ),
+    repeating-linear-gradient(to bottom, rgb(255 255 255 / 4%) 0, rgb(255 255 255 / 4%) 1px, transparent 2px, transparent 4px),
     radial-gradient(ellipse at center, transparent 48%, rgb(0 0 0 / 40%) 100%);
   mix-blend-mode: screen;
 }
-
-/* Desktop: the queue stays beside the TV, never over its screen or controls. */
 .playlist-panel {
   position: absolute;
   z-index: 7;
@@ -151,7 +89,6 @@ button { font: inherit; }
   backdrop-filter: blur(8px);
   box-shadow: 0 14px 35px rgb(0 0 0 / 40%);
 }
-
 .playlist-heading {
   display: flex;
   align-items: center;
@@ -159,36 +96,13 @@ button { font: inherit; }
   gap: 12px;
   margin-bottom: 12px;
 }
-
-.eyebrow {
-  margin: 0 0 2px;
-  color: #ffef87;
-  font-size: .55rem;
-  font-weight: 900;
-  letter-spacing: .14em;
-}
-
-.playlist-heading h2 {
-  margin: 0;
-  font-size: clamp(.72rem, 1.2vw, 1rem);
-}
-
+.eyebrow { margin: 0 0 2px; color: #ffef87; font-size: .55rem; font-weight: 900; letter-spacing: .14em; }
+.playlist-heading h2 { margin: 0; font-size: clamp(.72rem, 1.2vw, 1rem); }
 .playlist-heading button {
-  width: 30px;
-  height: 30px;
-  border: 0;
-  border-radius: 50%;
-  cursor: pointer;
-  color: #1a0d08;
-  background: #ffef87;
-  font-weight: 900;
+  width: 30px; height: 30px; border: 0; border-radius: 50%; cursor: pointer;
+  color: #1a0d08; background: #ffef87; font-weight: 900;
 }
-
-.playlist {
-  display: grid;
-  gap: 6px;
-}
-
+.playlist { display: grid; gap: 6px; }
 .playlist-button {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -204,34 +118,14 @@ button { font: inherit; }
   text-align: left;
   transition: transform .15s ease, background .15s ease, border-color .15s ease;
 }
-
-.playlist-button:hover,
-.playlist-button.active {
+.playlist-button:hover, .playlist-button.active {
   border-color: #ffef35;
   background: rgb(104 54 35 / 92%);
   transform: translateX(3px);
 }
-
-.track-number {
-  color: #ffef35;
-  font-family: monospace;
-  font-size: .7rem;
-  font-weight: 900;
-}
-
-.track-title {
-  overflow: hidden;
-  font-size: clamp(.55rem, .85vw, .72rem);
-  line-height: 1.2;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.track-arrow {
-  color: #ffef87;
-  font-size: .55rem;
-}
-
+.track-number { color: #ffef35; font-family: monospace; font-size: .7rem; font-weight: 900; }
+.track-title { overflow: hidden; font-size: clamp(.55rem, .85vw, .72rem); line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.track-arrow { color: #ffef87; font-size: .55rem; }
 .playlist-toggle {
   display: none;
   position: absolute;
@@ -248,90 +142,36 @@ button { font: inherit; }
   font-weight: 900;
   box-shadow: 0 8px 20px rgb(0 0 0 / 35%);
 }
-
 @media (max-width: 900px) {
-  .scene {
-    width: 100vw;
-  }
-
-  .playlist-panel {
-    width: 20%;
-  }
+  .scene { width: min(100vw, 100svh, 1254px); }
+  .playlist-panel { width: 20%; }
 }
-
 @media (max-width: 760px) {
-  .app {
-    min-height: 100svh;
-    place-items: start center;
-  }
-
-  .scene {
-    width: 100vw;
-    min-height: 100vw;
-    aspect-ratio: 1 / 1;
-    overflow: visible;
-  }
-
-  .brand {
-    top: 3%;
-    left: 5%;
-    font-size: clamp(1rem, 7vw, 1.8rem);
-  }
-
-  .tv-player {
-    top: 24.7%;
-    left: 9.7%;
-    width: 80.8%;
-    aspect-ratio: 16 / 9;
-    border-radius: 2.8%;
-  }
-
-  .playlist-toggle {
-    display: block;
-    right: 5%;
-    bottom: 4%;
-  }
-
-  /* Open the queue below the TV image instead of laying it over the cabinet. */
+  .app { min-height: 100svh; place-items: start center; }
+  .scene { width: min(100vw, 100svh, 1254px); aspect-ratio: 1 / 1; }
+  .brand { top: 3%; left: 5%; font-size: clamp(1rem, 7vw, 1.8rem); }
+  .tv-player { top: 24.7%; left: 9.7%; width: 80.8%; aspect-ratio: 16 / 9; border-radius: 2.8%; }
+  .playlist-toggle { display: block; }
   .playlist-panel {
-    top: calc(100% + 12px);
+    position: fixed;
+    top: auto;
     right: 5%;
+    bottom: 2%;
     width: 90%;
-    max-height: none;
+    max-height: 42svh;
     padding: 14px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
   }
-
-  .playlist-panel.is-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-  }
-
-  .playlist-button {
-    padding: 11px 9px;
-  }
-
-  .track-title {
-    font-size: .7rem;
-  }
+  .playlist-panel.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+  .playlist-button { padding: 11px 9px; }
+  .track-title { font-size: .7rem; }
 }
-
 @media (max-width: 430px) {
-  .tv-player {
-    top: 25.1%;
-    left: 9.4%;
-    width: 81.2%;
-  }
+  .tv-player { top: 25.1%; left: 9.4%; width: 81.2%; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .playlist-button,
-  .playlist-panel {
-    animation: none;
-    transition: none;
-  }
+  .playlist-button, .playlist-panel { animation: none; transition: none; }
 }
