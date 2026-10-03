@@ -12,7 +12,7 @@ body {
   overflow: hidden;
   background:
     linear-gradient(rgb(20 8 2 / 10%), rgb(20 8 2 / 10%)),
-    url("/retro-music-tv-bg.png") center center / min(100vw, 100svh, 1254px) auto no-repeat fixed,
+    url("/retro-music-tv-bg.png") center center / cover no-repeat fixed,
     #100a06;
 }
 button { font: inherit; }
