@@ -2,14 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#160f0a" />
     <meta name="description" content="Retro Music TV — a CRT living-room music video player." />
     <title>Retro Music TV</title>
   </head>
   <body>
     <main class="app">
-      <section class="scene" aria-label="Retro living-room television">
+      <section class="scene" id="scene" aria-label="Retro living-room television">
+        <div class="scene-frame" aria-hidden="true"></div>
         <div class="brand">RETRO MUSIC TV</div>
 
         <div class="tv-player" id="tvPlayer">
@@ -27,20 +28,42 @@
           </div>
         </div>
 
-        <button class="playlist-toggle" id="playlistToggle" type="button" aria-expanded="false">
+        <div class="xyzz-badge" aria-label="XYZZ television brand">XYZZ</div>
+
+        <div class="photo-overlays" id="photoOverlays" aria-hidden="true"></div>
+
+        <button class="playlist-toggle" id="playlistToggle" type="button" aria-expanded="false" aria-controls="playlistPanel">
           Queue
         </button>
 
-        <aside class="playlist-panel" id="playlistPanel" aria-label="Now playing queue">
+        <aside class="playlist-panel" id="playlistPanel" aria-label="Now playing queue" aria-hidden="true">
           <div class="playlist-heading">
             <div>
               <p class="eyebrow">RETRO MUSIC TV</p>
               <h2>Now Playing Queue</h2>
             </div>
-            <button id="refreshPlaylist" type="button" title="Reload playlist.md">↻</button>
+            <div class="playlist-actions">
+              <button id="refreshPlaylist" type="button" title="Reload playlist.md" aria-label="Refresh playlist">↻</button>
+              <button id="closePlaylist" type="button" title="Close queue" aria-label="Close queue">×</button>
+            </div>
           </div>
           <div id="playlist" class="playlist" aria-live="polite">Loading playlist…</div>
         </aside>
+
+        <div class="decor-controls">
+          <button id="decorToggle" type="button" aria-expanded="false" aria-controls="decorPanel">Decor</button>
+          <aside class="decor-panel" id="decorPanel" aria-hidden="true">
+            <label>
+              Season
+              <select id="themeSelect">
+                <option value="classic">Classic</option>
+                <option value="fall">Fall</option>
+                <option value="holiday">Holiday</option>
+              </select>
+            </label>
+            <p>Seasonal backgrounds and frame photos are optional assets in <code>public/</code>.</p>
+          </aside>
+        </div>
       </section>
     </main>
 
