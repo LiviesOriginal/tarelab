@@ -2,7 +2,7 @@
 The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
 
 # ZZ is Reading
-Britt-Marie Was Here | Fredrik Backman | 9781501142543
+My Friends | Fredrik Backman | 9781982121655
 
 # Next Sync Pick
 Midnight Rain | Haley Cass | 9798988492993
