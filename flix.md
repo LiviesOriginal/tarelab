@@ -46,7 +46,7 @@ Immersive af.
 ## Scream 7 | 2026 | tt27047903 | — | 3
 Cute merch.
 
-## Portrait of a Lady on Fire | 2019 | tt8613070 | — | 5
+## Portrait of a Lady on Fire | 2019 | tt8613070 | 5 | 5
 So much yearning.
 
 ## Inception | 2019 | tt1375666 | — | 5
