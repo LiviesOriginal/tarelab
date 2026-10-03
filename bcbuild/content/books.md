@@ -59,6 +59,8 @@ Official first selection of the Book Club. Lovable characters that make you root
 - …there is nothing an extraordinary person likes more than someone else extraordinary.
 - "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
 
+## test | me |  | 5 | 
+
 # To read - Thrillers
 The Teacher ** | Freida McFadden | 9781728296210
 Five Survive | Holly Jackson | 9780593374191
@@ -103,4 +105,3 @@ Circe | Madeline Miller | 9780316556323
 
 # To read - Classics
 Madame Bovary | Gustave Flaubert | 9781908533814
-
