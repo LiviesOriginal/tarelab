@@ -1,26 +1,18 @@
-# Screens Big & Small
-
-[What to watch.](https://tarelab.com/flix) 
-
 # Book Club
 
-[Better than good reads.](https://tarelab.com/bookclub) 
+[Better than good reads. There's usually a movie too.](https://tarelab.com/bookclub) 
+
+# TRL
+
+[Video killed the radio star.](https://tarelab.com/musicview) 
 
 # The Poems
 
-[here](https://tarelab.com/TTTMrgf8782ojojt002260822.html) 
+[A Collection](https://tarelab.com/TTTMrgf8782ojojt002260822.html) 
 
-# The Oracle
+<!-- Ourcade 
 
-[When things feel uncertain, consult the oracle.](https://tarelab.com/ourcade/oracle.html) 
-
-# Marshmallow Toss
-
-[Satisfy your marshmallow cravings.](https://tarelab.com/ourcade/marshmallow-toss.html) 
-
-# Bubble Pop
-
-[Hugs and Kisses for when you're feeling stressed.](https://tarelab.com/ourcade/bubblepop) 
+[No tokens required.](https://tarelab.com/ourcade/) -->
 
 # "Talking to the Moon" Playlist
 
