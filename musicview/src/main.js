@@ -14,13 +14,15 @@ const SCENES = {
     width: 1920,
     height: 1080,
     url: imageUrl('background-desktop-16x9.jpg'),
-    tv: { left: 793.19, top: 60.00, width: 973.64, height: 590.63 }
+    tv: { left: 793.19, top: 60.00, width: 973.64, height: 590.63 },
+    playstation: { left: 1468, top: 748, width: 300, height: 150 }
   },
   mobile: {
     width: 1080,
     height: 2340,
     url: imageUrl('background-mobile-9x19_5.jpg'),
-    tv: { left: 100, top: 503, width: 880, height: 570 }
+    tv: { left: 100, top: 503, width: 880, height: 570 },
+    playstation: { left: 742, top: 1228, width: 300, height: 175 }
   }
 };
 
@@ -28,6 +30,7 @@ const room = document.querySelector('#room');
 const tv = document.querySelector('#tv');
 const screen = document.querySelector('#screen');
 const playerHost = document.querySelector('#player');
+const playstationLink = document.querySelector('#playstation-link');
 const playlistToggle = document.querySelector('#playlist-toggle');
 const playlistPanel = document.querySelector('#playlist-panel');
 const playlistItems = document.querySelector('#playlist-items');
@@ -671,6 +674,11 @@ function updateSceneGeometry() {
   tv.style.top = `${imageTop + scene.tv.top * scale}px`;
   tv.style.width = `${scene.tv.width * scale}px`;
   tv.style.height = `${scene.tv.height * scale}px`;
+
+  playstationLink.style.left = `${imageLeft + scene.playstation.left * scale}px`;
+  playstationLink.style.top = `${imageTop + scene.playstation.top * scale}px`;
+  playstationLink.style.width = `${scene.playstation.width * scale}px`;
+  playstationLink.style.height = `${scene.playstation.height * scale}px`;
 
   screen.style.borderRadius = `${Math.max(2, 5 * scale)}px`;
 }

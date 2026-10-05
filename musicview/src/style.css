@@ -38,6 +38,21 @@ body { min-width: 320px; }
   pointer-events: none;
 }
 
+.playstation-link {
+  position: fixed;
+  z-index: 1;
+  display: block;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.playstation-link:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, .85);
+  outline-offset: 2px;
+}
+
 .screen {
   position: relative;
   width: 100%;
