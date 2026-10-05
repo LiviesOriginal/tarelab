@@ -1,6 +1,6 @@
-# GALIGO — repo-based graphics build
+# GALIGAGA — repo-based graphics build
 
-This Vite build uses the graphics and audio assets from https://github.com/sunny567s35/Galaga_game and wraps them in the GALIGO shell/features requested:
+This Vite build uses the graphics and audio assets from https://github.com/sunny567s35/Galaga_game and wraps them in the GALIGAGA shell/features requested:
 
 - Welcome/title screen
 - 15 total lives carried through the run
