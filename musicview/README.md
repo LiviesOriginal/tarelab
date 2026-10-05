@@ -27,24 +27,21 @@ The runtime resolves assets in both modes: Vite builds use Vite's base URL, whil
 
 ## Playlists
 
-Playlists are Markdown files.
-
-The default playlist is:
+All playlists are defined in one Markdown file:
 
 `public/playlist.md`
 
-Additional playlists live under:
+Each level-2 heading (`##`) becomes a playlist name in the TV's playlist dropdown. Videos listed under that heading belong to that playlist.
 
-`public/playlists/`
-
-The manifest at `public/playlists/manifest.json` controls the playlist switcher. To add another playlist, add a Markdown file and one manifest entry.
-
-Supported Markdown formats:
+Example:
 
 ```md
-# Playlist title
+# Playlists
 
+## TRL
 - [Video title](https://www.youtube.com/watch?v=VIDEO_ID)
+
+## Another Playlist
 - [Another video](https://youtu.be/VIDEO_ID)
 - VIDEO_ID
 ```
