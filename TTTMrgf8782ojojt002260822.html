@@ -12,7 +12,7 @@
 }
 html,body{height:100%;overflow:hidden}
 body{padding:0;background:#05030a}
-body:before{content:"";position:fixed;inset:0;z-index:-1;background:#05030a url("./poems-bg.jpg") 50% 35%/cover no-repeat}
+body:before{content:"";position:fixed;inset:0;z-index:-1;background:#05030a url("./poems-bg.jpg") 50% 50%/cover no-repeat}
 .wrap{position:fixed;left:var(--box-left);top:var(--box-top);width:min(var(--box-w),var(--box-max));height:calc(100vh - var(--box-top) - var(--box-bottom));max-width:none;margin:0;padding:36px 40px 22px;background:#0d0b12;color:var(--ink);border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.55);overflow:hidden;display:flex;flex-direction:column;overflow-wrap:break-word}
 @supports(height:1svh){.wrap{height:calc(100svh - var(--box-top) - var(--box-bottom))}}
 .masthead{margin-bottom:28px;flex:0 0 auto}
@@ -25,6 +25,7 @@ body:before{content:"";position:fixed;inset:0;z-index:-1;background:#05030a url(
 
 /* ===== PHONES ===== */
 @media(max-width:600px){
+body:before{background-image:url("./poems-bg-mobile.jpg");background-position:50% 50%}
 :root{--box-left:2.5%;--box-w:80%}
 body{font-size:14px;line-height:1.65}
 .wrap{padding:16px 14px 12px;border-radius:18px}
