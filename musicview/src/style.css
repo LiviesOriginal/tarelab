@@ -1,0 +1,239 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #fff;
+  background: #050505;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { width: 100%; height: 100%; margin: 0; }
+html, body { overflow: hidden; background: #050505; }
+body { min-width: 320px; }
+#app { position: relative; overflow: hidden; isolation: isolate; }
+
+/* On narrow portrait screens, keep a matching copy of the exact photo behind the
+   slightly wider crop. This avoids black/empty bands when we zoom the scene out. */
+@media (max-width: 600px) and (orientation: portrait) {
+  #app::before {
+    content: "";
+    position: fixed;
+    inset: -18px;
+    z-index: 0;
+    background-image: url('../background-mobile-9x19_5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(14px);
+    transform: scale(1.03);
+    opacity: .78;
+    pointer-events: none;
+  }
+}
+
+/* Keep the scene tied to the actual visual viewport on mobile browsers. */
+@supports (height: 100dvh) {
+  html, body, #app { height: 100dvh; }
+}
+@supports (height: 100svh) {
+  html, body, #app { min-height: 100svh; }
+}
+
+.room {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: fill;
+  object-position: 50% 50%;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.tv {
+  position: fixed;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: auto;
+  background: #000;
+  border-radius: 4px;
+}
+
+/* Masks the old YouTube UI printed in the source photograph. */
+.screen-blackout {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: #050505;
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #000;
+}
+
+.player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.playlist-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(0, 0, 0, .80);
+  cursor: pointer;
+  font-size: 20px;
+  opacity: 0;
+  transition: opacity .16s ease, background .16s ease;
+}
+
+.playlist-toggle:hover,
+.playlist-toggle:focus-visible { background: rgba(0, 0, 0, .94); }
+
+.playlist-panel {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 3;
+  width: min(35%, 310px);
+  min-width: 205px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(4, 4, 4, .94);
+  box-shadow: -16px 0 32px rgba(0, 0, 0, .32);
+  opacity: 0;
+  transform: translateX(10px);
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease;
+}
+
+.playlist-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  font-size: clamp(11px, 1.3vw, 15px);
+}
+
+.playlist-heading span { color: rgba(255, 255, 255, .55); font-size: .82em; }
+.playlist-items { min-height: 0; overflow: auto; overscroll-behavior: contain; }
+
+.playlist-item {
+  width: 100%;
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: 42% minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  color: #fff;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.playlist-item:hover,
+.playlist-item:focus-visible,
+.playlist-item.is-active { background: rgba(255, 255, 255, .12); }
+.playlist-item.is-active { box-shadow: inset 3px 0 0 #fff; }
+.playlist-item img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 2px; background: #222; }
+.playlist-item-title { min-width: 0; font-size: clamp(10px, 1.0vw, 14px); line-height: 1.25; overflow-wrap: anywhere; }
+
+.screen.playlist-open .playlist-panel,
+.screen:focus-within .playlist-panel { opacity: 1; transform: translateX(0); pointer-events: auto; }
+.screen.playlist-open .playlist-toggle,
+.screen:focus-within .playlist-toggle { opacity: 1; }
+
+@media (hover: hover) and (pointer: fine) {
+  .screen:hover .playlist-panel { opacity: 1; transform: translateX(0); pointer-events: auto; }
+  .screen:hover .playlist-toggle { opacity: 1; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .playlist-toggle { opacity: .92; }
+}
+
+.status {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  z-index: 7;
+  max-width: min(90vw, 480px);
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .78);
+  color: #fff;
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%);
+  transition: opacity .16s ease;
+}
+
+.status.is-visible { opacity: 1; }
+
+.build-id {
+  position: fixed;
+  top: 6px;
+  left: 7px;
+  z-index: 8;
+  padding: 2px 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, .45);
+  color: rgba(255, 255, 255, .38);
+  font: 9px/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  pointer-events: none;
+  user-select: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .playlist-panel, .playlist-toggle, .status { transition: none; }
+}
+
+@media (max-width: 600px) {
+  .playlist-panel { width: min(64%, 270px); min-width: 0; }
+  .playlist-item { grid-template-columns: 45% minmax(0, 1fr); gap: 6px; padding: 7px; }
+}
+
+@media (max-width: 360px) {
+  .playlist-panel { width: 72%; }
+  .playlist-heading { padding: 9px; }
+}
