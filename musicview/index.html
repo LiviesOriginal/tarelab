@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#050505" />
-    <meta name="description" content="A retro-room YouTube player driven by a Markdown playlist." />
+    <meta name="description" content="A retro-room YouTube player driven by Markdown playlists." />
     <title>Retro Room TV</title>
     <link rel="stylesheet" href="./src/style.css" />
   </head>
@@ -24,15 +24,38 @@
 
           <aside id="playlist-panel" class="playlist-panel" aria-label="Playlist">
             <div class="playlist-heading">
-              <strong id="playlist-title">Playlist</strong>
+              <div class="playlist-heading-main">
+                <select id="playlist-select" class="playlist-select" aria-label="Choose playlist"></select>
+                <strong id="playlist-title">Playlist</strong>
+              </div>
               <span id="playlist-count"></span>
             </div>
+
+            <div class="now-playing" aria-live="polite">
+              <span class="now-playing-label">Now playing</span>
+              <strong id="now-playing-title">Nothing playing</strong>
+            </div>
+
+            <div class="playlist-controls" aria-label="Playback controls">
+              <button id="playlist-previous" type="button" class="playlist-control" title="Previous video">‹</button>
+              <button id="playlist-next" type="button" class="playlist-control playlist-control-primary" title="Next video">›</button>
+            </div>
+
             <div id="playlist-items" class="playlist-items"></div>
+
+            <section class="queue-section" aria-label="Queue">
+              <div class="queue-heading">
+                <strong>Queue</strong>
+                <span id="queue-count"></span>
+                <button id="queue-clear" type="button" class="queue-clear">Clear</button>
+              </div>
+              <div id="queue-items" class="queue-items"></div>
+            </section>
           </aside>
         </section>
       </main>
 
-      
+      <div id="status" class="status" role="status" aria-live="polite"></div>
     </div>
 
     <script type="module" src="./src/main.js"></script>

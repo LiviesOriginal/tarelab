@@ -1,0 +1,12 @@
+[
+  {
+    "id": "main",
+    "name": "My YouTube Playlist",
+    "file": "playlist.md"
+  },
+  {
+    "id": "demos",
+    "name": "YouTube Demos",
+    "file": "playlists/demos.md"
+  }
+]
