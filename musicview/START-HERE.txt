@@ -1,0 +1,20 @@
+RETRO ROOM YOUTUBE — EXACT BUILD
+
+This archive intentionally has a unique folder name so it cannot be confused with an older project.
+
+1. Extract this archive.
+2. Open the folder named:
+   retro-youtube-original-derived-v2
+3. In Terminal, run:
+
+   cd /path/to/retro-youtube-original-derived-v2
+   pwd
+   npm run check
+   npm install
+   npm run dev
+
+The `npm run check` command must print:
+BACKGROUND ASSETS VERIFIED.
+
+The project is configured to use port 4173 with --strictPort. If another app is already using 4173,
+Vite will stop instead of silently switching ports. Close the other app and run `npm run dev` again.
