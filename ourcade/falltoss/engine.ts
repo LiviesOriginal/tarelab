@@ -38,7 +38,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   mugImg.onerror = () => {
     mugReady = false;
   };
-  mugImg.src = `${import.meta.env.BASE_URL}mug.png`;
+  mugImg.src = new URL('mug.png', document.baseURI).href;
 
   const mug = { x: MUG.cx, phase: 0 };
 
