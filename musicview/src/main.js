@@ -91,9 +91,11 @@ function parseVideoId(value) {
   return null;
 }
 
-function parsePlaylist(markdown) {
-  let title = 'Playlist';
-  const items = [];
+function parsePlaylists(markdown) {
+  const sections = [];
+  let current = null;
+  let fallbackTitle = 'Playlist';
+  let fallbackItems = [];
   let inComment = false;
 
   for (const sourceLine of markdown.split(/\r?\n/)) {
@@ -106,9 +108,20 @@ function parsePlaylist(markdown) {
       continue;
     }
 
-    const heading = line.match(/^#\s+(.+)$/);
-    if (heading) {
-      title = heading[1].trim();
+    const sectionHeading = line.match(/^##\s+(.+)$/);
+    if (sectionHeading) {
+      current = {
+        id: 'section-' + (sections.length + 1),
+        name: sectionHeading[1].trim(),
+        items: []
+      };
+      sections.push(current);
+      continue;
+    }
+
+    const documentHeading = line.match(/^#\s+(.+)$/);
+    if (documentHeading) {
+      fallbackTitle = documentHeading[1].trim();
       continue;
     }
 
@@ -117,15 +130,20 @@ function parsePlaylist(markdown) {
     const link = line.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (link) {
       const id = parseVideoId(link[2]);
-      if (id) items.push({ id, title: link[1].trim() });
+      if (id) (current ? current.items : fallbackItems).push({ id, title: link[1].trim() });
       continue;
     }
 
     const id = parseVideoId(line);
-    if (id) items.push({ id, title: id });
+    if (id) (current ? current.items : fallbackItems).push({ id, title: id });
   }
 
-  return { title, items };
+  if (sections.length) return sections;
+  if (fallbackItems.length) {
+    return [{ id: 'section-1', name: fallbackTitle, items: fallbackItems }];
+  }
+
+  return [];
 }
 
 function safeGetStorage(key) {
@@ -492,21 +510,17 @@ function renderPlaylistSelector() {
   });
 
   playlistSelect.value = activePlaylistId;
-  playlistSelect.hidden = playlists.length < 2;
+  playlistSelect.hidden = playlists.length === 0;
 }
 
 async function loadPlaylistById(id, loadFirstVideo = true) {
   const definition = playlists.find((item) => item.id === id);
   if (!definition) throw new Error(`Unknown playlist: ${id}`);
 
-  const response = await fetch(contentUrl(definition.file), { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Playlist HTTP ${response.status}`);
-
-  const parsed = parsePlaylist(await response.text());
   activePlaylistId = definition.id;
-  playlist = parsed.items;
+  playlist = definition.items;
   currentIndex = playlist.length ? 0 : -1;
-  playlistTitle.textContent = parsed.title || definition.name;
+  playlistTitle.textContent = definition.name;
   renderPlaylistSelector();
   renderPlaylist();
   renderQueue();
@@ -514,6 +528,8 @@ async function loadPlaylistById(id, loadFirstVideo = true) {
   if (!playlist.length) {
     currentVideoId = null;
     currentVideoTitle = '';
+    resumeCandidateId = null;
+    resumeApplied = false;
     renderNowPlaying();
     setStatus('This playlist has no playable YouTube videos.');
     return;
@@ -534,24 +550,23 @@ async function loadPlaylistById(id, loadFirstVideo = true) {
 }
 
 async function loadPlaylistLibrary() {
-  const fallback = [{ id: 'main', name: 'My YouTube Playlist', file: 'playlist.md' }];
+  const response = await fetch(contentUrl('playlist.md'), { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Playlist HTTP ${response.status}`);
 
-  try {
-    const response = await fetch(contentUrl('playlists/manifest.json'), { cache: 'no-store' });
-    if (!response.ok) throw new Error(`Manifest HTTP ${response.status}`);
+  const sections = parsePlaylists(await response.text());
+  if (!sections.length) throw new Error('No playlists found. Add a ## playlist heading to playlist.md.');
 
-    const manifest = await response.json();
-    if (!Array.isArray(manifest) || !manifest.length) throw new Error('Empty playlist manifest');
+  playlists = sections
+    .slice(0, 25)
+    .map((item, index) => ({
+      id: item.id || `section-${index + 1}`,
+      name: item.name,
+      items: item.items
+    }));
 
-    playlists = manifest
-      .filter((item) => item && typeof item.id === 'string' && typeof item.name === 'string' && typeof item.file === 'string')
-      .slice(0, 25);
-  } catch {
-    playlists = fallback;
-  }
-
+  activePlaylistId = playlists[0].id;
   renderPlaylistSelector();
-  await loadPlaylistById(playlists[0].id);
+  await loadPlaylistById(activePlaylistId);
 }
 
 function ensureYoutubeApi() {

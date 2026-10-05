@@ -1,6 +1,7 @@
-# TRL
+# Playlists
 
-Edit this file to control the videos shown in the TV playlist.
+## TRL
+
 - [American Woman — Lenny Kravitz](https://www.youtube.com/watch?v=UzWHE32IxUc)
 - [Helena — My Chemical Romance](https://www.youtube.com/watch?v=UCCyoocDxBA)
 - [Break Stuff — Limp Bizkit](https://www.youtube.com/watch?v=ZpUYjpKg9KY)
@@ -39,10 +40,11 @@ Edit this file to control the videos shown in the TV playlist.
 - [Falling Away from Me — Korn](https://www.youtube.com/watch?v=2s3iGpDqQpQ)
 - [Dance, Dance — Fall Out Boy](https://www.youtube.com/watch?v=C6MOKXm8x50)
 
-A few of the IDs are independently corroborated by the artists' official YouTube chan
 <!-- Supported formats:
-- [Title](https://www.youtube.com/watch?v=VIDEO_ID)
-- [Title](https://youtu.be/VIDEO_ID)
+- [Playlist title](https://www.youtube.com/watch?v=VIDEO_ID)
+- [Playlist title](https://youtu.be/VIDEO_ID)
 - https://www.youtube.com/shorts/VIDEO_ID
 - VIDEO_ID
+
+Use a level-2 heading (##) to start each playlist.
 -->
