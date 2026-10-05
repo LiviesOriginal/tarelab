@@ -39,7 +39,6 @@ Great cast narration made it extra enjoyable. Some of the songwriting chapters r
 
 ## Yesteryear | Caro Claire Burke | 4 | 5 | 9780593804216
 Roxy hated Caleb. Earned an immediate re-read from Laz.
-- TBA
 
 ## Delilah Green Doesn’t Care | Ashley Herring Blake | 3 | 3 | 9780593336403
 Middle of the road sapphic romance.
@@ -47,7 +46,6 @@ Middle of the road sapphic romance.
 
 ## Never Lie | Freida McFadden | 3 | 4 | 9781464221361
 It's a Freida.
-- TBA
 
 ## The House on Mango Street | Sandra Cisneros | 2 | 5 | 9780833568526
 Not everyone's cup of tea.
