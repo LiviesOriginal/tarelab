@@ -15,14 +15,14 @@ const SCENES = {
     height: 1080,
     url: imageUrl('background-desktop-16x9.jpg'),
     tv: { left: 793.19, top: 60.00, width: 973.64, height: 590.63 },
-    playstation: { left: 1468, top: 748, width: 300, height: 150 }
+    playstation: { left: 1438, top: 718, width: 370, height: 245 }
   },
   mobile: {
     width: 1080,
     height: 2340,
     url: imageUrl('background-mobile-9x19_5.jpg'),
     tv: { left: 100, top: 503, width: 880, height: 570 },
-    playstation: { left: 742, top: 1228, width: 300, height: 175 }
+    playstation: { left: 710, top: 1196, width: 380, height: 390 }
   }
 };
 
