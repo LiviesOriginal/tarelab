@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content="A retro-room YouTube player driven by a Markdown playlist." />
+    <title>Retro Room TV</title>
+  </head>
+  <body>
+    <div id="app">
+      <img id="room" class="room" src="/background-desktop-16x9.jpg" alt="Retro living room with a television, bookcase, chair, and media console" />
+
+      <main id="tv" class="tv" aria-label="Television">
+        <section id="screen" class="screen" aria-label="YouTube player">
+          <div class="screen-blackout" aria-hidden="true"></div>
+          <div id="player" class="player"></div>
+
+          <button id="playlist-toggle" class="playlist-toggle" type="button" aria-expanded="false" aria-controls="playlist-panel" title="Show playlist">
+            <span aria-hidden="true">☰</span>
+            <span class="sr-only">Show playlist</span>
+          </button>
+
+          <aside id="playlist-panel" class="playlist-panel" aria-label="Playlist">
+            <div class="playlist-heading">
+              <strong id="playlist-title">Playlist</strong>
+              <span id="playlist-count"></span>
+            </div>
+            <div id="playlist-items" class="playlist-items"></div>
+          </aside>
+        </section>
+      </main>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <div id="build-id" class="build-id" aria-hidden="true">RETRO-TV v2 · ORIGINAL-DERIVED-BACKGROUNDS</div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
