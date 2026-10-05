@@ -399,10 +399,6 @@ body { min-width: 320px; }
   .screen:hover .playlist-toggle { opacity: 1; }
 }
 
-@media (hover: none), (pointer: coarse) {
-  .playlist-toggle { opacity: .92; }
-}
-
 .status {
   position: fixed;
   left: 50%;
