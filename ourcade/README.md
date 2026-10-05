@@ -1,6 +1,6 @@
 # OURCADE — GitHub Pages
 
-Ourcade uses the original `ourcade-room.webp` as the fixed room background and places transparent arcade-cabinet PNGs on top of it.
+Ourcade uses the original `ourcade-room.webp` as the fixed room background and places transparent arcade-cabinet PNGs on top of it. Its page, favicon, game, and image links are relative so the site also works when hosted below a project path, such as GitHub Pages.
 
 ## Adding a future cabinet
 
@@ -9,7 +9,7 @@ Ourcade uses the original `ourcade-room.webp` as the fixed room background and p
 ```js
 {id:"mygame",title:"MY GAME",subtitle:"Short description",href:"./mygame/",accent:"#20c8ff",screen:"MY GAME",image:"./mygame-cabinet.png"}
 ```
-3. Make sure `href` points to the actual game page. Galigaga uses `./galigo/`.
+3. Make sure `href` points to the actual game page. Galigaga uses `./galigaga/`.
 4. Do **not** put a room/background image inside the cabinet artwork. The page already supplies the room through `ourcade-room.webp`.
 5. Commit the new image and the `games.js` change together.
 
