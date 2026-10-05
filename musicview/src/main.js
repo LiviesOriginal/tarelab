@@ -1,4 +1,4 @@
-const assetUrl = (name) => new URL(name, document.baseURI).href;
+const assetUrl = (name) => `${import.meta.env.BASE_URL}${name}`;
 
 const SOURCE_IMAGE = {
   width: 2047,
