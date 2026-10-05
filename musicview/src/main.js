@@ -8,8 +8,7 @@ const imageUrl = (name) => hasViteBase
 
 // These two background assets are derived only from the supplied source photo.
 // Desktop: exact-photo crop to 1920×1080.
-// Mobile: exact source photo centered inside a 1080×2340 portrait canvas; the
-// remaining top/bottom space is a blurred copy of that same source image.
+// Mobile: exact source photo centered inside a 1080×2340 portrait canvas.
 //
 // Coordinates are measured in each background asset's own pixels.
 const SCENES = {
