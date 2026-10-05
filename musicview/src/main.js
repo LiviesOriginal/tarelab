@@ -20,7 +20,7 @@ const SCENES = {
     width: 1080,
     height: 2340,
     url: imageUrl('background-mobile-9x19_5.jpg'),
-    tv: { left: 100, top: 503, width: 910, height: 570 }
+    tv: { left: 100, top: 503, width: 880, height: 570 }
   }
 };
 
