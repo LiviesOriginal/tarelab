@@ -31,7 +31,6 @@ const playerHost = document.querySelector('#player');
 const playlistToggle = document.querySelector('#playlist-toggle');
 const playlistPanel = document.querySelector('#playlist-panel');
 const playlistItems = document.querySelector('#playlist-items');
-const playlistTitle = document.querySelector('#playlist-title');
 const playlistCount = document.querySelector('#playlist-count');
 const playlistSelect = document.querySelector('#playlist-select');
 const playlistPrevious = document.querySelector('#playlist-previous');
@@ -389,7 +388,7 @@ function clearQueueList() {
 }
 
 function getActivePlaylistName() {
-  return playlists.find((item) => item.id === activePlaylistId)?.name || playlistTitle.textContent || 'Playlist';
+  return playlists.find((item) => item.id === activePlaylistId)?.name || 'Playlist';
 }
 
 function renderNowPlaying() {
@@ -520,7 +519,6 @@ async function loadPlaylistById(id, loadFirstVideo = true) {
   activePlaylistId = definition.id;
   playlist = definition.items;
   currentIndex = playlist.length ? 0 : -1;
-  playlistTitle.textContent = definition.name;
   renderPlaylistSelector();
   renderPlaylist();
   renderQueue();
