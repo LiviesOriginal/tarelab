@@ -6,6 +6,16 @@
     <meta name="theme-color" content="#050505" />
     <meta name="description" content="A retro-room YouTube player driven by Markdown playlists." />
     <title>Retro Room TV</title>
+    <link rel="icon" type="image/svg+xml" href="./moonfavicon.svg" />
+    <meta name="theme-color" content="#050505" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3PM570SXPX');
+    </script>
     <link rel="stylesheet" href="./src/style.css" />
   </head>
   <body>
@@ -26,7 +36,6 @@
             <div class="playlist-heading">
               <div class="playlist-heading-main">
                 <select id="playlist-select" class="playlist-select" aria-label="Choose playlist"></select>
-                <strong id="playlist-title">Playlist</strong>
               </div>
               <span id="playlist-count"></span>
             </div>
