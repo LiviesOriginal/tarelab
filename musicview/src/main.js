@@ -1,28 +1,27 @@
-const assetUrl = (name) => `${import.meta.env.BASE_URL}${name}`;
-
-const SOURCE_IMAGE = {
-  width: 2047,
-  height: 1398,
-  url: assetUrl('background-desktop-16x9.jpg')
-};
+const hasViteBase = Boolean(import.meta.env?.BASE_URL);
+const assetUrl = (name) => hasViteBase
+  ? `${import.meta.env.BASE_URL}${name}`
+  : new URL(name, document.baseURI).href;
+const imageUrl = (name) => hasViteBase
+  ? `${import.meta.env.BASE_URL}${name}`
+  : new URL(`public/${name}`, document.baseURI).href;
 
 // These two background assets are derived only from the supplied source photo.
 // Desktop: exact-photo crop to 1920×1080.
-// Mobile: exact source photo centered inside a 1080×2340 portrait canvas; the
-// remaining top/bottom space is a blurred copy of that same source image.
+// Mobile: exact source photo centered inside a 1080×2340 portrait canvas.
 //
 // Coordinates are measured in each background asset's own pixels.
 const SCENES = {
   desktop: {
     width: 1920,
     height: 1080,
-    url: assetUrl('background-desktop-16x9.jpg'),
+    url: imageUrl('background-desktop-16x9.jpg'),
     tv: { left: 793.19, top: 60.00, width: 973.64, height: 590.63 }
   },
   mobile: {
     width: 1080,
     height: 2340,
-    url: assetUrl('background-mobile-9x19_5.jpg'),
+    url: imageUrl('background-mobile-9x19_5.jpg'),
     tv: { left: 100, top: 503, width: 910, height: 570 }
   }
 };
@@ -250,7 +249,7 @@ function updateSceneGeometry() {
 
   if (room.dataset.scene !== scene.url) {
     room.dataset.scene = scene.url;
-    room.src = `${scene.url}?v=2`;
+    room.src = scene.url;
   }
 
   const scale = Math.max(viewportWidth / scene.width, viewportHeight / scene.height);

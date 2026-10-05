@@ -10,25 +10,6 @@ html, body { overflow: hidden; background: #050505; }
 body { min-width: 320px; }
 #app { position: relative; overflow: hidden; isolation: isolate; }
 
-/* On narrow portrait screens, keep a matching copy of the exact photo behind the
-   slightly wider crop. This avoids black/empty bands when we zoom the scene out. */
-@media (max-width: 600px) and (orientation: portrait) {
-  #app::before {
-    content: "";
-    position: fixed;
-    inset: -18px;
-    z-index: 0;
-    background-image: url('../background-mobile-9x19_5.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(14px);
-    transform: scale(1.03);
-    opacity: .78;
-    pointer-events: none;
-  }
-}
-
 /* Keep the scene tied to the actual visual viewport on mobile browsers. */
 @supports (height: 100dvh) {
   html, body, #app { height: 100dvh; }

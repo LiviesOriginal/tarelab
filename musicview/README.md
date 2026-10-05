@@ -1,25 +1,34 @@
-# Retro Room TV — background fix v1.6
+# Retro Room TV
 
-This revision changes **only the background/scene sizing behavior**.
+This directory is a small vanilla Vite app that also works when the repository is served directly as a static GitHub Pages directory at `/musicview/`.
 
-- Uses the exact `Bookcase Photo Edit` source image bundled in `public/Bookcase-Photo-Edit-EXACT-81f1c3ab.png`.
-- Explicitly sizes and positions the image in pixels from the source image dimensions so mobile browsers do not apply different `object-fit` rounding/cropping behavior.
-- On narrow portrait phones, zooms the scene out slightly so less of the TV is cut off.
-- Uses a matching blurred copy of the exact photo behind the reduced mobile crop so the viewport remains filled without black bars.
-- The player, playlist parsing, YouTube API logic, and playlist interactions are otherwise unchanged.
+## Run locally
 
+```bash
+npm install
+npm run check
+npm run dev
+```
 
-## Background assets (derived from the supplied photo)
+To test from another device on the same Wi-Fi:
 
-The desktop and mobile backgrounds are derived only from the supplied `Bookcase Photo Edit.png`.
-No AI-generated room imagery is used.
+```bash
+npm run dev -- --host 0.0.0.0
+```
 
-- `public/background-desktop-16x9.jpg` — 1920×1080, source-photo crop/resample.
-- `public/background-mobile-9x19_5.jpg` — 1080×2340, the exact source photo centered vertically in a portrait canvas with blurred padding made from the same photo.
+## Backgrounds
 
-The mobile canvas is 9:19.5, matching modern tall-phone proportions more closely than 9:16. It keeps the original TV display fully inside the portrait canvas; the extra vertical canvas is filled with a blurred copy of the same source photo, not generated room content.
+The desktop and mobile backgrounds are derived only from the supplied room photos.
 
+- `public/background-desktop-16x9.jpg` — 1920×1080.
+- `public/background-mobile-9x19_5.jpg` — 1080×2340.
 
-## GitHub Pages deployment
+The runtime resolves these paths in two modes: Vite builds use Vite's base URL, while direct static GitHub Pages loading uses the `public/` directory. This lets `/musicview/` work without requiring a separate deployment workflow.
 
-Use **Settings → Pages → Source → GitHub Actions** for this Vite project. The included workflow builds the app with Vite and deploys the resulting `dist` folder. Do not publish the repository source files directly as the Pages site.
+## Playlist
+
+Edit `playlist.md` to change the videos. The app accepts Markdown links to YouTube watch, short, embed, and live URLs, plus bare 11-character YouTube IDs.
+
+## Deployment
+
+The repository can serve `/musicview/` directly from the normal GitHub Pages branch/source. No dedicated GitHub Actions deployment workflow is required for this directory.
