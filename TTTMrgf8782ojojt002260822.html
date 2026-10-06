@@ -36,6 +36,12 @@ body{font-size:18px}
 .masthead .rule{margin-top:10px}
 
 @media(min-width:601px){
+body{font-size:15px}
+.masthead h1{font-size:clamp(24px,4vw,32px)}
+.post-title{font-size:clamp(18px,2.8vw,22px)}
+.post-body h2{font-size:19px}
+.post-body h3{font-size:17px}
+.post-body h4{font-size:15px}
 .wrap{height:calc(100vh - var(--box-top) + 24px)}
 @supports(height:1svh){.wrap{height:calc(100svh - var(--box-top) + 24px)}}
 }
