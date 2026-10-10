@@ -7,11 +7,13 @@ import {
   ANCHOR,
   MUG,
   MUG_PLACEMENT,
-  COLORS,
+  LEVELS,
+  ROUND_SECONDS,
+  ROUND_SIZE,
   MAKE_WORDS,
   pick,
 } from './constants';
-import type { EngineCallbacks, GameConfig, GameEngine } from './types';
+import type { AttemptOutcome, EngineCallbacks, GameEngine, GameLevel } from './types';
 
 type Phase = 'idle' | 'aim' | 'fly' | 'resolve' | 'over';
 
@@ -23,7 +25,6 @@ interface Particle {
 }
 interface Splash { x: number; y: number; life: number; max: number; }
 interface Steam { x: number; y: number; vy: number; drift: number; r: number; life: number; max: number; o: number; }
-interface Puff { x: number; y: number; r: number; sp: number; o: number; }
 
 export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): GameEngine {
   const ctx = canvas.getContext('2d')!;
@@ -44,13 +45,12 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   const st = {
     phase: 'idle' as Phase,
-    hard: false,
-    target: 5,
-    timeLimit: 25,
-    timeLeft: 25,
+    level: 'beginner' as GameLevel,
+    timeLimit: ROUND_SECONDS,
+    timeLeft: ROUND_SECONDS,
     score: 0,
+    attempts: 0,
     timerRunning: false,
-    finishTime: 0,
     paused: false,
     running: false,
     lastTickSec: -1,
@@ -61,20 +61,11 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   const dragCur = { x: 0, y: 0 };
   let particles: Particle[] = [];
   let splashes: Splash[] = [];
+  let attemptOutcomes: AttemptOutcome[] = [];
   const steam: Steam[] = [];
-  const bgpuffs: Puff[] = [];
   let resolveTimer = 0;
   let finishTimeout: number | null = null;
 
-  for (let i = 0; i < 7; i++) {
-    bgpuffs.push({
-      x: Math.random() * LW,
-      y: Math.random() * LH,
-      r: 14 + Math.random() * 26,
-      sp: 6 + Math.random() * 10,
-      o: 0.03 + Math.random() * 0.04,
-    });
-  }
   function newSteam(spread: boolean): Steam {
     return {
       x: mug.x + (Math.random() * 40 - 20),
@@ -154,30 +145,48 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   // ---- status helpers ----
   function emitAimStatus(): void {
-    cbs.onStatus(st.timerRunning ? `${st.target - st.score} to go!` : 'Toss to start the clock ⏱');
+    cbs.onStatus(
+      st.timerRunning ? `${ROUND_SIZE - st.attempts} marshmallows left` : 'Toss to start the clock ⏱',
+    );
+  }
+
+  function mugOpening(): { x: number; y: number } {
+    return { x: mug.x, y: MUG.rimY };
   }
 
   // ---- round flow ----
+  function finishRound(delay: number): void {
+    st.timerRunning = false;
+    st.phase = 'over';
+    scheduleFinish(delay);
+  }
+
+  function recordAttempt(outcome: AttemptOutcome): boolean {
+    st.attempts += 1;
+    attemptOutcomes.push(outcome);
+    cbs.onAttempts(attemptOutcomes.slice());
+    return st.attempts >= ROUND_SIZE;
+  }
+
   function scoreMake(): void {
     st.score += 1;
     cbs.onScore(st.score);
-    splashes.push({ x: mug.x, y: MUG.rimY, life: 0, max: 0.6 });
+    const roundComplete = recordAttempt('made');
+    const opening = mugOpening();
+    splashes.push({ ...opening, life: 0, max: 0.6 });
     for (let i = 0; i < 16; i++) {
       const a = -Math.PI / 2 + (Math.random() - 0.5) * 1.7;
       const sp = 120 + Math.random() * 160;
       particles.push({
-        x: mug.x, y: MUG.rimY, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+        ...opening, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
         r: 5 + Math.random() * 5, life: 0, max: 0.6, kind: 'splash',
       });
     }
     ball = null;
-    const left = st.target - st.score;
+    const left = ROUND_SIZE - st.attempts;
     cbs.onStatus(left > 0 ? `${pick(MAKE_WORDS)} ${left} to go` : pick(MAKE_WORDS));
-    if (st.score >= st.target) {
-      st.finishTime = Math.round((st.timeLimit - st.timeLeft) * 10) / 10;
-      st.timerRunning = false;
-      st.phase = 'over';
-      scheduleFinish(true, 700);
+    if (roundComplete) {
+      finishRound(700);
       return;
     }
     st.phase = 'resolve';
@@ -185,8 +194,13 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   }
 
   function endTurn(): void {
+    const roundComplete = recordAttempt('missed');
     cbs.onStatus('missed! keep tossing');
     ball = null;
+    if (roundComplete) {
+      finishRound(350);
+      return;
+    }
     st.phase = 'resolve';
     resolveTimer = 0.35;
   }
@@ -197,25 +211,21 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     emitAimStatus();
   }
 
-  function scheduleFinish(won: boolean, delay: number): void {
+  function scheduleFinish(delay: number): void {
     if (finishTimeout !== null) window.clearTimeout(finishTimeout);
     finishTimeout = window.setTimeout(() => {
       finishTimeout = null;
       st.running = false;
       cbs.onFinish({
-        won,
-        finishTime: st.finishTime,
         score: st.score,
-        target: st.target,
-        hard: st.hard,
+        level: st.level,
       });
     }, delay);
   }
 
   // ---- update ----
   function update(dt: number): void {
-    // Expert mode: the mug glides; Novice stays centered.
-    if (st.running && st.hard) {
+    if (st.running && LEVELS[st.level].movingMug) {
       mug.phase += MUG.omega * dt;
       mug.x = MUG.cx + MUG.amp * Math.sin(mug.phase);
     } else {
@@ -228,8 +238,11 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
         st.timeLeft = 0;
         st.timerRunning = false;
         cbs.onTick(0);
-        st.phase = 'over';
-        scheduleFinish(false, 400);
+        if (st.phase === 'fly' && ball) {
+          ball = null;
+          recordAttempt('missed');
+        }
+        finishRound(400);
       } else if (st.phase !== 'resolve') {
         const sec = Math.ceil(st.timeLeft);
         if (sec !== st.lastTickSec) {
@@ -239,10 +252,6 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
       }
     }
 
-    for (const p of bgpuffs) {
-      p.x += p.sp * dt;
-      if (p.x - p.r > LW) p.x = -p.r;
-    }
     for (const s of steam) {
       s.life += dt;
       s.y += s.vy * dt;
@@ -339,11 +348,12 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   };
 
   function drawMug(): void {
+    const opening = mugOpening();
     if (mugReady) {
       const iw = MUG_PLACEMENT.drawW;
       const ih = iw * (mugImg.naturalHeight / mugImg.naturalWidth);
-      const dx = mug.x - iw * MUG_PLACEMENT.openXFrac;
-      const dy = MUG.rimY - ih * MUG_PLACEMENT.openYFrac;
+      const dx = opening.x - iw * MUG_PLACEMENT.openXFrac;
+      const dy = opening.y - ih * MUG_PLACEMENT.openYFrac;
       try {
         ctx.drawImage(mugImg, dx, dy, iw, ih);
       } catch {
@@ -357,8 +367,9 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
   function drawPlaceholderMug(): void {
     const w = MUG_PLACEMENT.drawW;
     const h = 230;
-    const left = mug.x - w * MUG_PLACEMENT.openXFrac;
-    const top = MUG.rimY - h * MUG_PLACEMENT.openYFrac;
+    const opening = mugOpening();
+    const left = opening.x - w * MUG_PLACEMENT.openXFrac;
+    const top = opening.y - h * MUG_PLACEMENT.openYFrac;
     ctx.save();
     ctx.setLineDash([10, 8]);
     ctx.lineWidth = 3;
@@ -412,7 +423,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     circle(tipL.x, tipL.y, 7);
     circle(tipR.x, tipR.y, 7);
 
-    ctx.strokeStyle = stretched ? COLORS.p1 : '#6b4632';
+    ctx.strokeStyle = stretched ? LEVELS[st.level].accent : '#6b4632';
     ctx.lineWidth = 6;
     ctx.beginPath(); ctx.moveTo(tipL.x, tipL.y); ctx.lineTo(holdL.x, holdL.y); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(tipR.x, tipR.y); ctx.lineTo(holdR.x, holdR.y); ctx.stroke();
@@ -432,29 +443,30 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
         const nx = pull.x / len;
         const ny = pull.y / len;
         const power = (clamped / MAXDRAG) * MAXPOWER;
-        // predicted arc (shown in both modes)
-        let sx = ANCHOR.x;
-        let sy = ANCHOR.y;
-        let vx = nx * power;
-        let vy = ny * power;
-        const step = 0.026;
-        ctx.fillStyle = 'rgba(255,255,255,.6)';
-        for (let i = 0; i < 42; i++) {
-          vy += GRAV * step;
-          sx += vx * step;
-          sy += vy * step;
-          if (sy > LH - 40 || sx > LW || sx < 0) break;
-          if (i % 2 === 0) {
-            ctx.globalAlpha = Math.max(0, 0.7 - i * 0.016);
-            circle(sx, sy, 4.2);
+        if (LEVELS[st.level].showTrajectory) {
+          let sx = ANCHOR.x;
+          let sy = ANCHOR.y;
+          let vx = nx * power;
+          let vy = ny * power;
+          const step = 0.026;
+          ctx.fillStyle = 'rgba(255,255,255,.6)';
+          for (let i = 0; i < 42; i++) {
+            vy += GRAV * step;
+            sx += vx * step;
+            sy += vy * step;
+            if (sy > LH - 40 || sx > LW || sx < 0) break;
+            if (i % 2 === 0) {
+              ctx.globalAlpha = Math.max(0, 0.7 - i * 0.016);
+              circle(sx, sy, 4.2);
+            }
           }
+          ctx.globalAlpha = 1;
         }
-        ctx.globalAlpha = 1;
         const pct = clamped / MAXDRAG;
         ctx.fillStyle = 'rgba(255,255,255,.15)';
         roundRect(40, 40, 180, 14, 7);
         ctx.fill();
-        ctx.fillStyle = COLORS.p1;
+        ctx.fillStyle = LEVELS[st.level].accent;
         roundRect(40, 40, 180 * pct, 14, 7);
         ctx.fill();
       }
@@ -490,22 +502,10 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     ctx.clearRect(0, 0, LW, LH);
 
     const bg = ctx.createLinearGradient(0, 0, 0, LH);
-    if (st.hard) {
-      bg.addColorStop(0, '#8a2b22');
-      bg.addColorStop(1, '#3a120f');
-    } else {
-      bg.addColorStop(0, '#7a4320');
-      bg.addColorStop(1, '#3d1e11');
-    }
+    bg.addColorStop(0, LEVELS[st.level].background[0]);
+    bg.addColorStop(1, LEVELS[st.level].background[1]);
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, LW, LH);
-
-    for (const p of bgpuffs) {
-      ctx.globalAlpha = p.o;
-      ctx.fillStyle = '#ffe9c9';
-      puff(p.x, p.y, p.r);
-      ctx.globalAlpha = 1;
-    }
 
     ctx.fillStyle = 'rgba(0,0,0,.18)';
     roundRect(0, LH - 46, LW, 60, 0);
@@ -544,7 +544,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
       if (p.kind === 'splash' || p.kind === 'chip') {
         ctx.fillStyle = '#efe0c8';
       } else {
-        ctx.fillStyle = COLORS.p1;
+        ctx.fillStyle = LEVELS[st.level].accent;
         ctx.globalAlpha = (1 - t) * 0.4;
       }
       circle(p.x, p.y, p.r * (1 - t * 0.5));
@@ -575,18 +575,17 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   // ---- public API ----
   return {
-    start(cfg: GameConfig) {
+    start(level: GameLevel) {
       if (finishTimeout !== null) {
         window.clearTimeout(finishTimeout);
         finishTimeout = null;
       }
-      st.hard = cfg.hard;
-      st.target = cfg.target;
-      st.timeLimit = cfg.timeLimit;
-      st.timeLeft = cfg.timeLimit;
+      st.level = level;
+      st.timeLimit = ROUND_SECONDS;
+      st.timeLeft = ROUND_SECONDS;
       st.score = 0;
+      st.attempts = 0;
       st.timerRunning = false;
-      st.finishTime = 0;
       st.paused = false;
       st.running = true;
       st.phase = 'aim';
@@ -595,8 +594,10 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
       aiming = false;
       particles = [];
       splashes = [];
+      attemptOutcomes = [];
       cbs.onScore(0);
-      cbs.onTick(cfg.timeLimit);
+      cbs.onAttempts([]);
+      cbs.onTick(ROUND_SECONDS);
       emitAimStatus();
     },
     pause() {

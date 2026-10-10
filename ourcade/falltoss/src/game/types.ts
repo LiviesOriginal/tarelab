@@ -1,38 +1,26 @@
 export interface ScoreEntry {
   i: string;
-  t: number;
+  score: number;
 }
 
-export type Scores = Record<string, ScoreEntry[]>;
-
-export interface BoardDef {
-  t: number;
-  hard: boolean;
-}
-
-export interface GameConfig {
-  target: number;
-  hard: boolean;
-  timeLimit: number;
-}
+export type GameLevel = 'beginner' | 'advanced' | 'expert';
+export type AttemptOutcome = 'made' | 'missed';
 
 export interface FinishResult {
-  won: boolean;
-  finishTime: number;
   score: number;
-  target: number;
-  hard: boolean;
+  level: GameLevel;
 }
 
 export interface EngineCallbacks {
   onScore: (score: number) => void;
+  onAttempts: (attempts: AttemptOutcome[]) => void;
   onTick: (secondsLeft: number) => void;
   onStatus: (text: string) => void;
   onFinish: (result: FinishResult) => void;
 }
 
 export interface GameEngine {
-  start: (cfg: GameConfig) => void;
+  start: (level: GameLevel) => void;
   pause: () => void;
   resume: () => void;
   stop: () => void;

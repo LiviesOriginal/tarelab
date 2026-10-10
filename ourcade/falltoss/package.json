@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "bundle": "esbuild src/main.tsx --bundle --minify --format=esm --outfile=assets/index.js",
+    "dev": "npm run bundle && vite",
+    "build": "npm run bundle && tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "esbuild": "^0.21.5",
     "typescript": "^5.5.4",
     "vite": "^5.4.2"
   }
