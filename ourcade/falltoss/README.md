@@ -61,8 +61,8 @@ src/
   game/
     constants.ts      physics, geometry, colors, copy, mug-placement knobs
     types.ts          shared types
-    leaderboard.ts    localStorage-backed top-3 boards (6 categories)
-    engine.ts         canvas engine: physics, rendering, slingshot, gliding mug
+    leaderboard.ts    localStorage-backed top-3 boards for each level
+    engine.ts         canvas engine: physics, rendering, slingshot, moving mug
 public/
   mug.png             <- your art goes here
 ```
@@ -73,15 +73,22 @@ once per second (`onTick`) so React isn't re-rendering every frame.
 
 ## Gameplay
 
-- **Difficulty** — Novice (mug stays put) or Expert (mug glides side to side +
-  red background). Both show the aim arc.
-- **Target** — 5 / 8 / 12 dunks, which also sets the clock (25 / 30 / 45s).
-- **Leaderboard** — top-3 fastest finishes per target × difficulty (6 boards),
-  saved in the browser via `localStorage`. Beat a time to enter 3 initials.
+Every level has a 30-second round and 15 marshmallow attempts. A dunk fills in
+that marshmallow; a miss grays it out. Unused marshmallows remain white.
+
+- **Beginner** — the mug stays still, the trajectory is visible, and the game
+  background is yellow.
+- **Advanced** — the mug moves side to side, the trajectory stays visible, and
+  the background is orange.
+- **Expert** — the mug moves side to side without a visible trajectory, on a
+  red background.
+- **Leaderboard** — separate top-three dunk-count boards for each level, shown
+  on the leaderboard page and after every round. Higher dunk counts rank first.
+  Beat a score to enter 3 initials.
 
 ## Scores & privacy
 
-High scores live in your browser's `localStorage` under `marshmallowTossScoresV2`
+High scores live in your browser's `localStorage` under `marshmallowTossScoresV5`
 — no server, no account. They persist on the same browser/device and reset if
 you clear site data or use a different browser. If storage is unavailable, the
 game falls back to in-memory scores for the session.

@@ -1,23 +1,26 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { createEngine } from './game/engine';
 import {
-  BOARD_DEFS,
   LEAF_CHARS,
   LEAF_COUNT,
-  TIME_FOR,
-  TIMEUP_MSGS,
-  WIN_MSGS,
+  LEVELS,
+  ROUND_SECONDS,
+  ROUND_SIZE,
   pick,
 } from './game/constants';
 import {
   getBoard,
   insertScore,
   loadScores,
-  modeKey,
-  modeLabel,
   qualifies,
 } from './game/leaderboard';
-import type { FinishResult, GameEngine, Screen } from './game/types';
+import type {
+  AttemptOutcome,
+  FinishResult,
+  GameEngine,
+  GameLevel,
+  Screen,
+} from './game/types';
 
 /* ------------------------------------------------------------------ leaves */
 function Leaves() {
@@ -56,15 +59,23 @@ function Leaves() {
 }
 
 /* -------------------------------------------------------------- board rows */
-function BoardRows({ boardKey, highlight = -1 }: { boardKey: string; highlight?: number }) {
-  const rows = [0, 1, 2].map((i) => getBoard(boardKey)[i] ?? { i: 'XYZ', t: null as number | null });
+function BoardRows({
+  level,
+  highlight = -1,
+}: {
+  level: GameLevel;
+  highlight?: number;
+}) {
+  const rows = [0, 1, 2].map(
+    (i) => getBoard(level)[i] ?? { i: 'XYZ', score: null as number | null },
+  );
   return (
     <>
       {rows.map((e, i) => (
         <div className={`brow${highlight === i ? ' hl' : ''}`} key={i}>
           <span className="rank">{i + 1}</span>
           <span className="ini">{e.i}</span>
-          <span className="time">{e.t == null ? '—' : `${e.t.toFixed(1)}s`}</span>
+          <span className="score-count">{e.score === null ? '—' : `${e.score} dunks`}</span>
         </div>
       ))}
     </>
@@ -73,60 +84,44 @@ function BoardRows({ boardKey, highlight = -1 }: { boardKey: string; highlight?:
 
 /* --------------------------------------------------------------- menu view */
 function Menu({
-  hard,
-  target,
-  onHard,
-  onTarget,
+  level,
+  onLevel,
   onStart,
   onLeaderboard,
 }: {
-  hard: boolean;
-  target: number;
-  onHard: (v: boolean) => void;
-  onTarget: (v: number) => void;
+  level: GameLevel;
+  onLevel: (v: GameLevel) => void;
   onStart: () => void;
   onLeaderboard: () => void;
 }) {
   return (
-    <div className="overlay">
+    <div className="overlay menu-overlay">
       <Leaves />
       <div className="panel">
         <h1 className="marsh-title">
-          Marshmallow&nbsp;Toss <span aria-hidden>🍁</span>
+          Marshmallow Toss <span aria-hidden>🍁</span>
         </h1>
-        <p className="sub">
-          Dunk your target number of pumpkin-spice marshmallows before the clock runs out. The faster
-          you finish, the higher you climb the board.
-        </p>
-
         <div className="segwrap">
           <div className="seglabel">Difficulty</div>
-          <div className="seg">
-            <button className={!hard ? 'on' : ''} onClick={() => onHard(false)}>
-              Novice
-            </button>
-            <button className={hard ? 'on' : ''} onClick={() => onHard(true)}>
-              Expert
-            </button>
-          </div>
-        </div>
-
-        <div className="segwrap">
-          <div className="seglabel">How many can you dunk?</div>
-          <div className="seg">
-            {[5, 8, 12].map((t) => (
-              <button key={t} className={target === t ? 'on' : ''} onClick={() => onTarget(t)}>
-                {t}
+          <div className="seg" role="group" aria-label="Choose difficulty">
+            {(Object.keys(LEVELS) as GameLevel[]).map((key) => (
+              <button
+                key={key}
+                className={level === key ? 'on' : ''}
+                aria-pressed={level === key}
+                onClick={() => onLevel(key)}
+              >
+                {LEVELS[key].label}
               </button>
             ))}
           </div>
         </div>
 
         <button className="btn" onClick={onStart}>
-          Start tossing
+          Start Tossing
         </button>
         <button className="btn" onClick={onLeaderboard}>
-          View leaderboard
+          View Leaderboard
         </button>
       </div>
     </div>
@@ -136,21 +131,41 @@ function Menu({
 /* ---------------------------------------------------------------- hud view */
 function Hud({
   score,
+  attempts,
   timeLeft,
   status,
   onMenu,
 }: {
   score: number;
+  attempts: AttemptOutcome[];
   timeLeft: number;
   status: string;
   onMenu: () => void;
 }) {
   return (
     <>
+      <div className="life-track" aria-label={`${attempts.length} of ${ROUND_SIZE} marshmallows used`}>
+        {Array.from({ length: ROUND_SIZE }, (_, i) => {
+          const outcome = attempts[i];
+          return (
+            <span
+              className={`life-token${outcome ? ` ${outcome}` : ''}`}
+              key={i}
+              aria-label={
+                outcome === 'made'
+                  ? 'Dunked'
+                  : outcome === 'missed'
+                    ? 'Missed'
+                    : 'Remaining'
+              }
+            />
+          );
+        })}
+      </div>
       <div className="board">
         <div className="pcard p1 active">
-          <span className="msico" />
-          <span className="pscore">{score}</span>
+          <span className="score-label">Dunks</span>
+          <span className="pscore">{score}<span className="score-total">/{ROUND_SIZE}</span></span>
         </div>
         <div className={`timerchip${timeLeft <= 10 ? ' low' : ''}`}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -159,7 +174,7 @@ function Hud({
           </div>
         </div>
         <button className="menupill" onClick={onMenu} aria-label="Main menu">
-          ☰ Menu
+          ☰ <span className="menu-label">Menu</span>
         </button>
       </div>
       <div className="turnpill">{status}</div>
@@ -179,16 +194,8 @@ function EndScreen({
   onMainMenu: () => void;
   onScoresChanged: () => void;
 }) {
-  const key = modeKey(result.target, result.hard);
-  const label = `${result.target} Dunks ${modeLabel(result.hard)}`;
-  const message = useMemo(
-    () => pick(result.won ? WIN_MSGS : TIMEUP_MSGS),
-    // one message per end screen
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
   const canRank = useMemo(
-    () => result.won && qualifies(key, result.finishTime),
+    () => qualifies(result.level, result.score),
     // evaluate once, before any insert
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
@@ -197,11 +204,9 @@ function EndScreen({
   const [savedIdx, setSavedIdx] = useState<number | null>(null);
 
   const showInitials = canRank && savedIdx === null;
-  const showBoard = result.won && (!canRank || savedIdx !== null);
-
   const save = () => {
     const clean = initials.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3) || 'XYZ';
-    const idx = insertScore(key, clean, result.finishTime);
+    const idx = insertScore(result.level, clean, result.score);
     setSavedIdx(idx);
     onScoresChanged();
   };
@@ -210,19 +215,13 @@ function EndScreen({
     <div className="overlay">
       <Leaves />
       <div className="panel">
-        <h1>{result.won ? 'You did it!' : "Time's up! 🍂"}</h1>
+        <h1>Round complete!</h1>
         {showInitials && (
-          <div className="banner">New top-3 time!</div>
+          <div className="banner">New top-3 dunk score!</div>
         )}
         {savedIdx !== null && <div className="banner">Saved to the board!</div>}
         <p className="sub">
-          {message}
-          <br />
-          <span style={{ opacity: 0.75 }}>
-            {result.won
-              ? `Finished in ${result.finishTime.toFixed(1)}s.`
-              : `Dunked ${result.score} of ${result.target}.`}
-          </span>
+          Dunked {result.score} of {ROUND_SIZE}.
         </p>
 
         {showInitials && (
@@ -244,14 +243,10 @@ function EndScreen({
           </div>
         )}
 
-        {showBoard && (
-          <div className="boardbox">
-            <div className="boardtitle">
-              {savedIdx !== null ? `Top 3 · ${label}` : `Top 3 to beat · ${label}`}
-            </div>
-            <BoardRows boardKey={key} highlight={savedIdx ?? -1} />
-          </div>
-        )}
+        <div className="boardbox">
+          <div className="boardtitle">{LEVELS[result.level].label} Leaderboard</div>
+          <BoardRows level={result.level} highlight={savedIdx ?? -1} />
+        </div>
 
         <div className="btnrow">
           <button className="btn" onClick={onPlayAgain}>
@@ -272,14 +267,12 @@ function Leaderboard({ onBack }: { onBack: () => void }) {
     <div className="overlay z60">
       <div className="panel wide">
         <h1>Leaderboard 🍁</h1>
-        <p className="sub">Fastest finishes for each target &amp; difficulty.</p>
+        <p className="sub">Highest dunk counts for each level.</p>
         <div className="lgrid">
-          {BOARD_DEFS.map((d) => (
-            <div className="lcard" key={modeKey(d.t, d.hard)}>
-              <h3>
-                {d.t} Dunks {modeLabel(d.hard)}
-              </h3>
-              <BoardRows boardKey={modeKey(d.t, d.hard)} />
+          {(Object.keys(LEVELS) as GameLevel[]).map((level) => (
+            <div className="boardbox level-board" key={level}>
+              <div className="boardtitle">{LEVELS[level].label}</div>
+              <BoardRows level={level} />
             </div>
           ))}
         </div>
@@ -314,11 +307,11 @@ function ConfirmDialog({ onStay, onLeave }: { onStay: () => void; onLeave: () =>
 /* --------------------------------------------------------------------- app */
 export default function App() {
   const [screen, setScreen] = useState<Screen>('menu');
-  const [hard, setHard] = useState(false);
-  const [target, setTarget] = useState(5);
+  const [level, setLevel] = useState<GameLevel>('beginner');
 
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(TIME_FOR[5]);
+  const [attempts, setAttempts] = useState<AttemptOutcome[]>([]);
+  const [timeLeft, setTimeLeft] = useState(ROUND_SECONDS);
   const [status, setStatus] = useState('');
 
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -334,6 +327,7 @@ export default function App() {
     if (!canvasRef.current) return;
     const engine = createEngine(canvasRef.current, {
       onScore: setScore,
+      onAttempts: setAttempts,
       onTick: setTimeLeft,
       onStatus: setStatus,
       onFinish: (r) => {
@@ -345,9 +339,11 @@ export default function App() {
     return () => engine.destroy();
   }, []);
 
-  const startRun = (t: number, h: boolean) => {
+  const startRun = (selectedLevel: GameLevel) => {
     setScreen('playing');
-    engineRef.current?.start({ target: t, hard: h, timeLimit: TIME_FOR[t] });
+    setLevel(selectedLevel);
+    setAttempts([]);
+    engineRef.current?.start(selectedLevel);
   };
 
   const onMenuPill = () => {
@@ -365,27 +361,26 @@ export default function App() {
   };
 
   return (
-    <div className="wrap">
+    <div className="wrap" data-level={level}>
       {screen === 'playing' && (
-        <Hud score={score} timeLeft={timeLeft} status={status} onMenu={onMenuPill} />
+        <Hud
+          score={score}
+          attempts={attempts}
+          timeLeft={timeLeft}
+          status={status}
+          onMenu={onMenuPill}
+        />
       )}
 
       <div className="stage">
         <canvas ref={canvasRef} />
       </div>
 
-      <div className="tip">
-        Pull back like a slingshot — the farther you drag, the harder the throw. Expert mode makes the
-        mug a moving target.
-      </div>
-
       {screen === 'menu' && (
         <Menu
-          hard={hard}
-          target={target}
-          onHard={setHard}
-          onTarget={setTarget}
-          onStart={() => startRun(target, hard)}
+          level={level}
+          onLevel={setLevel}
+          onStart={() => startRun(level)}
           onLeaderboard={() => setLeaderOpen(true)}
         />
       )}
@@ -393,7 +388,7 @@ export default function App() {
       {screen === 'end' && endInfo && (
         <EndScreen
           result={endInfo}
-          onPlayAgain={() => startRun(endInfo.target, endInfo.hard)}
+          onPlayAgain={() => startRun(endInfo.level)}
           onMainMenu={() => setScreen('menu')}
           onScoresChanged={() => setScoresVersion((v) => v + 1)}
         />

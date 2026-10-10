@@ -1,4 +1,4 @@
-import type { BoardDef } from './types';
+import type { GameLevel } from './types';
 
 // logical play-space
 export const LW = 1000;
@@ -12,8 +12,8 @@ export const MAXPOWER = 1500;
 // slingshot pouch rest point
 export const ANCHOR = { x: 180, y: 452 };
 
-// mug target geometry. rimRx/rimRy define the (invisible) scoring ring.
-// cx = center of travel; amp/omega drive the Expert-mode glide.
+// Mug target geometry. rimRx/rimRy define the (invisible) scoring ring.
+// cx = center of travel; amp/omega drive the Advanced/Expert glide.
 export const MUG = {
   cx: 710,
   rimY: 300,
@@ -35,12 +35,42 @@ export const MUG = {
 // If dunks land above the drawn opening, raise openYFrac; if off to a side,
 // nudge openXFrac; if the opening is a different size, tweak MUG.rimRx/rimRy.
 // ---------------------------------------------------------------------------
-export const MUG_PLACEMENT = { drawW: 300, openXFrac: 0.5, openYFrac: 0.3 };
+export const MUG_PLACEMENT = { drawW: 300, openXFrac: 0.5, openYFrac: 0.2 };
 
-export const COLORS = { p1: '#F28C28', p2: '#8C2F39' };
+export interface LevelDefinition {
+  label: string;
+  movingMug: boolean;
+  showTrajectory: boolean;
+  background: [string, string];
+  accent: string;
+}
 
-// target -> time limit (seconds)
-export const TIME_FOR: Record<number, number> = { 5: 25, 8: 30, 12: 45 };
+export const LEVELS: Record<GameLevel, LevelDefinition> = {
+  beginner: {
+    label: 'Beginner',
+    movingMug: false,
+    showTrajectory: true,
+    background: ['#F4D45A', '#C8922F'],
+    accent: '#F4D45A',
+  },
+  advanced: {
+    label: 'Advanced',
+    movingMug: true,
+    showTrajectory: true,
+    background: ['#F28C28', '#A84320'],
+    accent: '#F28C28',
+  },
+  expert: {
+    label: 'Expert',
+    movingMug: true,
+    showTrajectory: false,
+    background: ['#D94C4C', '#681F2B'],
+    accent: '#D94C4C',
+  },
+};
+
+export const ROUND_SIZE = 15;
+export const ROUND_SECONDS = 30;
 
 export const MAKE_WORDS = ['swish!', 'nailed it!', 'perfect dunk!', 'spiced & sunk!', 'cozy shot!'];
 
@@ -63,14 +93,5 @@ export const TIMEUP_MSGS = [
 
 export const LEAF_CHARS = ['🍁', '🍂'];
 export const LEAF_COUNT = 16;
-
-export const BOARD_DEFS: BoardDef[] = [
-  { t: 5, hard: false },
-  { t: 8, hard: false },
-  { t: 12, hard: false },
-  { t: 5, hard: true },
-  { t: 8, hard: true },
-  { t: 12, hard: true },
-];
 
 export const pick = <T,>(a: T[]): T => a[Math.floor(Math.random() * a.length)];
