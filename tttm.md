@@ -8,16 +8,16 @@
 
 # The Poems
 
-[A Collection](https://tarelab.com/TTTMrgf8782ojojt002260822.html) 
+[A collection of musings.](https://tarelab.com/TTTMrgf8782ojojt002260822.html) 
 
 # Incorporation 🤝
 
 [Sparq](https://tarelab.com/sparq-about)
 [Between](https://tarelab.com/between)
 
-<!-- Ourcade 
+<!-- Ourcade -->
 
-[No tokens required.](https://tarelab.com/ourcade/) -->
+<!-- [No tokens required.](https://tarelab.com/ourcade/) -->
 
 # "Talking to the Moon" Playlist
 
