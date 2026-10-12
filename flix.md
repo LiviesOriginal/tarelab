@@ -1,3 +1,4 @@
+<!--
 # Currently Watching
 ## Daisy Jones and the six | 2026 | tt8749198 | — | —
 
@@ -17,6 +18,7 @@
 ## Buffy the Vampire Slayer | 1997 | tt0118276 | — | —
 ## Lessons in Chemistry | 2023 | tt13911628 | — | —
 ## The Affair | 2019 | tt2699110 | — | —
+-->
 
 # Watched
 ## Practical Magic 2 | 2026 | tt32588798 | — | 5
