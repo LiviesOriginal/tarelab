@@ -1,3 +1,4 @@
+<!--
 # XY is Reading
 The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
 
@@ -15,7 +16,7 @@ Verity | Coleen Hoover | 9781538742112
 
 # To Read - Spooky Season
 The Manor of Dreams | Christina Li | 9781668051726
-FantasticLand | Mike Bockoven | 9781510737884
+FantasticLand | Mike Bockoven | 9781510737884 -->
 
 # Read
 ## The Women | Kristen Hannah | 4 | 4 | 9781250178633
@@ -59,6 +60,8 @@ Fitting follow-up to Evelyn Hugo, this is a sapphic office romance / ultimate lo
 Official first selection of the Book Club. Lovable characters that make you root for them despite of their flaws.
 - …there is nothing an extraordinary person likes more than someone else extraordinary.
 - "Sometimes reality comes crashing down on you. Other times reality simply waits, patiently, for you to run out of the energy it takes to deny it."
+
+<!--
 
 # To read - Thrillers
 The Teacher ** | Freida McFadden | 9781728296210
@@ -104,5 +107,5 @@ Hearing Red | Nicole Maser | 9798988226031
 Circe | Madeline Miller | 9780316556323
 
 # To read - Classics
-Madame Bovary | Gustave Flaubert | 9781908533814
+Madame Bovary | Gustave Flaubert | 9781908533814 -->
 
