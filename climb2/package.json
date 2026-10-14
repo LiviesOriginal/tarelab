@@ -1,0 +1,16 @@
+{
+  "name": "tarelab-climb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4174 --strictPort",
+    "build": "vite build",
+    "check": "npm run build && node verify-build.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4174 --strictPort"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7",
+    "vite-plugin-pwa": "^2.0.0"
+  }
+}
