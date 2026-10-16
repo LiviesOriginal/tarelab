@@ -1,5 +1,3 @@
-# Redirect legacy Book Club pages to the reviews page.
-/bookclub https://tarelab.com/bcbuild/readview 301
-/bcbuild https://tarelab.com/bcbuild/readview 301
-/bcbuild/ https://tarelab.com/bcbuild/readview 301
-/bcbuild/radarview https://tarelab.com/bcbuild/readview 301
+# Preserve the old Book Club URL as a compatibility redirect.
+/bcbuild /bookclub 301
+/bcbuild/ /bookclub 301
