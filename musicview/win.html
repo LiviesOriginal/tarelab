@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Music Player</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 16px;
+    background: #c0c0c0;
+    color: #111;
+    font: 11px Arial, sans-serif;
+  }
+
+  .player-window {
+    width: min(100%, 720px);
+    margin: 0 auto;
+    border: 2px solid;
+    border-color: #fff #333 #333 #fff;
+    background: #c0c0c0;
+    box-shadow: 1px 1px 0 #000;
+  }
+
+  .titlebar {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px 4px;
+    color: #fff;
+    font-weight: bold;
+    background: linear-gradient(90deg, #000080, #1084d0);
+  }
+
+  .window-buttons {
+    padding: 1px 4px;
+    color: #111;
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #333 #333 #fff;
+    font-size: 10px;
+    line-height: 12px;
+  }
+
+  .menu, .toolbar, .statusbar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 5px;
+    border-bottom: 1px solid #888;
+  }
+
+  .menu { gap: 12px; }
+  .toolbar { flex-wrap: wrap; }
+
+  button, input {
+    font: inherit;
+  }
+
+  button {
+    min-height: 21px;
+    padding: 2px 7px;
+    color: #111;
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #444 #444 #fff;
+    cursor: pointer;
+  }
+
+  button:active {
+    border-color: #444 #fff #fff #444;
+  }
+
+  .toolbar button.active {
+    border-color: #444 #fff #fff #444;
+    background: #b5b5b5;
+  }
+
+  .toolbar-spacer { flex: 1; }
+
+  .playlist-label {
+    margin: 5px 6px 3px;
+    font-weight: bold;
+  }
+
+  .list-frame {
+    height: 205px;
+    margin: 0 5px;
+    overflow: auto;
+    border: 1px solid;
+    border-color: #444 #fff #fff #444;
+    background: #fff;
+  }
+
+  .track {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr) 48px;
+    align-items: center;
+    min-height: 17px;
+    padding: 1px 4px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .track:nth-child(even) { background: #f2f2f2; }
+  .track:hover { background: #dce8f7; }
+  .track.selected { color: #fff; background: #000080; }
+
+  .track-icon {
+    color: #c00000;
+    font-size: 10px;
+  }
+
+  .track-duration {
+    text-align: right;
+    color: inherit;
+  }
+
+  .player-area {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 6px;
+    padding: 6px;
+    border-top: 1px solid #888;
+  }
+
+  .video-box {
+    position: relative;
+    min-height: 124px;
+    background: #111;
+    border: 1px solid;
+    border-color: #444 #fff #fff #444;
+  }
+
+  #youtube-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .now-playing {
+    overflow: auto;
+    padding: 5px;
+    border: 1px solid;
+    border-color: #444 #fff #fff #444;
+    background: #eee;
+  }
+
+  .now-playing-title {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .statusbar {
+    justify-content: space-between;
+    min-height: 21px;
+    border-top: 1px solid #fff;
+    border-bottom: 0;
+    color: #333;
+  }
+
+  .error { padding: 8px; color: #900; }
+
+  @media (max-width: 540px) {
+    body { padding: 6px; }
+    .player-area { grid-template-columns: 1fr; }
+    .video-box { min-height: 190px; }
+    .now-playing { min-height: 42px; }
+  }
+</style>
+</head>
+<body>
+  <main class="player-window">
+    <header class="titlebar">
+      <span>Music Player</span>
+      <span class="window-buttons">_ □ ×</span>
+    </header>
+
+    <nav class="menu" aria-label="Menu">
+      <span>File</span><span>View</span><span>Actions</span><span>Help</span>
+    </nav>
+
+    <div class="toolbar">
+      <button type="button" id="play-button">▶ Play</button>
+      <button type="button" id="pause-button">Ⅱ Pause</button>
+      <button type="button" id="stop-button">■ Stop</button>
+      <span class="toolbar-spacer"></span>
+      <label for="filter">Find:</label>
+      <input id="filter" type="search" placeholder="Filter playlist…" />
+      <button type="button" id="refresh-button">Refresh</button>
+    </div>
+
+    <div class="playlist-label">Playlist</div>
+    <section class="list-frame" id="track-list" aria-label="Songs">
+      <div class="track">Loading playlist…</div>
+    </section>
+
+    <section class="player-area">
+      <div class="video-box"><div id="youtube-player"></div></div>
+      <aside class="now-playing">
+        <div class="now-playing-title">Now playing</div>
+        <div id="now-playing">Select a song from the playlist.</div>
+      </aside>
+    </section>
+
+    <footer class="statusbar">
+      <span id="status">Ready</span>
+      <span id="track-count"></span>
+    </footer>
+  </main>
+
+<script>
+  const PLAYLIST_URL = "/playlist.md";
+
+  const trackList = document.querySelector("#track-list");
+  const statusEl = document.querySelector("#status");
+  const countEl = document.querySelector("#track-count");
+  const nowPlayingEl = document.querySelector("#now-playing");
+  const filterEl = document.querySelector("#filter");
+
+  let tracks = [];
+  let selectedIndex = -1;
+  let player;
+  let playerReady = false;
+
+  function youtubeId(url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.hostname === "youtu.be") return parsed.pathname.slice(1);
+      if (parsed.pathname === "/watch") return parsed.searchParams.get("v");
+      const match = parsed.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/);
+      return match ? match[1] : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function getPlaylistLinks(text) {
+    // Supports bare URLs and Markdown links: [Song title](YouTube URL)
+    const urls = text.match(/https?:\/\/[^\s<>)\]]+/g) || [];
+    const seen = new Set();
+
+    return urls
+      .map(raw => raw.replace(/[.,;!?]+$/, ""))
+      .map(url => ({ url, id: youtubeId(url) }))
+      .filter(track => track.id && !seen.has(track.id) && seen.add(track.id))
+      .map(track => {
+        const line = text.split(/\r?\n/).find(row => row.includes(track.url)) || "";
+        const markdownTitle = line.match(/\[([^\]]+)\]\(\s*https?:\/\/[^)]+\)/);
+        const plainTitle = line.replace(track.url, "").replace(/^[-*#\s]+/, "").trim();
+        return {
+          ...track,
+          title: markdownTitle?.[1] || plainTitle || `YouTube video ${track.id}`
+        };
+      });
+  }
+
+  function renderTracks() {
+    const query = filterEl.value.trim().toLowerCase();
+    const visible = tracks
+      .map((track, index) => ({ ...track, index }))
+      .filter(track => track.title.toLowerCase().includes(query));
+
+    trackList.replaceChildren();
+
+    if (!visible.length) {
+      const empty = document.createElement("div");
+      empty.className = "track";
+      empty.textContent = tracks.length ? "No matching songs." : "No YouTube links found.";
+      trackList.append(empty);
+      return;
+    }
+
+    visible.forEach(track => {
+      const row = document.createElement("div");
+      row.className = "track" + (track.index === selectedIndex ? " selected" : "");
+      row.title = track.url;
+      row.innerHTML =
+        '<span class="track-icon">●</span>' +
+        '<span class="track-name"></span>' +
+        '<span class="track-duration">YouTube</span>';
+      row.querySelector(".track-name").textContent = track.title;
+      row.addEventListener("click", () => playTrack(track.index));
+      trackList.append(row);
+    });
+  }
+
+  async function loadPlaylist() {
+    statusEl.textContent = "Loading playlist…";
+    try {
+      const response = await fetch(PLAYLIST_URL, { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      tracks = getPlaylistLinks(await response.text());
+      selectedIndex = -1;
+      renderTracks();
+      countEl.textContent = `${tracks.length} song${tracks.length === 1 ? "" : "s"}`;
+      statusEl.textContent = tracks.length ? "Playlist loaded" : "Playlist is empty";
+    } catch (error) {
+      trackList.innerHTML = '<div class="error">Could not load /playlist.md. Check that the file is available at the site root.</div>';
+      statusEl.textContent = "Playlist load failed";
+      countEl.textContent = "";
+      console.error(error);
+    }
+  }
+
+  function playTrack(index) {
+    const track = tracks[index];
+    if (!track) return;
+
+    selectedIndex = index;
+    nowPlayingEl.textContent = track.title;
+    statusEl.textContent = "Playing";
+    renderTracks();
+
+    if (!playerReady) {
+      window.pendingVideoId = track.id;
+      return;
+    }
+    player.loadVideoById(track.id);
+  }
+
+  // Load the YouTube IFrame Player API.
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player("youtube-player", {
+      videoId: tracks[selectedIndex]?.id || "",
+      playerVars: { playsinline: 1, rel: 0 },
+      events: {
+        onReady: () => {
+          playerReady = true;
+          if (window.pendingVideoId) {
+            player.loadVideoById(window.pendingVideoId);
+            window.pendingVideoId = null;
+          }
+        },
+        onStateChange: event => {
+          if (event.data === YT.PlayerState.PAUSED) statusEl.textContent = "Paused";
+          if (event.data === YT.PlayerState.ENDED) statusEl.textContent = "Finished";
+          if (event.data === YT.PlayerState.PLAYING) statusEl.textContent = "Playing";
+        }
+      }
+    });
+  };
+
+  const apiScript = document.createElement("script");
+  apiScript.src = "https://www.youtube.com/iframe_api";
+  document.head.append(apiScript);
+
+  document.querySelector("#play-button").addEventListener("click", () => {
+    if (selectedIndex < 0 && tracks.length) playTrack(0);
+    else if (playerReady) player.playVideo();
+  });
+  document.querySelector("#pause-button").addEventListener("click", () => {
+    if (playerReady) player.pauseVideo();
+  });
+  document.querySelector("#stop-button").addEventListener("click", () => {
+    if (playerReady) player.stopVideo();
+    statusEl.textContent = "Stopped";
+  });
+  document.querySelector("#refresh-button").addEventListener("click", loadPlaylist);
+  filterEl.addEventListener("input", renderTracks);
+
+  loadPlaylist();
+</script>
+</body>
+</html>
