@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Napster Playlist</title>
+
 <style>
   * { box-sizing: border-box; }
-  html, body { width: 100%; height: 100%; margin: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+
   body {
     overflow: hidden;
     color: #111;
@@ -15,24 +22,37 @@
   }
 
   .app {
-    height: 100dvh;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100dvh;
     border: 2px solid;
     border-color: #fff #555 #555 #fff;
   }
+
   .titlebar {
     flex: 0 0 18px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     padding: 1px 5px;
-    color: white;
+    color: #fff;
     background: #000080;
     font-weight: bold;
   }
-  .window-buttons { color: #111; background: #c0c0c0; padding: 0 4px; }
-  .menu { flex: 0 0 17px; padding: 2px 5px; border-bottom: 1px solid #888; }
+
+  .window-buttons {
+    padding: 0 4px;
+    color: #111;
+    background: #c0c0c0;
+  }
+
+  .menu {
+    flex: 0 0 17px;
+    padding: 2px 5px;
+    border-bottom: 1px solid #888;
+  }
+
   .menu span { margin-right: 12px; }
 
   .toolbar {
@@ -44,18 +64,23 @@
     padding: 3px 5px;
     border-bottom: 1px solid #888;
   }
-  button, input {
-    min-height: 21px;
-    font: inherit;
-  }
+
+  button, input { font: inherit; }
+
   button {
+    min-height: 21px;
     padding: 2px 9px;
+    color: #111;
     background: #c0c0c0;
     border: 1px solid;
     border-color: #fff #555 #555 #fff;
+    cursor: pointer;
   }
+
   button:active { border-color: #555 #fff #fff #555; }
+
   .toolbar .spacer { flex: 1; }
+
   #search { width: min(190px, 35vw); }
 
   .list-wrap {
@@ -63,16 +88,18 @@
     min-height: 0;
     overflow: auto;
     margin: 3px 5px 0;
+    background: #fff;
     border: 1px solid;
     border-color: #555 #fff #fff #555;
-    background: white;
   }
+
   table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
     font-size: 10px;
   }
+
   th {
     position: sticky;
     top: 0;
@@ -84,6 +111,7 @@
     background: #c0c0c0;
     border-bottom: 1px solid #888;
   }
+
   td {
     height: 15px;
     padding: 1px 4px;
@@ -91,61 +119,111 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   tbody tr { cursor: pointer; }
   tbody tr:nth-child(even) { background: #f3f3f3; }
   tbody tr:hover { background: #dce8f7; }
-  tbody tr.selected { color: white; background: #000080; }
+  tbody tr.selected { color: #fff; background: #000080; }
 
   .col-name { width: auto; }
-  .col-type { width: 90px; }
+  .col-source { width: 90px; }
   .col-id { width: 115px; }
 
   .bottom-panels {
-    flex: 0 0 145px;
+    flex: 0 0 min(230px, 35dvh);
     display: grid;
-    grid-template-columns: minmax(230px, 32%) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 7fr) minmax(200px, 3fr);
     gap: 5px;
     padding: 5px;
   }
+
   .panel {
-    min-width: 0;
     display: flex;
     flex-direction: column;
+    min-width: 0;
     border: 1px solid;
     border-color: #fff #555 #555 #fff;
   }
+
   .panel-title {
     flex: 0 0 16px;
-    text-align: center;
     padding: 2px;
+    text-align: center;
     border-bottom: 1px solid #888;
   }
+
   .video-frame {
+    position: relative;
     flex: 1;
     min-height: 0;
-    position: relative;
+    overflow: hidden;
     background: #111;
   }
-  #youtube-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  #youtube-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .video-launch {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .video-launch span {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    padding: 5px 9px;
+    color: #fff;
+    background: rgba(0, 0, 0, .75);
+    border: 1px solid #aaa;
+  }
 
   .playlist-controls {
     display: flex;
     gap: 4px;
     padding: 3px;
   }
-  .playlist-controls button { flex: 1; min-width: 0; padding: 2px 4px; }
+
+  .playlist-controls button {
+    flex: 1;
+    min-width: 0;
+    padding: 2px 4px;
+  }
+
   .queue {
     flex: 1;
     min-height: 0;
     overflow: auto;
     margin: 0 3px 3px;
     padding: 3px;
-    background: white;
-    border: 1px solid #888;
     white-space: pre-line;
+    background: #fff;
+    border: 1px solid #888;
   }
-  .queue-item { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .queue-item.current { background: #000080; color: white; }
+
+  .queue-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .queue-item.current {
+    color: #fff;
+    background: #000080;
+  }
 
   .statusbar {
     flex: 0 0 17px;
@@ -156,25 +234,78 @@
     font-size: 10px;
   }
 
+  .video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    background: rgba(0, 0, 0, .88);
+  }
+
+  .video-overlay.open { display: flex; }
+
+  .overlay-content {
+    position: relative;
+    width: min(1100px, 94vw);
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border: 2px solid #aaa;
+  }
+
+  .overlay-content iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .overlay-close {
+    position: absolute;
+    top: -36px;
+    right: 0;
+    min-width: 32px;
+    color: #fff;
+    background: #333;
+    border: 1px solid #aaa;
+    font-size: 18px;
+  }
+
   @media (max-width: 600px) {
     .toolbar { gap: 2px; }
     .toolbar button { padding: 2px 6px; }
     .toolbar .optional { display: none; }
-    .list-wrap { margin-left: 3px; margin-right: 3px; }
-    .col-type, .col-id { display: none; }
+
+    .list-wrap {
+      margin-right: 3px;
+      margin-left: 3px;
+    }
+
+    /* Keep mobile rows compact by hiding secondary columns. */
+    .col-source,
+    .col-id {
+      display: none;
+    }
+
     .bottom-panels {
-      flex-basis: 205px;
+      flex-basis: min(250px, 40dvh);
       grid-template-columns: 1fr;
-      grid-template-rows: 115px minmax(70px, 1fr);
+      grid-template-rows: minmax(100px, 3fr) minmax(65px, 2fr);
       gap: 4px;
       padding: 3px;
     }
+
     .panel-title { flex-basis: 14px; }
     .playlist-controls { padding: 2px; }
-    .playlist-controls button { min-height: 18px; }
+    .playlist-controls button {
+      min-height: 18px;
+      padding: 2px 4px;
+    }
   }
 </style>
 </head>
+
 <body>
 <div class="app">
   <header class="titlebar">
@@ -182,8 +313,10 @@
     <span class="window-buttons">— □ ×</span>
   </header>
 
-  <nav class="menu">
-    <span>File</span><span>Actions</span><span>Help</span>
+  <nav class="menu" aria-label="Menu">
+    <span>File</span>
+    <span>Actions</span>
+    <span>Help</span>
   </nav>
 
   <div class="toolbar">
@@ -193,10 +326,12 @@
     <button type="button" class="optional">Hot List</button>
     <button type="button" class="optional">Transfer</button>
     <button type="button" class="optional">Help</button>
+
     <span class="spacer"></span>
+
     <label for="search">Find:</label>
     <input id="search" type="search" placeholder="Filter songs">
-    <button id="reload" type="button">Refresh</button>
+    <button id="refresh" type="button">Refresh</button>
   </div>
 
   <main class="list-wrap">
@@ -204,7 +339,7 @@
       <thead>
         <tr>
           <th class="col-name">Filename</th>
-          <th class="col-type">Source</th>
+          <th class="col-source">Source</th>
           <th class="col-id">Video ID</th>
         </tr>
       </thead>
@@ -214,16 +349,25 @@
 
   <section class="bottom-panels">
     <div class="panel">
-      <div class="panel-title">Video Player</div>
-      <div class="video-frame"><div id="youtube-player"></div></div>
+      <div class="panel-title">Video Player — click to enlarge</div>
+      <div class="video-frame">
+        <div id="youtube-player"></div>
+        <button
+          class="video-launch"
+          id="open-video"
+          type="button"
+          aria-label="Open video in large player">
+          <span>Open video larger</span>
+        </button>
+      </div>
     </div>
+
     <div class="panel">
       <div class="panel-title">Playlist Control Panel</div>
       <div class="playlist-controls">
         <button id="play" type="button">Play</button>
         <button id="pause" type="button">Pause</button>
         <button id="stop" type="button">Stop</button>
-        <button id="refresh" type="button">Reload List</button>
       </div>
       <div class="queue" id="queue">Loading playlist…</div>
     </div>
@@ -235,13 +379,36 @@
   </footer>
 </div>
 
+<div
+  class="video-overlay"
+  id="video-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Video player">
+  <div class="overlay-content">
+    <button
+      class="overlay-close"
+      id="close-video"
+      type="button"
+      aria-label="Close video">×</button>
+    <iframe
+      id="overlay-player"
+      title="YouTube video"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+</div>
+
 <script>
   const PLAYLIST_URL = "/playlist.md";
+
   const tbody = document.querySelector("#tracks");
   const queue = document.querySelector("#queue");
   const statusEl = document.querySelector("#status");
   const countEl = document.querySelector("#count");
   const search = document.querySelector("#search");
+  const overlay = document.querySelector("#video-overlay");
+  const overlayPlayer = document.querySelector("#overlay-player");
 
   let tracks = [];
   let selected = -1;
@@ -251,10 +418,21 @@
 
   function getVideoId(url) {
     try {
-      const u = new URL(url);
-      if (u.hostname === "youtu.be") return u.pathname.slice(1);
-      if (u.pathname === "/watch") return u.searchParams.get("v");
-      return u.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/)?.[1] || null;
+      const parsed = new URL(url);
+
+      if (parsed.hostname === "youtu.be") {
+        return parsed.pathname.slice(1);
+      }
+
+      if (parsed.pathname === "/watch") {
+        return parsed.searchParams.get("v");
+      }
+
+      const match = parsed.pathname.match(
+        /^\/(?:embed|shorts|live)\/([^/?]+)/
+      );
+
+      return match ? match[1] : null;
     } catch {
       return null;
     }
@@ -265,30 +443,39 @@
     const seen = new Set();
 
     for (const line of text.split(/\r?\n/)) {
-      const markdown = line.match(/\[([^\]]+)\]\(\s*(https?:\/\/[^)\s]+)\s*\)/);
-      const urls = markdown ? [markdown[2]] : (line.match(/https?:\/\/[^\s<>)\]]+/g) || []);
+      const markdownLink = line.match(
+        /\[([^\]]+)\]\(\s*(https?:\/\/[^)\s]+)\s*\)/
+      );
 
-      for (const raw of urls) {
-        const url = raw.replace(/[.,;!?]+$/, "");
+      const urls = markdownLink
+        ? [markdownLink[2]]
+        : (line.match(/https?:\/\/[^\s<>)\]]+/g) || []);
+
+      for (const rawUrl of urls) {
+        const url = rawUrl.replace(/[.,;!?]+$/, "");
         const id = getVideoId(url);
+
         if (!id || seen.has(id)) continue;
         seen.add(id);
+
         result.push({
           id,
           url,
-          title: markdown?.[1] || `YouTube video ${id}`
+          title: markdownLink?.[1] || `YouTube video ${id}`
         });
       }
     }
+
     return result;
   }
 
   function render() {
-    const q = search.value.trim().toLowerCase();
+    const query = search.value.trim().toLowerCase();
     tbody.replaceChildren();
 
     tracks.forEach((track, index) => {
-      if (!track.title.toLowerCase().includes(q)) return;
+      if (!track.title.toLowerCase().includes(query)) return;
+
       const row = document.createElement("tr");
       if (index === selected) row.className = "selected";
 
@@ -297,11 +484,13 @@
         cell.textContent = value;
         row.append(cell);
       }
+
       row.addEventListener("click", () => playTrack(index));
       tbody.append(row);
     });
 
     queue.replaceChildren();
+
     tracks.forEach((track, index) => {
       const item = document.createElement("div");
       item.className = "queue-item" + (index === selected ? " current" : "");
@@ -311,20 +500,29 @@
       queue.append(item);
     });
 
-    countEl.textContent = `${tracks.length} songs`;
+    countEl.textContent =
+      `${tracks.length} song${tracks.length === 1 ? "" : "s"}`;
   }
 
   async function loadPlaylist() {
     statusEl.textContent = "Loading playlist…";
+
     try {
       const response = await fetch(PLAYLIST_URL, { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      if (!response.ok) {
+        throw new Error(`Playlist request failed: ${response.status}`);
+      }
+
       tracks = parsePlaylist(await response.text());
       selected = -1;
       render();
-      statusEl.textContent = tracks.length ? "Playlist loaded" : "No YouTube links found";
+      statusEl.textContent = tracks.length
+        ? "Playlist loaded"
+        : "No YouTube links found";
     } catch (error) {
-      queue.textContent = "Could not load /playlist.md. Check that the file is at the site root.";
+      queue.textContent =
+        "Could not load /playlist.md. Check that the file is at the site root.";
       statusEl.textContent = "Playlist load failed";
       console.error(error);
     }
@@ -333,50 +531,97 @@
   function playTrack(index) {
     const track = tracks[index];
     if (!track) return;
+
     selected = index;
     render();
     statusEl.textContent = `Playing: ${track.title}`;
 
-    if (playerReady) player.loadVideoById(track.id);
-    else pendingId = track.id;
+    if (playerReady) {
+      player.loadVideoById(track.id);
+    } else {
+      pendingId = track.id;
+    }
   }
 
-  window.onYouTubeIframeAPIReady = () => {
+  window.onYouTubeIframeAPIReady = function () {
     player = new YT.Player("youtube-player", {
       videoId: "",
-      playerVars: { playsinline: 1, rel: 0 },
+      playerVars: {
+        playsinline: 1,
+        rel: 0
+      },
       events: {
-        onReady: () => {
+        onReady: function () {
           playerReady = true;
+
           if (pendingId) {
             player.loadVideoById(pendingId);
             pendingId = null;
           }
         },
-        onStateChange: event => {
-          if (event.data === YT.PlayerState.PAUSED) statusEl.textContent = "Paused";
-          if (event.data === YT.PlayerState.ENDED) statusEl.textContent = "Finished";
+        onStateChange: function (event) {
+          if (event.data === YT.PlayerState.PAUSED) {
+            statusEl.textContent = "Paused";
+          }
+          if (event.data === YT.PlayerState.ENDED) {
+            statusEl.textContent = "Finished";
+          }
         }
       }
     });
   };
 
-  const ytScript = document.createElement("script");
-  ytScript.src = "https://www.youtube.com/iframe_api";
-  document.head.append(ytScript);
+  const youtubeScript = document.createElement("script");
+  youtubeScript.src = "https://www.youtube.com/iframe_api";
+  document.head.append(youtubeScript);
 
-  document.querySelector("#play").onclick = () => {
-    if (selected < 0 && tracks.length) playTrack(0);
-    else if (playerReady) player.playVideo();
-  };
-  document.querySelector("#pause").onclick = () => playerReady && player.pauseVideo();
-  document.querySelector("#stop").onclick = () => {
+  document.querySelector("#play").addEventListener("click", () => {
+    if (selected < 0 && tracks.length) {
+      playTrack(0);
+    } else if (playerReady) {
+      player.playVideo();
+    }
+  });
+
+  document.querySelector("#pause").addEventListener("click", () => {
+    if (playerReady) player.pauseVideo();
+  });
+
+  document.querySelector("#stop").addEventListener("click", () => {
     if (playerReady) player.stopVideo();
     statusEl.textContent = "Stopped";
-  };
-  document.querySelector("#reload").onclick = loadPlaylist;
-  document.querySelector("#refresh").onclick = loadPlaylist;
+  });
+
+  document.querySelector("#refresh").addEventListener("click", loadPlaylist);
   search.addEventListener("input", render);
+
+  document.querySelector("#open-video").addEventListener("click", () => {
+    const track = tracks[selected];
+    if (!track) return;
+
+    overlayPlayer.src =
+      `https://www.youtube.com/embed/${encodeURIComponent(track.id)}` +
+      "?autoplay=1&playsinline=1";
+    overlay.classList.add("open");
+  });
+
+  function closeOverlay() {
+    overlay.classList.remove("open");
+    overlayPlayer.src = "";
+  }
+
+  document.querySelector("#close-video").addEventListener(
+    "click",
+    closeOverlay
+  );
+
+  overlay.addEventListener("click", event => {
+    if (event.target === overlay) closeOverlay();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeOverlay();
+  });
 
   loadPlaylist();
 </script>
