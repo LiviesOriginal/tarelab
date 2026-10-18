@@ -2,291 +2,316 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Music Player</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Napster Playlist</title>
 <style>
   * { box-sizing: border-box; }
-
+  html, body { width: 100%; height: 100%; margin: 0; }
   body {
-    margin: 0;
-    padding: 16px;
-    background: #c0c0c0;
+    overflow: hidden;
     color: #111;
+    background: #c0c0c0;
     font: 11px Arial, sans-serif;
   }
 
-  .player-window {
-    width: min(100%, 720px);
-    margin: 0 auto;
+  .app {
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
     border: 2px solid;
-    border-color: #fff #333 #333 #fff;
-    background: #c0c0c0;
-    box-shadow: 1px 1px 0 #000;
+    border-color: #fff #555 #555 #fff;
   }
-
   .titlebar {
-    height: 22px;
+    flex: 0 0 18px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 2px 4px;
-    color: #fff;
-    font-weight: bold;
-    background: linear-gradient(90deg, #000080, #1084d0);
-  }
-
-  .window-buttons {
-    padding: 1px 4px;
-    color: #111;
-    background: #c0c0c0;
-    border: 1px solid;
-    border-color: #fff #333 #333 #fff;
-    font-size: 10px;
-    line-height: 12px;
-  }
-
-  .menu, .toolbar, .statusbar {
-    display: flex;
     align-items: center;
-    gap: 4px;
+    padding: 1px 5px;
+    color: white;
+    background: #000080;
+    font-weight: bold;
+  }
+  .window-buttons { color: #111; background: #c0c0c0; padding: 0 4px; }
+  .menu { flex: 0 0 17px; padding: 2px 5px; border-bottom: 1px solid #888; }
+  .menu span { margin-right: 12px; }
+
+  .toolbar {
+    display: flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px;
     padding: 3px 5px;
     border-bottom: 1px solid #888;
   }
-
-  .menu { gap: 12px; }
-  .toolbar { flex-wrap: wrap; }
-
   button, input {
+    min-height: 21px;
     font: inherit;
   }
-
   button {
-    min-height: 21px;
-    padding: 2px 7px;
-    color: #111;
+    padding: 2px 9px;
     background: #c0c0c0;
     border: 1px solid;
-    border-color: #fff #444 #444 #fff;
-    cursor: pointer;
+    border-color: #fff #555 #555 #fff;
   }
+  button:active { border-color: #555 #fff #fff #555; }
+  .toolbar .spacer { flex: 1; }
+  #search { width: min(190px, 35vw); }
 
-  button:active {
-    border-color: #444 #fff #fff #444;
-  }
-
-  .toolbar button.active {
-    border-color: #444 #fff #fff #444;
-    background: #b5b5b5;
-  }
-
-  .toolbar-spacer { flex: 1; }
-
-  .playlist-label {
-    margin: 5px 6px 3px;
-    font-weight: bold;
-  }
-
-  .list-frame {
-    height: 205px;
-    margin: 0 5px;
+  .list-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: auto;
+    margin: 3px 5px 0;
     border: 1px solid;
-    border-color: #444 #fff #fff #444;
-    background: #fff;
+    border-color: #555 #fff #fff #555;
+    background: white;
   }
-
-  .track {
-    display: grid;
-    grid-template-columns: 14px minmax(0, 1fr) 48px;
-    align-items: center;
-    min-height: 17px;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 10px;
+  }
+  th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    height: 17px;
     padding: 1px 4px;
-    white-space: nowrap;
-    cursor: pointer;
+    text-align: left;
+    font-weight: normal;
+    background: #c0c0c0;
+    border-bottom: 1px solid #888;
   }
+  td {
+    height: 15px;
+    padding: 1px 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  tbody tr { cursor: pointer; }
+  tbody tr:nth-child(even) { background: #f3f3f3; }
+  tbody tr:hover { background: #dce8f7; }
+  tbody tr.selected { color: white; background: #000080; }
 
-  .track:nth-child(even) { background: #f2f2f2; }
-  .track:hover { background: #dce8f7; }
-  .track.selected { color: #fff; background: #000080; }
+  .col-name { width: auto; }
+  .col-type { width: 90px; }
+  .col-id { width: 115px; }
 
-  .track-icon {
-    color: #c00000;
+  .bottom-panels {
+    flex: 0 0 145px;
+    display: grid;
+    grid-template-columns: minmax(230px, 32%) minmax(0, 1fr);
+    gap: 5px;
+    padding: 5px;
+  }
+  .panel {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    border-color: #fff #555 #555 #fff;
+  }
+  .panel-title {
+    flex: 0 0 16px;
+    text-align: center;
+    padding: 2px;
+    border-bottom: 1px solid #888;
+  }
+  .video-frame {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    background: #111;
+  }
+  #youtube-player { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+  .playlist-controls {
+    display: flex;
+    gap: 4px;
+    padding: 3px;
+  }
+  .playlist-controls button { flex: 1; min-width: 0; padding: 2px 4px; }
+  .queue {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    margin: 0 3px 3px;
+    padding: 3px;
+    background: white;
+    border: 1px solid #888;
+    white-space: pre-line;
+  }
+  .queue-item { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .queue-item.current { background: #000080; color: white; }
+
+  .statusbar {
+    flex: 0 0 17px;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 5px;
+    border-top: 1px solid #fff;
     font-size: 10px;
   }
 
-  .track-duration {
-    text-align: right;
-    color: inherit;
-  }
-
-  .player-area {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 220px;
-    gap: 6px;
-    padding: 6px;
-    border-top: 1px solid #888;
-  }
-
-  .video-box {
-    position: relative;
-    min-height: 124px;
-    background: #111;
-    border: 1px solid;
-    border-color: #444 #fff #fff #444;
-  }
-
-  #youtube-player {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .now-playing {
-    overflow: auto;
-    padding: 5px;
-    border: 1px solid;
-    border-color: #444 #fff #fff #444;
-    background: #eee;
-  }
-
-  .now-playing-title {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .statusbar {
-    justify-content: space-between;
-    min-height: 21px;
-    border-top: 1px solid #fff;
-    border-bottom: 0;
-    color: #333;
-  }
-
-  .error { padding: 8px; color: #900; }
-
-  @media (max-width: 540px) {
-    body { padding: 6px; }
-    .player-area { grid-template-columns: 1fr; }
-    .video-box { min-height: 190px; }
-    .now-playing { min-height: 42px; }
+  @media (max-width: 600px) {
+    .toolbar { gap: 2px; }
+    .toolbar button { padding: 2px 6px; }
+    .toolbar .optional { display: none; }
+    .list-wrap { margin-left: 3px; margin-right: 3px; }
+    .col-type, .col-id { display: none; }
+    .bottom-panels {
+      flex-basis: 205px;
+      grid-template-columns: 1fr;
+      grid-template-rows: 115px minmax(70px, 1fr);
+      gap: 4px;
+      padding: 3px;
+    }
+    .panel-title { flex-basis: 14px; }
+    .playlist-controls { padding: 2px; }
+    .playlist-controls button { min-height: 18px; }
   }
 </style>
 </head>
 <body>
-  <main class="player-window">
-    <header class="titlebar">
-      <span>Music Player</span>
-      <span class="window-buttons">_ □ ×</span>
-    </header>
+<div class="app">
+  <header class="titlebar">
+    <span>Napster Playlist</span>
+    <span class="window-buttons">— □ ×</span>
+  </header>
 
-    <nav class="menu" aria-label="Menu">
-      <span>File</span><span>View</span><span>Actions</span><span>Help</span>
-    </nav>
+  <nav class="menu">
+    <span>File</span><span>Actions</span><span>Help</span>
+  </nav>
 
-    <div class="toolbar">
-      <button type="button" id="play-button">▶ Play</button>
-      <button type="button" id="pause-button">Ⅱ Pause</button>
-      <button type="button" id="stop-button">■ Stop</button>
-      <span class="toolbar-spacer"></span>
-      <label for="filter">Find:</label>
-      <input id="filter" type="search" placeholder="Filter playlist…" />
-      <button type="button" id="refresh-button">Refresh</button>
-    </div>
+  <div class="toolbar">
+    <button type="button">Chat</button>
+    <button type="button">Library</button>
+    <button type="button">Search</button>
+    <button type="button" class="optional">Hot List</button>
+    <button type="button" class="optional">Transfer</button>
+    <button type="button" class="optional">Help</button>
+    <span class="spacer"></span>
+    <label for="search">Find:</label>
+    <input id="search" type="search" placeholder="Filter songs">
+    <button id="reload" type="button">Refresh</button>
+  </div>
 
-    <div class="playlist-label">Playlist</div>
-    <section class="list-frame" id="track-list" aria-label="Songs">
-      <div class="track">Loading playlist…</div>
-    </section>
-
-    <section class="player-area">
-      <div class="video-box"><div id="youtube-player"></div></div>
-      <aside class="now-playing">
-        <div class="now-playing-title">Now playing</div>
-        <div id="now-playing">Select a song from the playlist.</div>
-      </aside>
-    </section>
-
-    <footer class="statusbar">
-      <span id="status">Ready</span>
-      <span id="track-count"></span>
-    </footer>
+  <main class="list-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-name">Filename</th>
+          <th class="col-type">Source</th>
+          <th class="col-id">Video ID</th>
+        </tr>
+      </thead>
+      <tbody id="tracks"></tbody>
+    </table>
   </main>
+
+  <section class="bottom-panels">
+    <div class="panel">
+      <div class="panel-title">Video Player</div>
+      <div class="video-frame"><div id="youtube-player"></div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Playlist Control Panel</div>
+      <div class="playlist-controls">
+        <button id="play" type="button">Play</button>
+        <button id="pause" type="button">Pause</button>
+        <button id="stop" type="button">Stop</button>
+        <button id="refresh" type="button">Reload List</button>
+      </div>
+      <div class="queue" id="queue">Loading playlist…</div>
+    </div>
+  </section>
+
+  <footer class="statusbar">
+    <span id="status">Ready</span>
+    <span id="count"></span>
+  </footer>
+</div>
 
 <script>
   const PLAYLIST_URL = "/playlist.md";
-
-  const trackList = document.querySelector("#track-list");
+  const tbody = document.querySelector("#tracks");
+  const queue = document.querySelector("#queue");
   const statusEl = document.querySelector("#status");
-  const countEl = document.querySelector("#track-count");
-  const nowPlayingEl = document.querySelector("#now-playing");
-  const filterEl = document.querySelector("#filter");
+  const countEl = document.querySelector("#count");
+  const search = document.querySelector("#search");
 
   let tracks = [];
-  let selectedIndex = -1;
+  let selected = -1;
   let player;
   let playerReady = false;
+  let pendingId = null;
 
-  function youtubeId(url) {
+  function getVideoId(url) {
     try {
-      const parsed = new URL(url);
-      if (parsed.hostname === "youtu.be") return parsed.pathname.slice(1);
-      if (parsed.pathname === "/watch") return parsed.searchParams.get("v");
-      const match = parsed.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/);
-      return match ? match[1] : null;
+      const u = new URL(url);
+      if (u.hostname === "youtu.be") return u.pathname.slice(1);
+      if (u.pathname === "/watch") return u.searchParams.get("v");
+      return u.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/)?.[1] || null;
     } catch {
       return null;
     }
   }
 
-  function getPlaylistLinks(text) {
-    // Supports bare URLs and Markdown links: [Song title](YouTube URL)
-    const urls = text.match(/https?:\/\/[^\s<>)\]]+/g) || [];
+  function parsePlaylist(text) {
+    const result = [];
     const seen = new Set();
 
-    return urls
-      .map(raw => raw.replace(/[.,;!?]+$/, ""))
-      .map(url => ({ url, id: youtubeId(url) }))
-      .filter(track => track.id && !seen.has(track.id) && seen.add(track.id))
-      .map(track => {
-        const line = text.split(/\r?\n/).find(row => row.includes(track.url)) || "";
-        const markdownTitle = line.match(/\[([^\]]+)\]\(\s*https?:\/\/[^)]+\)/);
-        const plainTitle = line.replace(track.url, "").replace(/^[-*#\s]+/, "").trim();
-        return {
-          ...track,
-          title: markdownTitle?.[1] || plainTitle || `YouTube video ${track.id}`
-        };
-      });
+    for (const line of text.split(/\r?\n/)) {
+      const markdown = line.match(/\[([^\]]+)\]\(\s*(https?:\/\/[^)\s]+)\s*\)/);
+      const urls = markdown ? [markdown[2]] : (line.match(/https?:\/\/[^\s<>)\]]+/g) || []);
+
+      for (const raw of urls) {
+        const url = raw.replace(/[.,;!?]+$/, "");
+        const id = getVideoId(url);
+        if (!id || seen.has(id)) continue;
+        seen.add(id);
+        result.push({
+          id,
+          url,
+          title: markdown?.[1] || `YouTube video ${id}`
+        });
+      }
+    }
+    return result;
   }
 
-  function renderTracks() {
-    const query = filterEl.value.trim().toLowerCase();
-    const visible = tracks
-      .map((track, index) => ({ ...track, index }))
-      .filter(track => track.title.toLowerCase().includes(query));
+  function render() {
+    const q = search.value.trim().toLowerCase();
+    tbody.replaceChildren();
 
-    trackList.replaceChildren();
+    tracks.forEach((track, index) => {
+      if (!track.title.toLowerCase().includes(q)) return;
+      const row = document.createElement("tr");
+      if (index === selected) row.className = "selected";
 
-    if (!visible.length) {
-      const empty = document.createElement("div");
-      empty.className = "track";
-      empty.textContent = tracks.length ? "No matching songs." : "No YouTube links found.";
-      trackList.append(empty);
-      return;
-    }
-
-    visible.forEach(track => {
-      const row = document.createElement("div");
-      row.className = "track" + (track.index === selectedIndex ? " selected" : "");
-      row.title = track.url;
-      row.innerHTML =
-        '<span class="track-icon">●</span>' +
-        '<span class="track-name"></span>' +
-        '<span class="track-duration">YouTube</span>';
-      row.querySelector(".track-name").textContent = track.title;
-      row.addEventListener("click", () => playTrack(track.index));
-      trackList.append(row);
+      for (const value of [track.title, "YouTube", track.id]) {
+        const cell = document.createElement("td");
+        cell.textContent = value;
+        row.append(cell);
+      }
+      row.addEventListener("click", () => playTrack(index));
+      tbody.append(row);
     });
+
+    queue.replaceChildren();
+    tracks.forEach((track, index) => {
+      const item = document.createElement("div");
+      item.className = "queue-item" + (index === selected ? " current" : "");
+      item.textContent = `${index + 1}. ${track.title}`;
+      item.title = track.url;
+      item.addEventListener("click", () => playTrack(index));
+      queue.append(item);
+    });
+
+    countEl.textContent = `${tracks.length} songs`;
   }
 
   async function loadPlaylist() {
@@ -294,15 +319,13 @@
     try {
       const response = await fetch(PLAYLIST_URL, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      tracks = getPlaylistLinks(await response.text());
-      selectedIndex = -1;
-      renderTracks();
-      countEl.textContent = `${tracks.length} song${tracks.length === 1 ? "" : "s"}`;
-      statusEl.textContent = tracks.length ? "Playlist loaded" : "Playlist is empty";
+      tracks = parsePlaylist(await response.text());
+      selected = -1;
+      render();
+      statusEl.textContent = tracks.length ? "Playlist loaded" : "No YouTube links found";
     } catch (error) {
-      trackList.innerHTML = '<div class="error">Could not load /playlist.md. Check that the file is available at the site root.</div>';
+      queue.textContent = "Could not load /playlist.md. Check that the file is at the site root.";
       statusEl.textContent = "Playlist load failed";
-      countEl.textContent = "";
       console.error(error);
     }
   }
@@ -310,58 +333,50 @@
   function playTrack(index) {
     const track = tracks[index];
     if (!track) return;
+    selected = index;
+    render();
+    statusEl.textContent = `Playing: ${track.title}`;
 
-    selectedIndex = index;
-    nowPlayingEl.textContent = track.title;
-    statusEl.textContent = "Playing";
-    renderTracks();
-
-    if (!playerReady) {
-      window.pendingVideoId = track.id;
-      return;
-    }
-    player.loadVideoById(track.id);
+    if (playerReady) player.loadVideoById(track.id);
+    else pendingId = track.id;
   }
 
-  // Load the YouTube IFrame Player API.
-  window.onYouTubeIframeAPIReady = function () {
+  window.onYouTubeIframeAPIReady = () => {
     player = new YT.Player("youtube-player", {
-      videoId: tracks[selectedIndex]?.id || "",
+      videoId: "",
       playerVars: { playsinline: 1, rel: 0 },
       events: {
         onReady: () => {
           playerReady = true;
-          if (window.pendingVideoId) {
-            player.loadVideoById(window.pendingVideoId);
-            window.pendingVideoId = null;
+          if (pendingId) {
+            player.loadVideoById(pendingId);
+            pendingId = null;
           }
         },
         onStateChange: event => {
           if (event.data === YT.PlayerState.PAUSED) statusEl.textContent = "Paused";
           if (event.data === YT.PlayerState.ENDED) statusEl.textContent = "Finished";
-          if (event.data === YT.PlayerState.PLAYING) statusEl.textContent = "Playing";
         }
       }
     });
   };
 
-  const apiScript = document.createElement("script");
-  apiScript.src = "https://www.youtube.com/iframe_api";
-  document.head.append(apiScript);
+  const ytScript = document.createElement("script");
+  ytScript.src = "https://www.youtube.com/iframe_api";
+  document.head.append(ytScript);
 
-  document.querySelector("#play-button").addEventListener("click", () => {
-    if (selectedIndex < 0 && tracks.length) playTrack(0);
+  document.querySelector("#play").onclick = () => {
+    if (selected < 0 && tracks.length) playTrack(0);
     else if (playerReady) player.playVideo();
-  });
-  document.querySelector("#pause-button").addEventListener("click", () => {
-    if (playerReady) player.pauseVideo();
-  });
-  document.querySelector("#stop-button").addEventListener("click", () => {
+  };
+  document.querySelector("#pause").onclick = () => playerReady && player.pauseVideo();
+  document.querySelector("#stop").onclick = () => {
     if (playerReady) player.stopVideo();
     statusEl.textContent = "Stopped";
-  });
-  document.querySelector("#refresh-button").addEventListener("click", loadPlaylist);
-  filterEl.addEventListener("input", renderTracks);
+  };
+  document.querySelector("#reload").onclick = loadPlaylist;
+  document.querySelector("#refresh").onclick = loadPlaylist;
+  search.addEventListener("input", render);
 
   loadPlaylist();
 </script>
