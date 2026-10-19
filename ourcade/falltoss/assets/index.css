@@ -65,3 +65,61 @@ body{background:radial-gradient(ellipse at 50% 35%,#8a441b 0%,#4a210f 58%,#24100
 .menupill{color:#ffae45}
 .menupill .menu-label{color:#fff0d1}
 @media(max-width:560px){.score-label::before,.score-label::after{margin:0 .18em}.timerchip .tlabel::before{content:""}}
+
+
+/* Runtime stylesheet fix: override the oversized HUD on the deployed page. */
+html, body, #root { min-width: 0; }
+html { height: 100%; }
+body {
+  height: auto; min-height: 100%; min-height: 100dvh;
+  overflow-x: hidden; overflow-y: auto;
+  padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+}
+#root { height: auto; min-height: 100dvh; }
+.wrap { width: min(780px, 100%); max-width: 100%; filter: drop-shadow(0 10px 20px rgba(15,6,2,.2)); }
+.stage { width: 100%; max-width: 100%; aspect-ratio: 1000 / 620; }
+.life-track { display: grid; }
+.board { grid-template-columns: minmax(0, 1.25fr) minmax(76px, .8fr) minmax(52px, .48fr); gap: clamp(5px, 1vw, 10px); margin: 0 0 8px; }
+.pcard, .timerchip, .menupill { min-width: 0; min-height: clamp(54px, 9vh, 84px); border-width: 2px; border-radius: clamp(10px, 1.5vw, 16px); }
+.pcard { padding: 6px clamp(4px, 1vw, 12px); gap: 3px; }
+.score-label { font-size: clamp(11px, 1.7vw, 18px); letter-spacing: .5px; }
+.score-label::before, .score-label::after { margin: 0 .2em; }
+.pscore, .timerchip .tval { font-size: clamp(24px, 4vw, 42px); }
+.score-total { margin-left: 2px; }
+.timerchip { min-width: 0; padding: 5px; }
+.timerchip .tlabel { font-size: clamp(10px, 1.5vw, 16px); letter-spacing: .4px; }
+.menupill { flex: 0 1 auto; width: auto; min-width: 0; padding: 5px; font-size: clamp(11px, 1.5vw, 16px); gap: 4px; }
+.menupill .menu-label { display: inline; }
+.turnpill { font-size: clamp(11px, 1.4vw, 16px); margin: 0 0 8px; min-height: 18px; }
+.overlay { position: fixed; overflow-y: auto; overscroll-behavior: contain; padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.overlay .panel { max-width: min(360px, 100%); }
+.overlay .panel.wide { max-width: min(520px, 100%); }
+@media (max-width: 560px) {
+ body { padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)); }
+ .wrap { width: 100%; }
+ .board { grid-template-columns: minmax(0, 1.2fr) minmax(68px, .78fr) minmax(44px, .52fr); gap: 5px; }
+ .pcard, .timerchip, .menupill { min-height: clamp(48px, 10vh, 68px); }
+ .pcard { padding: 5px 3px; }
+ .score-label { font-size: clamp(10px, 3vw, 14px); }
+ .pscore, .timerchip .tval { font-size: clamp(22px, 6vw, 32px); }
+ .timerchip .tlabel { font-size: clamp(9px, 2.5vw, 12px); }
+ .menupill { font-size: 11px; }
+ .turnpill { font-size: clamp(10px, 2.8vw, 13px); margin-bottom: 6px; }
+}
+@media (max-height: 600px) {
+ body { align-items: flex-start; }
+ #root { align-items: flex-start; }
+ .wrap { width: min(640px, 100%); }
+ .pcard, .timerchip, .menupill { min-height: 44px; }
+ .turnpill { margin-bottom: 4px; }
+ .overlay { padding-top: 8px; padding-bottom: 8px; }
+ .overlay .sub { margin-bottom: 10px; }
+ .segwrap { margin-bottom: 8px; }
+}
+@media (max-height: 440px) and (orientation: landscape) {
+ .wrap { width: min(540px, 100%); }
+ .board { margin-bottom: 4px; }
+ .pcard, .timerchip, .menupill { min-height: 38px; }
+ .pscore, .timerchip .tval { font-size: clamp(20px, 5vh, 28px); }
+}
