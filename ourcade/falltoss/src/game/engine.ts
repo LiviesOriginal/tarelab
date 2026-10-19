@@ -29,6 +29,9 @@ interface Steam { x: number; y: number; vy: number; drift: number; r: number; li
 export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): GameEngine {
   const ctx = canvas.getContext('2d')!;
   let scale = 1;
+  const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  let idleTime = 0;
+  let landingEffect: { x: number; y: number; life: number; max: number } | null = null;
 
   // ---- mug image (public/mug.png); placeholder until it loads ----
   const mugImg = new Image();
@@ -295,6 +298,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
       const ground = LH - 40;
       if (ball.y > ground) {
         ball.y = ground;
+        if (!reduceMotion) landingEffect = { x: ball.x, y: ground, life: 0, max: 0.22 };
         endTurn();
         return;
       }
@@ -315,6 +319,10 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     particles = particles.filter((p) => p.life < p.max);
     for (const s of splashes) s.life += dt;
     splashes = splashes.filter((s) => s.life < s.max);
+    if (landingEffect) {
+      landingEffect.life += dt;
+      if (landingEffect.life >= landingEffect.max) landingEffect = null;
+    }
 
     if (st.phase === 'resolve') {
       resolveTimer -= dt;
@@ -349,11 +357,13 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   function drawMug(): void {
     const opening = mugOpening();
+    // Render-only bob: collision checks continue to use the fixed gameplay rim.
+    const bob = reduceMotion ? 0 : Math.sin(idleTime * 1.65) * 3.2;
     if (mugReady) {
       const iw = MUG_PLACEMENT.drawW;
       const ih = iw * (mugImg.naturalHeight / mugImg.naturalWidth);
       const dx = opening.x - iw * MUG_PLACEMENT.openXFrac;
-      const dy = opening.y - ih * MUG_PLACEMENT.openYFrac;
+      const dy = opening.y - ih * MUG_PLACEMENT.openYFrac + bob;
       try {
         ctx.drawImage(mugImg, dx, dy, iw, ih);
       } catch {
@@ -369,7 +379,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     const h = 230;
     const opening = mugOpening();
     const left = opening.x - w * MUG_PLACEMENT.openXFrac;
-    const top = opening.y - h * MUG_PLACEMENT.openYFrac;
+    const top = opening.y - h * MUG_PLACEMENT.openYFrac + (reduceMotion ? 0 : Math.sin(idleTime * 1.65) * 3.2);
     ctx.save();
     ctx.setLineDash([10, 8]);
     ctx.lineWidth = 3;
@@ -552,6 +562,17 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     ctx.globalAlpha = 1;
 
     if (ball) drawMarsh(ball.x, ball.y, ball.r, ball.rot);
+    // Brief visual-only squash/stretch on ground contact; no physics state is changed.
+    if (landingEffect) {
+      const t = Math.min(1, landingEffect.life / landingEffect.max);
+      const squash = Math.sin(t * Math.PI);
+      ctx.save();
+      ctx.translate(landingEffect.x, landingEffect.y - 1);
+      ctx.scale(1 + squash * 0.16, 1 - squash * 0.42);
+      ctx.globalAlpha = 1 - t;
+      drawMarsh(0, -33, 33, 0);
+      ctx.restore();
+    }
     if (st.phase === 'aim') {
       const bx = aiming ? dragCur.x : ANCHOR.x;
       const by = aiming ? dragCur.y : ANCHOR.y;
@@ -566,7 +587,10 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     let dt = (now - last) / 1000;
     last = now;
     if (dt > 0.05) dt = 0.05;
-    if (!st.paused) update(dt);
+    if (!st.paused) {
+      idleTime += dt;
+      update(dt);
+    }
     render();
     raf = requestAnimationFrame(frame);
   }
