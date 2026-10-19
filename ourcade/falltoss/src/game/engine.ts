@@ -295,7 +295,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
           cbs.onStatus('clank! so close');
         }
       }
-      const ground = LH - 40;
+      const ground = LH - 105;
       if (ball.y > ground) {
         ball.y = ground;
         if (!reduceMotion) landingEffect = { x: ball.x, y: ground, life: 0, max: 0.22 };
@@ -408,10 +408,10 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   function drawSlingAndAim(): void {
     const baseX = ANCHOR.x;
-    const groundY = LH - 40;
-    const forkY = 488;
-    const tipL = { x: ANCHOR.x - 30, y: 426 };
-    const tipR = { x: ANCHOR.x + 30, y: 426 };
+    const groundY = LH - 12;
+    const forkY = 536;
+    const tipL = { x: ANCHOR.x - 30, y: 474 };
+    const tipR = { x: ANCHOR.x + 30, y: 474 };
     const stretched = st.phase === 'aim' && aiming;
     const px = stretched ? dragCur.x : ANCHOR.x;
     const py = stretched ? dragCur.y : ANCHOR.y;
@@ -464,7 +464,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
             vy += GRAV * step;
             sx += vx * step;
             sy += vy * step;
-            if (sy > LH - 40 || sx > LW || sx < 0) break;
+            if (sy > LH - 105 || sx > LW || sx < 0) break;
             if (i % 2 === 0) {
               ctx.globalAlpha = Math.max(0, 0.7 - i * 0.016);
               circle(sx, sy, 4.2);
@@ -511,11 +511,24 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     ctx.setTransform(scale, 0, 0, scale, 0, 0);
     ctx.clearRect(0, 0, LW, LH);
 
-    const bg = ctx.createLinearGradient(0, 0, 0, LH);
-    bg.addColorStop(0, LEVELS[st.level].background[0]);
-    bg.addColorStop(1, LEVELS[st.level].background[1]);
-    ctx.fillStyle = bg;
+    // Framed golden backdrop matching the autumn reference art.
+    ctx.fillStyle = '#32180c';
     ctx.fillRect(0, 0, LW, LH);
+    const bg = ctx.createLinearGradient(0, 12, 0, LH - 18);
+    bg.addColorStop(0, '#ffcf79');
+    bg.addColorStop(0.42, '#f6b24f');
+    bg.addColorStop(1, '#df7d25');
+    ctx.fillStyle = bg;
+    roundRect(18, 12, LW - 36, LH - 30, 38);
+    ctx.fill();
+    ctx.strokeStyle = '#8a552a';
+    ctx.lineWidth = 8;
+    roundRect(18, 12, LW - 36, LH - 30, 38);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,224,160,.65)';
+    ctx.lineWidth = 2;
+    roundRect(25, 19, LW - 50, LH - 44, 32);
+    ctx.stroke();
 
     // Warm halo behind the existing mug art; it does not affect the scoring rim.
     const glow = ctx.createRadialGradient(mug.x, MUG.rimY + 34, 8, mug.x, MUG.rimY + 34, 245);
@@ -526,28 +539,28 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     ctx.fillRect(mug.x - 250, MUG.rimY - 220, 500, 500);
 
     // Dimensional autumn wood platform: visual-only layers and fine grain.
-    ctx.fillStyle = 'rgba(0,0,0,.32)';
-    roundRect(0, LH - 43, LW, 62, 0);
+    ctx.fillStyle = 'rgba(0,0,0,.42)';
+    roundRect(24, LH - 76, LW - 48, 92, 28);
     ctx.fill();
-    const wood = ctx.createLinearGradient(0, LH - 52, 0, LH + 8);
-    wood.addColorStop(0, '#d88a35');
-    wood.addColorStop(0.18, '#f0ae50');
-    wood.addColorStop(0.5, '#b96322');
-    wood.addColorStop(0.78, '#7c3917');
-    wood.addColorStop(1, '#4b210f');
+    const wood = ctx.createLinearGradient(0, LH - 100, 0, LH + 8);
+    wood.addColorStop(0, '#f8bd62');
+    wood.addColorStop(0.16, '#e99537');
+    wood.addColorStop(0.42, '#bf671f');
+    wood.addColorStop(0.72, '#783817');
+    wood.addColorStop(1, '#3c1909');
     ctx.fillStyle = wood;
-    roundRect(0, LH - 48, LW, 62, 8);
+    roundRect(24, LH - 100, LW - 48, 92, 28);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(255,220,151,.22)';
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgba(255,220,151,.65)';
+    ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(0, LH - 46);
-    ctx.lineTo(LW, LH - 46);
+    ctx.moveTo(46, LH - 98);
+    ctx.lineTo(LW - 46, LH - 98);
     ctx.stroke();
-    ctx.strokeStyle = 'rgba(88,39,14,.15)';
+    ctx.strokeStyle = 'rgba(88,39,14,.22)';
     ctx.lineWidth = 1;
-    for (let x = 18; x < LW; x += 47) {
-      const y = LH - 28 + Math.sin(x * 0.037) * 8;
+    for (let x = 42; x < LW - 42; x += 47) {
+      const y = LH - 72 + Math.sin(x * 0.037) * 8;
       ctx.beginPath();
       ctx.moveTo(x, y);
       ctx.bezierCurveTo(x + 12, y - 2, x + 25, y + 2, x + 38, y - 1);
