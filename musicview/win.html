@@ -130,12 +130,12 @@
   .col-id { width: 115px; }
 
   .bottom-panels {
-    flex: 0 0 min(230px, 35dvh);
-    display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(200px, 3fr);
-    gap: 5px;
-    padding: 5px;
-  }
+  flex: 0 0 260px;
+  display: grid;
+  grid-template-columns: 390px minmax(0, 1fr);
+  gap: 5px;
+  padding: 5px 5px 0;
+}
 
   .panel {
     display: flex;
@@ -288,13 +288,9 @@
       display: none;
     }
 
-    .bottom-panels {
-      flex-basis: min(250px, 40dvh);
-      grid-template-columns: 1fr;
-      grid-template-rows: minmax(100px, 3fr) minmax(65px, 2fr);
-      gap: 4px;
-      padding: 3px;
-    }
+   .bottom-panels {
+  display: none;
+}
 
     .panel-title { flex-basis: 14px; }
     .playlist-controls { padding: 2px; }
@@ -526,22 +522,34 @@
       statusEl.textContent = "Playlist load failed";
       console.error(error);
     }
+
+  }
+function openVideoOverlay(videoId) {
+  overlayPlayer.src =
+    `https://www.youtube.com/embed/${encodeURIComponent(videoId)}` +
+    "?autoplay=1&playsinline=1";
+  overlay.classList.add("open");
+}
+
+  ffunction playTrack(index) {
+  const track = tracks[index];
+  if (!track) return;
+
+  selected = index;
+  render();
+  statusEl.textContent = `Playing: ${track.title}`;
+
+  if (window.matchMedia("(max-width: 600px)").matches) {
+    openVideoOverlay(track.id);
+    return;
   }
 
-  function playTrack(index) {
-    const track = tracks[index];
-    if (!track) return;
-
-    selected = index;
-    render();
-    statusEl.textContent = `Playing: ${track.title}`;
-
-    if (playerReady) {
-      player.loadVideoById(track.id);
-    } else {
-      pendingId = track.id;
-    }
+  if (playerReady) {
+    player.loadVideoById(track.id);
+  } else {
+    pendingId = track.id;
   }
+}
 
   window.onYouTubeIframeAPIReady = function () {
     player = new YT.Player("youtube-player", {
@@ -595,9 +603,10 @@
   document.querySelector("#refresh").addEventListener("click", loadPlaylist);
   search.addEventListener("input", render);
 
-  document.querySelector("#open-video").addEventListener("click", () => {
-    const track = tracks[selected];
-    if (!track) return;
+ document.querySelector("#open-video").addEventListener("click", () => {
+  const track = tracks[selected];
+  if (track) openVideoOverlay(track.id);
+});
 
     overlayPlayer.src =
       `https://www.youtube.com/embed/${encodeURIComponent(track.id)}` +
