@@ -10,13 +10,13 @@ export const MAXDRAG = 250;
 export const MAXPOWER = 1500;
 
 // slingshot pouch rest point
-export const ANCHOR = { x: 180, y: 452 };
+export const ANCHOR = { x: 205, y: 500 };
 
 // Mug target geometry. rimRx/rimRy define the (invisible) scoring ring.
 // cx = center of travel; amp/omega drive the Advanced/Expert glide.
 export const MUG = {
   cx: 710,
-  rimY: 300,
+  rimY: 325,
   rimRx: 78,
   rimRy: 24,
   bodyH: 150,
