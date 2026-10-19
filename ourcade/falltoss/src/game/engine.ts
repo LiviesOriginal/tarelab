@@ -517,9 +517,42 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
     ctx.fillStyle = bg;
     ctx.fillRect(0, 0, LW, LH);
 
-    ctx.fillStyle = 'rgba(0,0,0,.18)';
-    roundRect(0, LH - 46, LW, 60, 0);
+    // Warm halo behind the existing mug art; it does not affect the scoring rim.
+    const glow = ctx.createRadialGradient(mug.x, MUG.rimY + 34, 8, mug.x, MUG.rimY + 34, 245);
+    glow.addColorStop(0, 'rgba(255,220,139,.34)');
+    glow.addColorStop(0.42, 'rgba(255,177,76,.14)');
+    glow.addColorStop(1, 'rgba(255,155,48,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(mug.x - 250, MUG.rimY - 220, 500, 500);
+
+    // Dimensional autumn wood platform: visual-only layers and fine grain.
+    ctx.fillStyle = 'rgba(0,0,0,.32)';
+    roundRect(0, LH - 43, LW, 62, 0);
     ctx.fill();
+    const wood = ctx.createLinearGradient(0, LH - 52, 0, LH + 8);
+    wood.addColorStop(0, '#d88a35');
+    wood.addColorStop(0.18, '#f0ae50');
+    wood.addColorStop(0.5, '#b96322');
+    wood.addColorStop(0.78, '#7c3917');
+    wood.addColorStop(1, '#4b210f');
+    ctx.fillStyle = wood;
+    roundRect(0, LH - 48, LW, 62, 8);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,220,151,.22)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, LH - 46);
+    ctx.lineTo(LW, LH - 46);
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(88,39,14,.15)';
+    ctx.lineWidth = 1;
+    for (let x = 18; x < LW; x += 47) {
+      const y = LH - 28 + Math.sin(x * 0.037) * 8;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x + 12, y - 2, x + 25, y + 2, x + 38, y - 1);
+      ctx.stroke();
+    }
 
     drawMug();
 
