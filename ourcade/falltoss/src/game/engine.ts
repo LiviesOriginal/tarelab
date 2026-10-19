@@ -408,7 +408,7 @@ export function createEngine(canvas: HTMLCanvasElement, cbs: EngineCallbacks): G
 
   function drawSlingAndAim(): void {
     const baseX = ANCHOR.x;
-    const groundY = LH - 105;
+    const groundY = LH - 12;
     const forkY = 536;
     const tipL = { x: ANCHOR.x - 30, y: 474 };
     const tipR = { x: ANCHOR.x + 30, y: 474 };
