@@ -1,7 +1,7 @@
 
 const REPO='https://raw.githubusercontent.com/sunny567s35/Galaga_game/main/galaga/';
 const IMG={player:REPO+'images/player.png',enemy:REPO+'images/enemy-2.png',enemy2:REPO+'images/enemy-1.png',enemy3:REPO+'images/enemy.png',bullet:REPO+'images/missile2.png',enemyBullet:REPO+'images/missile1.png',stars:REPO+'images/stars.png',blast:REPO+'images/blast.gif'};
-const AUDIO={music:REPO+'audio/galaga.mp3',laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
+const AUDIO={music:'./audio/applause-loop.mp3',laser:REPO+'audio/audio_laser.ogg',hit:REPO+'audio/killenemy.mp3',enemyHit:REPO+'audio/audio_enemy-hit.ogg'};
 const SPEED={ship:7.5};
 
 const messages=[
@@ -54,7 +54,7 @@ function makeWave(){
 }
 function game(){stopMusic(); play(AUDIO.music,true); renderShell(`<section class="game-screen">
   <header class="hud"><div class="hud-left"><button id="mute" class="small-btn">SOUND: ${sound?'ON':'OFF'}</button><div>SCORE <b id="score">00000</b></div></div><div class="stage">STAGE ${String(state.level).padStart(2,'0')}<span>SCREEN ${state.screen}</span></div><div class="hud-right"><div class="lives" id="lives">${hearts(state.lives)}</div><button id="menu" class="small-btn">MENU</button></div></header>
-  <div id="arena"><div class="formation" id="formation"></div><div id="shots"></div><div id="enemyShots"></div><img id="ship" class="ship" src="${IMG.player}"/></div>
+  <div id="arena" class="arena"><div class="formation" id="formation"></div><div id="shots"></div><div id="enemyShots"></div><img id="ship" class="ship" src="${IMG.player}"/></div>
   <div class="touch-hint">DRAG TO MOVE • HOLD TO FIRE</div>
 </section>`);
   document.querySelector('#menu').onclick=()=>title(); document.querySelector('#mute').onclick=()=>toggleInGameSound();
