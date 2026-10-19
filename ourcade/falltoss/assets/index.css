@@ -57,3 +57,11 @@ body{background:radial-gradient(ellipse at 50% 35%,#8a441b 0%,#4a210f 58%,#24100
 .turnpill{font-family:Fredoka,sans-serif;font-size:clamp(17px,2.4vw,29px);font-weight:700;letter-spacing:.7px;color:#ffd28a;margin:0 0 20px;min-height:clamp(24px,3vw,36px);text-shadow:0 2px 8px #4c210c}
 @media(max-width:560px){body{padding:8px}.wrap{width:100%}.board{grid-template-columns:1.2fr .78fr .62fr;gap:6px;margin-bottom:8px}.pcard,.timerchip,.menupill{min-height:76px;border-width:2px;border-radius:14px}.pcard{padding:6px 3px}.score-label{font-size:clamp(12px,3.4vw,18px);letter-spacing:.5px}.pscore,.timerchip .tval{font-size:clamp(28px,8vw,42px)}.score-total{margin-left:2px}.timerchip{padding:4px}.timerchip .tlabel{font-size:clamp(12px,3.3vw,17px);letter-spacing:.4px}.menupill{padding:4px;font-size:clamp(11px,3.2vw,17px);gap:4px}.turnpill{font-size:clamp(12px,3.3vw,17px);margin-bottom:10px}.stage{border-radius:14px}}
 @media(prefers-reduced-motion:reduce){.leaf{animation:none!important}}
+
+
+/* Small illustrated details from the reference HUD */
+.score-label::before,.score-label::after{content:"🍁";font-size:.72em;vertical-align:middle;margin:0 .55em;filter:drop-shadow(0 2px 1px #150800)}
+.timerchip .tlabel::before{content:"⏱ ";font-size:.92em;color:#ffbd62}
+.menupill{color:#ffae45}
+.menupill .menu-label{color:#fff0d1}
+@media(max-width:560px){.score-label::before,.score-label::after{margin:0 .18em}.timerchip .tlabel::before{content:""}}
