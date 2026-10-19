@@ -362,6 +362,7 @@ export default function App() {
 
   return (
     <div className="wrap" data-level={level}>
+      {screen === 'playing' && <Leaves />}
       {screen === 'playing' && (
         <Hud
           score={score}
