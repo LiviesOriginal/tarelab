@@ -12,7 +12,7 @@
   <main class="workspace">
 <div class="workspace-card">
       <section class="panel gallery-panel" aria-labelledby="gallery-title">
-        <div class="panel-heading"><div><p class="kicker">Discover together</p><h1 id="gallery-title">Idea Gallery</h1></div><span class="counter" id="gallery-count">05</span></div>
+        <div class="panel-heading"><div><p class="kicker">Discover together</p><h1 id="gallery-title">Idea Gallery</h1></div></div>
         <p class="section-intro">Swipe through ideas submitted by either partner. A mutual like sends an idea to your Short List.</p>
         <div class="partner-switch" aria-label="Choose which partner is reviewing"><span>Reviewing as</span><div class="switch-options"><button type="button" class="partner-option active" data-partner="partnerA" aria-pressed="true">Partner A</button><button type="button" class="partner-option" data-partner="partnerB" aria-pressed="false">Partner B</button></div></div>
         <div id="swipe-stage" class="swipe-stage" aria-live="polite"><article class="idea-card"><div class="idea-art art-pink"><span>IDEA<br>NO. 01</span></div><div class="idea-copy"><p class="idea-category">Brand & Growth</p><h2>Build a signature experience</h2><p>Give customers a memorable moment they’ll want to share.</p></div></article></div>
@@ -21,7 +21,7 @@
         <details class="add-idea"><summary><span aria-hidden="true">＋</span> Add an idea to the gallery</summary><form id="idea-form"><label for="idea-title">Idea title</label><input id="idea-title" name="title" maxlength="90" required placeholder="Give your idea a name"><label for="idea-description">Short description</label><textarea id="idea-description" name="description" maxlength="280" rows="3" required placeholder="What should your partner know?"></textarea><label for="idea-category">Category</label><select id="idea-category" name="category"><option>Brand & Growth</option><option>Product</option><option>Marketing</option><option>Operations</option><option>Customer Experience</option><option>Other</option></select><button class="submit-idea" type="submit">Submit idea <span>↗</span></button><p class="form-feedback" id="form-feedback" role="status"></p></form></details>
       </section>
       <section class="panel shortlist-panel" aria-labelledby="shortlist-title">
-        <div class="panel-heading"><div><p class="kicker">The ideas that made the cut</p><h2 id="shortlist-title">Short List</h2></div><span class="counter" id="shortlist-count">03</span></div>
+        <div class="panel-heading"><div><p class="kicker">The ideas that made the cut</p><h2 id="shortlist-title">Short List</h2></div></div>
         <p class="section-intro">Your current curated list, plus every new idea you both like.</p>
         <div class="shortlist-legend"><span><i class="legend-dot curated"></i>Curated</span><span><i class="legend-dot mutual"></i>Mutual like</span></div>
         <div id="shortlist-items" class="shortlist-items" aria-live="polite"></div><p class="shortlist-footnote">An idea joins automatically after both partners tap Like.</p>

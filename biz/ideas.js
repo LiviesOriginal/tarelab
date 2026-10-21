@@ -1,5 +1,17 @@
 (() => {
   const STORAGE_KEY = "biz-idea-gallery-v1";
+  const BIZLIST_URL = "/bizlist.md";
+  async function loadBizList(){
+    try {
+      const response = await fetch(BIZLIST_URL, {cache:"no-cache"});
+      if(!response.ok) throw new Error("Could not load bizlist.md");
+      const markdown = await response.text();
+      return markdown.split(/\r?\n/).map(line=>line.trim()).filter(line=>/^[-*]\s+\[[^\]]+\]\([^)]*\)/.test(line)).map(line=>{
+        const match=line.match(/^[-*]\s+\[([^\]]+)\]\(([^)]+)\)\s*(?:[-–—:]\s*(.*))?$/);
+        return match ? {id:"bizlist-"+match[2],title:match[1],url:match[2],description:match[3]||"Business mock-up",source:"curated"} : null;
+      }).filter(Boolean);
+    } catch(error) { console.warn("Could not load bizlist.md",error); return []; }
+  }
   const partners = ["partnerA", "partnerB"];
   const seed = {
     ideas: [
@@ -38,9 +50,8 @@
     $("#vote-note").textContent=(idea.author?"Submitted by "+idea.author+" · ":"")+"Reviewing as "+(state.activePartner==="partnerA"?"Partner A":"Partner B");
   }
   function renderShortlist(){
-    $("#shortlist-count").textContent=String(state.shortlist.length).padStart(2,"0");
     if(!state.shortlist.length){$("#shortlist-items").innerHTML='<div class="shortlist-empty">Your shortlist is ready for its first idea.<br>When you both like an idea, it will appear here.</div>';return;}
-    $("#shortlist-items").innerHTML=state.shortlist.map(item=>'<article class="shortlist-item"><div class="shortlist-thumb" aria-hidden="true">✳</div><div><h3>'+esc(item.title)+'</h3><p>'+esc(item.description)+'</p></div><span class="status">'+(item.source==="mutual"?"Mutual like":"Curated")+'</span></article>').join("");
+    $("#shortlist-items").innerHTML=state.shortlist.map(item=>'<article class="shortlist-item"><div class="shortlist-thumb" aria-hidden="true">✳</div><div><h3>'+(item.url?'<a href="'+esc(item.url)+'">'+esc(item.title)+'</a>':esc(item.title))+'</h3><p>'+esc(item.description)+'</p></div><span class="status">'+(item.source==="mutual"?"Mutual like":"Curated")+'</span></article>').join("");
   }
   function vote(liked){
     const idea=remaining()[0];if(!idea)return;idea.votes=idea.votes||{};state.seen[state.activePartner].push(idea.id);idea.votes[state.activePartner]=liked;
@@ -51,4 +62,11 @@
   $("#pass-button").addEventListener("click",()=>vote(false));$("#like-button").addEventListener("click",()=>vote(true));$("#close-dialog").addEventListener("click",()=>$("#mutual-dialog").close());
   $("#idea-form").addEventListener("submit",event=>{event.preventDefault();const data=new FormData(event.currentTarget),title=String(data.get("title")||"").trim(),description=String(data.get("description")||"").trim();if(!title||!description)return;const idea={id:"idea-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7),title,description,category:String(data.get("category")||"Other"),author:state.activePartner==="partnerA"?"Partner A":"Partner B",votes:{},createdAt:state.ideas.length+1,artIndex:state.ideas.length};state.ideas.push(idea);save();renderGallery();renderShortlist();$("#form-feedback").textContent="Idea added to the gallery. Your partner can review it next.";event.currentTarget.reset();});
   renderGallery();renderShortlist();
+  loadBizList().then(items=>{
+    if(items.length){
+      const mutual=state.shortlist.filter(item=>item.source==="mutual");
+      state.shortlist=[...items,...mutual.filter(item=>!items.some(biz=>biz.url===biz.url))];
+      renderShortlist();
+    }
+  });
 })();
