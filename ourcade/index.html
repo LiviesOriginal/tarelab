@@ -16,7 +16,11 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;overflow-x:hidden;background:#05030a;color:#fff;font-family:Inter,system-ui,sans-serif}
-body:before{content:"";position:fixed;inset:0;z-index:-3;background:url("./ourcade-room.webp") center top/cover no-repeat}
+body:before {
+  background: url("/ourcade/ourcade-image-build/ourcade-room.webp")
+    center top / cover no-repeat;
+}
+
 body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(3,2,9,.04),rgba(3,2,9,.08) 50%,rgba(3,2,9,.38) 100%);pointer-events:none}
 .page{width:min(1500px,100%);margin:auto;padding:16px 18px 80px}
 .game-grid{width:min(1380px,100%);margin:230px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,430px));justify-content:center;gap:18px 16px;align-items:end}
