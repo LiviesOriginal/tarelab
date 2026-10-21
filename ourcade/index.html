@@ -1,45 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/svg+xml" href="../moonfavicon.svg">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3PM570SXPX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(["js", new Date()]);
-  window.dataLayer.push(["config", "G-3PM570SXPX"]);
-</script>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#07020d">
-<title>OURCADE</title>
-<style>
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;min-height:100vh;overflow-x:hidden;background:#05030a;color:#fff;font-family:Inter,system-ui,sans-serif}
-body:before {
-  background: url("/ourcade/ourcade-image-build/ourcade-room.webp")
-    center top / cover no-repeat;
-}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OURCADE</title>
+  <style>
+    * { box-sizing: border-box; }
 
-body:after{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(180deg,rgba(3,2,9,.04),rgba(3,2,9,.08) 50%,rgba(3,2,9,.38) 100%);pointer-events:none}
-.page{width:min(1500px,100%);margin:auto;padding:16px 18px 80px}
-.game-grid{width:min(1380px,100%);margin:230px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,430px));justify-content:center;gap:18px 16px;align-items:end}
-.cabinet-link{display:block;color:#fff;text-decoration:none;touch-action:manipulation}
-.cabinet{position:relative;transition:transform .2s ease,filter .2s ease}
-.cabinet:hover{transform:translateY(-8px);filter:brightness(1.06) drop-shadow(0 18px 22px rgba(0,0,0,.75))}
-.cabinet-art{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 16px rgba(0,0,0,.72))}
-@media(max-width:900px){.page{padding:8px 12px 64px}.game-grid{margin-top:190px;grid-template-columns:minmax(280px,430px)}}
-@media(max-width:600px){.game-grid{margin-top:150px;grid-template-columns:minmax(0,430px)}body:before{background-position:15% top;background-size:auto 94svh}}
-@media(prefers-reduced-motion:reduce){.cabinet{transition:none}}
-</style>
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #05030a url("/ourcade/ourcade-image-build/ourcade-room.webp")
+        center top / cover no-repeat;
+    }
+  </style>
 </head>
-<body>
-<main class="page">
-<section class="game-grid" id="game-grid"></section>
-</main>
-<script src="./games.js"></script>
-<script>
-(()=>{const games=window.OURCADE_GAMES||[];document.getElementById("game-grid").innerHTML=games.map(g=>`<a class="cabinet-link" href="${esc(g.href)}" aria-label="Play ${esc(g.title)}"><article class="cabinet cabinet--${esc(g.id)}"><img class="cabinet-art" src="${esc(g.image)}" alt="${esc(g.title)} arcade cabinet" loading="lazy"></article></a>`).join("");function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}})();
-</script>
-</body>
+<body></body>
 </html>
