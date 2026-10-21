@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2048" height="903" viewBox="0 0 2048 903">
+<defs>
+  <linearGradient id="blue" x1="0" y1="0" x2="0.15" y2="1"><stop offset="0" stop-color="#0788f8"/><stop offset="0.58" stop-color="#00a2f2"/><stop offset="1" stop-color="#75d9ec"/></linearGradient>
+  <linearGradient id="pink" x1="0" y1="0" x2="0.2" y2="1"><stop offset="0" stop-color="#e99bdc"/><stop offset="1" stop-color="#e78ad5"/></linearGradient>
+  <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%"><feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#174d75" flood-opacity=".18"/></filter>
+</defs>
+<rect width="2048" height="903" fill="url(#blue)"/>
+<path d="M381 124 L1605 44 L1646 666 L421 747 Z" fill="url(#pink)"/>
+<g filter="url(#shadow)">
+ <rect x="400" y="90" width="1228" height="610" fill="#fff7e7"/>
+ <path d="M500 90 V700 M500 220 H1628 M500 604 H1628" stroke="#6f6260" stroke-width="1" stroke-dasharray="2.5 2.5" fill="none"/>
+ <g fill="#401527">
+  <circle cx="452" cy="163" r="16"/><circle cx="452" cy="255" r="16"/><circle cx="452" cy="346" r="16"/><circle cx="452" cy="438" r="16"/><circle cx="452" cy="529" r="16"/><circle cx="452" cy="621" r="16"/>
+ </g>
+</g>
+</svg>
