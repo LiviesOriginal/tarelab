@@ -3,32 +3,132 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A shared space for business partners to discover ideas and build a shortlist together.">
-  <title>Idea Gallery & Short List</title>
-  <link rel="stylesheet" href="ideas.css">
-  <script defer src="ideas.js"></script>
+  <title>Short List</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 4px;
+      color: #111;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      min-height: 285px;
+      padding: 11px 12px 24px;
+      border: 1px solid #e7e9ec;
+      display: grid;
+      grid-template-columns: 142px minmax(0, 1fr);
+      gap: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+      font-weight: 400;
+    }
+
+    .entries {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 15px;
+      align-content: start;
+    }
+
+    .entry { min-width: 0; }
+
+    .entry .preview-link,
+    .entry .preview-link img {
+      display: block;
+      width: 100%;
+    }
+
+    .entry .preview-link img {
+      aspect-ratio: 1 / 1.1;
+      object-fit: cover;
+    }
+
+    .entry hr {
+      border: 0;
+      border-top: 1px solid #bfc2c4;
+      margin: 4px 0 8px;
+    }
+
+    .entry h2 {
+      margin: 0 0 3px;
+      font-size: 9px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    .entry p {
+      margin: 0;
+      font-size: 7px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      .entries { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <main class="workspace">
-<div class="workspace-card">
-      <section class="panel gallery-panel" aria-labelledby="gallery-title">
-        <div class="panel-heading"><div><p class="kicker">Discover together</p><h1 id="gallery-title">Idea Gallery</h1></div></div>
-        <p class="section-intro">Swipe through ideas submitted by either partner. A mutual like sends an idea to your Short List.</p>
-        <div class="partner-switch" aria-label="Choose which partner is reviewing"><span>Reviewing as</span><div class="switch-options"><button type="button" class="partner-option active" data-partner="partnerA" aria-pressed="true">Partner A</button><button type="button" class="partner-option" data-partner="partnerB" aria-pressed="false">Partner B</button></div></div>
-        <div id="swipe-stage" class="swipe-stage" aria-live="polite"><article class="idea-card"><div class="idea-art art-pink"><span>IDEA<br>NO. 01</span></div><div class="idea-copy"><p class="idea-category">Brand & Growth</p><h2>Build a signature experience</h2><p>Give customers a memorable moment they’ll want to share.</p></div></article></div>
-        <div class="swipe-actions"><button type="button" class="swipe-button pass-button" id="pass-button" aria-label="Pass on idea"><span aria-hidden="true">×</span><small>Pass</small></button><button type="button" class="swipe-button like-button" id="like-button" aria-label="Like idea"><span aria-hidden="true">♥</span><small>Like</small></button></div>
-        <p class="vote-note" id="vote-note">Likes stay private until you both decide.</p>
-        <details class="add-idea"><summary><span aria-hidden="true">＋</span> Add an idea to the gallery</summary><form id="idea-form"><label for="idea-title">Idea title</label><input id="idea-title" name="title" maxlength="90" required placeholder="Give your idea a name"><label for="idea-description">Short description</label><textarea id="idea-description" name="description" maxlength="280" rows="3" required placeholder="What should your partner know?"></textarea><label for="idea-category">Category</label><select id="idea-category" name="category"><option>Brand & Growth</option><option>Product</option><option>Marketing</option><option>Operations</option><option>Customer Experience</option><option>Other</option></select><button class="submit-idea" type="submit">Submit idea <span>↗</span></button><p class="form-feedback" id="form-feedback" role="status"></p></form></details>
-      </section>
-      <section class="panel shortlist-panel" aria-labelledby="shortlist-title">
-        <div class="panel-heading"><div><p class="kicker">The ideas that made the cut</p><h2 id="shortlist-title">Short List</h2></div></div>
-        <p class="section-intro">Your current curated list, plus every new idea you both like.</p>
-        <div class="shortlist-legend"><span><i class="legend-dot curated"></i>Curated</span><span><i class="legend-dot mutual"></i>Mutual like</span></div>
-        <div id="shortlist-items" class="shortlist-items" aria-live="polite"></div><p class="shortlist-footnote">An idea joins automatically after both partners tap Like.</p>
-      </section>
-    </div>
-    <footer><span>Two perspectives. Better ideas.</span><span class="footer-mark">Creative Briefs · /biz</span></footer>
+  <main class="page">
+    <h1>Short List</h1>
+    <section class="entries" id="entries" aria-label="Business listings"></section>
   </main>
-  <dialog id="mutual-dialog" class="mutual-dialog"><div class="dialog-sparkle">✳</div><p class="kicker">It's a mutual like</p><h2>On the Short List.</h2><p id="mutual-message">You both liked this idea.</p><button type="button" id="close-dialog" class="submit-idea">Keep exploring <span>↗</span></button></dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    fetch("./biz.md")
+      .then(response => {
+        if (!response.ok) throw new Error("Could not load biz.md");
+        return response.text();
+      })
+      .then(markdown => {
+        const entries = document.getElementById("entries");
+        const sections = markdown
+          .split(/^---\s*$/m)
+          .map(section => section.trim())
+          .filter(Boolean);
+
+        for (const section of sections) {
+          const article = document.createElement("article");
+          article.className = "entry";
+          article.innerHTML = marked.parse(section);
+
+          const imageLink = article.querySelector("p a img")?.parentElement;
+          if (imageLink) imageLink.classList.add("preview-link");
+
+          const title = article.querySelector("p strong");
+          if (title) {
+            const titleParagraph = title.closest("p");
+            const heading = document.createElement("h2");
+            heading.innerHTML = title.innerHTML;
+            titleParagraph.replaceWith(heading);
+          }
+
+          const imageParagraph = article.querySelector("p:has(.preview-link)");
+          if (imageParagraph) {
+            const rule = document.createElement("hr");
+            imageParagraph.after(rule);
+          }
+
+          entries.appendChild(article);
+        }
+      })
+      .catch(error => {
+        document.getElementById("entries").textContent =
+          "Listings could not be loaded. Make sure biz.md is beside index.html and serve the files from a web server.";
+        console.error(error);
+      });
+  </script>
 </body>
 </html>
