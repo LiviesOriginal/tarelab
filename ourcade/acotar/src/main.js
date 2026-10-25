@@ -95,7 +95,7 @@ function decorMarkup() {
 function clueCardMarkup() {
   return `<div class="clue-card">
       <span class="orn l">✦</span><span class="orn r">✦</span>
-      <span class="clue-label">THE CLUE</span>
+      <span class="clue-label">${state.replay ? "ARCHIVE CLUE" : "TODAY'S GUESS"}</span>
       <p>${esc(state.puzzle.clue)}</p>
     </div>`;
 }
@@ -118,10 +118,8 @@ function heroMarkup() {
     `;
   }
   return `
-    <div class="eyebrow">TODAY'S GUESS</div>
-    <h1>A Word Worth Guessing</h1>
     ${clueCardMarkup()}
-    <div class="streak-pill">VICTORY STREAK <strong>${state.save.streak}</strong></div>
+    <div class="play-prompt">Guess the 5 letter word</div>
   `;
 }
 
@@ -141,7 +139,7 @@ function render() {
       <section class="hero">
         <div class="thorn-rule">
           <button class="icon-btn" data-action="archive" aria-label="${inGame ? "Open the archives" : "Close the archives"}">☰</button>
-          <i></i><span>✦</span><i></i>
+          ${inGame && !state.replay ? `<div class="streak-pill top-streak">VICTORY STREAK <strong>${state.save.streak}</strong></div>` : `<i></i><span>✦</span><i></i>`}
           <button class="icon-btn" data-action="stats" aria-label="View your Victory Streak">♢</button>
         </div>
         ${heroMarkup()}
@@ -175,7 +173,7 @@ function gameMarkup() {
           </div>`).join("")}
       </div>
       <div class="game-status" aria-live="polite">
-        <span>${esc(state.message || "Guess the five-letter word.")}</span>
+        <span>${esc(state.message)}</span>
         ${state.gameOver ? `<button class="link-btn" data-action="view-result">VIEW RESULT</button>` : ""}
       </div>
     </section>

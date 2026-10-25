@@ -365,3 +365,73 @@ footer {
   pointer-events: none;
   font-size: 16px;
 }
+
+
+/* Compact play screen: put the streak in the navigation row and reclaim board space. */
+.thorn-rule {
+  width: 100%;
+  margin: 0 0 8px;
+  gap: clamp(8px, 3vw, 18px);
+}
+.thorn-rule .streak-pill.top-streak {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 7px clamp(9px, 3vw, 16px);
+  justify-content: center;
+  gap: 7px;
+  font-size: clamp(8px, 2.2vw, 9px);
+  letter-spacing: clamp(.08em, .3vw, .18em);
+  white-space: nowrap;
+}
+.top-streak strong {
+  font-size: clamp(15px, 4vw, 17px);
+}
+.clue-card {
+  padding-block: clamp(12px, 3vh, 18px);
+}
+.clue-label {
+  letter-spacing: .2em;
+}
+.play-prompt {
+  margin: 10px auto 2px;
+  color: var(--gold2);
+  font: italic 13px "Libre Baskerville", serif;
+  text-align: center;
+}
+.board {
+  width: min(100%, 316px);
+  gap: 5px;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+.row {
+  gap: 5px;
+}
+.tile {
+  font-size: clamp(17px, 5.4vw, 25px);
+}
+.game-status {
+  min-height: 24px;
+  font-size: 12px;
+}
+@media (min-width: 600px) {
+  .board { width: min(100%, 330px); }
+}
+@media (max-height: 760px) {
+  .topbar { min-height: 62px; padding-bottom: 4px; }
+  .hero { padding-top: 4px; padding-bottom: 6px; }
+  .clue-card { padding-block: 10px; }
+  .clue-card p { margin-top: 6px; line-height: 1.4; }
+  .play-prompt { margin-top: 7px; }
+  .board { margin-top: 2px; margin-bottom: 3px; gap: 4px; }
+  .row { gap: 4px; }
+  .game-status { min-height: 20px; }
+  footer { padding-top: 18px; }
+}
+@media (max-width: 360px) {
+  .thorn-rule { gap: 6px; }
+  .thorn-rule .top-streak { padding-inline: 7px; font-size: 7px; }
+  .icon-btn { width: 30px; height: 30px; }
+  .board { width: min(100%, 286px); }
+}
