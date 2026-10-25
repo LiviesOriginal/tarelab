@@ -158,20 +158,32 @@ function render() {
   bind();
 }
 
+function boardMarkup() {
+  return Array.from({ length: 6 }, (_, r) => `
+    <div class="row ${r < state.guesses.length ? "submitted" : ""}">
+      ${Array.from({ length: 5 }, (_, c) => {
+        const guess = state.guesses[r] || "";
+        const letter = guess[c] || (r === state.guesses.length ? state.current[c] || "" : "");
+        const status = r < state.guesses.length ? evaluate(state.guesses[r], state.puzzle.answer)[c] : "";
+        return `<div class="tile ${status} ${letter ? "filled" : ""}" style="--i:${c}">${esc(letter)}</div>`;
+      }).join("")}
+    </div>`).join("");
+}
+
+function refreshGameplay() {
+  const board = document.querySelector(".board");
+  if (board) board.innerHTML = boardMarkup();
+  const status = document.querySelector(".game-status");
+  if (status) {
+    const message = status.querySelector("span");
+    if (message) message.textContent = state.message;
+  }
+}
+
 function gameMarkup() {
   return `
     <section class="game">
-      <div class="board" aria-label="Guess board">
-        ${Array.from({ length: 6 }, (_, r) => `
-          <div class="row ${r < state.guesses.length ? "submitted" : ""}">
-            ${Array.from({ length: 5 }, (_, c) => {
-              const guess = state.guesses[r] || "";
-              const letter = guess[c] || (r === state.guesses.length ? state.current[c] || "" : "");
-              const status = r < state.guesses.length ? evaluate(state.guesses[r], state.puzzle.answer)[c] : "";
-              return `<div class="tile ${status} ${letter ? "filled" : ""}" style="--i:${c}">${esc(letter)}</div>`;
-            }).join("")}
-          </div>`).join("")}
-      </div>
+      <div class="board" aria-label="Guess board">${boardMarkup()}</div>
       <div class="game-status" aria-live="polite">
         <span>${esc(state.message)}</span>
         ${state.gameOver ? `<button class="link-btn" data-action="view-result">VIEW RESULT</button>` : ""}
@@ -277,17 +289,17 @@ function showResult() {
 function handleKey(k) {
   if (state.view !== "game" || state.gameOver || !state.spoilerAccepted || document.querySelector(".modal-backdrop")) return;
   if (k === "ENTER") {
-    if (state.current.length !== 5) { state.message = "Five letters. The word will not yield to four."; render(); return; }
+    if (state.current.length !== 5) { state.message = "Five letters. The word will not yield to four."; refreshGameplay(); return; }
     const guess = state.current.toUpperCase();
-    if (!VALID_GUESSES.has(guess) && !PUZZLES.some(p => p.answer === guess)) { state.message = "That word is not in the archives."; render(); return; }
+    if (!VALID_GUESSES.has(guess) && !PUZZLES.some(p => p.answer === guess)) { state.message = "That word is not in the archives."; refreshGameplay(); return; }
     state.guesses.push(guess);
     state.current = "";
     if (!state.replay) { state.save.daily.guesses = [...state.guesses]; persist(); }
     if (guess === state.puzzle.answer) finish(true);
     else if (state.guesses.length === 6) finish(false);
-    else { state.message = ""; render(); }
-  } else if (k === "BACK") { state.current = state.current.slice(0, -1); render(); }
-  else if (/^[A-Z]$/.test(k) && state.current.length < 5) { state.current += k; render(); }
+    else { state.message = ""; render(); const input = document.querySelector("#device-keyboard-input"); if (input) input.focus({ preventScroll: true }); }
+  } else if (k === "BACK") { state.current = state.current.slice(0, -1); refreshGameplay(); }
+  else if (/^[A-Z]$/.test(k) && state.current.length < 5) { state.current += k; refreshGameplay(); }
 }
 
 function startReplay(id) {
