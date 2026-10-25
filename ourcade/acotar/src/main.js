@@ -1,4 +1,3 @@
-import "./styles.css";
 import { PUZZLES, VALID_GUESSES } from "./data.js";
 
 const SAVE_KEY = "court-of-letters-v2";
