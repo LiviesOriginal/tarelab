@@ -171,8 +171,16 @@ function boardMarkup() {
 }
 
 function refreshGameplay() {
-  const board = document.querySelector(".board");
-  if (board) board.innerHTML = boardMarkup();
+  // Update only the active row. Rebuilding the whole board restarts the flip
+  // animation on every previously submitted tile during each keystroke.
+  const activeRow = document.querySelectorAll(".board .row")[state.guesses.length];
+  if (activeRow) {
+    activeRow.querySelectorAll(".tile").forEach((tile, index) => {
+      const letter = state.current[index] || "";
+      tile.textContent = letter;
+      tile.className = `tile ${letter ? "filled" : ""}`;
+    });
+  }
   const status = document.querySelector(".game-status");
   if (status) {
     const message = status.querySelector("span");
