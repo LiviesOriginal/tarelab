@@ -106,7 +106,7 @@ footer{margin-top:auto;padding:28px 0 4px;text-align:center;color:#8c7f6c;font:6
 .archive-card small{display:block;color:#8a7f8c;font:600 8px Cinzel,serif;letter-spacing:.2em;margin-top:8px}
 .archive-card.won small{color:var(--gold)}
 .archive-empty{max-width:420px;margin:30px auto;text-align:center;color:var(--muted);font:13px "Libre Baskerville",serif;line-height:1.6}
-@media(min-width:600px){.shell{padding:0 28px}.board{width:370px}.key{height:53px;max-width:47px}.hero{padding-top:20px}.archive-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:600px){.shell{padding:0 28px}.board{width:370px}.hero{padding-top:20px}.archive-grid{grid-template-columns:repeat(3,1fr)}}
 
 @media(max-width:760px){.castle{height:46vh;opacity:.14}}
 
@@ -221,38 +221,6 @@ h1 {
   font-size: clamp(18px, 6.5vw, 29px);
   -webkit-user-select: none;
   user-select: none;
-}
-
-.keyboard {
-  width: 100%;
-  max-width: 500px;
-  gap: clamp(5px, 1.5vw, 7px);
-  padding-inline: 0;
-}
-
-.keyrow {
-  width: 100%;
-  min-width: 0;
-  gap: clamp(3px, 1.2vw, 5px);
-}
-
-.key {
-  min-width: 0;
-  height: clamp(42px, 7.2vh, 53px);
-  padding: 0 1px;
-  font-size: clamp(10px, 2.8vw, 12px);
-  flex: 1 1 0;
-}
-
-.key.wide {
-  flex: 1.4 1 0;
-  max-width: 60px;
-}
-
-.key.enter {
-  flex: 1.8 1 0;
-  max-width: 82px;
-  font-size: clamp(8px, 2.3vw, 10px);
 }
 
 .game-status {
@@ -393,7 +361,7 @@ footer {
   padding: 0;
   border: 0;
   opacity: 0.01;
-  z-index: -1;
+  z-index: 2;
   pointer-events: none;
   font-size: 16px;
 }
