@@ -68,11 +68,6 @@ h1{font-size:clamp(25px,7.4vw,38px);margin:6px 0 16px;letter-spacing:.03em;line-
 .link-btn{background:none;border:1px solid var(--line-strong);color:var(--gold);padding:6px 12px;font:600 9px Cinzel,serif;letter-spacing:.2em;cursor:pointer}
 .streak-pill{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:7px 16px;border:1px solid var(--line);background:rgba(18,13,24,.6);font:600 9px Cinzel,serif;letter-spacing:.22em;color:var(--gold)}
 .streak-pill strong{font:600 17px var(--display);letter-spacing:0;color:var(--gold2)}
-.keyboard{width:min(100%,500px);margin:5px auto 0;display:grid;gap:6px}
-.keyrow{display:flex;justify-content:center;gap:5px}
-.key{height:49px;flex:1;max-width:43px;border:1px solid rgba(201,169,104,.3);border-radius:4px;background:rgba(36,27,41,.92);font-weight:700;font-size:12px;cursor:pointer}
-.key.wide{max-width:60px}.key.enter{max-width:82px;font-size:9px;letter-spacing:.06em}
-.key.correct{background:var(--correct);border-color:var(--correct)}.key.present{background:var(--present);border-color:var(--present)}.key.absent{background:#18141a;color:#726b71}
 footer{margin-top:auto;padding:28px 0 4px;text-align:center;color:#8c7f6c;font:600 8px Cinzel,serif;letter-spacing:.18em;display:flex;gap:8px;justify-content:center}
 .footer-rule{position:absolute;left:50%;transform:translateX(-50%);width:100px;height:1px;background:var(--line);margin-top:-15px}
 
@@ -111,7 +106,7 @@ footer{margin-top:auto;padding:28px 0 4px;text-align:center;color:#8c7f6c;font:6
 .archive-card small{display:block;color:#8a7f8c;font:600 8px Cinzel,serif;letter-spacing:.2em;margin-top:8px}
 .archive-card.won small{color:var(--gold)}
 .archive-empty{max-width:420px;margin:30px auto;text-align:center;color:var(--muted);font:13px "Libre Baskerville",serif;line-height:1.6}
-@media(min-width:600px){.shell{padding:0 28px}.board{width:370px}.key{height:53px;max-width:47px}.hero{padding-top:20px}.archive-grid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:600px){.shell{padding:0 28px}.board{width:370px}.hero{padding-top:20px}.archive-grid{grid-template-columns:repeat(3,1fr)}}
 
 @media(max-width:760px){.castle{height:46vh;opacity:.14}}
 
@@ -228,38 +223,6 @@ h1 {
   user-select: none;
 }
 
-.keyboard {
-  width: 100%;
-  max-width: 500px;
-  gap: clamp(5px, 1.5vw, 7px);
-  padding-inline: 0;
-}
-
-.keyrow {
-  width: 100%;
-  min-width: 0;
-  gap: clamp(3px, 1.2vw, 5px);
-}
-
-.key {
-  min-width: 0;
-  height: clamp(42px, 7.2vh, 53px);
-  padding: 0 1px;
-  font-size: clamp(10px, 2.8vw, 12px);
-  flex: 1 1 0;
-}
-
-.key.wide {
-  flex: 1.4 1 0;
-  max-width: 60px;
-}
-
-.key.enter {
-  flex: 1.8 1 0;
-  max-width: 82px;
-  font-size: clamp(8px, 2.3vw, 10px);
-}
-
 .game-status {
   width: 100%;
   flex-wrap: wrap;
@@ -325,14 +288,6 @@ footer {
     font-size: clamp(17px, 6vw, 22px);
   }
 
-  .keyrow {
-    gap: 3px;
-  }
-
-  .key {
-    border-radius: 3px;
-  }
-
   .clue-card {
     padding-inline: 22px;
   }
@@ -379,10 +334,6 @@ footer {
     margin-block: 4px;
   }
 
-  .key {
-    height: 38px;
-  }
-
   footer {
     padding-top: 18px;
   }
@@ -397,4 +348,20 @@ footer {
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+
+/* Native device keyboard input: focusable for mobile keyboards, visually unobtrusive. */
+.device-keyboard-input {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0.01;
+  z-index: 2;
+  pointer-events: none;
+  font-size: 16px;
 }

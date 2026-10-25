@@ -148,7 +148,6 @@ function render() {
       </section>
 
       ${inGame ? gameMarkup() : archiveMarkup()}
-      ${inGame ? keyboardMarkup() : ""}
 
       <footer>
         <div class="footer-rule"></div>
@@ -181,19 +180,6 @@ function gameMarkup() {
       </div>
     </section>
   `;
-}
-
-function keyboardMarkup() {
-  const keys = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-  const used = {};
-  state.guesses.forEach(g => [...g].forEach((ch, i) => {
-    const s = evaluate(g, state.puzzle.answer)[i];
-    if (used[ch] !== "correct") used[ch] = s === "correct" ? "correct" : (s === "present" ? "present" : (used[ch] || "absent"));
-  }));
-  return `<section class="keyboard">
-    ${keys.map(line => `<div class="keyrow">${[...line].map(k => `<button class="key ${used[k] || ""}" data-key="${k}">${k}</button>`).join("")}</div>`).join("")}
-    <div class="keyrow"><button class="key wide" data-key="BACK">⌫</button><button class="key enter" data-key="ENTER">ENTER</button></div>
-  </section>`;
 }
 
 // The archive lists only clues that have been played, and never shows answers.
@@ -320,9 +306,36 @@ function startReplay(id) {
 }
 
 function bind() {
-  document.querySelectorAll("[data-key]").forEach(b => b.onclick = () => handleKey(b.dataset.key));
+  const deviceInput = document.querySelector("#device-keyboard-input");
+  const game = document.querySelector(".game");
+  if (deviceInput) {
+    // Keep a real, persistent input available so mobile browsers can open their native keyboard.
+    deviceInput.oninput = () => {
+      const typed = deviceInput.value;
+      deviceInput.value = "";
+      for (const char of typed.toUpperCase()) {
+        if (/^[A-Z]$/.test(char)) handleKey(char);
+      }
+    };
+    deviceInput.onkeydown = e => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.key === "Enter") { e.preventDefault(); handleKey("ENTER"); }
+      else if (e.key === "Backspace") { e.preventDefault(); handleKey("BACK"); }
+    };
+    deviceInput.onbeforeinput = e => {
+      if (e.inputType === "deleteContentBackward" && !deviceInput.value) {
+        e.preventDefault();
+        handleKey("BACK");
+      }
+    };
+  }
+  game?.addEventListener("click", () => {
+    if (deviceInput && !state.gameOver && state.view === "game" && state.spoilerAccepted && !document.querySelector(".modal-backdrop")) {
+      deviceInput.focus({ preventScroll: true });
+    }
+  });
   document.onkeydown = e => {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || e.target === deviceInput) return;
     if (e.key === "Enter") handleKey("ENTER");
     else if (e.key === "Backspace") handleKey("BACK");
     else if (/^[a-zA-Z]$/.test(e.key)) handleKey(e.key.toUpperCase());
