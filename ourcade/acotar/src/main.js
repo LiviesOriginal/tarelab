@@ -118,10 +118,8 @@ function heroMarkup() {
     `;
   }
   return `
-    <div class="eyebrow">TODAY'S GUESS</div>
-    <h1>A Word Worth Guessing</h1>
     ${clueCardMarkup()}
-    <div class="streak-pill">VICTORY STREAK <strong>${state.save.streak}</strong></div>
+    <div class="play-prompt">Guess the 5 letter word</div>
   `;
 }
 
