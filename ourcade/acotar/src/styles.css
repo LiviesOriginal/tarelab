@@ -3,7 +3,7 @@
 :root{
   --ink:#f5ecdf; --muted:#b9a99a; --gold:#c9a968; --gold2:#ead8ad;
   --bg:#120d18; --panel:#1d1424; --line:rgba(201,169,104,.28); --line-strong:rgba(201,169,104,.7);
-  --correct:#766044; --present:#947c48; --absent:#302a31; --max:520px;
+  --correct:#286747; --present:#b58a35; --absent:#302a31; --max:520px;
   --display:"Cormorant SC","Cinzel",serif;
 }
 *{box-sizing:border-box}
