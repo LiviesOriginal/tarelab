@@ -1,0 +1,2158 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#123d32">
+    <title>Hendricks’ Sweet Spot</title>
+    <style>
+    * {
+        box-sizing:border-box
+    }
+
+    body {
+        margin: 0;
+        background: #f7f0df;
+        color: #183a30;
+        font-family:Arial, sans-serif
+    }
+
+    button {
+        font: inherit;
+        cursor: pointer;
+        touch-action: manipulation;
+        min-height: 48px;
+        border:0
+    }
+
+    button:focus-visible {
+        outline: 3px solid #da9b39;
+        outline-offset:5px
+    }
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+        padding: 21px 6%;
+        border-bottom: 1px solid #cfc9b6;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing:2px
+    }
+
+    .mark {
+        color:#b24a35
+    }
+
+    main {
+        max-width: 1050px;
+        margin: auto;
+        padding:44px 24px
+    }
+
+    small, .eyebrow {
+        font-size: 11px;
+        font-weight: bold;
+        letter-spacing: 3px;
+        text-transform:uppercase
+    }
+
+    h1 {
+        font-family: Georgia, serif;
+        font-size: clamp(52px, 9vw, 100px);
+        line-height: .95;
+        letter-spacing: -4px;
+        margin:22px 0
+    }
+
+    h1 em {
+        color: #b24a35;
+        font-weight:normal
+    }
+
+    p {
+        line-height: 1.65;
+        color:#576359
+    }
+
+    .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 45px;
+        align-items:center
+    }
+
+    .cta {
+        background: #b54832;
+        color: #fff8e9;
+        padding: 17px 29px;
+        border-radius: 40px;
+        font-weight: bold;
+        box-shadow:0 4px 0 #803724
+    }
+
+    .sub {
+        font-size: 12px;
+        margin-top:20px
+    }
+
+    .card {
+        transform: rotate(4deg);
+        background: #ede0bb;
+        border: 10px solid #fffaf0;
+        outline: 1px solid #cfbfa1;
+        box-shadow: 8px 12px 0 #183a3017;
+        position: relative;
+        max-width: 330px;
+        margin: 20px auto;
+        width:100%
+    }
+
+    .portrait {
+        height: 310px;
+        background: repeating-linear-gradient(90deg, #274d3c 0 22px, #2e5542 22px 44px);
+        position: relative;
+        overflow:hidden
+    }
+
+    .portrait img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        position: relative;
+        z-index:1
+    }
+
+    .portrait:before {
+        content: 'MVP';
+        position: absolute;
+        color: #fff2;
+        font: bold 110px Georgia;
+        top: 35px;
+        left:15px
+    }
+
+    .ribbon {
+        background: #b54832;
+        color: #fff4df;
+        text-align: center;
+        padding: 12px;
+        font:bold 25px Georgia
+    }
+
+    .cardfoot {
+        text-align: center;
+        font-size: 10px;
+        letter-spacing: 2px;
+        padding:13px
+    }
+
+    .stamp {
+        position: absolute;
+        right: -18px;
+        top: -22px;
+        z-index: 3;
+        background: #d7ac56;
+        border-radius: 50%;
+        width: 70px;
+        height: 70px;
+        display: grid;
+        place-content: center;
+        text-align: center;
+        border: 3px double #183a30;
+        transform: rotate(12deg);
+        font-size: 10px;
+        font-weight:bold
+    }
+
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 55px 0 25px;
+        font-size: 11px;
+        letter-spacing:2px
+    }
+
+    .divider:after {
+        content: '';
+        height: 1px;
+        background: #cbc4b0;
+        flex:1
+    }
+
+    .innings {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:15px
+    }
+
+    .tile {
+        border: 1px solid #cec7b4;
+        padding: 24px;
+        border-radius: 3px;
+        text-align: left;
+        background: #fdf8ec;
+        color:#183a30
+    }
+
+    .tile span {
+        display: block;
+        font-size: 29px;
+        margin:16px 0
+    }
+
+    .tile b {
+        font:24px Georgia
+    }
+
+    .tile p {
+        font-size: 13px;
+        margin-bottom:0
+    }
+
+    footer {
+        text-align: center;
+        padding: 30px;
+        font-size: 11px;
+        letter-spacing:2px
+    }
+
+    .screen {
+        display: none;
+        max-width: 650px;
+        margin: auto;
+        text-align:center
+    }
+
+    .screen.active {
+        display:block
+    }
+
+    .home.hidden {
+        display:none
+    }
+
+    h2 {
+        font: clamp(34px, 7vw, 52px) Georgia;
+        margin:16px 0
+    }
+
+    .back {
+        background: transparent;
+        color: #576359;
+        font-size: 13px;
+        margin-bottom:18px
+    }
+
+    .score {
+        background: #153e32;
+        color: #ffe8a9;
+        padding: 18px;
+        display: flex;
+        justify-content: space-around;
+        border: 5px double #79917a;
+        font-family: monospace;
+        letter-spacing:2px
+    }
+
+    .field {
+        height: 265px;
+        background: repeating-linear-gradient(90deg, #41724b 0 35px, #477c52 35px 70px);
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        margin-top:16px
+    }
+
+    .diamond {
+        position: absolute;
+        width: 145px;
+        height: 145px;
+        background: #c79467;
+        transform: rotate(45deg);
+        left: calc(50% - 72px);
+        bottom:-85px
+    }
+
+    .ball {
+        position: absolute;
+        left: calc(50% - 12px);
+        width: 24px;
+        height: 24px;
+        background: #fff7e7;
+        border-radius: 50%;
+        border: 2px dashed #b54832;
+        top: 12px;
+        box-shadow:0 3px 6px #0003
+    }
+
+    .zone {
+        position: absolute;
+        bottom: 25px;
+        height: 55px;
+        width: 90px;
+        left: calc(50% - 45px);
+        border: 2px dashed #fff8;
+        border-radius:50%
+    }
+
+    .status {
+        min-height: 52px;
+        font-weight: bold;
+        padding:16px 0
+    }
+
+    .wide {
+        width:100%
+    }
+
+    .pop {
+        display: block;
+        margin: 25px auto 8px;
+        background: transparent;
+        width: 180px;
+        height: 240px;
+        position:relative
+    }
+
+    .sweet {
+        display: block;
+        width: 135px;
+        height: 135px;
+        border-radius: 50%;
+        margin: auto;
+        background: radial-gradient(circle at 35% 30%, #fdc37b, #cf5933 50%, #873625);
+        border: 7px solid #eead60;
+        box-shadow: inset -10px -10px 20px #0002, 4px 7px 0 #0001;
+        transition:transform .15s
+    }
+
+    .stick {
+        display: block;
+        height: 100px;
+        width: 12px;
+        background: #fff;
+        border: 1px solid #d3c8b5;
+        margin:-1px auto
+    }
+
+    .pop:active .sweet {
+        transform:scale(.93)
+    }
+
+    progress {
+        width: 100%;
+        accent-color: #b54832;
+        height:12px
+    }
+
+    .snickers {
+        background: #4c281b;
+        color: white;
+        border: 6px solid #78422a;
+        transform: rotate(-5deg);
+        padding: 30px 10px;
+        margin: 40px auto;
+        font-size: 30px;
+        font-style: italic;
+        font-weight: 900;
+        letter-spacing: 1px;
+        max-width:330px
+    }
+
+    .snickers span {
+        background: white;
+        color: #253d83;
+        border: 3px solid #d94837;
+        display:block
+    }
+
+    .note {
+        background: #fffaf0;
+        padding: 30px;
+        border: 1px solid #d6cbb6;
+        border-radius: 3px;
+        font: 22px/1.6 Georgia;
+        margin:22px 0
+    }
+
+    .ticket {
+        border: 2px dashed #b54832;
+        background: #f4dfb1;
+        padding: 22px;
+        color: #183a30;
+        width: 100%;
+        font:bold 23px Georgia
+    }
+
+    .confetti {
+        position: fixed;
+        top: -20px;
+        animation: fall 2s linear forwards;
+        pointer-events: none;
+        z-index:20
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh) rotate(500deg);
+            opacity:0
+        }
+    }
+
+    @media (max-width: 650px) {
+        main {
+            padding:30px 20px
+        }
+
+        .hero {
+            grid-template-columns: 1fr;
+            gap:16px
+        }
+
+        .hero > div:first-child {
+            text-align:center
+        }
+
+        h1 {
+            letter-spacing:-2.5px
+        }
+
+        .card {
+            max-width:255px
+        }
+
+        .portrait {
+            height:235px
+        }
+
+        .innings {
+            grid-template-columns:1fr
+        }
+
+        .tile {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: 45px 1fr;
+            gap:5px 15px
+        }
+
+        .tile small {
+            grid-column:1/-1
+        }
+
+        .tile span {
+            grid-row: 2/4;
+            margin:3px 0
+        }
+
+        .tile p {
+            margin:0
+        }
+
+        .divider {
+            margin-top:37px
+        }
+
+        .top {
+            letter-spacing: 1px;
+            font-size:10px
+        }
+
+        .note {
+            padding: 23px;
+            font-size:20px
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation: none !important;
+            transition: none !important
+        }
+    }
+
+    .field {
+        height: 340px;
+        background: radial-gradient(ellipse at 50% 115%, #c59468 0 27%, transparent 27.5%), repeating-linear-gradient(90deg, #315b3b 0 40px, #396743 40px 80px);
+        perspective: 600px;
+        border:5px solid #183a30
+    }
+
+    .field:before {
+        content: 'HENDRICKS FIELD · 400 FT';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: #15372c;
+        border-bottom: 5px solid #d1af64;
+        color: #fff3d0;
+        padding: 13px;
+        font: bold 11px monospace;
+        letter-spacing:2px
+    }
+
+    .diamond {
+        bottom:-55px
+    }
+
+    .zone {
+        bottom: 48px;
+        height: 58px;
+        width: 78px;
+        left: calc(50% - 39px);
+        box-shadow:0 0 20px #ffe1a433
+    }
+
+    .zone.ready {
+        border-color: #ffe18c;
+        background: #ffe18c44;
+        box-shadow:0 0 30px #ffe18c88
+    }
+
+    .plate {
+        position: absolute;
+        bottom: 16px;
+        left: calc(50% - 18px);
+        width: 36px;
+        height: 30px;
+        background: #fff2db;
+        clip-path:polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%)
+    }
+
+    .bat {
+        position: absolute;
+        width: 170px;
+        height: 52px;
+        left: calc(50% - 40px);
+        bottom: 35px;
+        transform-origin: 90% 50%;
+        transform: rotate(55deg);
+        z-index: 4;
+        pointer-events: none;
+        filter:drop-shadow(3px 5px 2px #0005)
+    }
+
+    .bat.swinging {
+        animation:swingBat .32s ease-in-out
+    }
+
+    .bat svg {
+        width: 100%;
+        height:100%
+    }
+
+    .ball {
+        top: 60px;
+        z-index: 3;
+        will-change:top, left, transform
+    }
+
+    .ball.hit {
+        animation:flyBall .8s ease-out forwards
+    }
+
+    .impact {
+        position: absolute;
+        bottom: 110px;
+        left: 0;
+        right: 0;
+        color: #ffecaa;
+        font: bold 35px Georgia;
+        opacity: 0;
+        z-index: 5;
+        text-shadow:2px 3px #183a30
+    }
+
+    .impact.burst {
+        animation:impact .9s ease-out forwards
+    }
+
+    .timing {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+        letter-spacing: 1px;
+        margin-top: 12px;
+        gap:10px
+    }
+
+    .track {
+        height: 10px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #d5c9b1 0 65%, #d8ad53 65% 78%, #59865b 78% 94%, #d8ad53 94%);
+        flex: 1;
+        position:relative
+    }
+
+    .needle {
+        position: absolute;
+        top: -4px;
+        width: 4px;
+        height: 18px;
+        background: #183a30;
+        left: 0;
+        border-radius:2px
+    }
+
+    .pitcher {
+        position: absolute;
+        left: calc(50% - 12px);
+        top: 58px;
+        font-size: 25px;
+        opacity:.65
+    }
+
+    .taphelp {
+        font-size: 12px;
+        margin:8px 0
+    }
+
+    .field {
+        touch-action: manipulation;
+        cursor:pointer
+    }
+
+    @keyframes swingBat {
+        0% {
+            transform:rotate(55deg)
+        }
+
+        50% {
+            transform:rotate(0deg)
+        }
+
+        100% {
+            transform:rotate(-85deg)
+        }
+    }
+
+    @keyframes flyBall {
+        0% {
+            top: 245px;
+            left: calc(50% - 12px);
+            transform:scale(1.25)
+        }
+
+        100% {
+            top: 44px;
+            left: 78%;
+            transform:scale(.15)
+        }
+    }
+
+    @keyframes impact {
+        0% {
+            opacity: 0;
+            transform:scale(.5)
+        }
+
+        20% {
+            opacity: 1;
+            transform:scale(1.1)
+        }
+
+        75% {
+            opacity:1
+        }
+
+        100% {
+            opacity: 0;
+            transform: translateY(-20px)
+        }
+    }
+
+    .trading-card {
+        display: block;
+        position: relative;
+        width: min(100%, 330px);
+        aspect-ratio: 5/7;
+        margin: 20px auto 36px;
+        padding: 0;
+        background: none;
+        border: 0;
+        border-radius: 14px;
+        color: #fff;
+        text-align: left;
+        perspective: 1400px;
+        transform: rotate(3deg);
+        -webkit-tap-highlight-color:transparent
+    }
+
+    .card-inner {
+        position: absolute;
+        inset: 0;
+        display: block;
+        transform-style: preserve-3d;
+        transition: transform .7s cubic-bezier(.2, .75, .2, 1);
+        box-shadow: 10px 14px 24px #142a2529;
+        border-radius:13px
+    }
+
+    .trading-card.flipped .card-inner {
+        transform:rotateY(180deg)
+    }
+
+    .card-front, .card-back {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 13px;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        border: 7px solid #c9cdd1;
+        background:#10161a
+    }
+
+    .card-front:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 8;
+        border: 1px solid #ffffffab;
+        border-radius: 5px;
+        background:linear-gradient(115deg, transparent 15%, #fff1 30%, transparent 45%, #d3e9ff17 62%, transparent 75%)
+    }
+
+    .tc-top {
+        height: 33px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 11px;
+        background: linear-gradient(120deg, #f2f4f4, #acb8bf, #e9ebed);
+        color: #152027;
+        font: 700 8px Arial;
+        letter-spacing: 1.2px;
+        flex-shrink:0
+    }
+
+    .tc-top b {
+        font-size: 10px;
+        letter-spacing:0
+    }
+
+    .tc-photo {
+        position: relative;
+        display: block;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        background:radial-gradient(ellipse at 60% 40%, #9aa8af88, transparent 55%), linear-gradient(160deg, #203a42, #101d27 65%, #080f13)
+    }
+
+    .tc-photo:before {
+        content: 'SOX';
+        position: absolute;
+        left: -9px;
+        top: 30%;
+        color: #ffffff09;
+        font: italic 900 110px Arial;
+        transform:rotate(-12deg)
+    }
+
+    .tc-photo:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        background: linear-gradient(transparent, #11181b);
+        z-index:3
+    }
+
+    .tc-photo img {
+        position: absolute;
+        height: 147%;
+        width: 100%;
+        max-width: none;
+        object-fit: contain;
+        object-position: top;
+        top: 6px;
+        left: 14px;
+        z-index: 2;
+        filter:drop-shadow(-10px 4px 10px #0008)
+    }
+
+    .tc-team {
+        position: absolute;
+        top: 14px;
+        left: 13px;
+        z-index: 4;
+        font: 8px Arial;
+        letter-spacing: 2px;
+        color: #d8e1e7;
+        line-height:1.8
+    }
+
+    .tc-team b {
+        font-size: 11px;
+        letter-spacing:1px
+    }
+
+    .tc-lines {
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(90deg, transparent 0 21px, #fff07 22px 23px);
+        transform: skew(-15deg);
+        opacity:.5
+    }
+
+    .tc-seal {
+        position: absolute;
+        right: 10px;
+        bottom: 17px;
+        z-index: 5;
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(130deg, #ffe8a2, #b78d3e, #f5d78b);
+        color: #352a14;
+        border: 3px double #5e4b23;
+        border-radius: 50%;
+        text-align: center;
+        padding: 8px 0;
+        font: 700 7px Arial;
+        line-height: 1.45;
+        transform:rotate(12deg)
+    }
+
+    .tc-seal strong {
+        display: block;
+        font:900 21px Georgia
+    }
+
+    .tc-autograph {
+        position: absolute;
+        bottom: 10px;
+        left: 11px;
+        z-index: 5;
+        font: italic 27px cursive;
+        color: #ecf0f3;
+        transform: rotate(-10deg);
+        text-shadow:1px 1px #000
+    }
+
+    .tc-name {
+        position: relative;
+        display: block;
+        background: linear-gradient(110deg, #eff2f3, #bac6cd 55%, #f2f3f3);
+        padding: 8px 12px 10px;
+        color: #111d25;
+        border-top: 3px solid #fff;
+        box-shadow: 0 -6px 0 #748792;
+        z-index:6
+    }
+
+    .tc-name small {
+        font: 800 9px Arial;
+        letter-spacing: 4px;
+        display:block
+    }
+
+    .tc-name strong {
+        display: block;
+        font: 900 clamp(25px, 6vw, 35px) /1.1 'Arial Black', Arial;
+        letter-spacing:-1px
+    }
+
+    .tc-name > span {
+        display: block;
+        font: 700 7px Arial;
+        letter-spacing: 1.4px;
+        margin-top:5px
+    }
+
+    .tc-name i {
+        font-style: normal;
+        margin: 0 4px;
+        color:#546a78
+    }
+
+    .tc-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px 10px;
+        background: #111b21;
+        color: #cbd3d9;
+        font: 700 7px Arial;
+        letter-spacing: 1.1px;
+        flex-shrink:0
+    }
+
+    .tc-bottom b {
+        color: #e6c679;
+        font-size:10px
+    }
+
+    .flip-hint {
+        position: absolute;
+        top: calc(100% + 13px);
+        left: 0;
+        right: 0;
+        text-align: center;
+        font: 700 9px Arial;
+        letter-spacing: 2px;
+        color:#647369
+    }
+
+    .card-back {
+        transform: rotateY(180deg);
+        background: #e9e5da;
+        color:#192b33
+    }
+
+    .back-title {
+        display: block;
+        font: 900 29px Arial;
+        letter-spacing: -1px;
+        padding:23px 16px 2px
+    }
+
+    .back-role {
+        display: block;
+        font: 700 8px Arial;
+        letter-spacing: 1.3px;
+        margin:0 16px 16px
+    }
+
+    .stat-table {
+        display: block;
+        border: 1px solid #829096;
+        margin: 0 16px;
+        font-size:10px
+    }
+
+    .stat-table > span {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+        border-bottom:1px solid #abb4b4
+    }
+
+    .stat-table > span:first-child {
+        background: #203540;
+        color: white;
+        font-size: 8px;
+        letter-spacing:1px
+    }
+
+    .stat-table > span:last-child {
+        border-bottom:0
+    }
+
+    .stat-table strong {
+        font-weight:normal
+    }
+
+    .back-note {
+        display: block;
+        font: italic 16px/1.45 Georgia;
+        margin:17px 18px 5px
+    }
+
+    .back-sign {
+        display: block;
+        font: italic 17px Georgia;
+        margin:6px 18px
+    }
+
+    .back-ball {
+        display: block;
+        text-align: right;
+        margin: auto 17px 10px;
+        font-size:20px
+    }
+
+    .card-back > .tc-bottom {
+        margin-top:auto
+    }
+
+    .screen > .trading-card {
+        max-width: 310px;
+        margin:28px auto 46px
+    }
+
+    @media (max-width: 650px) {
+        .trading-card {
+            width: 280px;
+            max-width: 90%;
+            margin-top:23px
+        }
+
+        .tc-photo img {
+            height:147%
+        }
+
+        .back-title {
+            padding-top: 16px;
+            font-size:26px
+        }
+
+        .back-role {
+            margin-bottom:10px
+        }
+
+        .stat-table > span {
+            padding:7px
+        }
+
+        .back-note {
+            font-size: 14px;
+            margin-top:12px
+        }
+
+        .tc-name strong {
+            font-size: 30px
+        }
+    }
+
+    .real-back {
+        background: #e7dfcc;
+        color: #20272a;
+        border-color: #c5c8ca;
+        padding: 0 13px;
+        font-family: Arial, sans-serif;
+        background-image:repeating-linear-gradient(0deg, #00000003 0 1px, transparent 1px 3px)
+    }
+
+    .rb-header {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        border-bottom: 3px solid #25323a;
+        padding: 13px 0 9px;
+        flex-shrink:0
+    }
+
+    .rb-number {
+        border: 2px solid #25323a;
+        border-radius: 50%;
+        width: 29px;
+        height: 29px;
+        display: grid;
+        place-items: center;
+        font: bold 13px Arial;
+        flex-shrink:0
+    }
+
+    .rb-heading {
+        display: block;
+        flex:1
+    }
+
+    .rb-heading small {
+        display: block;
+        font: 700 9px Arial;
+        letter-spacing:3px
+    }
+
+    .rb-heading strong {
+        display: block;
+        font: 900 26px/.95 'Arial Black', Arial;
+        letter-spacing:-1px
+    }
+
+    .rb-heading i {
+        display: block;
+        font: 700 8px Arial;
+        letter-spacing: 1px;
+        margin-top: 5px;
+        font-style:normal
+    }
+
+    .rb-ball {
+        font-size: 24px;
+        filter:grayscale(1)
+    }
+
+    .rb-profile {
+        display: block;
+        font: 8px/1.8 Arial;
+        padding: 8px 0;
+        letter-spacing: .15px;
+        border-bottom: 1px solid #586167;
+        flex-shrink:0
+    }
+
+    .rb-profile b {
+        margin-right: 5px;
+        font-size:7px
+    }
+
+    .rb-rule {
+        display: block;
+        font: 700 7px Arial;
+        letter-spacing: 1.2px;
+        padding: 6px 0;
+        border-bottom: 1px solid #586167;
+        text-align: center;
+        flex-shrink:0
+    }
+
+    .rb-bio {
+        display: block;
+        font: 11px/1.45 Georgia;
+        margin: 9px 0;
+        flex-shrink:0
+    }
+
+    .rb-stat-title {
+        display: block;
+        text-align: center;
+        background: #25323a;
+        color: #e7dfcc;
+        font: bold 8px Arial;
+        letter-spacing: 1px;
+        padding: 6px;
+        flex-shrink:0
+    }
+
+    .rb-stats {
+        width: 100%;
+        border-collapse: collapse;
+        font: 8px Arial;
+        table-layout: fixed;
+        margin: 0;
+        border-bottom:2px solid #25323a
+    }
+
+    .rb-stats th, .rb-stats td {
+        text-align: right;
+        padding: 5px 2px;
+        border-bottom:1px solid #8b8b80
+    }
+
+    .rb-stats th:first-child, .rb-stats td:first-child {
+        text-align: left;
+        width: 34%;
+        font-size:7px
+    }
+
+    .rb-stats th {
+        font-size:7px
+    }
+
+    .rb-stats tbody tr:last-child {
+        font-weight:bold
+    }
+
+    .rb-stat-key {
+        display: block;
+        font: italic 7px Georgia;
+        margin:5px 0 8px
+    }
+
+    .rb-fact {
+        display: flex;
+        border-top: 1px solid #25323a;
+        border-bottom: 1px solid #25323a;
+        padding: 8px 0;
+        gap:8px
+    }
+
+    .rb-fact > b {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font: 900 9px Arial;
+        letter-spacing: 1px;
+        border-left: 2px solid #25323a;
+        padding-left:5px
+    }
+
+    .rb-fact > span {
+        font:italic 11px/1.4 Georgia
+    }
+
+    .rb-sign {
+        display: block;
+        font: italic 17px Georgia;
+        text-align: right;
+        margin:7px 2px 9px
+    }
+
+    .rb-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding: 7px 0 5px;
+        border-top:2px solid #25323a
+    }
+
+    .rb-brand {
+        display: block;
+        font: 900 italic 12px Arial;
+        letter-spacing:-.5px
+    }
+
+    .rb-brand small {
+        display: block;
+        font: 700 5px Arial;
+        letter-spacing: 1px;
+        margin-top:2px
+    }
+
+    .rb-serial {
+        text-align: right;
+        font: 6px/1.5 Arial;
+        letter-spacing:1px
+    }
+
+    .rb-serial b {
+        font: 900 12px monospace;
+        letter-spacing:1px
+    }
+
+    .rb-legal {
+        display: block;
+        font: 5px/1.5 Arial;
+        text-align: center;
+        padding-bottom: 6px;
+        letter-spacing:.15px
+    }
+
+    @media (max-width: 650px) {
+        .real-back {
+            padding:0 10px
+        }
+
+        .rb-header {
+            padding: 9px 0 7px;
+            gap:7px
+        }
+
+        .rb-heading strong {
+            font-size:23px
+        }
+
+        .rb-heading small {
+            font-size:8px
+        }
+
+        .rb-heading i {
+            font-size:7px
+        }
+
+        .rb-number {
+            width: 25px;
+            height: 25px;
+            font-size:11px
+        }
+
+        .rb-ball {
+            font-size:19px
+        }
+
+        .rb-profile {
+            padding: 5px 0;
+            font-size:7px
+        }
+
+        .rb-rule {
+            padding: 5px 0;
+            font-size:6px
+        }
+
+        .rb-bio {
+            font-size: 10px;
+            margin:7px 0
+        }
+
+        .rb-stats th, .rb-stats td {
+            padding:4px 2px
+        }
+
+        .rb-stat-title {
+            font-size: 7px;
+            padding:5px
+        }
+
+        .rb-stat-key {
+            font-size: 6px;
+            margin:4px 0 6px
+        }
+
+        .rb-fact {
+            padding:6px 0
+        }
+
+        .rb-fact > span {
+            font-size:10px
+        }
+
+        .rb-sign {
+            font-size: 15px;
+            margin:5px 2px 6px
+        }
+
+        .rb-footer {
+            padding: 5px 0 4px
+        }
+    }
+
+    .innings {
+        grid-template-columns:repeat(2, 1fr)
+    }
+
+    .puzzle-controls {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin:18px 0
+    }
+
+    .puz-option {
+        border: 1px solid #c6bda8;
+        background: #fff8e9;
+        border-radius: 25px;
+        padding: 10px 15px;
+        color: #183a30;
+        font-size:12px
+    }
+
+    .puz-option.chosen {
+        background: #183a30;
+        color:#fff8e9
+    }
+
+    .puz-score {
+        display: flex;
+        justify-content: space-between;
+        max-width: 330px;
+        margin: 12px auto;
+        font: 700 11px monospace;
+        letter-spacing:1px
+    }
+
+    .puzzle-frame {
+        position: relative;
+        max-width: 330px;
+        margin: auto;
+        padding: 8px;
+        background: #fffaf1;
+        border: 1px solid #cfc6b4;
+        box-shadow: 5px 7px 0 #183a3014;
+        border-radius:5px
+    }
+
+    .puzzleboard {
+        display: grid;
+        aspect-ratio: 3/4;
+        gap: 3px;
+        background: #183a30;
+        border-radius: 2px;
+        overflow:hidden
+    }
+
+    .puz-piece {
+        min-height: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background-image: url('maria-hendricks.jpg');
+        position: relative;
+        touch-action: manipulation;
+        transition:filter .15s
+    }
+
+    .puz-piece.selected {
+        outline: 4px solid #f7ce73;
+        outline-offset: -4px;
+        filter: brightness(1.18);
+        z-index:2
+    }
+
+    .puz-piece:focus-visible {
+        outline: 3px solid #f7ce73;
+        outline-offset: -3px;
+        z-index:3
+    }
+
+    .puz-piece span {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #fffbe6dc;
+        color: #183a30;
+        border-radius: 50%;
+        width: 17px;
+        height: 17px;
+        font: bold 10px/17px Arial;
+        opacity:0
+    }
+
+    .puzzleboard.finished {
+        gap:0
+    }
+
+    .puzzleboard.finished .puz-piece {
+        cursor:default
+    }
+
+    .puzpeek {
+        position: absolute;
+        inset: 8px;
+        width: calc(100% - 16px);
+        height: calc(100% - 16px);
+        object-fit: cover;
+        border-radius:2px
+    }
+
+    .puzpeek[hidden] {
+        display:none
+    }
+
+    #puzzle .status {
+        font-size:13px
+    }
+
+    #puzreward {
+        max-width: 430px;
+        margin:auto auto 24px
+    }
+
+    @media (max-width: 650px) {
+        .innings {
+            grid-template-columns:1fr
+        }
+
+        .puzzle-frame, .puz-score {
+            max-width: 300px
+        }
+    }
+
+    .rb-facts {
+        display: block;
+        margin:12px 0
+    }
+
+    .rb-facts > span {
+        display: block;
+        padding: 9px 0;
+        border-bottom:1px solid #9b9e91
+    }
+
+    .rb-facts b {
+        display: block;
+        font: 700 7px Arial;
+        letter-spacing: 1px;
+        margin-bottom:4px
+    }
+
+    .rb-facts strong {
+        font:13px Georgia
+    }
+
+    .real-back .rb-bio {
+        display:none
+    }
+
+    .card-front, .card-back {
+        backface-visibility: hidden;
+        -webkit-backface-visibility:hidden
+    }
+
+    .card-front {
+        transform:rotateY(0deg) translateZ(1px)
+    }
+
+    .card-back {
+        transform:rotateY(180deg) translateZ(1px)
+    }
+
+    @media (max-width: 650px) {
+        .rb-facts > span {
+            padding:7px 0
+        }
+
+        .rb-facts strong {
+            font-size:12px
+        }
+    }
+
+    .music-toggle {
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        z-index: 30;
+        border: 1px solid #bcb49f;
+        border-radius: 28px;
+        background: #fff9eaf2;
+        color: #183a30;
+        box-shadow: 0 3px 15px #0002;
+        padding: 10px 16px;
+        font-size: 12px;
+        min-height:44px
+    }
+
+    footer {
+        padding-bottom: 75px
+    }
+    </style>
+</head>
+<body>
+    <header class="top">
+        <span>HENDRICKS’ SWEET SPOT</span>
+        <span class="mark">EST. JUST BECAUSE ♡</span>
+    </header>
+    <button id="musicToggle" class="music-toggle" onclick="toggleMusic(event)" aria-pressed="false" aria-label="Turn background music on">♫ Music off</button>
+    <main>
+        <div class="home" id="home">
+            <section class="hero">
+                <div>
+                    <div class="eyebrow">A little love. A little baseball.</div>
+                    <h1>
+                        Hey, Hendricks.
+                        <br>
+                        <em>You’re a catch.</em>
+                    </h1>
+                    <p>
+                        No special occasion. Just your biggest fan,
+                        <br>
+                        reminding you you’re her favorite MVP.
+                    </p>
+                    <button class="cta" onclick="show('baseball')">Step up to the plate ↗</button>
+                    <div class="sub">FOUR LITTLE INNINGS. ALL FOR YOU. — MARIA</div>
+                </div>
+                <button class="trading-card" aria-label="Flip Hendricks MVP trading card" aria-pressed="false" onclick="this.classList.toggle('flipped');this.setAttribute('aria-pressed',this.classList.contains('flipped'))">
+                    <span class="card-inner">
+                        <span class="card-front">
+                            <span class="tc-top">
+                                <span>THE SWEET SPOT COLLECTION</span>
+                                <b>№ 01</b>
+                            </span>
+                            <span class="tc-photo">
+                                <span class="tc-team">
+                                    CHICAGO
+                                    <br>
+                                    <b>WHITE SOX</b>
+                                </span>
+                                <span class="tc-lines"></span>
+                                <img src="hendricks-sox.png" alt="Hendricks in his White Sox uniform">
+                                <span class="tc-seal">
+                                    MARIA’S
+                                    <br>
+                                    <strong>MVP</strong>
+                                    <br>
+                                    FIRST PICK
+                                </span>
+                                <span class="tc-autograph">Hendricks</span>
+                            </span>
+                            <span class="tc-name">
+                                <small>WAYNE</small>
+                                <strong>HENDRICKS</strong>
+                                <span>
+                                    COACH 
+                                    <i>★</i>
+                                     HUSBAND 
+                                    <i>★</i>
+                                     ALL-STAR
+                                </span>
+                            </span>
+                            <span class="tc-bottom">
+                                <span>JUST BECAUSE EDITION</span>
+                                <b>1 OF 1</b>
+                            </span>
+                        </span>
+                        <span class="card-back real-back">
+                            <span class="rb-header">
+                                <span class="rb-number">01</span>
+                                <span class="rb-heading">
+                                    <small>WAYNE</small>
+                                    <strong>HENDRICKS</strong>
+                                    <i>BASEBALL • COACH</i>
+                                </span>
+                                <span class="rb-ball">⚾</span>
+                            </span>
+                            <span class="rb-profile">
+                                <b>FAVORITE CLUB</b>
+                                 CHICAGO WHITE SOX
+                            </span>
+                            <span class="rb-rule">EXCLUSIVE PERSONAL COLLECTION</span>
+                            <span class="rb-bio">A coach at the ballpark. An all-star at home. Hendricks brings his love of baseball to the field—and gives his biggest fan plenty to cheer for.</span>
+                            <span class="rb-facts">
+                                <span>
+                                    <b>NAME</b>
+                                    <strong>Wayne Hendricks</strong>
+                                </span>
+                                <span>
+                                    <b>ON THE FIELD</b>
+                                    <strong>Baseball coach</strong>
+                                </span>
+                                <span>
+                                    <b>FAVORITE TEAM</b>
+                                    <strong>Chicago White Sox</strong>
+                                </span>
+                                <span>
+                                    <b>MARRIED TO</b>
+                                    <strong>Maria</strong>
+                                </span>
+                            </span>
+                            <span class="rb-footer">
+                                <span class="rb-brand">
+                                    SWEET SPOT
+                                    <small>BASEBALL COLLECTION</small>
+                                </span>
+                                <span class="rb-serial">
+                                    LIMITED EDITION
+                                    <br>
+                                    <b>001 / 001</b>
+                                </span>
+                            </span>
+                            <span class="rb-legal">PERSONAL COMMEMORATIVE CARD • NOT AFFILIATED WITH MLB OR THE CHICAGO WHITE SOX.</span>
+                        </span>
+                    </span>
+                    <span class="flip-hint">↻ TAP CARD TO FLIP</span>
+                </button>
+            </section>
+            <div class="divider">YOUR JUST-BECAUSE LINEUP</div>
+            <section class="innings">
+                <button class="tile" onclick="show('baseball')">
+                    <small>01 / THE BALLPARK</small>
+                    <span>⚾</span>
+                    <b>Home run, handsome.</b>
+                    <p>Time your swing. Make your biggest fan proud.</p>
+                </button>
+                <button class="tile" onclick="show('candy')">
+                    <small>02 / THE SWEET STUFF</small>
+                    <span>🍭</span>
+                    <b>Get to the good part.</b>
+                    <p>A Snickers, a lollipop, and a few sweet words.</p>
+                </button>
+                <button class="tile" onclick="show('love')">
+                    <small>03 / THE REAL PRIZE</small>
+                    <span>♡</span>
+                    <b>Always my MVP.</b>
+                    <p>A little something from the woman in your corner.</p>
+                </button>
+                <button class="tile" onclick="openPuzzle()">
+                    <small>04 / OUR PERFECT MATCH</small>
+                    <span>🧩</span>
+                    <b>Better together.</b>
+                    <p>Piece together a favorite moment of us.</p>
+                </button>
+            </section>
+        </div>
+        <section id="baseball" class="screen">
+            <button class="back" onclick="show('home')">← Back to the clubhouse</button>
+            <div class="eyebrow">Inning 01 · Home run derby</div>
+            <h2>Send it out of the park.</h2>
+            <p>Tap “Pitch,” then tap the field or “Swing” as the ball enters the gold circle. Watch the bat connect. Three home runs wins it.</p>
+            <div class="score">
+                <span>
+                    HOME RUNS 
+                    <b id="runs">0</b>
+                    /3
+                </span>
+                <span>
+                    SWINGS 
+                    <b id="swings">0</b>
+                </span>
+            </div>
+            <div class="field" onclick="if(flying)play()" aria-label="Baseball field">
+                <div class="pitcher">⚾</div>
+                <div class="diamond"></div>
+                <div id="zone" class="zone"></div>
+                <div class="plate"></div>
+                <div id="ball" class="ball"></div>
+                <div id="bat" class="bat">
+                    <svg viewBox="0 0 200 60" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="wood" x2="0" y2="1">
+                                <stop stop-color="#f7d7a0"/>
+                                <stop offset=".45" stop-color="#d69d56"/>
+                                <stop offset="1" stop-color="#9e632e"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M18 13Q2 13 2 30T18 47L105 40Q120 36 145 35L182 35L182 40Q195 43 197 33L197 27Q195 17 182 20L182 25L145 25Q120 24 105 20Z" fill="url(#wood)" stroke="#75431d" stroke-width="2"/>
+                        <path d="M20 23L100 27M20 35L95 32" stroke="#ae763b" opacity=".5" fill="none"/>
+                        <path d="M153 25v10m7-10v10m7-10v10m7-10v10" stroke="#352b25" stroke-width="4"/>
+                        <text x="38" y="34" font-size="9" fill="#75431d" font-family="Georgia">HENDRICKS</text>
+                    </svg>
+                </div>
+                <div id="impact" class="impact">HOME RUN!</div>
+            </div>
+            <div class="timing">
+                <span>EARLY</span>
+                <div class="track">
+                    <i id="needle" class="needle"></i>
+                </div>
+                <span>SWEET SPOT ↗</span>
+            </div>
+            <div class="taphelp">Tap the field to swing, or use the button below.</div>
+            <div id="status" class="status" aria-live="polite">Your biggest fan is in the stands.</div>
+            <button id="swing" class="cta wide" onclick="play()">Pitch ⚾</button>
+            <button class="back" onclick="show('candy')">Visit the candy stand →</button>
+        </section>
+        <section id="candy" class="screen">
+            <button class="back" onclick="show('home')">← Back to the clubhouse</button>
+            <div class="eyebrow">Inning 02 · The candy stand</div>
+            <h2>You’ve got a sweet spot.</h2>
+            <p>And Maria knows exactly what it is.</p>
+            <button class="snickers" onclick="unwrap()" aria-label="Unwrap your Snickers">
+                <span>SNICKERS</span>
+            </button>
+            <div id="chocolate" class="status" aria-live="polite">Tap your Snickers to unwrap a little love.</div>
+            <hr style="border:0;border-top:1px solid #d6cbb6">
+            <h2 style="font-size:32px">How many licks?</h2>
+            <p>Tap the pop to discover what’s at the center.</p>
+            <button class="pop" onclick="lick()" aria-label="Lick the lollipop">
+                <span id="sweet" class="sweet"></span>
+                <span class="stick"></span>
+            </button>
+            <progress id="progress" max="15" value="0"></progress>
+            <div id="licknote" class="status" aria-live="polite">0 / 15 · Let’s find the sweet stuff.</div>
+            <button class="cta" onclick="show('love')">On to the real prize ♡</button>
+        </section>
+        <section id="love" class="screen">
+            <button class="back" onclick="show('home')">← Back to the clubhouse</button>
+            <div class="eyebrow">Inning 03 · A note from Maria</div>
+            <h2>
+                My favorite team?
+                <br>
+                You and me.
+            </h2>
+            <div class="note">
+                No special occasion, Hendricks. Just a little reminder that you’re my favorite person to root for. Life with you is my sweet spot.
+                <br>
+                <br>
+                Love, Maria ♡
+            </div>
+            <button id="ticket" class="ticket" onclick="claim()">
+                ADMIT ONE ♡
+                <br>
+                <small>REDEEM FOR A KISS FROM MARIA</small>
+            </button>
+            <p style="font-size:12px">Valid for your next moment together. No expiration date.</p>
+            <div style="margin-top:24px">
+                <button class="cta" onclick="openPuzzle()">Our perfect match · Inning 04 →</button>
+            </div>
+            <button class="back" onclick="reset()">↻ Play another round</button>
+        </section>
+        <section id="puzzle" class="screen">
+            <button class="back" onclick="show('home')">← Back to the clubhouse</button>
+            <div class="eyebrow">Inning 04 · Our perfect match</div>
+            <h2>We fit together.</h2>
+            <p>
+                Tap one piece, then another to swap them.
+                <br>
+                A little teamwork brings us back together.
+            </p>
+            <div class="puzzle-controls">
+                <button id="easy" class="puz-option chosen" onclick="newPuzzle(2,3)">6 pieces</button>
+                <button id="hard" class="puz-option" onclick="newPuzzle(3,3)">9 pieces</button>
+                <button class="puz-option" id="peekbtn" onclick="peekPuzzle()" aria-pressed="false">♡ Peek at us</button>
+            </div>
+            <div class="puz-score">
+                <span id="puzmoves">0 swaps</span>
+                <span id="puzcorrect">0 / 6 in place</span>
+            </div>
+            <div class="puzzle-frame">
+                <div id="puzzleboard" class="puzzleboard" aria-label="Photo puzzle"></div>
+                <img id="puzpeek" class="puzpeek" src="maria-hendricks.jpg" alt="Maria kissing Hendricks at the beach" hidden>
+            </div>
+            <div class="status" id="puzstatus" aria-live="polite">Choose two pieces to swap. No rush, handsome.</div>
+            <div id="puzreward" hidden>
+                <div class="note">
+                    Of all the pieces of my life, you’re my favorite.
+                    <br>
+                    <br>
+                    My favorite teammate. My perfect match.
+                    <br>
+                    <em>Love, Maria ♡</em>
+                </div>
+            </div>
+            <button class="cta" onclick="newPuzzle(puzcols,puzrows)">↻ Shuffle &amp; play again</button>
+            <p class="sub">A LITTLE MOMENT OF US. A WHOLE LOT OF LOVE.</p>
+        </section>
+    </main>
+    <footer>MADE WITH LOVE, FROM YOUR BIGGEST FAN ♡</footer>
+    <script>
+    let runs = 0,
+        swings = 0,
+        flying = false,
+        start = 0,
+        raf,
+        licks = 0,
+        unwrapped = false;
+    const $ = id => document.getElementById(id);
+    function show(id) {
+        cancelAnimationFrame(raf);
+        flying = false;
+        $('swing').textContent = runs >= 3 ? 'Play again ⚾' : 'Pitch ⚾';
+        $('home').classList.toggle('hidden', id !== 'home');
+        document.querySelectorAll('.screen').forEach(e => e.classList.toggle('active', e.id === id));
+        window.scrollTo({
+            top: 0,
+            behavior: 'instant'
+        })
+    }
+    function party() {
+        for (let i = 0; i < 28; i++) {
+            let e = document.createElement('span');
+            e.className = 'confetti';
+            e.textContent = ['♡', '⚾', '✦'][i % 3];
+            e.style.left = Math.random() * 100 + 'vw';
+            e.style.animationDelay = Math.random() * .5 + 's';
+            e.style.color = ['#b54832', '#d8a64c', '#315d44'][i % 3];
+            document.body.append(e);
+            setTimeout(() => e.remove(), 2800)
+        }
+    }
+    function play() {
+        if (runs >= 3) {
+            runs = 0;
+            swings = 0;
+            $('runs').textContent = 0;
+            $('swings').textContent = 0
+        }
+        if (!flying) {
+            flying = true;
+            start = performance.now();
+            $('ball').classList.remove('hit');
+            $('ball').style.left = 'calc(50% - 12px)';
+            $('ball').style.transform = 'scale(.45)';
+            $('bat').classList.remove('swinging');
+            $('impact').classList.remove('burst');
+            $('swing').textContent = 'SWING! ⚾';
+            $('status').textContent = 'Here comes the pitch…';
+            function animate(now) {
+                let t = (now - start) / 2000;
+                $('ball').style.top = (60 + 217 * Math.min(t, 1)) + 'px';
+                $('ball').style.transform = 'scale(' + (.45 + t * .85) + ')';
+                $('needle').style.left = Math.min(t * 100, 98) + '%';
+                $('zone').classList.toggle('ready', t >= .72 && t <= .96);
+                if (t >= 1) {
+                    flying = false;
+                    swings++;
+                    $('swings').textContent = swings;
+                    $('zone').classList.remove('ready');
+                    $('status').textContent = 'Just missed it! You’ve got the next one.';
+                    $('swing').textContent = 'Pitch again ⚾'
+                } else
+                    raf = requestAnimationFrame(animate)
+            }
+            raf = requestAnimationFrame(animate)
+        } else {
+            let t = (performance.now() - start) / 2000;
+            cancelAnimationFrame(raf);
+            flying = false;
+            swings++;
+            $('swings').textContent = swings;
+            $('bat').classList.remove('swinging');
+            void $('bat').offsetWidth;
+            $('bat').classList.add('swinging');
+            $('zone').classList.remove('ready');
+            if (t >= .72 && t <= 1) {
+                runs++;
+                $('runs').textContent = runs;
+                setTimeout(() => {
+                    $('ball').classList.add('hit');
+                    $('impact').textContent = t >= .8 && t <= .94 ? 'OUT OF THE PARK!' : 'HOME RUN!';
+                    $('impact').classList.add('burst');
+                    party()
+                }, 110);
+                $('status').textContent = runs === 3 ? 'Three home runs! That’s my coach. ♡' : 'CRACK! Home run! Maria goes wild in the stands.'
+            } else {
+                $('status').textContent = t < .5 ? 'A little early, handsome. Let it come to you.' : 'So close! Wait for the gold circle.';
+                $('ball').style.top = '300px'
+            }
+            $('swing').textContent = runs === 3 ? 'Play again ⚾' : 'Pitch again ⚾'
+        }
+    }
+    function unwrap() {
+        unwrapped = !unwrapped;
+        $('chocolate').textContent = unwrapped ? 'A little nutty about you. A whole lot in love with you. ♡' : 'Tap your Snickers to unwrap a little love.';
+        if (unwrapped)
+            party()
+    }
+    function lick() {
+        if (licks >= 15)
+            return;
+        licks++;
+        $('progress').value = licks;
+        $('sweet').style.scale = 1 - licks * .027;
+        let msg = licks < 5 ? 'Sweet, but you’re sweeter.' : licks < 10 ? 'Still my favorite catch.' : licks < 15 ? 'Almost at the heart of it…' : 'The center? You’ve had my heart all along. ♡';
+        $('licknote').textContent = licks + ' / 15 · ' + msg;
+        if (licks === 15) {
+            $('sweet').style.background = 'radial-gradient(circle at 30% 30%,#ad7757,#4d281a)';
+            party()
+        }
+    }
+    function claim() {
+        $('ticket').innerHTML = 'KISS CLAIMED ♡<br><small>PLEASE REPORT TO MARIA</small>';
+        party()
+    }
+    function reset() {
+        runs = swings = licks = 0;
+        unwrapped = false;
+        $('runs').textContent = 0;
+        $('swings').textContent = 0;
+        $('progress').value = 0;
+        $('sweet').style.scale = 1;
+        $('sweet').style.background = '';
+        $('licknote').textContent = '0 / 15 · Let’s find the sweet stuff.';
+        $('chocolate').textContent = 'Tap your Snickers to unwrap a little love.';
+        $('ticket').innerHTML = 'ADMIT ONE ♡<br><small>REDEEM FOR A KISS FROM MARIA</small>';
+        show('home')
+    }
+
+    let puzcols = 2,
+        puzrows = 3,
+        puzpieces = [],
+        puzselected = -1,
+        puzswaps = 0,
+        puzdone = false,
+        puzstarted = false;
+    function openPuzzle() {
+        if (!puzstarted)
+            newPuzzle(2, 3);
+        show('puzzle')
+    }
+    function newPuzzle(cols, rows) {
+        puzstarted = true;
+        puzcols = cols;
+        puzrows = rows;
+        puzswaps = 0;
+        puzselected = -1;
+        puzdone = false;
+        let n = cols * rows;
+        puzpieces = Array.from({
+            length: n
+        }, (_, i) => i);
+        do {
+            for (let i = n - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [puzpieces[i], puzpieces[j]] = [puzpieces[j], puzpieces[i]]
+            }
+        } while (puzpieces.every((v, i) => v === i));
+        $('puzreward').hidden = true;
+        $('puzpeek').hidden = true;
+        $('peekbtn').setAttribute('aria-pressed', 'false');
+        $('easy').classList.toggle('chosen', cols === 2);
+        $('hard').classList.toggle('chosen', cols === 3);
+        $('puzstatus').textContent = 'Choose two pieces to swap. No rush, handsome.';
+        renderPuzzle()
+    }
+    function renderPuzzle() {
+        let board = $('puzzleboard');
+        board.style.gridTemplateColumns = 'repeat(' + puzcols + ',1fr)';
+        board.style.gridTemplateRows = 'repeat(' + puzrows + ',1fr)';
+        board.classList.toggle('finished', puzdone);
+        board.innerHTML = '';
+        puzpieces.forEach((piece, i) => {
+            let el = document.createElement('button');
+            el.className = 'puz-piece' + (i === puzselected ? ' selected' : '');
+            el.style.backgroundSize = (puzcols * 100) + '% ' + (puzrows * 100) + '%';
+            el.style.backgroundPosition = (piece % puzcols) / (puzcols - 1) * 100 + '% ' + Math.floor(piece / puzcols) / (puzrows - 1) * 100 + '%';
+            el.setAttribute('aria-label', 'Puzzle position ' + (i + 1) + (i === puzselected ? ', selected' : ''));
+            el.setAttribute('aria-pressed', i === puzselected ? 'true' : 'false');
+            el.disabled = puzdone;
+            el.onclick = () => swapPuzzle(i);
+            board.append(el)
+        });
+        $('puzmoves').textContent = puzswaps + ' swap' + (puzswaps === 1 ? '' : 's');
+        $('puzcorrect').textContent = puzpieces.filter((v, i) => v === i).length + ' / ' + puzpieces.length + ' in place'
+    }
+    function swapPuzzle(i) {
+        if (puzdone)
+            return;
+        if (!$('puzpeek').hidden) {
+            $('puzpeek').hidden = true;
+            $('peekbtn').setAttribute('aria-pressed', 'false')
+        }
+        if (puzselected < 0) {
+            puzselected = i;
+            $('puzstatus').textContent = 'Now tap the piece you want to swap with.'
+        } else if (puzselected === i) {
+            puzselected = -1;
+            $('puzstatus').textContent = 'Selection cleared. Pick any two pieces.'
+        } else {
+            [puzpieces[i], puzpieces[puzselected]] = [puzpieces[puzselected], puzpieces[i]];
+            puzselected = -1;
+            puzswaps++;
+            puzdone = puzpieces.every((v, j) => v === j);
+            if (puzdone) {
+                $('puzstatus').textContent = 'A perfect match. Just like us. ♡';
+                $('puzreward').hidden = false;
+                party()
+            } else
+                $('puzstatus').textContent = 'A little closer. We make a good team.'
+        }
+        renderPuzzle()
+    }
+    function peekPuzzle() {
+        let peek = $('puzpeek');
+        peek.hidden = !peek.hidden;
+        $('peekbtn').setAttribute('aria-pressed', String(!peek.hidden));
+        $('puzstatus').textContent = peek.hidden ? 'Back to the pieces. You’ve got this.' : 'That’s the picture we’re making. Tap “Peek at us” to return.'
+    }
+
+    // Original browser-synthesized instrumental of the 1908 ballpark melody.
+    let musicCtx,
+        musicBus,
+        musicOn = false,
+        musicTimer,
+        musicNext = 0,
+        musicIndex = 0,
+        musicNodes = new Set(),
+        musicChoice = false;
+    const ballparkNotes = [
+    ['G4', 1], ['G5', 2], ['E5', 1], ['D5', 1], ['B4', 1], ['D5', 3], ['A4', 3],
+    ['G4', 1], ['G5', 2], ['E5', 1], ['D5', 1], ['B4', 1], ['D5', 6],
+    ['E5', 1], ['D#5', 1], ['E5', 1], ['B4', 1], ['C5', 1], ['D5', 1], ['E5', 2], ['C5', 1], ['A4', 3],
+    ['E5', 1], ['E5', 1], ['E5', 1], ['F#5', 1], ['G5', 1], ['A5', 1], ['F#5', 1], ['E5', 1], ['D5', 1], ['B4', 1], ['A4', 2],
+    ['G4', 1], ['G5', 2], ['E5', 1], ['D5', 1], ['B4', 1], ['D5', 3], ['A4', 2], ['A4', 1],
+    ['G4', 1], ['A4', 1], ['B4', 1], ['C5', 1], ['D5', 1], ['E5', 4], ['F#5', 1], ['G5', 1], ['G5', 1], ['G5', 1], ['F#5', 1], ['E5', 1], ['D5', 1], ['C#5', 1], ['D5', 2], ['E5', 2], ['F#5', 2], ['G5', 5], ['REST', 4]
+    ];
+    function noteHz(note) {
+        let m = note.match(/^([A-G])(#?)(\d)$/);
+        return 440 * Math.pow(2, ((+m[3] + 1) * 12 + ({
+            C: 0,
+            D: 2,
+            E: 4,
+            F: 5,
+            G: 7,
+            A: 9,
+            B: 11
+        }[m[1]]) + (m[2] ? 1 : 0) - 69) / 12)
+    }
+    function musicNote(note, when, duration) {
+        if (note === 'REST')
+            return;
+        let hz = noteHz(note) / 2;
+        [1, 2, 3].forEach((harmonic, i) => {
+            let osc = musicCtx.createOscillator(),
+                env = musicCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.value = hz * harmonic;
+            env.gain.setValueAtTime(0, when);
+            env.gain.linearRampToValueAtTime([.16, .035, .012][i], when + .016);
+            env.gain.exponentialRampToValueAtTime(.0001, when + duration + .24);
+            osc.connect(env);
+            env.connect(musicBus);
+            osc.start(when);
+            osc.stop(when + duration + .3);
+            musicNodes.add(osc);
+            osc.onended = () => {
+                musicNodes.delete(osc);
+                osc.disconnect();
+                env.disconnect()
+            }
+        })
+    }
+    function scheduleMusic() {
+        if (!musicOn)
+            return;
+        while (musicNext < musicCtx.currentTime + .45) {
+            let [n, beats] = ballparkNotes[musicIndex];
+            let d = beats * .36;
+            musicNote(n, musicNext, d * .88);
+            musicNext += d;
+            musicIndex = (musicIndex + 1) % ballparkNotes.length
+        }
+        musicTimer = setTimeout(scheduleMusic, 100)
+    }
+    async function startMusic() {
+        try {
+            if (!musicCtx) {
+                musicCtx = new (window.AudioContext || window.webkitAudioContext)();
+                musicBus = musicCtx.createGain();
+                musicBus.gain.value = .35;
+                musicBus.connect(musicCtx.destination)
+            }
+            await musicCtx.resume();
+            if (musicOn)
+                return;
+            musicOn = true;
+            musicNext = musicCtx.currentTime + .06;
+            scheduleMusic();
+            updateMusicButton()
+        } catch (e) {
+            musicOn = false;
+            updateMusicButton()
+        }
+    }
+    function stopMusic() {
+        musicOn = false;
+        clearTimeout(musicTimer);
+        musicNodes.forEach(n => {
+            try {
+                n.stop()
+            } catch (e) {}
+        });
+        musicNodes.clear();
+        updateMusicButton()
+    }
+    function updateMusicButton() {
+        let b = $('musicToggle');
+        b.textContent = musicOn ? '♫ Music on' : '♫ Music off';
+        b.setAttribute('aria-pressed', String(musicOn));
+        b.setAttribute('aria-label', musicOn ? 'Turn background music off' : 'Play Take Me Out to the Ball Game')
+    }
+    function toggleMusic(event) {
+        event.stopPropagation();
+        musicChoice = true;
+        if (musicOn)
+            stopMusic();
+        else
+            startMusic()
+    }
+    document.addEventListener('click', function() {
+        if (!musicChoice) {
+            musicChoice = true;
+            startMusic()
+        }
+    }, {
+        once: true
+    });
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && musicOn)
+            stopMusic()
+    });
+    </script>
+    <script>
+    (function() {
+        function c() {
+            var b = a.contentDocument || (a.contentWindow && a.contentWindow.document);
+            if (b) {
+                var d = b.createElement('script');
+                d.innerHTML = "window.__CF$cv$params={r:'a50c321318e51921',t:'MTc5MzA0NjM4Mg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                b.getElementsByTagName('head')[0].appendChild(d)
+            }
+        }
+        if (document.body) {
+            var a = document.createElement('iframe');
+            a.height = 1;
+            a.width = 1;
+            a.style.position = 'absolute';
+            a.style.top = 0;
+            a.style.left = 0;
+            a.style.border = 'none';
+            a.style.visibility = 'hidden';
+            document.body.appendChild(a);
+            if ('loading' !== document.readyState)
+                c();
+            else if (window.addEventListener)
+                document.addEventListener('DOMContentLoaded', c);
+            else {
+                var e = document.onreadystatechange || function() {};
+                document.onreadystatechange = function(b) {
+                    e(b);
+                    'loading' !== document.readyState && (document.onreadystatechange = e, c())
+                }
+            }
+        }
+    })();
+    </script>
+</body>
+</html>
