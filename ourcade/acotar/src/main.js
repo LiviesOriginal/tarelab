@@ -305,7 +305,22 @@ function handleKey(k) {
     if (!state.replay) { state.save.daily.guesses = [...state.guesses]; persist(); }
     if (guess === state.puzzle.answer) finish(true);
     else if (state.guesses.length === 6) finish(false);
-    else { state.message = ""; render(); const input = document.querySelector("#device-keyboard-input"); if (input) input.focus({ preventScroll: true }); }
+    else {
+      state.message = "";
+      // Keep the app and native input mounted after a guess. Re-rendering the
+      // screen here can dismiss mobile Safari's keyboard and lose the next guess.
+      const submittedRow = document.querySelectorAll(".board .row")[state.guesses.length - 1];
+      if (submittedRow) {
+        submittedRow.classList.add("submitted");
+        submittedRow.querySelectorAll(".tile").forEach((tile, index) => {
+          const letter = guess[index];
+          const status = evaluate(guess, state.puzzle.answer)[index];
+          tile.textContent = letter;
+          tile.className = `tile ${status} filled`;
+        });
+      }
+      refreshGameplay();
+    }
   } else if (k === "BACK") { state.current = state.current.slice(0, -1); refreshGameplay(); }
   else if (/^[A-Z]$/.test(k) && state.current.length < 5) { state.current += k; refreshGameplay(); }
 }
@@ -347,11 +362,18 @@ function bind() {
       }
     };
   }
-  game?.addEventListener("click", () => {
+  const focusDeviceKeyboard = () => {
     if (deviceInput && !state.gameOver && state.view === "game" && state.spoilerAccepted && !document.querySelector(".modal-backdrop")) {
       deviceInput.focus({ preventScroll: true });
     }
-  });
+  };
+  // On touch devices, focus during pointerdown while the browser still has a
+  // direct user gesture; this is more reliable for opening the native keyboard.
+  if (window.matchMedia("(pointer: coarse)").matches) {
+    game?.addEventListener("pointerdown", focusDeviceKeyboard, { passive: true });
+  } else {
+    game?.addEventListener("click", focusDeviceKeyboard);
+  }
   document.onkeydown = e => {
     if (e.ctrlKey || e.metaKey || e.altKey || e.target === deviceInput) return;
     if (e.key === "Enter") handleKey("ENTER");
