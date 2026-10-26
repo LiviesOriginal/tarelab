@@ -1,3 +1,5 @@
+import { VALID_GUESS_WORDS } from "./valid-guesses.js";
+
 export const PUZZLES = [
   {
     "id": "acotar-night-1",
@@ -583,8 +585,6 @@ export const PUZZLES = [
   }
 ];
 
-import VALID_GUESS_WORDS from "./valid-guesses.txt?raw";
-
 const COMMON = `
 ABOUT ABOVE ABUSE ADMIT ADOPT AFTER AGAIN AGENT AGREE AHEAD ALIVE ALLOW ALONE ALONG
 ARISE ARROW ASIDE AWAKE AWARE BADLY BASIC BEACH BEGIN BELOW BENCH BLACK BLADE BLAME
@@ -610,6 +610,6 @@ WHEEL WHERE WHICH WHILE WHITE WHOLE WOMAN WORLD WORRY WORSE WRITE WRONG YOUTH
 `;
 export const VALID_GUESSES = new Set([
   ...COMMON.trim().split(/\s+/).filter(word => /^[A-Z]{5}$/.test(word)),
-  ...VALID_GUESS_WORDS.split(/\s+/).map(word => word.trim().toUpperCase()).filter(word => /^[A-Z]{5}$/.test(word)),
+  ...VALID_GUESS_WORDS,
   ...PUZZLES.map(p => p.answer)
 ]);
