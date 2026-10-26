@@ -299,7 +299,7 @@ function handleKey(k) {
   if (k === "ENTER") {
     if (state.current.length !== 5) { state.message = "Five letters. The word will not yield to four."; refreshGameplay(); return; }
     const guess = state.current.toUpperCase();
-    if (!VALID_GUESSES.has(guess) && !PUZZLES.some(p => p.answer === guess)) { state.message = "That word is not in the archives."; refreshGameplay(); return; }
+    if (!VALID_GUESSES.has(guess) && !PUZZLES.some(p => p.answer === guess)) { state.message = "That is not a recognized five-letter word."; refreshGameplay(); return; }
     state.guesses.push(guess);
     state.current = "";
     if (!state.replay) { state.save.daily.guesses = [...state.guesses]; persist(); }
