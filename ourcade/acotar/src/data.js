@@ -609,7 +609,7 @@ TRIAL TRUST TRUTH TWICE UNDER UNION UNTIL UPPER USUAL VALUE VOICE WASTE WATCH WA
 WHEEL WHERE WHICH WHILE WHITE WHOLE WOMAN WORLD WORRY WORSE WRITE WRONG YOUTH
 `;
 export const VALID_GUESSES = new Set([
-  ...COMMON.trim().split(/\\s+/).filter(word => /^[A-Z]{5}$/.test(word)),
-  ...VALID_GUESS_WORDS.split(/\\s+/).map(word => word.trim().toUpperCase()).filter(word => /^[A-Z]{5}$/.test(word)),
+  ...COMMON.trim().split(/\s+/).filter(word => /^[A-Z]{5}$/.test(word)),
+  ...VALID_GUESS_WORDS.split(/\s+/).map(word => word.trim().toUpperCase()).filter(word => /^[A-Z]{5}$/.test(word)),
   ...PUZZLES.map(p => p.answer)
 ]);
