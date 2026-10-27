@@ -69,7 +69,7 @@ function App() {
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header">
         <div className="brand-area">
-          <a className="wordmark" href="#top" onClick={closeMenu} aria-label="Olivia Clark, home">Olivia Clark<span className="brand-period">.</span></a>
+          <a className="wordmark" href="#top" onClick={closeMenu} aria-label="Muhil Prabakar, home">Muhil Prabakar<span className="brand-period">.</span></a>
           <span className="brand-subline">PRIVATE TUTORING · PERSONAL ACADEMIC SUPPORT</span>
         </div>
         <button type="button" className="mobile-menu-button" aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((value) => !value)}>
@@ -108,7 +108,7 @@ function App() {
           <motion.div className="hero-visual" initial={{ opacity: 0, x: 22 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.18, ease: "easeOut" }}>
             <div className="hero-image-frame">
               <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=1100&q=85" alt="Tutor portrait in soft natural light" fetchPriority="high" />
-              <div className="image-index">OLIVIA CLARK <span>·</span> PRIVATE TUTOR</div>
+              <div className="image-index">MUHIL PRABAKAR <span>·</span> PRIVATE TUTOR</div>
             </div>
             <div className="image-orbit orbit-one" aria-hidden="true" /><div className="image-orbit orbit-two" aria-hidden="true" />
             <div className="availability-card">
@@ -152,7 +152,7 @@ function App() {
             <div className="about-index">A LITTLE PATIENCE<br />CAN CHANGE A LOT.</div>
           </div>
           <div className="about-copy">
-            <SectionIntro eyebrow="A NOTE FROM OLIVIA" title="Every learner deserves to feel capable." />
+            <SectionIntro eyebrow="A NOTE FROM MUHIL" title="Every learner deserves to feel capable." />
             <p className="about-lead">Learning isn't about getting everything right on the first try. It's about having the space, support, and tools to work things out.</p>
             <p className="body-copy">My approach to tutoring is personal, practical, and built around the student in front of me. We take time to understand what feels difficult, find explanations that make sense, and practise until a new idea starts to feel familiar.</p>
             <p className="body-copy">Lessons are a place to ask questions, make mistakes, and build real understanding — without the pressure to pretend you've got it all figured out.</p>
@@ -219,7 +219,7 @@ function App() {
               <h2>Let's make learning<br /><em>feel possible.</em></h2>
               <p>Tell me a little about what you'd like help with. We'll start with a conversation about your goals and the support that might suit you.</p>
               <div className="contact-details">
-                <a href="mailto:hello@oliviaclark.co.uk"><span><Mail size={16} /></span><div><small>EMAIL</small><strong>hello@oliviaclark.co.uk</strong></div></a>
+                <a href="mailto:hello@example.com"><span><Mail size={16} /></span><div><small>EMAIL</small><strong>hello@example.com</strong></div></a>
                 <a href="tel:+441234567890"><span><Phone size={16} /></span><div><small>PHONE</small><strong>+44 123 456 7890</strong></div></a>
                 <div><span><MapPin size={16} /></span><div><small>LESSON FORMAT</small><strong>Online · In-person details on enquiry</strong></div></div>
               </div>
@@ -237,7 +237,7 @@ function App() {
               </div>
               <label>HOW CAN I HELP?<textarea name="message" rows={3} placeholder="A little about your goals or what feels challenging..." required /></label>
               <button className="button button-gold form-submit" type="submit">Prepare my enquiry <ArrowUpRight size={16} /></button>
-              {formNotice && <p className="form-notice" role="status"><Check size={16} /> Thanks for sharing. This demo form isn't connected to an inbox yet — please email hello@oliviaclark.co.uk to send your enquiry.</p>}
+              {formNotice && <p className="form-notice" role="status"><Check size={16} /> Thanks for sharing. This demo form isn't connected to an inbox yet — please email hello@example.com to send your enquiry.</p>}
               <p className="form-privacy">Connect a secure form service and publish a privacy notice before accepting real enquiries.</p>
             </form>
           </div>
@@ -246,12 +246,12 @@ function App() {
 
       <footer className="site-footer">
         <div className="footer-main">
-          <div className="footer-brand"><a className="wordmark footer-wordmark" href="#top">Olivia Clark<span className="brand-period">.</span></a><p>Private tutoring with patience, purpose, and room to grow.</p><a className="footer-email" href="mailto:hello@oliviaclark.co.uk">hello@oliviaclark.co.uk <ArrowUpRight size={14} /></a></div>
-          <div className="footer-column"><span>EXPLORE</span><a href="#subjects">Subjects</a><a href="#about">About Olivia</a><a href="#approach">Learning process</a><a href="#resources">Resources</a></div>
-          <div className="footer-column"><span>GET IN TOUCH</span><a href="#contact">Book a consultation</a><a href="mailto:hello@oliviaclark.co.uk">Send an email</a><a href="#contact">Lesson formats</a></div>
+          <div className="footer-brand"><a className="wordmark footer-wordmark" href="#top">Muhil Prabakar<span className="brand-period">.</span></a><p>Private tutoring with patience, purpose, and room to grow.</p><a className="footer-email" href="mailto:hello@example.com">hello@example.com <ArrowUpRight size={14} /></a></div>
+          <div className="footer-column"><span>EXPLORE</span><a href="#subjects">Subjects</a><a href="#about">About Muhil</a><a href="#approach">Learning process</a><a href="#resources">Resources</a></div>
+          <div className="footer-column"><span>GET IN TOUCH</span><a href="#contact">Book a consultation</a><a href="mailto:hello@example.com">Send an email</a><a href="#contact">Lesson formats</a></div>
           <div className="footer-note"><span className="footer-star">✳</span><p>Every question is a good question.</p><a href="#top" className="back-to-top">BACK TO TOP <ArrowUpRight size={13} /></a></div>
         </div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} Olivia Clark Tutoring</span><span>PERSONALISED SUPPORT · ONE STEP AT A TIME</span><a href="#contact">Privacy notice to be added</a></div>
+        <div className="footer-bottom"><span>© {new Date().getFullYear()} Muhil Prabakar Tutoring</span><span>PERSONALISED SUPPORT · ONE STEP AT A TIME</span><a href="#contact">Privacy notice to be added</a></div>
       </footer>
     </div>
   );
