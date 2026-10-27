@@ -1,4 +1,4 @@
-# Olivia Clark Tutoring Website
+# Muhil Prabakar Tutoring Website
 
 A responsive one-page tutoring site built with React, Vite, TypeScript, Tailwind CSS, Motion for React, and Lucide icons. The design pairs a white foundation with deep navy and warm gold, using Cormorant Garamond, Inter, and JetBrains Mono.
 
