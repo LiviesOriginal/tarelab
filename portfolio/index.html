@@ -32,6 +32,16 @@ Office, with a detail-oriented approach to coordinating projects and managing co
     .skip-link { position: absolute; top: -60px; left: 16px; z-index: 10; background: var(--white); padding: 10px 14px; border-radius: 6px; }
     .skip-link:focus { top: 12px; }
     .hero-image { display: block; width: 100%; height: auto; max-height: 810px; object-fit: contain; background: #d9e0ed; }
+    /* Transparent link areas sit over text already printed in the hero artwork.
+       The image's existing dimensions and display sizing remain unchanged. */
+    .hero-art { position: relative; }
+    .hero-hotspot { position: absolute; z-index: 2; display: block; overflow: hidden; border-radius: 3px; background: transparent; color: transparent; line-height: 1; text-indent: -9999px; }
+    .hero-hotspot:hover { background: rgba(255,255,255,.10); }
+    .hero-hotspot:focus-visible { outline: 3px solid #fff; outline-offset: -3px; background: rgba(27,48,78,.24); }
+    /* Percentages are relative to the full 2048 × 1152 hero composition. */
+    .hero-hotspot-about { left: 5.0%; top: 92.0%; width: 14.0%; height: 3.5%; }
+    .hero-hotspot-work { left: 39.5%; top: 65.5%; width: 21.0%; height: 6.5%; }
+    .hero-hotspot-linkedin { left: 60.0%; top: 92.0%; width: 17.0%; height: 3.5%; }
     .site-nav { position: sticky; top: 0; z-index: 5; background: rgba(251,251,253,.94); border-bottom: 1px solid rgba(223,228,237,.9); backdrop-filter: blur(14px); }
     .nav-inner { width: min(var(--content), calc(100% - 48px)); min-height: 68px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .brand { text-decoration: none; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: .78rem; white-space: nowrap; }
@@ -103,16 +113,19 @@ Office, with a detail-oriented approach to coordinating projects and managing co
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header id="top">
-    <img class="hero-image" src="assets/portfolio-hero.webp" alt="Creative portfolio cover with palm trees along a waterfront at dusk and the words Creative Portfolio." width="1024" height="576">
+    <div class="hero-art">
+      <img class="hero-image" src="assets/portfolio-hero.webp" alt="Creative portfolio cover with palm trees along a waterfront at dusk and the words Creative Portfolio." width="1024" height="576">
+      <a class="hero-hotspot hero-hotspot-about" href="#about" aria-label="About Lazara Ballester">About Lazara Ballester</a>
+      <a class="hero-hotspot hero-hotspot-work" href="#featured-work" aria-label="Featured Work">Featured Work</a>
+      <a class="hero-hotspot hero-hotspot-linkedin" href="https://www.linkedin.com/in/lazara" target="_blank" rel="noopener noreferrer" aria-label="Visit Lazara Ballester on LinkedIn">LinkedIn</a>
+    </div>
     <nav class="site-nav" aria-label="Main navigation">
       <div class="nav-inner">
-        <a class="brand" href="#top" aria-label="Portfolio home">Lazara Ballester<span>.</span></a>
+        <a class="brand" href="#about" aria-label="About Lazara Ballester">Lazara Ballester<span>.</span></a>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">Menu</button>
         <ul class="nav-links" id="primary-navigation">
           <li><a href="#about">About</a></li>
           <li><a href="#featured-work">Featured Work</a></li>
-          <li><a href="#experience">Highlights</a></li>
-          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
@@ -133,24 +146,6 @@ Office, with a detail-oriented approach to coordinating projects and managing co
       </div>
     </section>
 
-    <section class="section section-soft" aria-labelledby="strengths-title">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Core strengths</p>
-          <h2 id="strengths-title">Ideas organized. Campaigns moving.</h2>
-          <p>[Edit these focus areas to reflect your strengths, specialties, and the platforms you use.]</p>
-        </div>
-        <div class="strengths">
-          <div class="strength">Campaign Planning</div>
-          <div class="strength">Content &amp; Copywriting</div>
-          <div class="strength">Email Marketing</div>
-          <div class="strength">Brand Communications</div>
-          <div class="strength">Event Coordination</div>
-          <div class="strength">Analytics &amp; Reporting</div>
-        </div>
-      </div>
-    </section>
-
     <section class="section" id="featured-work" aria-labelledby="featured-work-title">
       <div class="container">
         <div class="section-heading">
@@ -162,40 +157,7 @@ Office, with a detail-oriented approach to coordinating projects and managing co
       </div>
     </section>
 
-    <section class="section section-soft" id="experience">
-      <div class="container">
-        <div class="section-heading">
-          <p class="eyebrow">Experience at a glance</p>
-          <h2>Selected highlights</h2>
-          <p>[Use this space for measurable outcomes or a few career milestones that help hiring teams understand your impact.]</p>
-        </div>
-        <div class="highlights">
-          <div class="highlight"><strong>[X]+</strong><span>Years of marketing or communications experience</span></div>
-          <div class="highlight"><strong>[X]</strong><span>Campaigns, launches, or events supported</span></div>
-          <div class="highlight"><strong>[X%]</strong><span>Relevant performance result or improvement</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="contact-panel">
-          <div>
-            <p class="eyebrow" style="color:#c7d5e9">Next step</p>
-            <h2>Let's connect.</h2>
-            <p>[Add a brief invitation to connect about marketing opportunities, collaborations, or your experience.]</p>
-          </div>
-          <div class="contact-placeholder">[Add email or contact link]</div>
-        </div>
-      </div>
-    </section>
   </main>
-  <footer>
-    <div class="container footer-inner">
-      <p>© <span id="year"></span> Lazara Ballester.</p>
-      <p>Portfolio</p>
-    </div>
-  </footer>
   <script>
     const menuButton = document.querySelector('.menu-toggle');
     const menu = document.querySelector('#primary-navigation');
@@ -207,7 +169,6 @@ Office, with a detail-oriented approach to coordinating projects and managing co
       menu.classList.remove('open');
       menuButton.setAttribute('aria-expanded', 'false');
     }));
-    document.querySelector('#year').textContent = new Date().getFullYear();
 
     function safeHref(value) {
       const trimmed = value.trim();
