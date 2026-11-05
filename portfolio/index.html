@@ -38,9 +38,10 @@ Office, with a detail-oriented approach to coordinating projects and managing co
     .hero-hotspot { position: absolute; z-index: 2; display: block; overflow: hidden; border-radius: 3px; background: transparent; color: transparent; line-height: 1; text-indent: -9999px; }
     .hero-hotspot:hover { background: rgba(255,255,255,.10); }
     .hero-hotspot:focus-visible { outline: 3px solid #fff; outline-offset: -3px; background: rgba(27,48,78,.24); }
-    /* Percentages are relative to the full 2048 × 1152 hero composition. */
-    .hero-hotspot-about { left: 5.0%; top: 92.0%; width: 14.0%; height: 3.5%; }
-    .hero-hotspot-linkedin { left: 60.0%; top: 92.0%; width: 17.0%; height: 3.5%; }
+    /* Hotspots align with the three labels printed along the bottom of the 2048 × 1152 hero. */
+    .hero-hotspot-about { left: 5.0%; top: 89.5%; width: 15.0%; height: 5.5%; }
+    .hero-hotspot-featured { left: 42.5%; top: 89.5%; width: 15.0%; height: 5.5%; }
+    .hero-hotspot-linkedin { left: 74.5%; top: 89.5%; width: 20.5%; height: 5.5%; }
     main { overflow: hidden; }
     .container { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; }
     .section { padding: 92px 0; }
@@ -103,6 +104,7 @@ Office, with a detail-oriented approach to coordinating projects and managing co
     <div class="hero-art">
       <img class="hero-image" src="assets/portfolio-hero.webp" alt="Creative portfolio cover with palm trees along a waterfront at dusk and the words Creative Portfolio." width="1024" height="576">
       <a class="hero-hotspot hero-hotspot-about" href="#about" aria-label="About Lazara Ballester">About Lazara Ballester</a>
+      <a class="hero-hotspot hero-hotspot-featured" href="#featured-work" aria-label="Featured Work">Featured Work</a>
       <a class="hero-hotspot hero-hotspot-linkedin" href="https://www.linkedin.com/in/lazara" target="_blank" rel="noopener noreferrer" aria-label="Visit Lazara Ballester on LinkedIn">LinkedIn</a>
     </div>
   </header>
