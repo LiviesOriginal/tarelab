@@ -1,3 +1,3 @@
+- [Tare LAB](https://tarelab.com) — Professional business services and consulting website.
+- [Communications Portfolio](assets/LBallester%20Comm%20Portfolio.pdf) — Selected marketing and writing work.
 
-- [Communications Portfolio](assets/LBallester%20Comm%20Portfolio.pdf) — Selected communications, marketing, writing, and creative work
-- [Tare LAB](https://tarelab.com) — Main website
