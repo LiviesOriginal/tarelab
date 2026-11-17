@@ -1,3 +1,7 @@
 # Preserve the old Book Club URL as a compatibility redirect.
 /bcbuild /bookclub 301
 /bcbuild/ /bookclub 301
+
+# Move Ourcade to /play while preserving nested paths.
+/ourcade /play 301
+/ourcade/* /play/:splat 301

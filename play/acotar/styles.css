@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+SC:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root{
+  --ink:#f5ecdf; --muted:#b9a99a; --gold:#c9a968; --gold2:#ead8ad;
+  --bg:#120d18; --panel:#1d1424; --line:rgba(201,169,104,.28); --line-strong:rgba(201,169,104,.7);
+  --correct:#766044; --present:#947c48; --absent:#302a31; --max:520px;
+  --display:"Cormorant SC","Cinzel",serif;
+}
+*{box-sizing:border-box}
+html,body,#app{margin:0;min-height:100%;background:var(--bg)}
+body{font-family:"DM Sans",sans-serif;color:var(--ink);overflow-x:hidden}
+button{font:inherit;color:inherit}
+
+/* ---------- Decorative layer: frame, corner art, castle ---------- */
+.decor{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.frame-line{position:absolute;inset:12px;border:1px solid rgba(201,169,104,.5)}
+.frame-line.inner{inset:17px;border-color:rgba(201,169,104,.16)}
+.piece{position:absolute;background-size:100% 100%;background-repeat:no-repeat;opacity:.92}
+.p-tl{top:0;left:0;width:clamp(99px,25.3vw,180px);aspect-ratio:299/524;background-image:url(./assets/frame-tl.webp)}
+.p-tr{top:0;right:0;width:clamp(98px,25vw,178px);aspect-ratio:296/548;background-image:url(./assets/frame-tr.webp)}
+.p-bl{bottom:0;left:0;width:clamp(130px,33vw,278px);aspect-ratio:464/730;background-image:url(./assets/frame-bl.webp)}
+.p-br{bottom:0;right:0;width:clamp(132px,33vw,284px);aspect-ratio:473/566;background-image:url(./assets/frame-br.webp)}
+.castle{position:absolute;left:-2vw;bottom:0;height:min(64vh,600px);aspect-ratio:458/860;background:url(./assets/castle.webp) center bottom/contain no-repeat;opacity:.3;
+  -webkit-mask-image:linear-gradient(to top,transparent 0,#000 14%);mask-image:linear-gradient(to top,transparent 0,#000 14%)}
+
+.shell{min-height:100vh;max-width:760px;margin:auto;position:relative;z-index:1;padding:0 26px 30px;overflow:hidden;display:flex;flex-direction:column}
+.ambient{position:fixed;width:380px;height:380px;border-radius:50%;filter:blur(80px);opacity:.13;pointer-events:none}
+.ambient-a{background:#6d3659;top:-150px;left:-180px}.ambient-b{background:#b8954e;right:-240px;bottom:15%;opacity:.07}
+
+/* ---------- Header ---------- */
+.topbar{height:84px;display:flex;align-items:center;justify-content:center;position:relative;z-index:2;padding-top:14px}
+.wordmark{text-align:center;line-height:1}
+.wordmark span{font:600 13px var(--display);letter-spacing:.24em;color:var(--gold2)}
+.wordmark strong{display:block;font:500 clamp(25px,7.2vw,34px) var(--display);letter-spacing:.05em;margin-top:5px;color:#f1e6d6}
+.icon-btn{width:34px;height:34px;flex:none;border:1px solid var(--line);background:rgba(18,13,24,.55);border-radius:50%;font-size:16px;color:var(--gold);cursor:pointer}
+.hero{text-align:center;padding:14px 0 12px;position:relative;z-index:1}
+.thorn-rule{display:flex;align-items:center;gap:10px;justify-content:center;color:var(--gold);margin:0 36px 14px}
+.thorn-rule i{display:block;flex:1;max-width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.thorn-rule i:last-child{transform:scaleX(-1)}
+.eyebrow{font:600 10px Cinzel,serif;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+h1,h2{font-family:var(--display);font-weight:500}
+h1{font-size:clamp(25px,7.4vw,38px);margin:6px 0 16px;letter-spacing:.03em;line-height:1.1;color:#f1e6d6}
+
+/* ---------- Notched, double-ruled panels (clue card, popups) ---------- */
+.clue-card,.modal{--cut:12px;position:relative;isolation:isolate;border:0;background:none;
+  --notch:polygon(var(--cut) 0,calc(100% - var(--cut)) 0,100% var(--cut),100% calc(100% - var(--cut)),calc(100% - var(--cut)) 100%,var(--cut) 100%,0 calc(100% - var(--cut)),0 var(--cut))}
+.clue-card::before,.modal::before{content:"";position:absolute;inset:0;background:var(--line-strong);clip-path:var(--notch);z-index:-2}
+.clue-card::after,.modal::after{content:"";position:absolute;inset:1px;background:var(--panel);clip-path:var(--notch);z-index:-1;
+  box-shadow:inset 0 0 0 5px var(--panel),inset 0 0 0 6px rgba(201,169,104,.3)}
+.clue-card{max-width:500px;margin:auto;padding:18px 34px 20px;box-shadow:0 14px 50px rgba(0,0,0,.25)}
+.clue-label{display:flex;align-items:center;justify-content:center;gap:12px;font:600 10px Cinzel,serif;color:var(--gold);letter-spacing:.28em}
+.clue-label::before,.clue-label::after{content:"";height:1px;width:34px;background:linear-gradient(90deg,transparent,var(--gold))}
+.clue-label::after{transform:scaleX(-1)}
+.clue-card p{font:italic 15px "Libre Baskerville",serif;line-height:1.55;margin:10px 0 0;color:#efe3d4}
+.orn{position:absolute;top:50%;transform:translateY(-50%);color:var(--gold);font-size:11px;line-height:1}
+.orn.l{left:14px}.orn.r{right:14px}
+
+/* ---------- Board ---------- */
+.game{display:flex;flex-direction:column;align-items:center}
+.board{display:grid;gap:7px;width:min(86vw,350px);margin:6px auto 8px}
+.row{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.tile{aspect-ratio:1/1;border:1px solid rgba(201,169,104,.62);display:grid;place-items:center;font:600 clamp(20px,7vw,29px) Cinzel,serif;background:transparent;color:#f7ecdf;transition:transform .16s,background .2s,border .2s}
+.tile.filled{border-color:rgba(234,216,173,.95);background:rgba(255,255,255,.04)}
+.tile.correct,.tile.present,.tile.absent{border-color:transparent;animation:flip .45s both;animation-delay:calc(var(--i)*55ms)}
+.tile.correct{background:var(--correct);color:#fff3dd}.tile.present{background:var(--present);color:#fff3dd}.tile.absent{background:var(--absent);color:#c8bec2}
+@keyframes flip{0%{transform:rotateX(0)}50%{transform:rotateX(90deg)}100%{transform:rotateX(0)}}
+.game-status{min-height:34px;gap:12px;font:italic 13px "Libre Baskerville",serif;color:var(--gold2);display:flex;align-items:center;justify-content:center;text-align:center}
+.link-btn{background:none;border:1px solid var(--line-strong);color:var(--gold);padding:6px 12px;font:600 9px Cinzel,serif;letter-spacing:.2em;cursor:pointer}
+.streak-pill{display:inline-flex;align-items:center;gap:10px;margin-top:14px;padding:7px 16px;border:1px solid var(--line);background:rgba(18,13,24,.6);font:600 9px Cinzel,serif;letter-spacing:.22em;color:var(--gold)}
+.streak-pill strong{font:600 17px var(--display);letter-spacing:0;color:var(--gold2)}
+.keyboard{width:min(100%,500px);margin:5px auto 0;display:grid;gap:6px}
+.keyrow{display:flex;justify-content:center;gap:5px}
+.key{height:49px;flex:1;max-width:43px;border:1px solid rgba(201,169,104,.3);border-radius:4px;background:rgba(36,27,41,.92);font-weight:700;font-size:12px;cursor:pointer}
+.key.wide{max-width:60px}.key.enter{max-width:82px;font-size:9px;letter-spacing:.06em}
+.key.correct{background:var(--correct);border-color:var(--correct)}.key.present{background:var(--present);border-color:var(--present)}.key.absent{background:#18141a;color:#726b71}
+footer{margin-top:auto;padding:28px 0 4px;text-align:center;color:#8c7f6c;font:600 8px Cinzel,serif;letter-spacing:.18em;display:flex;gap:8px;justify-content:center}
+.footer-rule{position:absolute;left:50%;transform:translateX(-50%);width:100px;height:1px;background:var(--line);margin-top:-15px}
+
+/* ---------- Spoiler gate ---------- */
+.spoiler-screen{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,#2a1b2a 0,#120d18 55%);z-index:20;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:32px}
+.spoiler-screen>*:not(.decor){position:relative;z-index:1}
+.spoiler-mark{font-size:38px;color:var(--gold);margin-bottom:20px}
+.spoiler-screen h2{font-size:clamp(30px,8vw,40px);max-width:500px;margin:12px 0}.spoiler-screen p{max-width:510px;color:var(--muted);line-height:1.65;font-size:14px}.spoiler-screen .warning{color:var(--gold2);font:600 10px Cinzel,serif;letter-spacing:.16em}
+.spoiler-screen small{margin-top:20px;color:#8c7f6c;font-size:10px}
+
+/* ---------- Buttons ---------- */
+.primary,.secondary{border:0;padding:14px 20px;cursor:pointer;text-transform:uppercase;letter-spacing:.13em;font:700 10px Cinzel,serif}
+.primary{background:linear-gradient(135deg,#d3b574,#9d7d43);color:#171018;box-shadow:0 8px 30px rgba(0,0,0,.25);margin-top:14px}
+.secondary{background:transparent;border:1px solid var(--line-strong);margin-top:8px;color:var(--gold2)}
+.hero .secondary{margin-top:14px}
+
+/* ---------- Popups ---------- */
+.modal-backdrop{position:fixed;inset:0;background:rgba(8,5,10,.78);backdrop-filter:blur(10px);z-index:15;display:grid;place-items:center;padding:20px}
+.modal{width:min(100%,500px);padding:32px 30px;box-shadow:0 30px 100px #000}
+.modal .primary,.modal .secondary{display:block;width:100%}
+.close{position:absolute;right:16px;top:12px;background:none;border:0;font-size:28px;color:var(--muted);cursor:pointer;z-index:1}
+.modal h2{font-size:30px;margin:10px 0}.modal p{font:14px "Libre Baskerville",serif;color:var(--muted);line-height:1.6}
+.stats-modal,.result-modal{text-align:center}
+.stat-grid{display:grid;grid-template-columns:1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0;padding:15px 0}
+.stat-grid div{text-align:center}.stat-grid strong{display:block;font:600 64px var(--display);color:var(--gold2);line-height:1}.stat-grid span{font:600 9px Cinzel,serif;color:var(--muted);letter-spacing:.22em}
+.result-modal .answer{font:700 40px var(--display);color:var(--gold2);letter-spacing:.14em;margin:5px}
+.share-grid{font-size:18px;line-height:1.25;margin:18px auto;padding:12px;background:#120d18;display:inline-block;text-align:left;border:1px solid var(--line)}
+
+/* ---------- Archive ---------- */
+.archive-intro{max-width:530px;margin:auto;color:var(--muted);font:13px "Libre Baskerville",serif;line-height:1.55}
+.archive-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;max-height:58vh;overflow:auto;padding:4px 0}
+.archive-card{position:relative;text-align:center;background:rgba(29,20,36,.9);border:1px solid var(--line);padding:18px 12px;min-height:96px;cursor:pointer;
+  clip-path:polygon(10px 0,calc(100% - 10px) 0,100% 10px,100% calc(100% - 10px),calc(100% - 10px) 100%,10px 100%,0 calc(100% - 10px),0 10px)}
+.archive-card:hover{background:rgba(48,34,56,.95)}
+.archive-card strong{display:block;font:600 27px var(--display);letter-spacing:.04em;margin-top:2px;color:#f1e6d6}
+.archive-card small{display:block;color:#8a7f8c;font:600 8px Cinzel,serif;letter-spacing:.2em;margin-top:8px}
+.archive-card.won small{color:var(--gold)}
+.archive-empty{max-width:420px;margin:30px auto;text-align:center;color:var(--muted);font:13px "Libre Baskerville",serif;line-height:1.6}
+@media(min-width:600px){.shell{padding:0 28px}.board{width:370px}.key{height:53px;max-width:47px}.hero{padding-top:20px}.archive-grid{grid-template-columns:repeat(3,1fr)}}
+
+@media(max-width:760px){.castle{height:46vh;opacity:.14}}
