@@ -1,23 +1,3 @@
-<!--
-# XY is Reading
-The Invisible Life of Addie LaRue | V.E. Schwab | 9780765387578
-
-# ZZ is Reading
-My Friends | Fredrik Backman | 9781982121655
-
-# Next Sync Pick
-Midnight Rain | Haley Cass | 9798988492993
-
-# XY's Next Picks
-This Book Made Me Think of You | Libby Page | 9798217186990
-
-# ZZ's Next Picks
-Verity | Coleen Hoover | 9781538742112
-
-# To Read - Spooky Season
-The Manor of Dreams | Christina Li | 9781668051726
-FantasticLand | Mike Bockoven | 9781510737884 -->
-
 # Read
 ## The Women | Kristen Hannah | 4 | 4 | 9781250178633
 Women did, in fact, serve in Nam.
